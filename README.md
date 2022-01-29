@@ -1,5 +1,5 @@
 # SAMMaruClient
-SAMMaru Client Repository
+SAMMaru Client Repository <br>
 [Server Repository](https://github.com/SAMMaru5/SAMMaruServer)
 
 ---
