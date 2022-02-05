@@ -1,4 +1,4 @@
-import './MainActivity.scss'
+import './Activity.scss'
 
 function MainActivity() {
     return (

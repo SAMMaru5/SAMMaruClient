@@ -1,4 +1,4 @@
-import './MainBoard.scss'
+import './Board.scss'
 
 function MainBoard() {
     return (
