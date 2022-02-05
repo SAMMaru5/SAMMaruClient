@@ -1,0 +1,61 @@
+.Introduction{
+  display: flex;
+  align-items: center;
+  flex-direction: column;  
+
+  .title{
+    font-size: 24px;
+    font-weight: bolder;
+    margin-bottom: 30px;
+  }
+}
+
+.clubIntros{
+  display: flex;
+  flex-direction: row;
+
+  // about css
+  .About{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 0px 10px 0px 10px;
+  }
+
+
+  .Careers{
+  display: flex;
+  align-items: center;
+  flex-direction: column;  
+    margin: 0px 10px 0px 10px;
+  }
+
+
+  .Sammaru{
+  display: flex;
+  align-items: center;
+  flex-direction: column;  
+    margin: 0px 10px 0px 10px;
+  }
+
+  .Project{
+  display: flex;
+  align-items: center;
+  flex-direction: column;  
+    margin: 0px 10px 0px 10px;
+  }
+}
+
+.label{
+font-size: 18px;
+font-weight: bolder;
+margin-bottom: 20px;
+}
+
+img {
+  width: 100px;
+  height: 100px;
+}
+.details{
+  text-align: center;
+}

@@ -1,0 +1,71 @@
+.Activities {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: row;
+    .image {
+        img {
+            width: 600px;
+            height: 400px;
+        }
+    }
+}
+
+.title {
+    font-weight: bold;
+    line-height: 48px;
+    color: gray;
+
+    .small-title {
+        font-size: 4em;
+    }
+    .big-title {
+        font-size: 4.8em;
+    }
+}
+
+.contentsLeft {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.contentsRight {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    .detail{
+      text-align: end;
+    }
+}
+
+.shortSum {
+    color: gray;
+    margin-top: 15px;
+    font-size: 1.3em;
+}
+.subtitle {
+    padding: 5px 0;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+.detail {
+    color: gray;
+    margin-bottom: 10px;
+    width: 85%;
+}
+
+.button {
+    button {
+        border: 1px solid gray;
+        background-color: white;
+        padding: 10px 30px;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+}
