@@ -1,8 +1,8 @@
 import './Board.scss'
 
-function MainBoard() {
+function Board() {
     return (
-        <div className="MainBoard">
+        <div className="Board">
             <h4>동아리 공지</h4>
             <table>
                 <thead>
@@ -108,4 +108,4 @@ function MainBoard() {
 
     )
 }
-export default MainBoard;
+export default Board;

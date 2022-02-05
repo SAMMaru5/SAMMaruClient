@@ -1,8 +1,8 @@
-
+import './ScheduleDetaile.scss'
 
 function MainScheduleDetaile() {
     return (
-        <div className="MainScheduleDetaile">
+        <div className="ScheduleDetaile">
             <h1>MainScheduleDetaile</h1>
         </div>
 

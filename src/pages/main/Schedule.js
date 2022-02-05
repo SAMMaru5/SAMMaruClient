@@ -1,8 +1,8 @@
 import './Schedule.scss'
 
-function MainSchedule() {
+function Schedule() {
     return (
-        <div className="MainSchedule">
+        <div className="Schedule">
             <h4>학사 일정</h4>
             <table>
                 <thead>
@@ -92,4 +92,4 @@ function MainSchedule() {
 
     )
 }
-export default MainSchedule;
+export default Schedule;
