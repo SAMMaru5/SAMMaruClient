@@ -1,4 +1,4 @@
-import './MainSchedule.scss'
+import './Schedule.scss'
 
 function MainSchedule() {
     return (
