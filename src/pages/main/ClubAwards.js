@@ -1,3 +1,5 @@
+import './ClubAwards.scss'
+
 function ClubAwards() {
     return(
         <div className="ClubAwards">
