@@ -1,5 +1,6 @@
-import './App.scss';
-import MainPage from './pages/main/MainPage'
+import "./App.scss";
+import MainPage from "./pages/main/MainPage";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       </Router> */}
 
       <MainPage />
+      <Footer />
     </div>
   );
 }
