@@ -2,4 +2,29 @@
   width: 100%;
   background-color: rgb(85, 85, 85);
   height: 200px;
+  padding: 2rem 6.5rem 2rem 6.5rem;
+}
+
+.Footer p {
+  color: white;
+}
+
+.Footer hr {
+  color: white;
+}
+
+.Footer h3 {
+  color: white;
+}
+
+.FooterLeft {
+  float: left;
+  width: 70%;
+}
+
+.FooterRight {
+  float: right;
+  width: 30%;
+  padding-left: 5%;
+  padding-right: 5%;
 }
