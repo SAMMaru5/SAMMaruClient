@@ -1,4 +1,5 @@
 import "./App.scss";
+import Navigation from "./components/Navigation";
 import MainPage from "./pages/main/MainPage";
 import Footer from "./components/Footer";
 
@@ -16,7 +17,7 @@ function App() {
 
 
       </Router> */}
-
+      <Navigation />
       <MainPage />
       <Footer />
     </div>

@@ -1,8 +1,17 @@
 import './Navigation.scss'
+import { useState } from 'react';
+import {NavDropdown} from 'react-bootstrap'
 
 function Navigation() {
+    const [show1, setShow1] = useState(false);
+    const [show2, setShow2] = useState(false);
+    const [show3, setShow3] = useState(false);
+    const [show4, setShow4] = useState(false);
+    const [show5, setShow5] = useState(false);
+
+
     return (
-        <div className="Navigation">
+        <div className="Navigation container">
             <div className='userStatus'>
                 <p className='attendance'>
                     접속자(0명)
@@ -12,52 +21,72 @@ function Navigation() {
                     회원가입/로그인
                 </p>
             </div>
-
+            
             <nav>
                 <img src="img/logo.png" alt="로고 이미지"/>
+                <NavDropdown title="샘마루" className="nav-dropdown"  
+                    onMouseEnter={(e) =>{setShow1(!show1);}} 
+                    onMouseLeave={(e) =>{setShow1(false);}}
+                    show={show1}
+                    >
+                        <div className='navItem1'>
+                        <NavDropdown.Item onClick="4.1">Link 1</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.2">Link 2</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.3">Link 3</NavDropdown.Item>
+                        </div>
+                </NavDropdown>
+                <NavDropdown title="공지사항" className="nav-dropdown"  
+                    onMouseEnter={(e) =>{setShow2(!show2);}} 
+                    onMouseLeave={(e) =>{setShow2(false);}}
+                    show={show2}
+                    >
+                        <div className='navItem2'>
 
-                <div className="dropdown">
-                    <button className="dropbtn">샘마루</button>
-                    <div className="dropdown-content">
-                    <a href="#!">Link 1</a>
-                    <a href="#!">Link 2</a>
-                    <a href="#!">Link 3</a>
-                    </div>
-                </div>
-                <div className="dropdown">
-                    <button className="dropbtn">공지사항</button>
-                    <div className="dropdown-content">
-                    <a href="#!">Link 1</a>
-                    <a href="#!">Link 2</a>
-                    <a href="#!">Link 3</a>
-                    </div>
-                </div>
-                <div className="dropdown">
-                    <button className="dropbtn">자유게시판</button>
-                    <div className="dropdown-content">
-                    <a href="#!">특강 자료</a>
-                    <a href="#!">활동보고서</a>
-                    <a href="#!">소규모프젝</a>
-                    <a href="#!">족보</a>
-                    </div>
-                </div>
-                <div className="dropdown">
-                    <button className="dropbtn">사진첩</button>
-                    <div className="dropdown-content">
-                    <a href="#!">Link 1</a>
-                    <a href="#!">Link 2</a>
-                    <a href="#!">Link 3</a>
-                    </div>
-                </div>
-                <div className="dropdown">
-                    <button className="dropbtn">충북대학교</button>
-                    <div className="dropdown-content">
-                    <a href="#!">충북대학교</a>
-                    <a href="#!">전자정보대학</a>
-                    <a href="#!">소프트웨어학과</a>
-                    <a href="#!">SW중심사업단</a>
-                    </div>
-                </div>
+                        <NavDropdown.Item >Link 1</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.2">Link 2</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.3">Link 3</NavDropdown.Item>
+                        </div>
+                </NavDropdown>
+                <NavDropdown title="자유게시판" className="nav-dropdown"  
+                    onMouseEnter={(e) =>{setShow3(!show3);}} 
+                    onMouseLeave={(e) =>{setShow3(false);}}
+                    show={show3}
+                    >
+                        <div className='navItem3'>
+
+                        <NavDropdown.Item >특강 자료</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.2">활동보고서</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.3">소규모프젝</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.3">족보</NavDropdown.Item>
+                        </div>
+                </NavDropdown>
+                <NavDropdown title="사진첩" className="nav-dropdown"  
+                    onMouseEnter={(e) =>{setShow4(!show4);}} 
+                    onMouseLeave={(e) =>{setShow4(false);}}
+                    show={show4}
+
+                    >
+                        <div className='navItem4'>
+
+                        <NavDropdown.Item >Link 1</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.2">Link 2</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.3">Link 3</NavDropdown.Item>
+                        </div>
+                </NavDropdown>
+                <NavDropdown title="충북대학교" className="nav-dropdown"  
+                    onMouseEnter={(e) =>{setShow5(!show5);}} 
+                    onMouseLeave={(e) =>{setShow5(false);}}
+                    show={show5}
+
+                    >
+                        <div className='navItem5'>
+   
+                        <NavDropdown.Item >전자정보대학</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.2">소프트웨어학과</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.3">SW중심사업단</NavDropdown.Item>
+                        </div>
+                </NavDropdown>
+               
             </nav>
             
 
