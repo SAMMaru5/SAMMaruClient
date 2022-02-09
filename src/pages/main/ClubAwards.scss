@@ -1,5 +1,33 @@
 .ClubAwards{
     width: 100%;
-    background-color: wheat;
     height: 400px;
+    img{
+        width: 250px;
+        height: auto;
+    }
+    .slide{
+        text-align: center;
+    }
+    .swiper-button-next, .swiper-button-prev{
+        position: absolute;
+        top: 40%;
+    }
+    .swiper-button-next{
+        background: url(../../imgs/arrow-right.png) no-repeat;
+        width: 5%;
+        height: 100px;
+    }
+
+    .swiper-button-prev{
+        background: url(../../imgs/arrow-left.png) no-repeat;
+        width: 70px;
+        height: 100px;
+        color: blue;
+    }
+    .swiper-button-next:after, .swiper-button-prev::after{
+        display: none;
+    }
+    .swiper{
+        position: relative;
+    }
 }
