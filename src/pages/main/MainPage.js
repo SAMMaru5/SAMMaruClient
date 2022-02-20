@@ -5,6 +5,7 @@ import ScheduleDetaile from "./ScheduleDetaile";
 import ClubIntroduction from "./ClubIntroduction";
 import ClubActivities from "./ClubActivities";
 import ClubAwards from "./ClubAwards";
+import PhotoList from "../photo/PhotoList";
 import "./MainPage.scss";
 
 function MainPage() {
@@ -18,6 +19,7 @@ function MainPage() {
         <ClubActivities />
         <ScheduleDetaile />
         <ClubAwards />
+        <PhotoList />
       </div>
     </div>
   );
