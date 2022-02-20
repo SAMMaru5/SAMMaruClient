@@ -9,8 +9,8 @@ import PhotoPage from "./pages/photo/PhotoPage";
 function App() {
   return (
     <div className="App">
-      <Navigation />
       <Router>
+        <Navigation />
         
         <Routes>
             

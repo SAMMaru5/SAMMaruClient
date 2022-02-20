@@ -1,6 +1,7 @@
 import './Navigation.scss'
 import { useState } from 'react';
 import {NavDropdown} from 'react-bootstrap'
+import {useNavigate, Link} from 'react-router-dom'
 
 function Navigation() {
     const [show1, setShow1] = useState(false);
@@ -9,6 +10,7 @@ function Navigation() {
     const [show4, setShow4] = useState(false);
     const [show5, setShow5] = useState(false);
 
+    const navigate = useNavigate();
 
     return (
         <div className="Navigation container">
@@ -68,8 +70,8 @@ function Navigation() {
                     >
                         <div className='navItem4'>
 
-                        <NavDropdown.Item >Link 1</NavDropdown.Item>
-                        <NavDropdown.Item eventKey="4.2">Link 2</NavDropdown.Item>
+                        <NavDropdown.Item><Link to ="/photo">Link 1</Link></NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => navigate("/photo")}>Link 2</NavDropdown.Item>
                         <NavDropdown.Item eventKey="4.3">Link 3</NavDropdown.Item>
                         </div>
                 </NavDropdown>
