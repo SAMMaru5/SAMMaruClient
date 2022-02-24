@@ -1,9 +1,12 @@
+import './Calendar.scss'
 import React from 'react'
 import FullCalendar, { formatDate } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, createEventId } from './Calendar-utils'
+import {Row, Col} from 'react-bootstrap';
+
 
 export default class Calendar extends React.Component {
 
@@ -12,16 +15,16 @@ export default class Calendar extends React.Component {
     currentEvents: []
   }
 
+  
   render() {
     
     const ref = React.createRef()
 
     return (
-      <div className='demo-app'>
-        
-        {this.renderSidebar()}
-
-        <div className='demo-app-main'>
+      <div className='Calendar'>
+        <Row>
+          <Col lg={9}>
+          <div className='Calendar-main'>
           <FullCalendar
             ref={ref}
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -78,16 +81,23 @@ export default class Calendar extends React.Component {
             
           />
         </div>
+          </Col>
+          <Col lg={3}>
+            {this.renderSidebar()}
+
+          </Col>
+        </Row>
+        
+
       </div>
     )
   }
-
   renderSidebar() {
     return (
-      <div className='demo-app-sidebar'>
+      <div className='calendar-sidebar'>
        
       
-        <div className='demo-app-sidebar-section'>
+        <div className='calendar-sidebar-section'>
           <h2>All Events ({this.state.currentEvents.length})</h2>
           <ul>
             {this.state.currentEvents.map(renderSidebarEvent)}
