@@ -1,10 +1,10 @@
-import './Calendar.scss'
+import './ScheduleManage.scss'
 import React from 'react'
 import FullCalendar, { formatDate } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, createEventId } from './Calendar-utils'
+import { INITIAL_EVENTS, createEventId } from './Schedule-utils'
 import {Row, Col} from 'react-bootstrap';
 
 
@@ -51,9 +51,9 @@ export default class Calendar extends React.Component {
           }}
 
             headerToolbar={{
-              left:'',
+              left:'today',
               center: 'prev title next',
-              right:'',
+              right:'dayGridMonth,timeGridWeek,timeGridDay',
             }}
 
           

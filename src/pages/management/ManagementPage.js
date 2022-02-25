@@ -1,5 +1,5 @@
 import "./ManagementPage.scss";
-import Calendar from "./Calendar";
+import ScheduleManage from "./ScheduleManage";
 import {Tab, Row, Col, Nav} from 'react-bootstrap';
 function ManagementPage() {
   return (
@@ -29,7 +29,7 @@ function ManagementPage() {
                     </Tab.Pane>
                     <Tab.Pane eventKey="second">
 
-                      <Calendar />
+                      <ScheduleManage/>
 
 
                     </Tab.Pane>
