@@ -18,7 +18,7 @@ function App() {
         <Routes>
             
  
-          <Route path="/" element={<MainPage />}/>
+        <Route path="/" element={<MainPage />}/>
           <Route path="/photo" element={<PhotoPage />}/>
           <Route path="/notice" element={<NoticePage />}/>
 
