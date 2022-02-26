@@ -1,0 +1,123 @@
+.noticePage{
+  .title{
+    position: relative;
+
+    .thumbnail img{
+      width: 100%;
+      height: fit-content;
+      vertical-align: middle;
+    }
+
+    .pageName{
+      font-size: 3em;
+      color: white;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+  }
+
+  .container{
+    width: 80%;
+
+  }
+
+  .location{
+    padding: 5% 0 4% 0;
+
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    img{
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+    }
+    span{
+      padding: 0 0 0 1%;
+    }
+  }
+
+  .search{
+    display: flex;
+    flex-direction: row;
+    padding: 2% 2% 2% 2%;
+    background-color: #F5F5F5;
+    margin-bottom: 5%;
+    .inp_sch{
+      width: 90%;
+    }
+    b, select, input[type='text']{
+      height: 38px;
+      line-height: 38px;
+      margin-right: 0.5%;
+    }
+    b{
+      font-weight: bold;
+            margin-right: 1%;
+    }
+
+    input[type='text']{
+      width: 75%;
+      background-color: #fff;
+    }
+    input[type='submit']{
+      width: 10%;
+      height: 38px;
+      background-color: #464545;
+      color: white;
+    }
+  }
+
+  .contents{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 5%;
+    .contentsTitle{
+      border-top: 2px solid black;
+      border-bottom: 1px solid black;
+      height: 3em;
+      text-align: center;
+      font-weight: bold;
+    }
+    .eachContents .content{
+      border-bottom: 1px solid black;
+      height: 2.8em;
+      cursor: pointer;
+    }
+
+    .eachContents .important{
+      border-bottom: 1px solid black;
+      height: 2.8em;
+      background-color: #E6E6E6;
+      cursor: pointer;
+    }
+
+    .contentsTitle, .eachContents .content, .eachContents .important{
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 0px 2% 0px 2%;
+      .num {
+        width: 3%;
+      }
+      .value{
+        width: 80%;
+        padding: 0px 1.2% 0px 1.2%;
+      }
+      .file img, .file div {
+        width: 35px;
+        height: 35px;
+      }
+      .date{
+        width: 8%;
+      }
+    }
+  }
+  .pageNum{
+      display: flex;
+  justify-content: center; }
+}
