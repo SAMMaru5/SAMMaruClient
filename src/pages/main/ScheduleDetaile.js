@@ -25,6 +25,7 @@ export default class ScheduleDetaile extends React.Component {
           <FullCalendar
             ref={ref}
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            moreLinkContent= {(eventInfo)=>{return eventInfo.shortText}}
             customButtons={{
               prev: {
                   text: 'Prev',
@@ -150,12 +151,11 @@ function renderEventContent(eventInfo) {
 }
 
 function renderSidebarEvent(event) {
-  console.log("start : ", event.start, "ebd : ", event.start);
   return (
     // 학사 일정 하단 부분 || 해당 월이 포함되어 있으면 보여주기
     
     <li key={event.id}>
-      <b>{formatDate(event.start, {month: 'numeric'})}월 {formatDate(event.start, {day: 'numeric'}) }일&nbsp;&nbsp;:&nbsp; </b>
+      <b>{formatDate(event.start, {month: 'numeric'})}월 {formatDate(event.start, {day: 'numeric'}) }일 {event.end !==null && "~ "  + formatDate(event.end, {month: 'numeric'})+ "월 " + formatDate(event.end, {day: 'numeric'}) + "일"} &nbsp;: &nbsp;</b> 
       <i>{event.title}</i>
     </li>
   )
