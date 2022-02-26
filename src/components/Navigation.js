@@ -47,6 +47,7 @@ function Navigation() {
         <NavDropdown
           title="공지사항"
           className="nav-dropdown"
+          onClick={() => navigate("/notice")}
           onMouseEnter={(e) => {
             setShow2(!show2);
           }}
