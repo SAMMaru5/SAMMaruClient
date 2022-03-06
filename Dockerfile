@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:14.17.1
 USER root
 
 WORKDIR /SAMMaruClient
