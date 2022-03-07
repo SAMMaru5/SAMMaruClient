@@ -1,0 +1,35 @@
+.LoginPage{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .loginFrame{
+        min-width: 500px;
+    }
+    .loginLogo{
+        width: 100%;
+        height: 200px;
+        background-color: black;
+    }
+    .loginForm{
+        display: flex;
+        flex-direction: column;
+    }
+    input{
+        font-size: 1.2em;
+        margin-bottom: 2%;
+
+    }
+    button{
+        font-size: 1.2em;
+        height: 40px;
+        background-color: black;
+        color: white;
+        padding-top: 1%;
+        border: none;
+    }
+    .loginLink{
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 47.5%;
+    }
+}
