@@ -1,6 +1,6 @@
 import './Schedule.scss'
 import React from 'react'
-import FullCalendar from '@fullcalendar/react'
+import FullCalendar, { formatDate } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -12,7 +12,6 @@ export default class Schedule extends React.Component {
   state = {
     weekendsVisible: true,
     currentEvents: [],
-    x:document.getElementsByClassName("fc-daygrid-more-link")
   }
 
   render() {
@@ -26,6 +25,30 @@ export default class Schedule extends React.Component {
           <FullCalendar
             ref={ref}
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            moreLinkContent= {(eventInfo)=>{return eventInfo.shortText}}
+            eventContent = {(eventInfo)=>{
+              if(eventInfo.isStart !== true && formatDate(eventInfo.event.end, {hour: 'numeric', minute:'numeric'}) === "11:59 PM"){
+                return eventInfo.event._def.title + " 종료"
+              }
+              else if(eventInfo.isEnd && eventInfo.timeText !==""){
+                let result = "";
+                let timeText = formatDate(eventInfo.event.end, {hour: 'numeric'})
+
+                if(timeText.slice(-2) === "PM"){
+                  result += "오후";
+                }
+                else if(timeText.slice(-2) === "AM"){
+                  result += "오전"
+                }
+                result += timeText.substring(0, 2)
+                result += "  "
+                result += eventInfo.event._def.title
+                result += "  종료"
+                return result;
+              }
+    
+            
+            }}  // 1+ 내부 내용
             customButtons={{
               prev: {
                   text: 'Prev',

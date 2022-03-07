@@ -12,16 +12,15 @@ export default class Calendar extends React.Component {
 
   state = {
     weekendsVisible: true,
-    currentEvents: []
+    currentEvents: [],
   }
 
-  
   render() {
     
     const ref = React.createRef()
-
+ 
     return (
-      <div className='Calendar'>
+      <div style={{ visibility:this.props.visible}} className='Calendar'>
         <Row>
           <Col lg={9}>
           <div className='Calendar-main'>

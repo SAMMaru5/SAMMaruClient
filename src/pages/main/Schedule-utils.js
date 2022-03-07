@@ -12,19 +12,25 @@ let eventGuid = 0
 export const INITIAL_EVENTS = [
   {
     id: createEventId(),
-    title: 'event 1',
-    start: '2022-02-14T10:00:00',
-    end: '2022-02-14T12:00:00',
+    title: 'event 4',
+    start: '2022-02-16T13:00:00',
+    end: '2022-02-20T18:00:00',
+  },
+  {
+    id: createEventId(),
+    title: '축제',
+    start: '2022-02-11',
+    end: '2022-02-18T23:59:00',
   },
   {
     id: createEventId(),
     title: 'event 2',
-    start: '2021-06-16T13:00:00',
-    end: '2021-06-16T18:00:00',
+    start: '2022-02-16',
+    end: '2022-02-16',
   },
   { 
     id: createEventId(), 
-    title: 'event 3', 
+    title: '점심', 
     start: '2022-02-17', 
     end: '2022-02-18' },
 ]

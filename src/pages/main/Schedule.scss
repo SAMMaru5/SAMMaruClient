@@ -11,6 +11,9 @@
             border: none;
             text-align: left;
         }
+        .fc-direction-ltr .fc-daygrid-event.fc-event-start{
+            margin-left: 0;
+        }
         .fc-prev-button, .fc-next-button{
             display: none;
         }
