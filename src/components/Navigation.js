@@ -1,7 +1,7 @@
 import "./Navigation.scss";
 import { useState } from "react";
 import { NavDropdown } from "react-bootstrap";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
 function Navigation() {
   const [show1, setShow1] = useState(false);
@@ -17,7 +17,7 @@ function Navigation() {
       <div className="userStatus">
         <p className="attendance">접속자(0명)</p>
 
-        <p className="user">회원가입/로그인</p>
+        <p className="user" onClick={() => navigate("/login")}>회원가입/로그인</p>
       </div>
 
       <nav>
@@ -91,10 +91,10 @@ function Navigation() {
           show={show4}
         >
           <div className="navItem4">
-            <NavDropdown.Item>
-              <Link to="/photo">Link 1</Link>
+            <NavDropdown.Item  onClick={() => navigate("/photo")}>
+              Link 1
             </NavDropdown.Item>
-            <NavDropdown.Item onClick={() => navigate("/photo")}>
+            <NavDropdown.Item>
               Link 2
             </NavDropdown.Item>
             <NavDropdown.Item eventKey="4.3">Link 3</NavDropdown.Item>

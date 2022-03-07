@@ -11,6 +11,10 @@
 
     .user{
         float: right;
+        cursor: pointer;
+    }
+    .user:hover{
+      text-decoration: underline;
     }
   }
 
