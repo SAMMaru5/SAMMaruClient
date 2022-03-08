@@ -22,8 +22,8 @@ function LoginPage() {
                 <input type={"password"} placeholder="비밀번호"onChange={(e) =>{setUserPw(e.target.value)}}></input>
                 <button type="submit" onClick={()=>{onLogin()}}>로그인</button>
                 <div className="loginLink">
-                    <Link to="/">회원가입</Link>
-                    <Link to="/">비밀번호 찾기</Link>
+                    <Link to="/agree">회원가입</Link>
+                    <Link to="/findUser">아이디/비번 찾기</Link>
                 </div>
             </form>
             </div>
