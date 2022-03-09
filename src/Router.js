@@ -13,6 +13,10 @@ import PhotoPage from "./pages/photo/PhotoPage";
 
 import NoticePage from "./pages/notice/NoticePage";
 
+import '@fortawesome/fontawesome-free/css/all.min.css'; 
+import 'bootstrap-css-only/css/bootstrap.min.css'; 
+import 'mdbreact/dist/css/mdb.css';
+
 function App() {
   return (
     <div className="App">

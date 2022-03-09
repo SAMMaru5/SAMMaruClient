@@ -48,15 +48,15 @@
         overflow: auto;
     }
     .textArea::-webkit-scrollbar{
-        width: 10px;
-
+        visibility: hidden;
     }
-    .textArea::-webkit-scrollbar-thumb {
+    .textArea:hover::-webkit-scrollbar-thumb {
         background-color: gray;
-      }
+        }
     .textArea::-webkit-scrollbar-track:hover {
         background-color: rgb(197, 197, 197);
     }
+  
     .lastTextArea{
         border: 1px solid black;
         padding: 1%;
@@ -81,6 +81,10 @@
         margin-top: 1.5%;
     }
     
+    thead{
+        background-color: rgb(240, 240, 240);
+    }
+
     .textArea{
         p{
             margin-top: 2%;
