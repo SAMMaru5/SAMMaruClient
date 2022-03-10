@@ -1,18 +1,26 @@
-import { Link } from "react-router-dom"
+import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import "./AgreePage.scss"
 
 function AgreePage(){
+    const navigate = useNavigate()
+
+    const [agree1, setAgree1] = useState(false)
+    const [agree2, setAgree2] = useState(false)
+
+    console.log(agree1)
+    console.log(agree2)
     return(
         <div className="AgreePage container">
             <div className="titleFrame">
-                <h5><strong>약관동의</strong></h5>
+                <h5><strong><i class="fas fa-map-marker-alt "></i> &nbsp;약관동의</strong></h5>
                 <div>
                     <Link to={"/"}>Home</Link> &nbsp;/&nbsp; 회원가입 &nbsp;/&nbsp; 약관동의
                 </div>
             </div>
             <hr/>
             <div className="alertFrame">
-            회원가입약관 및 개인정보처리방침안내의 내용에 동의하셔야 회원가입 하실 수 있습니다.
+            <i class="fas fa-exclamation-circle"></i>&nbsp; 회원가입약관 및 개인정보처리방침안내의 내용에 동의하셔야 회원가입 하실 수 있습니다.
             </div>
 
             <div className="textAreaTable">
@@ -32,7 +40,7 @@ function AgreePage(){
                         <tr>
                             <td>
                                 <div className="checkAgree">
-                                    <label htmlFor="agree1"><input type={"checkbox"} id="agree1"/> &nbsp; 회원가입약관의 내용에 동의합니다.</label>
+                                    <label htmlFor="agree1"><input type={"checkbox"} id="agree1" onChange={(e)=>{setAgree1(e.target.checked)}}/> &nbsp; 회원가입약관의 내용에 동의합니다.</label>
                                     
                                 </div>
                             </td>
@@ -58,8 +66,7 @@ function AgreePage(){
                         <tr>
                             <td>
                                 <div className="checkAgree">
-                                    <label htmlFor="agree2"><input type={"checkbox"} id="agree2"/> &nbsp;   개인정보처리방침안내의 내용에 동의합니다.</label>
-                                    
+                                    <label htmlFor="agree2"><input type={"checkbox"} id="agree2" onChange={(e)=>{setAgree2(e.target.checked)}}/> &nbsp;   개인정보처리방침안내의 내용에 동의합니다.</label>
                                 </div>
                             </td>
                         </tr>
@@ -67,7 +74,7 @@ function AgreePage(){
                 </table>
             </div>
             <div className="registerBtn">
-                <Link to={"/register"}><h4>회원가입</h4></Link>
+                <h4 onClick={()=>{if(agree1 === true && agree2 === true){navigate("/register", {state: true})}else{alert("not agree")}}}>회원가입</h4>
 
             </div>
             
