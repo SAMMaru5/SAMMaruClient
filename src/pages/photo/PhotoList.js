@@ -1,13 +1,19 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import "./PhotoList.scss";
+import { useNavigate } from "react-router-dom";
 
 const PhotoList = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="photoMain">
       <Row>
         <Col span={8}>
-          <div style={{ marginBottom: "20px", cursor: "pointer" }}>
+          <div
+            style={{ marginBottom: "20px", cursor: "pointer" }}
+            onClick={() => navigate("./photoDetail")}
+          >
             <img
               src="https://cdn.pixabay.com/photo/2020/09/02/20/52/dock-5539524__340.jpg"
               style={{ width: "100%", height: "100%" }}
