@@ -25,7 +25,6 @@ function LoginPage() {
                 <div className="loginLink">
                     <Link to="/agree">회원가입</Link>
                     <Link to="/findUser">아이디/비번 찾기</Link>
-
                 </div>
             </form>
             </div>
