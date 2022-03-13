@@ -7,11 +7,11 @@ import LoginPage from "./pages/login/LoginPage"
 import RegisterPage from "./pages/register/RegisterPage"
 import AgreePage from "./pages/register/AgreePage"
 import FindUserPage from "./pages/findUser/FindUserPage"
-
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PhotoPage from "./pages/photo/PhotoPage";
 
 import NoticePage from "./pages/notice/NoticePage";
+import PhotoDetail from "./pages/photo/PhotoDetail";
 
 import '@fortawesome/fontawesome-free/css/all.min.css'; 
 import 'bootstrap-css-only/css/bootstrap.min.css'; 
@@ -22,10 +22,8 @@ function App() {
     <div className="App">
       <Router>
         <Navigation />
-        
+
         <Routes>
-            
- 
         <Route path="/" element={<MainPage />}/>
           <Route path="/photo" element={<PhotoPage />}/>
           <Route path="/notice" element={<NoticePage />}/>
@@ -34,10 +32,12 @@ function App() {
           <Route path="/agree" element={<AgreePage />}/>
           <Route path="/register" element={<RegisterPage />}/>
           <Route path="/findUser" element={<FindUserPage />}/>
-
+          <Route path="/" element={<MainPage />} />
+          <Route path="/photo" element={<PhotoPage />} />
+          <Route path="/photo/photoDetail" element={<PhotoDetail />} />
+          <Route path="/management" element={<ManagepentPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
-
-
       </Router>
       <Footer />
     </div>
