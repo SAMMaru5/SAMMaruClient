@@ -11,7 +11,7 @@ function Footer() {
       </div>
 
       <div className="FooterRight">
-        <h7>dfd</h7>
+        <h6>여기에 내용 적을예정</h6>
       </div>
     </div>
   );

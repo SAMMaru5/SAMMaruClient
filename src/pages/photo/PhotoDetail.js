@@ -8,7 +8,7 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper";
 const PhotoDetail = () => {
   return (
-    <div className="content">
+    <div className="photo-detail-content">
       <p style={{ justifyContent: "center", fontSize: "30px" }}>
         샘마루세미나{" "}
       </p>
