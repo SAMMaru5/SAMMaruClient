@@ -2,33 +2,33 @@ import styled from "styled-components";
 
 const contentList = [
   {
-    num: '0004',
-    value: '공지글입니다.',
+    num: "0004",
+    value: "공지글입니다.",
     file: true,
-    date: '2022-02-26',
-    important: true
+    date: "2022-02-26",
+    important: true,
   },
   {
-    num: '0003',
-    value: '공지글2입니다.',
+    num: "0003",
+    value: "공지글2입니다.",
     file: false,
-    date: '2022-02-26',
-    important: true
+    date: "2022-02-26",
+    important: true,
   },
   {
-    num: '0002',
-    value: '1번 게시글.',
+    num: "0002",
+    value: "1번 게시글.",
     file: false,
-    date: '2022-02-26',
-    important: false
+    date: "2022-02-26",
+    important: false,
   },
   {
-    num: '0001',
-    value: '2번 게시글.',
+    num: "0001",
+    value: "2번 게시글.",
     file: true,
-    date: '2022-02-26',
-    important: false
-  }
+    date: "2022-02-26",
+    important: false,
+  },
 ];
 
 function NoticeDetailPage(props) {
@@ -38,9 +38,9 @@ function NoticeDetailPage(props) {
     padding: 17.5px 0 16px;
   `;
   const PageInfo = styled.dt`
-    float:left;
-    margin-right:15px;
-  `
+    float: left;
+    margin-right: 15px;
+  `;
 
   return (
     <div className="">
@@ -61,20 +61,21 @@ function NoticeDetailPage(props) {
       </div>
 
       <div>
-        <div>
-          글 내용
-        </div>
+        <div>글 내용</div>
         <div>
           <nav>
-            <div><span>이전글</span>이전글입니다</div>
-            <div><span>다음글</span>다음글입니다</div>
+            <div>
+              <span>이전글</span>이전글입니다
+            </div>
+            <div>
+              <span>다음글</span>다음글입니다
+            </div>
           </nav>
         </div>
         <div>
           <button>목록</button>
         </div>
       </div>
-
     </div>
     // <div>
     //   {props.noticeNum}
