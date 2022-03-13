@@ -16,6 +16,7 @@ import PhotoDetail from "./pages/photo/PhotoDetail";
 import '@fortawesome/fontawesome-free/css/all.min.css'; 
 import 'bootstrap-css-only/css/bootstrap.min.css'; 
 import 'mdbreact/dist/css/mdb.css';
+import NoticeDetailPage from "./pages/notice/NoticeDetailPage";
 
 function App() {
   return (
@@ -26,7 +27,8 @@ function App() {
         <Routes>
         <Route path="/" element={<MainPage />}/>
           <Route path="/photo" element={<PhotoPage />}/>
-          <Route path="/notice" element={<NoticePage />}/>
+          <Route path="/notice" element={<NoticePage />} />
+          <Route path="/notice/noticeDetail" element={<NoticeDetailPage />}/>
           <Route path="/management" element={<ManagepentPage />}/>
           <Route path="/login" element={<LoginPage />}/>
           <Route path="/agree" element={<AgreePage />}/>

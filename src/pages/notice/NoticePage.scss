@@ -85,14 +85,12 @@
     .eachContents .content{
       border-bottom: 1px solid black;
       height: 2.8em;
-      cursor: pointer;
     }
 
     .eachContents .important{
       border-bottom: 1px solid black;
       height: 2.8em;
       background-color: #E6E6E6;
-      cursor: pointer;
     }
 
     .contentsTitle, .eachContents .content, .eachContents .important{
@@ -104,9 +102,10 @@
       .num {
         width: 3%;
       }
-      .value{
+      .contents{
         width: 80%;
         padding: 0px 1.2% 0px 1.2%;
+        cursor: pointer;
       }
       .file img, .file div {
         width: 35px;
@@ -116,8 +115,18 @@
         width: 8%;
       }
     }
-  }
-  .pageNum{
+
+    .adminPost{
       display: flex;
-  justify-content: center; }
+      justify-content: flex-end;
+      margin-top: 3%;
+      margin-right: 1.5%;
+    }
+
+  }
+
+  .pageNum{
+    display: flex;
+    justify-content: center; 
+  }
 }

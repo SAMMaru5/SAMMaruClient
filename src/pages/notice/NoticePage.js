@@ -1,5 +1,14 @@
 import "./NoticePage.scss";
-import { Badge, Pagination } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import DetailPage from "./NoticeDetailPage";
+import { Badge, Button, Pagination } from 'react-bootstrap';
+import NoticeList from "./NoticeList";
+import { Link } from "react-router-dom";
+
+const isAdmin = false;
+
+  // 백엔드에서 공지 정렬할때, 
+  // 중요한거 맨 앞으로 들고오기 (기본 내림차순)
 
 const contentList = [
   {
@@ -19,7 +28,7 @@ const contentList = [
   {
     num: '0002',
     value: '1번 게시글.',
-    file: false ,
+    file: false,
     date: '2022-02-26',
     important: false
   },
@@ -32,33 +41,24 @@ const contentList = [
   }
 ];
 
-  // 백엔드에서 공지 정렬할때, 
-  // 중요한거 맨 앞으로 들고오기 (기본 내림차순)
+function NoticePage(props) {
+  const [noticeNum, setNoticeNum] = useState(0);
+  
+  const selectContent = (e) => {
+    setNoticeNum(e.target.id);
+    NoticePage(noticeNum);
+  };
 
-const parsingList = () => {
-  return (
-    contentList.map(item => 
-      item.important ?
-        <div className="important">
-          <div className="num" key={item.num}><Badge bg="danger">중요</Badge></div>
-          <div className="value">{item.value}</div>
-          <div className="file">{item.file ? <img src="premium-icon-attachments-327931.png" alt="첨부"></img> : <div> </div>}
-          </div>
-          <div className="date">{item.date}</div>
-        </div>
-        :
-        <div className="content">
-          <div className="num" key={item.num}>{item.num}</div>
-          <div className="value">{item.value}</div>
-          <div className="file">{item.file ? <img src="premium-icon-attachments-327931.png" alt="첨부"></img> : <div> </div>}
-          </div>
-          <div className="date">{item.date}</div>
-        </div>
-    )
-  )
-}
+  useEffect(() => {
+    if (noticeNum !== 0) {
+      console.log("되는중이긴함");
+      <Link to="./noticeDetail"></Link>
+    }
+    else {
+      // <NoticeList = {}/>
+    }
+  })
 
-function NoticePage() {
   return (
     <div className="noticePage">
       <div className="title">
@@ -83,17 +83,43 @@ function NoticePage() {
             <input type="submit" value={"검색"}></input>
           </div>
         </div>
-        <div className="contents">
-          <div className="contentsTitle">
+      <div className="contents">
+    <div className="contentsTitle">
             <div className="num">번호</div>
             <div className="value">제목</div>
             <div className="file">첨부</div>
             <div className="date">작성일</div>
           </div>
           <div className="eachContents">
-            {parsingList()}
-          </div>
+            {
+              contentList.map(item =>
+                item.important ?
+                  <div className="important" >
+                    <div className="num" key={item.num}><Badge bg="danger">중요</Badge></div>
+                    <div className="contents" onClick={selectContent} id={item.num}>{item.value}</div>
+                    <div className="file" >{item.file ? <img src="premium-icon-attachments-327931.png" alt="첨부"></img> : <div> </div>}
+                    </div>
+                    <div className="date">{item.date}</div>
+                  </div>
+                  :
+                  <div className="content" >
+                    <div className="num" key={item.num}>{item.num}</div>
+                    <div className="contents" onClick={selectContent} id={item.num}>{item.value}</div>
+                    <div className="file">{item.file ? <img src="premium-icon-attachments-327931.png" alt="첨부"></img> : <div> </div>}
+                    </div>
+                    <div className="date">{item.date}</div>
+                  </div>
+              )
+            }
+    </div>
+  </div>
         </div>
+          {
+            isAdmin ? <div className="adminPost">
+              <Button>작성하기</Button>
+            </div> : <div></div>
+          }
+        
         <div className="pageNum">
           <Pagination>
             <Pagination.First />
@@ -114,7 +140,6 @@ function NoticePage() {
           </Pagination>
         </div>
       </div>
-    </div>
   );
 }
 
