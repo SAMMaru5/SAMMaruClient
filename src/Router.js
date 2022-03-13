@@ -34,11 +34,7 @@ function App() {
           <Route path="/agree" element={<AgreePage />}/>
           <Route path="/register" element={<RegisterPage />}/>
           <Route path="/findUser" element={<FindUserPage />}/>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/photo" element={<PhotoPage />} />
           <Route path="/photo/photoDetail" element={<PhotoDetail />} />
-          <Route path="/management" element={<ManagepentPage />} />
-          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </Router>
       <Footer />
