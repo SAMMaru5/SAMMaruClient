@@ -30,6 +30,7 @@
     .loginLink{
         display: flex;
         justify-content: space-between;
+
         margin-top: 2%;
         margin-bottom: 34.9%;
         
@@ -41,4 +42,14 @@
             text-decoration: underline;
         }
     }
+    .autoLoginFrame{
+        label{
+            cursor: pointer;
+        }
+
+        input{
+            cursor: pointer;
+        }
+    }
+ margin-bottom: 47.5%;
 }
