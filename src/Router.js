@@ -18,6 +18,7 @@ import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import NoticeDetailPage from "./pages/notice/NoticeDetailPage";
 
+
 function App() {
   return (
     <div className="App">
