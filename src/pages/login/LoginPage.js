@@ -21,9 +21,11 @@ function LoginPage() {
                 <input type={"text"} placeholder="이메일" onChange={(e) =>{setUserId(e.target.value)}}></input>
                 <input type={"password"} placeholder="비밀번호"onChange={(e) =>{setUserPw(e.target.value)}}></input>
                 <button type="submit" onClick={()=>{onLogin()}}>로그인</button>
+                <div className="autoLoginFrame"><label htmlFor="autoLogin"><input id="autoLogin" type={"checkbox"}></input> &nbsp; 자동 로그인</label></div>
                 <div className="loginLink">
                     <Link to="/agree">회원가입</Link>
                     <Link to="/findUser">아이디/비번 찾기</Link>
+
                 </div>
             </form>
             </div>

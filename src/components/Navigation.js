@@ -112,10 +112,15 @@ function Navigation() {
           }}
           show={show5}
         >
+          
           <div className="navItem5">
-            <NavDropdown.Item>전자정보대학</NavDropdown.Item>
-            <NavDropdown.Item eventKey="4.2">소프트웨어학과</NavDropdown.Item>
-            <NavDropdown.Item eventKey="4.3">SW중심사업단</NavDropdown.Item>
+            <NavDropdown.Item target="_blank" href="https://www.chungbuk.ac.kr/">충북대학교</NavDropdown.Item>
+            <NavDropdown.Item target="_blank" href="https://eis.cbnu.ac.kr/">종합정보시스템</NavDropdown.Item>
+            <NavDropdown.Item target="_blank" href="https://software.cbnu.ac.kr/">소프트웨어학과</NavDropdown.Item>
+            <NavDropdown.Item target="_blank" href="https://sw7up.cbnu.ac.kr/home">SW중심사업단</NavDropdown.Item>
+            <NavDropdown.Item target="_blank" href="https://cbnu.blackboard.com/">ecampus</NavDropdown.Item>
+            <NavDropdown.Item target="_blank" href="https://dorm.chungbuk.ac.kr/">기숙사</NavDropdown.Item>
+
           </div>
         </NavDropdown>
       </nav>
