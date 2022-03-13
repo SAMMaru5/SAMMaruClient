@@ -7,20 +7,18 @@ function AgreePage(){
 
     const [agree1, setAgree1] = useState(false)
     const [agree2, setAgree2] = useState(false)
-
-    console.log(agree1)
-    console.log(agree2)
+    
     return(
         <div className="AgreePage container">
             <div className="titleFrame">
-                <h5><strong><i class="fas fa-map-marker-alt "></i> &nbsp;약관동의</strong></h5>
+                <h5><strong><i className="fas fa-map-marker-alt "></i> &nbsp;약관동의</strong></h5>
                 <div>
                     <Link to={"/"}>Home</Link> &nbsp;/&nbsp; 회원가입 &nbsp;/&nbsp; 약관동의
                 </div>
             </div>
             <hr/>
             <div className="alertFrame">
-            <i class="fas fa-exclamation-circle"></i>&nbsp; 회원가입약관 및 개인정보처리방침안내의 내용에 동의하셔야 회원가입 하실 수 있습니다.
+            <i className="fas fa-exclamation-circle"></i>&nbsp; 회원가입약관 및 개인정보처리방침안내의 내용에 동의하셔야 회원가입 하실 수 있습니다.
             </div>
 
             <div className="textAreaTable">
@@ -74,7 +72,7 @@ function AgreePage(){
                 </table>
             </div>
             <div className="registerBtn">
-                <h4 onClick={()=>{if(agree1 === true && agree2 === true){navigate("/register", {state: true})}else{alert("not agree")}}}>회원가입</h4>
+                <h4 onClick={()=>{if(agree1 === true && agree2 === true){navigate("/register", {state: true})}else{alert("회원가입약관의 내용에 동의하셔야 회원가입 하실 수 있습니다.")}}}>회원가입</h4>
 
             </div>
             

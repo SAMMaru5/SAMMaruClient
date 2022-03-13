@@ -1,14 +1,13 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import "./LoginPage.scss"
+import { login } from "../../hooks/useFetch"
 
 function LoginPage() {
-    const [userId, setUserId] = useState("");
-    const [userPw, setUserPw] = useState("");
+    const [User, setUser] = useState({"studentId":"", "password" : ""});
 
     const onLogin = () =>{
-        console.log(userPw)
-        console.log(userId)
+        console.log(login(User));
     } 
 
     return(
@@ -16,11 +15,14 @@ function LoginPage() {
             <div className="loginFrame">
             <form className="loginForm">
                 <figure className="loginLogo">
-
+                <img
+                    src="img/login_logo.png"
+                    alt="로그인 로고 이미지"
+                />
                 </figure>
-                <input type={"text"} placeholder="이메일" onChange={(e) =>{setUserId(e.target.value)}}></input>
-                <input type={"password"} placeholder="비밀번호"onChange={(e) =>{setUserPw(e.target.value)}}></input>
-                <button type="submit" onClick={()=>{onLogin()}}>로그인</button>
+                <input type={"text"} autoComplete="username" placeholder="아이디" onChange={(e) =>{setUser({...User, "studentId" : e.target.value})}}></input>
+                <input type={"password"} autoComplete="current-password" placeholder="비밀번호"onChange={(e) =>{setUser({...User, "password" : e.target.value})}}></input>
+                <button type="reset" onClick={()=>{onLogin()}}>로그인</button>
                 <div className="autoLoginFrame"><label htmlFor="autoLogin"><input id="autoLogin" type={"checkbox"}></input> &nbsp; 자동 로그인</label></div>
                 <div className="loginLink">
                     <Link to="/agree">회원가입</Link>

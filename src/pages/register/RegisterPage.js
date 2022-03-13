@@ -2,6 +2,8 @@ import { useLocation, Link, useNavigate } from "react-router-dom"
 import {useEffect, useState} from "react"
 import "./RegisterPage.scss"
 
+import { call } from "../../hooks/useFetch"
+
 function RegisterPage(){
     const location = useLocation();
     const navigate = useNavigate();
@@ -9,26 +11,32 @@ function RegisterPage(){
     const [informAgree1, setInformAgree1] = useState(true)
     const [informAgree2, setInformAgree2] = useState(true)
     
+    const [User, setUser] = useState({"studentId" : "",  "username":"", "password" : "", "email" : ""})
+    const [pwCheck, setPwCheck] = useState("");
+
     useEffect(() => {
         if(location.state === null){
-            alert("not agree")
+            alert("회원가입약관의 내용에 동의하셔야 회원가입 하실 수 있습니다.")
             navigate("/agree")
         }
     }, [navigate, location.state])
     
-
-
+    const register = async ()=>{
+        console.log(call("/auth/signup", "POST", User));
+        console.log(User)
+        console.log(pwCheck)
+    } 
 
     return(
         <div className="RegisterPage container">
             <div className="titleFrame">
-                <h5><strong><i class="fas fa-map-marker-alt "></i> &nbsp;정보입력</strong></h5>
+                <h5><strong><i className="fas fa-map-marker-alt "></i> &nbsp;정보입력</strong></h5>
                 <div>
                     <Link to={"/"}>Home</Link> &nbsp;/&nbsp; 회원가입 &nbsp;/&nbsp; 정보입력
                 </div>
             </div>
             <hr/>
-
+            <form>
             <table>
                 <thead>
                     <tr>
@@ -49,7 +57,7 @@ function RegisterPage(){
                             </div>
                             <div className="inputText">
                                 <i className="fas fa-user-alt fa-sm" ></i>
-                                <input type={"text"} id="userId"></input>
+                                <input type={"text"} autoComplete="on" id="userId" onChange={(e)=>{setUser( {...User, "studentId" : e.target.value})}}></input>
 
                             </div>
                         </td>
@@ -58,14 +66,14 @@ function RegisterPage(){
                             
                             <div className="inputText">
                                 <i className="fas fa-lock fa-sm"></i>
-                                <input type={"text"} id="userPw"></input>
+                                <input type={"password"} autoComplete="current-password" id="userPw" onChange={(e) =>{setUser({...User, "password" : e.target.value})}}></input>
                             </div>
                         </td>
                         <td>
                             <label htmlFor="userPwCheck">비밀번호 확인</label><br/>
                             <div className="inputText">
                                 <i className="fas fa-lock fa-sm"></i>
-                                <input type={"text"} id="userPwCheck"></input>
+                                <input type={"password"} autoComplete="current-password" id="userPwCheck" onChange={(e) =>{setPwCheck(e.target.value)}}></input>
                             </div>
                         </td>
                     </tr>
@@ -85,7 +93,7 @@ function RegisterPage(){
                         <label htmlFor="userName">이름</label><br/>
                             <div className="inputText">
                                 <i className="fas fa-male fa-sm"></i>
-                                <input type={"text"} id="userName"></input>
+                                <input type={"text"} id="userName" onChange={(e) =>{setUser({...User, "username" : e.target.value})}}></input>
                             </div>
                         </td>
                     </tr>
@@ -94,7 +102,7 @@ function RegisterPage(){
                             <hr/>
                         </td>
                     </tr>
-                    <tr>
+                    {/* <tr>
                         <td>
                             <div className="textCheck">
                                 <label htmlFor="userNickName">닉네임</label><br/>
@@ -115,7 +123,7 @@ function RegisterPage(){
                         <td colSpan={"3"}>
                             <hr/>
                         </td>
-                    </tr>
+                    </tr> */}
                     <tr>
                         <td>
                             <div className="textCheck">
@@ -124,7 +132,7 @@ function RegisterPage(){
                             </div>
                             <div className="inputText">
                                 <i className="far fa-envelope fa-sm"></i>
-                                <input type={"email"} id="userEmail"></input>
+                                <input type={"email"} id="userEmail" onChange={(e) =>{setUser({...User, "email" : e.target.value})}}></input>
                             </div>
                         </td>
                     </tr>
@@ -173,11 +181,12 @@ function RegisterPage(){
                 <thead>
                     <tr>
                         <td colSpan={"3"}>
-                            <button><h5>회원가입</h5></button>
+                            <button onClick={()=>{register()}}><h5>회원가입</h5></button>
                         </td>
                     </tr>
                 </thead>
             </table>
+            </form>
         </div>
     )
 }
