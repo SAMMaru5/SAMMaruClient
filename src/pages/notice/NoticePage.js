@@ -1,11 +1,10 @@
 import "./NoticePage.scss";
-import React, { useEffect, useState } from "react";
-import DetailPage from "./NoticeDetailPage";
 import { Badge, Button, Pagination } from "react-bootstrap";
-import NoticeList from "./NoticeList";
-import { useNavigate } from "react-router";
-import NoticeDetailPage from "./NoticeDetailPage";
+import { useNavigate } from "react-router-dom";
 
+// const axios = require('axios').default;
+// const ACCESS_TOKEN = "ACCESS_TOKEN";
+// const accessToken = localStorage.getItem("ACCESS_TOKEN");
 const isAdmin = false;
 
 // 백엔드에서 공지 정렬할때,
@@ -42,14 +41,24 @@ const contentList = [
   },
 ];
 
+// const contentList = async () => {
+//   try {
+//     return await axios.get('http://localhost:8080/api/boards', {
+//       headers: {
+//         Authorization: `Bearer ${accessToken}`
+//       }
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
 function NoticePage(props) {
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   const selectContent = (e) => {
-    history({
-      pathname: "./noticeDetail",
-      state: { id: e.target.id },
-    });
+    console.log(e.target.id);
+    navigate('/noticeDetail', { state: { id: e.target.id } });
   };
 
   return (
@@ -94,7 +103,7 @@ function NoticePage(props) {
                   <div className="num" key={item.num}>
                     <Badge bg="danger">중요</Badge>
                   </div>
-                  <div className="contents" onClick={selectContent}>
+                  <div className="contents" id={item.num} onClick={selectContent}>
                     {item.value}
                   </div>
                   <div className="file">
