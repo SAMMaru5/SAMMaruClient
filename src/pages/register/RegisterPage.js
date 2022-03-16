@@ -1,6 +1,7 @@
 import { useLocation, Link, useNavigate } from "react-router-dom"
 import {useEffect, useState} from "react"
 import "./RegisterPage.scss"
+import Swal from "sweetalert2"
 
 import { call } from "../../hooks/useFetch"
 
@@ -21,10 +22,49 @@ function RegisterPage(){
         }
     }, [navigate, location.state])
     
-    const register = async ()=>{
-        console.log(call("/auth/signup", "POST", User));
-        console.log(User)
-        console.log(pwCheck)
+    const registerValid = async ()=>{
+        if(User.studentId === ""){
+            Swal.fire({
+                title: '아이디를 입력해주세요.',
+                icon: 'warning',
+            }
+        )
+        }
+        else if(User.password !== pwCheck){
+                    Swal.fire({
+                    title: '비밀번호가 일치하지 않습니다.',
+                    icon: 'warning',
+                }
+            )
+        }
+        else{
+            register();
+        }
+    }
+
+    const register = ()=>{
+        call("/auth/signup", "POST", User)
+        .then((response)=>{
+            if(response.success){
+                Swal.fire({
+                    icon: 'success',
+                    title: '회원가입에 성공했습니다.',
+                  })
+                  .then((result)=>{
+                      if(result.isConfirmed){
+                          navigate("/login")
+                      }
+                  })
+            }
+            else{
+                Swal.fire({
+                    icon: 'error',
+                    title: '회원가입에 실패했습니다.',
+                  })
+            }
+            })
+         
+
     } 
 
     return(
@@ -57,7 +97,7 @@ function RegisterPage(){
                             </div>
                             <div className="inputText">
                                 <i className="fas fa-user-alt fa-sm" ></i>
-                                <input type={"text"} autoComplete="on" id="userId" onChange={(e)=>{setUser( {...User, "studentId" : e.target.value})}}></input>
+                                <input type={"text"} autoComplete="on" id="userId" onChange={(e)=>{setUser( {...User, "studentId" : e.target.value})} }></input>
 
                             </div>
                         </td>
@@ -181,7 +221,7 @@ function RegisterPage(){
                 <thead>
                     <tr>
                         <td colSpan={"3"}>
-                            <button onClick={()=>{register()}}><h5>회원가입</h5></button>
+                            <button type="button" onClick={()=>{registerValid()}}><h5>회원가입</h5></button>
                         </td>
                     </tr>
                 </thead>
