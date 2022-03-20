@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import "./LoginPage.scss"
-import { login } from "../../hooks/useFetch"
+import { login } from "../../hooks/useAuth"
 import Swal from "sweetalert2"
 
 function LoginPage() {
