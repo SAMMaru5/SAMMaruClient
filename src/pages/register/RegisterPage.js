@@ -8,6 +8,7 @@ import { call } from "../../hooks/useFetch"
 function RegisterPage(){
     const location = useLocation();
     const navigate = useNavigate();
+    const agree = location.state;
 
     const [informAgree1, setInformAgree1] = useState(true)
     const [informAgree2, setInformAgree2] = useState(true)
@@ -16,13 +17,15 @@ function RegisterPage(){
     const [pwCheck, setPwCheck] = useState("");
 
     useEffect(() => {
-        if(location.state === null){
+        if(agree === null){
             alert("회원가입약관의 내용에 동의하셔야 회원가입 하실 수 있습니다.")
             navigate("/agree")
         }
-    }, [navigate, location.state])
+      
+    }, [navigate, agree])
     
-    const registerValid = async ()=>{
+    const registerValid = async (e)=>{
+        e.preventDefault();
         if(User.studentId === ""){
             Swal.fire({
                 title: '아이디를 입력해주세요.',
@@ -42,7 +45,7 @@ function RegisterPage(){
         }
     }
 
-    const register = ()=>{
+    const register = (e)=>{
         call("/auth/signup", "POST", User)
         .then((response)=>{
             if(response.success){
@@ -76,7 +79,7 @@ function RegisterPage(){
                 </div>
             </div>
             <hr/>
-            <form>
+            <form onSubmit={(e)=>{registerValid(e)}}>
             <table>
                 <thead>
                     <tr>
@@ -97,7 +100,7 @@ function RegisterPage(){
                             </div>
                             <div className="inputText">
                                 <i className="fas fa-user-alt fa-sm" ></i>
-                                <input type={"text"} autoComplete="on" id="userId" onChange={(e)=>{setUser( {...User, "studentId" : e.target.value})} }></input>
+                                <input type={"text"} autoComplete="on" id="userId" pattern="^[a-zA-Z0-9]{5,15}$" title="최소 5글자에서 최대 15글자 사이의 영문과 숫자만 입력해주세요." required onChange={(e)=>{setUser( {...User, "studentId" : e.target.value})} }></input>
 
                             </div>
                         </td>
@@ -106,14 +109,14 @@ function RegisterPage(){
                             
                             <div className="inputText">
                                 <i className="fas fa-lock fa-sm"></i>
-                                <input type={"password"} autoComplete="current-password" id="userPw" onChange={(e) =>{setUser({...User, "password" : e.target.value})}}></input>
+                                <input type={"password"} autoComplete="current-password" id="userPw" title="최소 8자리에서 최대 16자리까지 숫자, 영문, 특수문자 각 1개 이상 포함해주세요." pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$" required onChange={(e) =>{setUser({...User, "password" : e.target.value})}}></input>
                             </div>
                         </td>
                         <td>
                             <label htmlFor="userPwCheck">비밀번호 확인</label><br/>
                             <div className="inputText">
                                 <i className="fas fa-lock fa-sm"></i>
-                                <input type={"password"} autoComplete="current-password" id="userPwCheck" onChange={(e) =>{setPwCheck(e.target.value)}}></input>
+                                <input type={"password"} autoComplete="current-password" id="userPwCheck" required onChange={(e) =>{setPwCheck(e.target.value)}}></input>
                             </div>
                         </td>
                     </tr>
@@ -133,7 +136,7 @@ function RegisterPage(){
                         <label htmlFor="userName">이름</label><br/>
                             <div className="inputText">
                                 <i className="fas fa-male fa-sm"></i>
-                                <input type={"text"} id="userName" onChange={(e) =>{setUser({...User, "username" : e.target.value})}}></input>
+                                <input type={"text"} id="userName" pattern="[0-9]{2}[가-힣a-zA-Z0-9]{2,}" title="학번 이름으로 입력해주세요. ex)18정원재" required onChange={(e) =>{setUser({...User, "username" : e.target.value})}}></input>
                             </div>
                         </td>
                     </tr>
@@ -172,7 +175,7 @@ function RegisterPage(){
                             </div>
                             <div className="inputText">
                                 <i className="far fa-envelope fa-sm"></i>
-                                <input type={"email"} id="userEmail" onChange={(e) =>{setUser({...User, "email" : e.target.value})}}></input>
+                                <input type={"email"} id="userEmail" required onChange={(e) =>{setUser({...User, "email" : e.target.value})}}></input>
                             </div>
                         </td>
                     </tr>
@@ -221,7 +224,7 @@ function RegisterPage(){
                 <thead>
                     <tr>
                         <td colSpan={"3"}>
-                            <button type="button" onClick={()=>{registerValid()}}><h5>회원가입</h5></button>
+                            <button type="submit"><h5>회원가입</h5></button>
                         </td>
                     </tr>
                 </thead>

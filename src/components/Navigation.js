@@ -1,7 +1,8 @@
 import "./Navigation.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavDropdown } from "react-bootstrap";
-import { useNavigate} from "react-router-dom";
+import { useNavigate, useLocation} from "react-router-dom";
+import { isAuth } from "./../hooks/useAuth"
 
 function Navigation() {
   const [show1, setShow1] = useState(false);
@@ -10,7 +11,15 @@ function Navigation() {
   const [show4, setShow4] = useState(false);
   const [show5, setShow5] = useState(false);
 
+
   const navigate = useNavigate();
+  const location = useLocation();
+
+useEffect(() => {
+  isAuth();
+
+}, [location])
+
 
   return (
     <div className="Navigation container">
