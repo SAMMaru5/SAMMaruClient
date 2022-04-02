@@ -12,6 +12,7 @@ import PhotoPage from "./pages/photo/PhotoPage";
 
 import NoticePage from "./pages/notice/NoticePage";
 import PhotoDetail from "./pages/photo/PhotoDetail";
+import PhotoUpdate from "./pages/photo/PhotoUpdate";
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
