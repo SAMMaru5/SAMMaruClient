@@ -1,65 +1,86 @@
 import "./NoticePage.scss";
 import { Badge, Button, Pagination } from "react-bootstrap";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// const axios = require('axios').default;
-// const ACCESS_TOKEN = "ACCESS_TOKEN";
-// const accessToken = localStorage.getItem("ACCESS_TOKEN");
+const axios = require('axios').default;
+const ACCESS_TOKEN = "ACCESS_TOKEN";
+const accessToken = localStorage.getItem("ACCESS_TOKEN");
+
 const isAdmin = false;
 
 // 백엔드에서 공지 정렬할때,
 // 중요한거 맨 앞으로 들고오기 (기본 내림차순)
 
-const contentList = [
-  {
-    num: "0004",
-    value: "공지글입니다.",
-    file: true,
-    date: "2022-02-26",
-    important: true,
-  },
-  {
-    num: "0003",
-    value: "공지글2입니다.",
-    file: false,
-    date: "2022-02-26",
-    important: true,
-  },
-  {
-    num: "0002",
-    value: "1번 게시글.",
-    file: false,
-    date: "2022-02-26",
-    important: false,
-  },
-  {
-    num: "0001",
-    value: "2번 게시글.",
-    file: true,
-    date: "2022-02-26",
-    important: false,
-  },
-];
+// const contentList = [
+//   {
+//     num: "0004",
+//     value: "공지글입니다.",
+//     file: true,
+//     date: "2022-02-26",
+//     important: true,
+//   },
+//   {
+//     num: "0003",
+//     value: "공지글2입니다.",
+//     file: false,
+//     date: "2022-02-26",
+//     important: true,
+//   },
+//   {
+//     num: "0002",
+//     value: "1번 게시글.",
+//     file: false,
+//     date: "2022-02-26",
+//     important: false,
+//   },
+//   {
+//     num: "0001",
+//     value: "2번 게시글.",
+//     file: true,
+//     date: "2022-02-26",
+//     important: false,
+//   },
+// ];
 
-// const contentList = async () => {
-//   try {
-//     return await axios.get('http://localhost:8080/api/boards', {
-//       headers: {
-//         Authorization: `Bearer ${accessToken}`
-//       }
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+
 
 function NoticePage(props) {
+  const [data, setData] = useState([]);
   const navigate = useNavigate();
+
+  const contentList = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/boards');
+      setData(response.data.response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  contentList();
 
   const selectContent = (e) => {
     console.log(e.target.id);
     navigate('/noticeDetail', { state: { id: e.target.id } });
   };
+
+  function getData() {
+    return data.map((item) =>
+      <div className="content">
+        <div className="num" key={item.boardId}>
+          {item.boardId}
+        </div>
+        <div
+          className="contents"
+          onClick={selectContent}
+          id={item.boardId}
+        >
+          {item.boardname}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="noticePage">
@@ -97,7 +118,47 @@ function NoticePage(props) {
             <div className="date">작성일</div>
           </div>
           <div className="eachContents">
-            {contentList.map((item) =>
+            {
+              getData()
+            }
+          </div>
+        </div>
+      </div>
+      {isAdmin ? (
+        <div className="adminPost">
+          <Button>작성하기</Button>
+        </div>
+      ) : (
+        <div></div>
+      )}
+
+      <div className="pageNum">
+        <Pagination>
+          <Pagination.First />
+          <Pagination.Prev />
+          <Pagination.Item active>{1}</Pagination.Item>
+          <Pagination.Ellipsis />
+
+          <Pagination.Item>{10}</Pagination.Item>
+          <Pagination.Item>{11}</Pagination.Item>
+          <Pagination.Item>{12}</Pagination.Item>
+          <Pagination.Item>{13}</Pagination.Item>
+          <Pagination.Item>{14}</Pagination.Item>
+
+          <Pagination.Ellipsis />
+          <Pagination.Item>{20}</Pagination.Item>
+          <Pagination.Next />
+          <Pagination.Last />
+        </Pagination>
+      </div>
+    </div>
+  );
+}
+
+export default NoticePage;
+
+
+/* {contentList.map((item) =>
               item.important ? (
                 <div className="important">
                   <div className="num" key={item.num}>
@@ -143,39 +204,4 @@ function NoticePage(props) {
                   <div className="date">{item.date}</div>
                 </div>
               )
-            )}
-          </div>
-        </div>
-      </div>
-      {isAdmin ? (
-        <div className="adminPost">
-          <Button>작성하기</Button>
-        </div>
-      ) : (
-        <div></div>
-      )}
-
-      <div className="pageNum">
-        <Pagination>
-          <Pagination.First />
-          <Pagination.Prev />
-          <Pagination.Item active>{1}</Pagination.Item>
-          <Pagination.Ellipsis />
-
-          <Pagination.Item>{10}</Pagination.Item>
-          <Pagination.Item>{11}</Pagination.Item>
-          <Pagination.Item>{12}</Pagination.Item>
-          <Pagination.Item>{13}</Pagination.Item>
-          <Pagination.Item>{14}</Pagination.Item>
-
-          <Pagination.Ellipsis />
-          <Pagination.Item>{20}</Pagination.Item>
-          <Pagination.Next />
-          <Pagination.Last />
-        </Pagination>
-      </div>
-    </div>
-  );
-}
-
-export default NoticePage;
+            )} */
