@@ -6,9 +6,9 @@ import { isAuth } from "./../hooks/useAuth";
 
 function Navigation() {
   const [show1, setShow1] = useState(false);
-  const [show2, setShow2] = useState(false);
+  //const [show2, setShow2] = useState(false);
   const [show3, setShow3] = useState(false);
-  const [show4, setShow4] = useState(false);
+  //const [show4, setShow4] = useState(false);
   const [show5, setShow5] = useState(false);
   const [show6, setShow6] = useState(false);
 
