@@ -10,8 +10,8 @@ function RegisterPage(){
     const navigate = useNavigate();
     const agree = location.state;
 
-    const [informAgree1, setInformAgree1] = useState(true)
-    const [informAgree2, setInformAgree2] = useState(true)
+    // const [informAgree1, setInformAgree1] = useState(true)
+    // const [informAgree2, setInformAgree2] = useState(true)
     
     const [User, setUser] = useState({"studentId" : "",  "username":"", "password" : "", "email" : ""})
     const [pwCheck, setPwCheck] = useState("");
@@ -181,7 +181,7 @@ function RegisterPage(){
                     </tr>
                 </tbody>
 
-                <thead>
+                {/* <thead>
                     <tr>
                         <td colSpan={"3"}>
                             <h5>
@@ -212,6 +212,16 @@ function RegisterPage(){
                             <hr/>
                         </td>
                     </tr>
+                    <tr>
+                        <td colSpan={"3"}>
+                            <p>자동등록방지</p>
+                            <div className="autoNum">
+
+                            </div>
+                        </td>
+                    </tr>
+                </tbody> */}
+                <tbody>
                     <tr>
                         <td colSpan={"3"}>
                             <p>자동등록방지</p>
