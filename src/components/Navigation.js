@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { NavDropdown } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 import { isAuth } from "./../hooks/useAuth";
+import { call } from "../hooks/useFetch";
 
 function Navigation() {
   const [show1, setShow1] = useState(false);
@@ -14,9 +15,17 @@ function Navigation() {
 
   const navigate = useNavigate();
   const location = useLocation();
-
+  const [userInfo, setUserInfo] = useState({})
+  const [loading, setloading] = useState(false)
   useEffect(() => {
     isAuth();
+    call("/api/user/info", "GET", "").then(
+      (response)=>{
+        setUserInfo(response);
+        setloading(true);
+        console.log(response);
+      }
+    )
   }, [location]);
 
   return (
@@ -24,9 +33,21 @@ function Navigation() {
       <div className="userStatus">
         <p className="attendance">접속자(0명)</p>
 
-        <p className="user" onClick={() => navigate("/login")}>
-          회원가입/로그인
-        </p>
+       
+          {userInfo != null && loading ? 
+          <div>
+            <p className="user">
+              정보 수정 | 로그아웃 | {userInfo.response.username}
+            </p>
+          </div> : 
+
+          <div>
+             <p className="user" onClick={() => navigate("/login")}>
+              회원가입/로그인
+             </p>
+          </div>}
+          
+
       </div>
 
       <nav>
