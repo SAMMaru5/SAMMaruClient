@@ -21,6 +21,8 @@ export function getCookie(cookie_name) {
   }
 
   export function delCookie(key){
-    let todayDate = new Date();
-    document.cookie = key + "=; path=/; expires=" + todayDate.toGMTString()-1 + ";" // 현재 시각 이전이면 쿠키가 만료되어 사라짐.
+    // let todayDate = new Date();
+    document.cookie = key + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+
+    // document.cookie = key + "=; path=/; expires=" +  todayDate.toGMTString()-1 + ";" // 현재 시각 이전이면 쿠키가 만료되어 사라짐.
 }

@@ -54,5 +54,7 @@ export function login(SignInRequest){
 
 export function signout() {
     delCookie("accessToken")
+    delCookie("refreshToken")
+
     window.location.href = "/";
   }

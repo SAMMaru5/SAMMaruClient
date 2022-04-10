@@ -109,7 +109,7 @@ function RegisterPage(){
                             
                             <div className="inputText">
                                 <i className="fas fa-lock fa-sm"></i>
-                                <input type={"password"} autoComplete="current-password" id="userPw" title="최소 8자리에서 최대 20자리까지 숫자, 영문, 특수문자 각 1개 이상 포함해주세요." pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$" required onChange={(e) =>{setUser({...User, "password" : e.target.value})}}></input>
+                                <input type={"password"} autoComplete="current-password" id="userPw" title="최소 8자리에서 최대 20자리까지 숫자, 영문, 특수문자 각 1개 이상 포함해주세요." pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$" required onChange={(e) =>{setUser({...User, "password" : e.target.value})}}></input>
                             </div>
                         </td>
                         <td>

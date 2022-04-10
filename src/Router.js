@@ -7,6 +7,7 @@ import LoginPage from "./pages/login/LoginPage";
 import RegisterPage from "./pages/register/RegisterPage";
 import AgreePage from "./pages/register/AgreePage";
 import FindUserPage from "./pages/findUser/FindUserPage";
+import ModifyUserInfoPage from "./pages/modifyUserInfo/ModifyUserInfoPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PhotoPage from "./pages/photo/PhotoPage";
 
@@ -37,6 +38,8 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/findUser" element={<FindUserPage />} />
           <Route path="/photo/photoDetail" element={<PhotoDetail />} />
+          <Route path="/ModifyUserInfoPage" element={<ModifyUserInfoPage />} />
+          
         </Routes>
       </Router>
       <Footer />

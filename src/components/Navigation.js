@@ -4,6 +4,7 @@ import { NavDropdown } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 import { isAuth } from "./../hooks/useAuth";
 import { call } from "../hooks/useFetch";
+import { signout } from "../hooks/useAuth"
 
 function Navigation() {
   const [show1, setShow1] = useState(false);
@@ -36,8 +37,8 @@ function Navigation() {
        
           {userInfo != null && loading ? 
           <div>
-            <p className="user">
-              정보 수정 | 로그아웃 | {userInfo.response.username}
+            <p className="userInfo">
+              <a href="/ModifyUserInfoPage">정보 수정</a>  | <a href="#!" onClick={() =>{ signout()}}>로그아웃</a> | <a href="#!">{userInfo.response.username}</a>
             </p>
           </div> : 
 
