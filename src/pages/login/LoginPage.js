@@ -8,7 +8,8 @@ function LoginPage() {
     const navigate = useNavigate();
     const [User, setUser] = useState({"studentId":"", "password" : ""});
 
-    const onLogin = () =>{
+    const onLogin = (e) =>{
+        e.preventDefault();
         login(User).then((response)=>{
             if(response.success){
                 Swal.fire({
@@ -33,7 +34,7 @@ function LoginPage() {
     return(
         <div className="LoginPage">
             <div className="loginFrame">
-            <form className="loginForm">
+            <form className="loginForm" onSubmit={(e)=>{onLogin(e)}}>
                 <figure className="loginLogo">
                 <img
                     src="img/login_logo.png"
@@ -42,7 +43,7 @@ function LoginPage() {
                 </figure>
                 <input type={"text"} autoComplete="username" placeholder="아이디" required onChange={(e) =>{setUser({...User, "studentId" : e.target.value})}}></input>
                 <input type={"password"} autoComplete="current-password" placeholder="비밀번호" required onChange={(e) =>{setUser({...User, "password" : e.target.value})}}></input>
-                <button type="button" onClick={()=>{onLogin()}}>로그인</button>
+                <button type="submit">로그인</button>
                 <div className="autoLoginFrame"><label htmlFor="autoLogin"><input id="autoLogin" type={"checkbox"}></input> &nbsp; 자동 로그인</label></div>
                 <div className="loginLink">
                     <Link to="/agree">회원가입</Link>

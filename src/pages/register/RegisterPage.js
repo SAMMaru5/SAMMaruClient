@@ -95,8 +95,7 @@ function RegisterPage(){
                         <td>
                             <div className="textCheck">
 
-                                <label htmlFor="userId">아이디</label>
-                                <input type={"button"} value={"중복체크"}></input>
+                                <label htmlFor="userId">학번</label>
                             </div>
                             <div className="inputText">
                                 <i className="fas fa-user-alt fa-sm" ></i>
@@ -171,7 +170,6 @@ function RegisterPage(){
                         <td>
                             <div className="textCheck">
                                 <label htmlFor="userEmail">이메일</label><br/>
-                                <input type={"button"} value={"중복체크"}></input>
                             </div>
                             <div className="inputText">
                                 <i className="far fa-envelope fa-sm"></i>
@@ -220,7 +218,7 @@ function RegisterPage(){
                             </div>
                         </td>
                     </tr>
-                </tbody> */}
+                </tbody>
                 <tbody>
                     <tr>
                         <td colSpan={"3"}>
@@ -230,7 +228,7 @@ function RegisterPage(){
                             </div>
                         </td>
                     </tr>
-                </tbody>
+                </tbody> */}
                 <thead>
                     <tr>
                         <td colSpan={"3"}>

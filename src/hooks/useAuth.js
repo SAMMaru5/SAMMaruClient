@@ -2,6 +2,7 @@ import { call } from "./useFetch";
 import { setCookie, delCookie, getCookie} from './useCookie';
 import jwtDecode from 'jwt-decode'
 
+//refreshToken 갱신
 export function isAuth(){
     const accessToken = getCookie("accessToken");
     const refreshToken = getCookie("refreshToken");
