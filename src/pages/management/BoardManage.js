@@ -12,7 +12,6 @@ function BoardManage() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(board);
     call("/api/boards", "POST", board).then((response) => {
       console.log(response);
       if (response.success) {
