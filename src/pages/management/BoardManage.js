@@ -1,50 +1,65 @@
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Form, Button } from "react-bootstrap";
+import { call } from "../../hooks/useFetch";
+import Swal from "sweetalert2";
 
 function BoardManage() {
-  const [board, setBoard] = useState({ studentId: "", password: "" });
+  const [board, setBoard] = useState({ name: "", description: "" });
+  const navigate = useNavigate();
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("선택");
-    /*makeBoard(board).then((response)=>{
-            if(response.success){
-                Swal.fire({
-                    icon: 'success',
-                    title: '로그인에 성공하셨습니다.',
-                  })
-                  .then((result)=>{
-                      if(result.isConfirmed){
-                          navigate("/")
-                      }
-                  })
-            }
-            else{
-                Swal.fire({
-                    icon: 'error',
-                    title: '로그인에 실패하셨습니다.',
-                  })
-            }
-        });*/
+    console.log(board);
+    call("/api/boards", "POST", board).then((response) => {
+      console.log(response);
+      if (response.success) {
+        Swal.fire({
+          icon: "success",
+          title: "게시판 생성을 성공했습니다.",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/");
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "게시판 생성을 실패했습니다.",
+        });
+      }
+    });
   };
 
   return (
     <div>
       <Form
-        onSubmit={() => {
-          onSubmit();
+        onSubmit={(e) => {
+          onSubmit(e);
         }}
       >
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>게시판 제목</Form.Label>
-          <Form.Control type="email" placeholder="Enter Title" />
+          <Form.Control
+            type="text"
+            placeholder="Enter Title"
+            onChange={(e) => {
+              setBoard({ ...board, name: e.target.value });
+            }}
+          />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>게시판 설명</Form.Label>
-          <Form.Control type="password" placeholder="Enter Description" />
+          <Form.Control
+            type="text"
+            placeholder="Enter Description"
+            onChange={(e) => {
+              setBoard({ ...board, description: e.target.value });
+            }}
+          />
         </Form.Group>
 
         <Button variant="primary" type="submit">
