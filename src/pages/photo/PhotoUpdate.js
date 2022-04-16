@@ -8,10 +8,11 @@ function PhotoUpdate() {
   const [boardId, setBoardId] = useState(0);
   const [photo, setPhoto] = useState({ title: "", content: "" });
   const navigate = useNavigate();
+  const [uploadfile, setUploadfile] = useState(null);
 
   useEffect(() => {
     call("/no-permit/api/boards", "GET").then((response) => {
-      console.log(response.response[0]);
+      //console.log(response.response[0]);
       if (response.success) {
         for (let i = 0; i < response.response.length; i++) {
           if (response.response[i].name == "사진첩") {
@@ -29,7 +30,15 @@ function PhotoUpdate() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    call(`/api/boards/${boardId}/articles`, "POST", photo).then((response) => {
+    console.log(`{
+      article: ${photo},
+      file: ${uploadfile},
+    }`);
+
+    call(`/api/boards/${boardId}/articles`, "POST", {
+      article: photo,
+      file: uploadfile,
+    }).then((response) => {
       console.log(response);
       if (response.success) {
         Swal.fire({
@@ -75,7 +84,16 @@ function PhotoUpdate() {
         </Form.Group>
         <Form.Group controlId="formFileMultiple" className="mb-3">
           <Form.Label>사진 선택</Form.Label>
-          <Form.Control type="file" multiple />
+          <Form.Control
+            type="file"
+            multiple
+            onChange={(e) => {
+              console.log(e.target.files);
+              const formData = new FormData();
+              formData.append("file", e.target.files);
+              setUploadfile(formData);
+            }}
+          />
         </Form.Group>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
           <Form.Label>내용</Form.Label>
