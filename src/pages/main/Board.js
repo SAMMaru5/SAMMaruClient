@@ -1,6 +1,42 @@
-import './Board.scss'
+import './Board.scss';
+import { useEffect, useState } from "react";
+import { call } from "../../hooks/useFetch";
+
+function BoardList({board}){
+    return(
+        <tr>
+            <td>
+                <p className='number'>
+                    {board.id}
+                </p>
+            </td>
+            <td>
+                <p className='content'>
+                    {board.content}
+                </p>
+            </td>
+        </tr>
+    );
+}
 
 function Board() {
+    const [announcements, setannouncements] = useState({});
+    const [loading, setloading] = useState(false);
+
+    useEffect(() => {
+        call("/no-permit/api/home/announcements", "GET", "")
+        .then((response) => {
+            setannouncements(response);
+            setloading(true);
+        })
+    }, [])
+    
+    if(loading){
+        console.log(announcements.response[0].id);
+    }
+    
+    
+
     return (
         <div className="Board">
             <h4>동아리 공지</h4>
@@ -15,94 +51,17 @@ function Board() {
                         </th>
                     </tr>
                 </thead>
+                {loading 
+                ? 
                 <tbody>
-                    <tr>
-                        <td>
-                            <p className='number'>
-                                1
-                            </p>
-                        </td>
-                        <td>
-                            <p className='content'>
-                                content
-                            </p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p className='number'>
-                                2
-                            </p>
-                        </td>
-                        <td>
-                            <p className='content'>
-                                content
-                            </p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p className='number'>
-                                3
-                            </p>
-                        </td>
-                        <td>
-                            <p className='content'>
-                                content
-                            </p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p className='number'>
-                                4
-                            </p>
-                        </td>
-                        <td>
-                            <p className='content'>
-                                content
-                            </p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p className='number'>
-                                5
-                            </p>
-                        </td>
-                        <td>
-                            <p className='content'>
-                                content
-                            </p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p className='number'>
-                                6
-                            </p>
-                        </td>
-                        <td>
-                            <p className='content'>
-                                content
-                            </p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p className='number'>
-                                7
-                            </p>
-                        </td>
-                        <td>
-                            <p className='content'>
-                                content
-                            </p>
-                        </td>
-                    </tr>
-                  
-                    
+                {
+                    announcements.response.map((board, index)=>(<BoardList board={board} key={index}/>))
+                }
                 </tbody>
+
+
+                : null}
+               
             </table>
         </div>
 
