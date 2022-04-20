@@ -31,12 +31,6 @@ function Board() {
         })
     }, [])
     
-    if(loading){
-        console.log(announcements.response[0].id);
-    }
-    
-    
-
     return (
         <div className="Board">
             <h4>동아리 공지</h4>

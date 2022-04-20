@@ -4,23 +4,43 @@ import FullCalendar, { formatDate } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, createEventId } from './Schedule-utils'
+import { call } from '../../hooks/useFetch'
 
 
 export default class Schedule extends React.Component {
-
-  state = {
-    weekendsVisible: true,
-    currentEvents: [],
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      items: [],
+      /* 1. 로딩중이라는 상태이다. 생성자에 상태 변수를 추가한다. */
+      loading: true,
+      weekendsVisible: true,
+      currentEvents: [],
+    };
   }
 
+  componentDidMount() {
+    /* 
+    GET 리퀘스트가 성공적으로 리턴하는 경우 loading을 false로 고친다. 
+    더 이상 로딩중이 아니라는 뜻이다. */
+    let year = new Date().getFullYear()-1;
+    let url = "/no-permit/schedules?start="+year+"-01-05&end=3000-01-05";
+    call(url, "GET", null).then((response) =>
+      this.setState({ items: response.response, loading: false })
+    );
+  }
   render() {
     
     const ref = React.createRef()
     
     return (
       <div className='Schedule'>
+        
         <h4>학사 일정</h4>
+          {this.state.loading ? 
+          <div className='Calendar-main'></div>
+          : 
           <div className='Calendar-main'>
           <FullCalendar
             ref={ref}
@@ -84,7 +104,7 @@ export default class Schedule extends React.Component {
             selectable={false}
             selectMirror={true}
             dayMaxEvents={true}
-            initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
+            initialEvents={this.state.items} // alternatively, use the `events` setting to fetch from a feed
             // select={this.handleDateSelect}
             // eventContent={renderEventContent} // custom render function
             eventClick={this.handleEventClick}
@@ -101,6 +121,8 @@ export default class Schedule extends React.Component {
             
           />
         </div>
+          }
+          
       </div>
     )
   }
@@ -119,24 +141,6 @@ export default class Schedule extends React.Component {
   //   )
   // }
 
-
-  handleDateSelect = (selectInfo) => {
-    let title = prompt('Please enter a new title for your event')
-    let calendarApi = selectInfo.view.calendar
-
-    calendarApi.unselect() // clear date selection
-
-    if (title) {
-      // console.log(title, selectInfo.startStr, selectInfo.endStr, selectInfo.startStr);
-      calendarApi.addEvent({
-        id: createEventId(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr
-        // ,allDay: selectInfo.allDay
-      })
-    }
-  }
 
   handleEventClick = (clickInfo) => {
     window.location.href="#SchedulDetaile"
