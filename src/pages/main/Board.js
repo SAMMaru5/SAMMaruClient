@@ -45,7 +45,7 @@ function Board() {
                         </th>
                     </tr>
                 </thead>
-                {loading 
+                {loading && announcements.success === true
                 ? 
                 <tbody>
                 {
