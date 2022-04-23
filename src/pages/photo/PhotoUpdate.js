@@ -3,16 +3,29 @@ import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import { call } from "../../hooks/useFetch";
 import Swal from "sweetalert2";
+import axios from "axios";
+import { API_BASE_URL } from "../../hooks/app-config";
+import { getCookie } from "../../hooks/useCookie";
 
 function PhotoUpdate() {
   const [boardId, setBoardId] = useState(0);
   const [photo, setPhoto] = useState({ title: "", content: "" });
   const navigate = useNavigate();
-  const [uploadfile, setUploadfile] = useState(null);
+  const [uploadfile, setUploadfile] = useState([]);
+  const [authorizationValue, setAuthorizationValue] = useState("");
+  const [refreshTokenValue, setRefreshTokenValue] = useState("");
 
   useEffect(() => {
+    const accessToken = getCookie("accessToken");
+    const refreshToken = getCookie("refreshToken");
+    if (accessToken && accessToken !== null) {
+      setAuthorizationValue("Bearer " + accessToken);
+    }
+    if (refreshToken && refreshToken !== null) {
+      setRefreshTokenValue("Bearer " + refreshToken);
+    }
+
     call("/no-permit/api/boards", "GET").then((response) => {
-      //console.log(response.response[0]);
       if (response.success) {
         for (let i = 0; i < response.response.length; i++) {
           if (response.response[i].name == "사진첩") {
@@ -30,32 +43,75 @@ function PhotoUpdate() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(`{
-      article: ${photo},
-      file: ${uploadfile},
-    }`);
 
-    call(`/api/boards/${boardId}/articles`, "POST", {
-      article: photo,
-      file: uploadfile,
-    }).then((response) => {
-      console.log(response);
-      if (response.success) {
-        Swal.fire({
-          icon: "success",
-          title: "게시글 작성을 성공했습니다.",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/");
-          }
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "게시글 작성을 실패했습니다.",
-        });
-      }
-    });
+    if (uploadfile[0] == null) {
+      Swal.fire({
+        icon: "error",
+        title: "사진을 추가해주세요.",
+      });
+      return;
+    }
+
+    let formData = new FormData();
+
+    formData.append("file", uploadfile[0]);
+
+    formData.append(
+      "article",
+      new Blob([JSON.stringify(photo)], { type: "application/json" })
+    );
+
+    if (authorizationValue == "") {
+      Swal.fire({
+        icon: "error",
+        title: "로그인이 필요합니다.",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
+      return;
+    }
+
+    if (refreshTokenValue == "") {
+      Swal.fire({
+        icon: "error",
+        title: "로그인이 필요합니다.",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
+      return;
+    }
+
+    let headers = {
+      "Content-Type": "application/json",
+      Authorization: authorizationValue,
+      RefreshToken: refreshTokenValue,
+    };
+
+    axios
+      .post(API_BASE_URL + `/api/boards/${boardId}/articles`, formData, {
+        headers: headers,
+      })
+      .then((response) => {
+        if (response.data.success) {
+          Swal.fire({
+            icon: "success",
+            title: "게시글 작성을 성공했습니다.",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/");
+            }
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "게시글 작성을 실패했습니다.",
+          });
+        }
+      });
   };
 
   return (
@@ -88,10 +144,7 @@ function PhotoUpdate() {
             type="file"
             multiple
             onChange={(e) => {
-              console.log(e.target.files);
-              const formData = new FormData();
-              formData.append("file", e.target.files);
-              setUploadfile(formData);
+              setUploadfile(e.target.files);
             }}
           />
         </Form.Group>
