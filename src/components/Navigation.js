@@ -4,36 +4,32 @@ import { NavDropdown } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 import { isAuth } from "./../hooks/useAuth";
 import { call } from "../hooks/useFetch";
-import { signout } from "../hooks/useAuth"
-import { getCookie } from "../hooks/useCookie"
+import { signout } from "../hooks/useAuth";
+import { getCookie } from "../hooks/useCookie";
 
 function Navigation() {
   const [show1, setShow1] = useState(false);
   //const [show2, setShow2] = useState(false);
   const [show3, setShow3] = useState(false);
   //const [show4, setShow4] = useState(false);
-  const [show5, setShow5] = useState(false);
+  //const [show5, setShow5] = useState(false);
   const [show6, setShow6] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
-  const [userInfo, setUserInfo] = useState({})
-  const [loading, setloading] = useState(false)
+  const [userInfo, setUserInfo] = useState({});
+  const [loading, setloading] = useState(false);
   const accessToken = getCookie("accessToken");
   useEffect(() => {
     //refreshToken 갱신
     isAuth();
 
-    if(accessToken && accessToken !== null){
-      call("/api/user/info", "GET", "").then(
-        (response)=>{
-          setUserInfo(response);
-          setloading(true);
-        }
-      )
+    if (accessToken && accessToken !== null) {
+      call("/api/user/info", "GET", "").then((response) => {
+        setUserInfo(response);
+        setloading(true);
+      });
     }
-
- 
   }, [location, accessToken]);
 
   return (
@@ -41,21 +37,28 @@ function Navigation() {
       <div className="userStatus">
         <p className="attendance">접속자(0명)</p>
 
-       
-          {userInfo != null && loading ? 
+        {userInfo != null && loading ? (
           <div>
             <p className="userInfo">
-              <a href="/checkPw">정보 수정</a>  | <a href="#!" onClick={() =>{ signout()}}>로그아웃</a> | <a href="#!">{userInfo.response.username}</a>
+              <a href="/checkPw">정보 수정</a> |{" "}
+              <a
+                href="#!"
+                onClick={() => {
+                  signout();
+                }}
+              >
+                로그아웃
+              </a>{" "}
+              | <a href="#!">{userInfo.response.username}</a>
             </p>
-          </div> : 
-
+          </div>
+        ) : (
           <div>
-             <p className="user" onClick={() => navigate("/login")}>
+            <p className="user" onClick={() => navigate("/login")}>
               회원가입/로그인
-             </p>
-          </div>}
-          
-
+            </p>
+          </div>
+        )}
       </div>
 
       <nav>
@@ -113,23 +116,8 @@ function Navigation() {
         <NavDropdown
           title="사진첩"
           className="nav-dropdown"
-          onMouseEnter={(e) => {
-            setShow5(!show5);
-          }}
-          onMouseLeave={(e) => {
-            setShow5(false);
-          }}
-          show={show5}
           onClick={() => navigate("/photo")}
-        >
-          <div className="navItem4">
-            <NavDropdown.Item onClick={() => navigate("/photo")}>
-              Link 1
-            </NavDropdown.Item>
-            <NavDropdown.Item>Link 2</NavDropdown.Item>
-            <NavDropdown.Item eventKey="4.3">Link 3</NavDropdown.Item>
-          </div>
-        </NavDropdown>
+        ></NavDropdown>
         <NavDropdown
           title="충북대학교"
           className="nav-dropdown"
