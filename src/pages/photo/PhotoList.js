@@ -1,10 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import "./PhotoList.scss";
 import { useNavigate } from "react-router-dom";
+import { call } from "../../hooks/useFetch";
 
-const PhotoList = () => {
+import Swal from "sweetalert2";
+
+const PhotoList = (props) => {
   const navigate = useNavigate();
+  const [photoList, setPhotoList] = useState({});
+
+  useEffect(() => {
+    console.log(props);
+    call(`/api/boards/1/pages/0`, "GET").then((response) => {
+      console.log(response);
+      if (response.success) {
+        setPhotoList(response.response);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "사진 목록 가져오기를 실패했습니다.",
+        });
+      }
+    });
+  }, []);
+
+  console.log(photoList);
 
   return (
     <div className="photoMain">
