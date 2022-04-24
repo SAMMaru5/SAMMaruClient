@@ -139,8 +139,20 @@ handleEvents = (events) => {
       month = events[0]._context.viewTitle.substr(-3, 2);
     }
     let year = events[0]._context.viewTitle.substr(0, 4);
-    let date = new Date(year, month, 0).getDate();
-    let url = "/no-permit/schedules?start="+year+"-"+month+"-01&end="+year+"-"+month+"-"+date+"";
+    let endYear = year;
+    let endMonth = month;
+
+    let url = "";
+    if(Number(month)+1 ===13){
+      
+      endYear = Number(year)+1
+      endMonth = 1
+    }
+    else{
+      endMonth = Number(month) + 1;        
+    }
+
+    url = "/no-permit/schedules?start="+year+"-"+month+"-01&end="+endYear+"-"+endMonth+"-12";
     call(url, "GET", null).then((response) =>{
       this.setState({
         currentEvents: response.response
@@ -149,7 +161,6 @@ handleEvents = (events) => {
     );
   }
 }
-
 }
 
 function renderEventContent(eventInfo) {
