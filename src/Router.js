@@ -16,6 +16,9 @@ import NoticePage from "./pages/notice/NoticePage";
 import PhotoDetail from "./pages/photo/PhotoDetail";
 import PhotoUpdate from "./pages/photo/PhotoUpdate";
 
+import FreeBoardPage from "./pages/freeBoard/FreeBoardPage";
+import FreeBoardUpdate from "./pages/freeBoard/FreeBoardUpdate";
+
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
@@ -33,6 +36,12 @@ function App() {
           <Route path="/photo/photoUpdate" element={<PhotoUpdate />} />
           <Route path="/notice" element={<NoticePage />} />
           <Route path="/noticeDetail" element={<NoticeDetailPage />} />
+          <Route path="/freeBoard" element={<FreeBoardPage />} />
+          <Route
+            path="/freeBoard/freeBoardUpdate"
+            element={<FreeBoardUpdate />}
+          />
+
           <Route path="/management" element={<ManagepentPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/agree" element={<AgreePage />} />
@@ -41,7 +50,6 @@ function App() {
           <Route path="/photo/photoDetail" element={<PhotoDetail />} />
           <Route path="/checkPw" element={<CheckPwPage />} />
           <Route path="/modifyUserInfo" element={<ModifyUserInfoPage />} />
-          
         </Routes>
       </Router>
       <Footer />

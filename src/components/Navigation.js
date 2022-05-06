@@ -111,7 +111,7 @@ function Navigation() {
         <NavDropdown
           title="자유게시판"
           className="nav-dropdown"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/freeBoard")}
         ></NavDropdown>
         <NavDropdown
           title="사진첩"
