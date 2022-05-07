@@ -10,7 +10,6 @@ function FreeBoardPage() {
   const [authorizationValue, setAuthorizationValue] = useState("");
   const [refreshTokenValue, setRefreshTokenValue] = useState("");
   const [boardlist, setBoardlist] = useState({});
-  let boardlistarr = [];
   const [loading, setloading] = useState(false);
 
   useEffect(() => {
@@ -32,11 +31,7 @@ function FreeBoardPage() {
                 console.log(response);
                 if (response.success) {
                   setBoardlist(response.response);
-                  for (let objKey in response.response) {
-                    boardlistarr.push(response.response[objKey]);
-                  }
                   setloading(true);
-                  console.log(boardlistarr);
                 } else {
                   Swal.fire({
                     icon: "error",
@@ -82,24 +77,6 @@ function FreeBoardPage() {
     }
     navigate("./freeBoardUpdate");
   };
-
-  const movies = [
-    {
-      title: "the",
-      genre: "gg",
-      hello: "kk",
-    },
-    {
-      title: "the11",
-      genre: "gg11",
-      hello: "kk11",
-    },
-    {
-      title: "the22",
-      genre: "gg22",
-      hello: "kk22",
-    },
-  ];
 
   return (
     <div className="noticePage">

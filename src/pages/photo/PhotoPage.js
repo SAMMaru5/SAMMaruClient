@@ -5,7 +5,6 @@ import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../hooks/useCookie";
 import Swal from "sweetalert2";
-import { call } from "../../hooks/useFetch";
 
 function PhotoPage() {
   const navigate = useNavigate();

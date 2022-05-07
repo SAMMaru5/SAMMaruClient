@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 const PhotoList = () => {
   const navigate = useNavigate();
   const [photoList, setPhotoList] = useState({});
+  const [loading, setloading] = useState(false);
 
   useEffect(() => {
     call("/no-permit/api/boards", "GET").then((response) => {
@@ -20,6 +21,7 @@ const PhotoList = () => {
                 console.log(response);
                 if (response.success) {
                   setPhotoList(response.response);
+                  setloading(true);
                 } else {
                   Swal.fire({
                     icon: "error",
@@ -39,89 +41,33 @@ const PhotoList = () => {
     });
   }, []);
 
-  console.log(photoList);
-
   return (
-    <div className="photoMain">
-      <Row>
-        <Col span={8}>
-          <div
-            style={{ marginBottom: "20px", cursor: "pointer" }}
-            onClick={() => navigate("./photoDetail")}
-          >
-            <img
-              src="https://cdn.pixabay.com/photo/2020/09/02/20/52/dock-5539524__340.jpg"
-              style={{ width: "100%", height: "100%" }}
-            ></img>
-            <br />
-            2019 샘마루 세미나
-            <hr />
-            작성자 | 작성일자
-          </div>
-        </Col>
-        <Col span={8}>
-          <div style={{ marginBottom: "20px", cursor: "pointer" }}>
-            <img
-              src="https://cdn.pixabay.com/photo/2020/09/02/20/52/dock-5539524__340.jpg"
-              style={{ width: "100%", height: "100%" }}
-            ></img>
-            <br />
-            2019 샘마루 세미나
-            <hr />
-            작성자 | 작성일자
-          </div>
-        </Col>
-        <Col span={8}>
-          <div style={{ marginBottom: "20px", cursor: "pointer" }}>
-            <img
-              src="https://cdn.pixabay.com/photo/2020/09/02/20/52/dock-5539524__340.jpg"
-              style={{ width: "100%", height: "100%" }}
-            ></img>
-            <br />
-            2019 샘마루 세미나
-            <hr />
-            작성자 | 작성일자
-          </div>
-        </Col>
-      </Row>
-      <Row>
-        <Col span={8}>
-          <div style={{ marginBottom: "20px", cursor: "pointer" }}>
-            <img
-              src="https://cdn.pixabay.com/photo/2020/09/02/20/52/dock-5539524__340.jpg"
-              style={{ width: "100%", height: "100%" }}
-            ></img>
-            <br />
-            2019 샘마루 세미나
-            <hr />
-            작성자 | 작성일자
-          </div>
-        </Col>
-        <Col span={8}>
-          <div style={{ marginBottom: "20px", cursor: "pointer" }}>
-            <img
-              src="https://cdn.pixabay.com/photo/2020/09/02/20/52/dock-5539524__340.jpg"
-              style={{ width: "100%", height: "100%" }}
-            ></img>
-            <br />
-            2019 샘마루 세미나
-            <hr />
-            작성자 | 작성일자
-          </div>
-        </Col>
-        <Col span={8}>
-          <div style={{ marginBottom: "20px", cursor: "pointer" }}>
-            <img
-              src="https://cdn.pixabay.com/photo/2020/09/02/20/52/dock-5539524__340.jpg"
-              style={{ width: "100%", height: "100%" }}
-            ></img>
-            <br />
-            2019 샘마루 세미나
-            <hr />
-            작성자 | 작성일자
-          </div>
-        </Col>
-      </Row>
+    <div className="photoMain" style={{ display: "flex" }}>
+      {loading ? (
+        <>
+          <Row>
+            {photoList.map((list, i) => {
+              return (
+                <Col md="3" key={i}>
+                  <div
+                    style={{ marginBottom: "20px", cursor: "pointer" }}
+                    onClick={() => navigate("./photoDetail")}
+                  >
+                    <img
+                      src="https://cdn.pixabay.com/photo/2020/09/02/20/52/dock-5539524__340.jpg"
+                      style={{ width: "100%", height: "100%" }}
+                    ></img>
+                    <br />
+                    {list.title}
+                    <hr />
+                    {list.author} | {list.createDt}
+                  </div>
+                </Col>
+              );
+            })}
+          </Row>
+        </>
+      ) : null}
     </div>
   );
 };
