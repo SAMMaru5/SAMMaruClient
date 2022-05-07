@@ -94,7 +94,7 @@ function FreeBoardUpdate() {
             title: "게시글 작성을 성공했습니다.",
           }).then((result) => {
             if (result.isConfirmed) {
-              navigate("/");
+              navigate("/freeBoard");
             }
           });
         } else {

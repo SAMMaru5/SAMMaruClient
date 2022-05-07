@@ -10,7 +10,9 @@ function FreeBoardPage() {
   const [authorizationValue, setAuthorizationValue] = useState("");
   const [refreshTokenValue, setRefreshTokenValue] = useState("");
   const [boardlist, setBoardlist] = useState({});
-  const boardlistarr = [];
+  let boardlistarr = [];
+  const [loading, setloading] = useState(false);
+
   useEffect(() => {
     const accessToken = getCookie("accessToken");
     const refreshToken = getCookie("refreshToken");
@@ -33,6 +35,7 @@ function FreeBoardPage() {
                   for (let objKey in response.response) {
                     boardlistarr.push(response.response[objKey]);
                   }
+                  setloading(true);
                   console.log(boardlistarr);
                 } else {
                   Swal.fire({
@@ -80,12 +83,23 @@ function FreeBoardPage() {
     navigate("./freeBoardUpdate");
   };
 
-  console.log(boardlistarr);
-  const listarr = boardlistarr.map((boardlist, i) => {
-    console.log(boardlist.id);
-    console.log(boardlist.title);
-    console.log(boardlist.createDt);
-  });
+  const movies = [
+    {
+      title: "the",
+      genre: "gg",
+      hello: "kk",
+    },
+    {
+      title: "the11",
+      genre: "gg11",
+      hello: "kk11",
+    },
+    {
+      title: "the22",
+      genre: "gg22",
+      hello: "kk22",
+    },
+  ];
 
   return (
     <div className="noticePage">
@@ -121,20 +135,20 @@ function FreeBoardPage() {
             <div className="value">제목</div>
             <div className="date">작성일</div>
           </div>
-          <div className="contentsTitle eachContents">
-            <div className="num">123</div>
-            <div className="value">123</div>
-            <div className="date">123</div>
-          </div>
+          {loading ? (
+            <>
+              {boardlist.map((list, i) => {
+                return (
+                  <div key={i} className="contentsTitle eachContents">
+                    <div className="num">{list.id}</div>
+                    <div className="value">{list.title}</div>
+                    <div className="date">{list.createDt}</div>
+                  </div>
+                );
+              })}
+            </>
+          ) : null}
         </div>
-        {/* ;{listarr}
-        {boardlistarr.map((boardlist, i) => {
-          <div className="eachContents" key={i}>
-            <div className="num">123{boardlist.id}</div>
-            <div className="value">123{boardlist.title}</div>
-            <div className="date">123{boardlist.createDt}</div>
-          </div>;
-        })} */}
       </div>
       <div className="adminPost">
         <Button
