@@ -6,20 +6,34 @@ import { call } from "../../hooks/useFetch";
 
 import Swal from "sweetalert2";
 
-const PhotoList = (props) => {
+const PhotoList = () => {
   const navigate = useNavigate();
   const [photoList, setPhotoList] = useState({});
 
   useEffect(() => {
-    console.log(props);
-    call(`/api/boards/1/pages/0`, "GET").then((response) => {
-      console.log(response);
+    call("/no-permit/api/boards", "GET").then((response) => {
       if (response.success) {
-        setPhotoList(response.response);
+        for (let i = 0; i < response.response.length; i++) {
+          if (response.response[i].name == "사진첩") {
+            call(`/api/boards/${response.response[i].id}/pages/0`, "GET").then(
+              (response) => {
+                console.log(response);
+                if (response.success) {
+                  setPhotoList(response.response);
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    title: "사진 목록 가져오기를 실패했습니다.",
+                  });
+                }
+              }
+            );
+          }
+        }
       } else {
         Swal.fire({
           icon: "error",
-          title: "사진 목록 가져오기를 실패했습니다.",
+          title: "게시판 목록 가져오기를 실패했습니다.",
         });
       }
     });

@@ -121,15 +121,20 @@ function FreeBoardPage() {
             <div className="value">제목</div>
             <div className="date">작성일</div>
           </div>
+          <div className="contentsTitle eachContents">
+            <div className="num">123</div>
+            <div className="value">123</div>
+            <div className="date">123</div>
+          </div>
         </div>
-        {listarr}
+        {/* ;{listarr}
         {boardlistarr.map((boardlist, i) => {
           <div className="eachContents" key={i}>
-            <div className="num">{boardlist.id}</div>
-            <div className="value">{boardlist.title}</div>
-            <div className="date">{boardlist.createDt}</div>
+            <div className="num">123{boardlist.id}</div>
+            <div className="value">123{boardlist.title}</div>
+            <div className="date">123{boardlist.createDt}</div>
           </div>;
-        })}
+        })} */}
       </div>
       <div className="adminPost">
         <Button
