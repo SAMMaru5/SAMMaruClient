@@ -113,14 +113,17 @@ function FreeBoardPage() {
             <div className="value">제목</div>
             <div className="date">작성일</div>
           </div>
+
           {loading ? (
             <>
               {boardlist.map((list, i) => {
                 return (
-                  <div key={i} className="contentsTitle eachContents">
-                    <div className="num">{list.id}</div>
-                    <div className="value">{list.title}</div>
-                    <div className="date">{list.createDt}</div>
+                  <div className=" eachContents">
+                    <div key={i} className="content">
+                      <div className="num">{list.id}</div>
+                      <div className="value">{list.title}</div>
+                      <div className="date">{list.createDt}</div>
+                    </div>
                   </div>
                 );
               })}

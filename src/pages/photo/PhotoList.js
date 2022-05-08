@@ -20,11 +20,9 @@ const PhotoList = () => {
               `/no-permit/api/boards/${response.response[i].id}/pages/1`,
               "GET"
             ).then((response) => {
-              console.log(response);
               if (response.success) {
                 setPhotoList(response.response);
                 setloading(true);
-                console.log(response.response[0].files[0].filePath);
               } else {
                 Swal.fire({
                   icon: "error",

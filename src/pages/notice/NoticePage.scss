@@ -1,14 +1,14 @@
-.noticePage{
-  .title{
+.noticePage {
+  .title {
     position: relative;
 
-    .thumbnail img{
+    .thumbnail img {
       width: 100%;
       height: fit-content;
       vertical-align: middle;
     }
 
-    .pageName{
+    .pageName {
       font-size: 3em;
       color: white;
       position: absolute;
@@ -16,54 +16,54 @@
       left: 50%;
       transform: translate(-50%, -50%);
     }
-
   }
 
-  .container{
+  .container {
     width: 80%;
-
   }
 
-  .location{
+  .location {
     padding: 5% 0 4% 0;
 
     display: flex;
     align-items: center;
     font-weight: bold;
-    img{
+    img {
       width: 30px;
       height: 30px;
       cursor: pointer;
     }
-    span{
+    span {
       padding: 0 0 0 1%;
     }
   }
 
-  .search{
+  .search {
     display: flex;
     flex-direction: row;
     padding: 2% 2% 2% 2%;
-    background-color: #F5F5F5;
+    background-color: #f5f5f5;
     margin-bottom: 5%;
-    .inp_sch{
+    .inp_sch {
       width: 90%;
     }
-    b, select, input[type='text']{
+    b,
+    select,
+    input[type="text"] {
       height: 38px;
       line-height: 38px;
       margin-right: 0.5%;
     }
-    b{
+    b {
       font-weight: bold;
-            margin-right: 1%;
+      margin-right: 1%;
     }
 
-    input[type='text']{
+    input[type="text"] {
       width: 75%;
       background-color: #fff;
     }
-    input[type='submit']{
+    input[type="submit"] {
       width: 10%;
       height: 38px;
       background-color: #464545;
@@ -71,29 +71,31 @@
     }
   }
 
-  .contents{
+  .contents {
     display: flex;
     flex-direction: column;
     padding-bottom: 5%;
-    .contentsTitle{
+    .contentsTitle {
       border-top: 2px solid black;
       border-bottom: 1px solid black;
       height: 3em;
       text-align: center;
       font-weight: bold;
     }
-    .eachContents .content{
+    .eachContents .content {
       border-bottom: 1px solid black;
       height: 2.8em;
     }
 
-    .eachContents .important{
+    .eachContents .important {
       border-bottom: 1px solid black;
       height: 2.8em;
-      background-color: #E6E6E6;
+      background-color: #e6e6e6;
     }
 
-    .contentsTitle, .eachContents .content, .eachContents .important{
+    .contentsTitle,
+    .eachContents .content,
+    .eachContents .important {
       align-items: center;
       display: flex;
       flex-direction: row;
@@ -102,31 +104,31 @@
       .num {
         width: 3%;
       }
-      .contents{
+      .contents {
         width: 80%;
         padding: 0px 1.2% 0px 1.2%;
         cursor: pointer;
       }
-      .file img, .file div {
+      .file img,
+      .file div {
         width: 35px;
         height: 35px;
       }
-      .date{
-        width: 8%;
+      .date {
+        width: 15%;
       }
     }
 
-    .adminPost{
+    .adminPost {
       display: flex;
       justify-content: flex-end;
       margin-top: 3%;
       margin-right: 1.5%;
     }
-
   }
 
-  .pageNum{
+  .pageNum {
     display: flex;
-    justify-content: center; 
+    justify-content: center;
   }
 }

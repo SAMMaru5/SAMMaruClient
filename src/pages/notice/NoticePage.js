@@ -190,10 +190,12 @@ function NoticePage(props) {
             <>
               {boardlist.map((list, i) => {
                 return (
-                  <div key={i} className="contentsTitle eachContents">
-                    <div className="num">{list.id}</div>
-                    <div className="value">{list.title}</div>
-                    <div className="date">{list.createDt}</div>
+                  <div className="eachContents">
+                    <div key={i} className="content">
+                      <div className="num">{list.id}</div>
+                      <div className="value">{list.title}</div>
+                      <div className="date">{list.createDt}</div>
+                    </div>
                   </div>
                 );
               })}
