@@ -26,20 +26,21 @@ function FreeBoardPage() {
       if (response.success) {
         for (let i = 0; i < response.response.length; i++) {
           if (response.response[i].name == "자유게시판") {
-            call(`/api/boards/${response.response[i].id}/pages/0`, "GET").then(
-              (response) => {
-                console.log(response);
-                if (response.success) {
-                  setBoardlist(response.response);
-                  setloading(true);
-                } else {
-                  Swal.fire({
-                    icon: "error",
-                    title: "자유게시판 목록 가져오기를 실패했습니다.",
-                  });
-                }
+            call(
+              `/no-permit/api/boards/${response.response[i].id}/pages/1`,
+              "GET"
+            ).then((response) => {
+              console.log(response);
+              if (response.success) {
+                setBoardlist(response.response);
+                setloading(true);
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "자유게시판 목록 가져오기를 실패했습니다.",
+                });
               }
-            );
+            });
           }
         }
       } else {

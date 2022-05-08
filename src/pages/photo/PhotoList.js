@@ -16,20 +16,22 @@ const PhotoList = () => {
       if (response.success) {
         for (let i = 0; i < response.response.length; i++) {
           if (response.response[i].name == "사진첩") {
-            call(`/api/boards/${response.response[i].id}/pages/0`, "GET").then(
-              (response) => {
-                console.log(response);
-                if (response.success) {
-                  setPhotoList(response.response);
-                  setloading(true);
-                } else {
-                  Swal.fire({
-                    icon: "error",
-                    title: "사진 목록 가져오기를 실패했습니다.",
-                  });
-                }
+            call(
+              `/no-permit/api/boards/${response.response[i].id}/pages/1`,
+              "GET"
+            ).then((response) => {
+              console.log(response);
+              if (response.success) {
+                setPhotoList(response.response);
+                setloading(true);
+                console.log(response.response[0].files[0].filePath);
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "사진 목록 가져오기를 실패했습니다.",
+                });
               }
-            );
+            });
           }
         }
       } else {
@@ -54,7 +56,10 @@ const PhotoList = () => {
                     onClick={() => navigate("./photoDetail")}
                   >
                     <img
-                      src="https://cdn.pixabay.com/photo/2020/09/02/20/52/dock-5539524__340.jpg"
+                      src={
+                        "http://localhost:8080/files/1/" +
+                        list.files[0].filePath
+                      }
                       style={{ width: "100%", height: "100%" }}
                     ></img>
                     <br />
