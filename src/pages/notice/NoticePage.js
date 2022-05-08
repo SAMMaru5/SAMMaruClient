@@ -7,7 +7,7 @@ const axios = require('axios').default;
 const ACCESS_TOKEN = "ACCESS_TOKEN";
 const accessToken = localStorage.getItem("ACCESS_TOKEN");
 
-const isAdmin = false;
+const isAdmin = true;
 
 // 백엔드에서 공지 정렬할때,
 // 중요한거 맨 앞으로 들고오기 (기본 내림차순)
@@ -49,21 +49,25 @@ function NoticePage(props) {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
 
-  const contentList = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/api/boards');
-      setData(response.data.response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const contentList = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:8080/api/boards');
+  //     setData(response.data.response);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  contentList();
+  // contentList();
 
   const selectContent = (e) => {
     console.log(e.target.id);
     navigate('/noticeDetail', { state: { id: e.target.id } });
   };
+
+  const onClickRegister = () => {
+    navigate('/notice/noticeUpdate');
+  }
 
   function getData() {
     return data.map((item) =>
@@ -126,7 +130,7 @@ function NoticePage(props) {
       </div>
       {isAdmin ? (
         <div className="adminPost">
-          <Button>작성하기</Button>
+          <Button onClick={onClickRegister}>작성하기</Button>
         </div>
       ) : (
         <div></div>
