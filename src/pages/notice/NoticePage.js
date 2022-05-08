@@ -1,57 +1,111 @@
 import "./NoticePage.scss";
 import { Badge, Button, Pagination } from "react-bootstrap";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-const axios = require('axios').default;
-const ACCESS_TOKEN = "ACCESS_TOKEN";
-const accessToken = localStorage.getItem("ACCESS_TOKEN");
+import { getCookie } from "../../hooks/useCookie";
+import Swal from "sweetalert2";
+import { call } from "../../hooks/useFetch";
+const axios = require("axios").default;
 
 const isAdmin = true;
-
-// 백엔드에서 공지 정렬할때,
-// 중요한거 맨 앞으로 들고오기 (기본 내림차순)
-
-// const contentList = [
-//   {
-//     num: "0004",
-//     value: "공지글입니다.",
-//     file: true,
-//     date: "2022-02-26",
-//     important: true,
-//   },
-//   {
-//     num: "0003",
-//     value: "공지글2입니다.",
-//     file: false,
-//     date: "2022-02-26",
-//     important: true,
-//   },
-//   {
-//     num: "0002",
-//     value: "1번 게시글.",
-//     file: false,
-//     date: "2022-02-26",
-//     important: false,
-//   },
-//   {
-//     num: "0001",
-//     value: "2번 게시글.",
-//     file: true,
-//     date: "2022-02-26",
-//     important: false,
-//   },
-// ];
-
-
 
 function NoticePage(props) {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+  const [authorizationValue, setAuthorizationValue] = useState("");
+  const [refreshTokenValue, setRefreshTokenValue] = useState("");
+  const [boardlist, setBoardlist] = useState({});
+  const [loading, setloading] = useState(false);
+
+  useEffect(() => {
+    const accessToken = getCookie("accessToken");
+    const refreshToken = getCookie("refreshToken");
+    if (accessToken && accessToken !== null) {
+      setAuthorizationValue("Bearer " + accessToken);
+    }
+    if (refreshToken && refreshToken !== null) {
+      setRefreshTokenValue("Bearer " + refreshToken);
+    }
+
+    call("/no-permit/api/boards", "GET").then((response) => {
+      if (response.success) {
+        for (let i = 0; i < response.response.length; i++) {
+          if (response.response[i].name == "공지사항") {
+            call(
+              `/no-permit/api/boards/${response.response[i].id}/pages/1`,
+              "GET"
+            ).then((response) => {
+              console.log(response);
+              if (response.success) {
+                setBoardlist(response.response);
+                setloading(true);
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "자유게시판 목록 가져오기를 실패했습니다.",
+                });
+              }
+            });
+          }
+        }
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "게시판 목록 가져오기를 실패했습니다.",
+        });
+      }
+    });
+  }, []);
+
+  const selectContent = (e) => {
+    console.log(e.target.id);
+    navigate("/noticeDetail", { state: { id: e.target.id } });
+  };
+
+  const onClickRegister = () => {
+    if (authorizationValue == "") {
+      Swal.fire({
+        icon: "error",
+        title: "로그인이 필요합니다.",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
+      return;
+    }
+
+    if (refreshTokenValue == "") {
+      Swal.fire({
+        icon: "error",
+        title: "로그인이 필요합니다.",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
+      return;
+    }
+
+    navigate("/notice/noticeUpdate");
+  };
+
+  function getData() {
+    return data.map((item) => (
+      <div className="content">
+        <div className="num" key={item.boardId}>
+          {item.boardId}
+        </div>
+        <div className="contents" onClick={selectContent} id={item.boardId}>
+          {item.boardname}
+        </div>
+      </div>
+    ));
+  }
 
   // const contentList = async () => {
   //   try {
-  //     const response = await axios.get('http://localhost:8080/api/boards');
+  //     const response = await axios.get("http://localhost:8080/api/boards");
   //     setData(response.data.response);
   //   } catch (error) {
   //     console.log(error);
@@ -60,31 +114,43 @@ function NoticePage(props) {
 
   // contentList();
 
-  const selectContent = (e) => {
-    console.log(e.target.id);
-    navigate('/noticeDetail', { state: { id: e.target.id } });
-  };
-
-  const onClickRegister = () => {
-    navigate('/notice/noticeUpdate');
-  }
-
-  function getData() {
-    return data.map((item) =>
-      <div className="content">
-        <div className="num" key={item.boardId}>
-          {item.boardId}
-        </div>
-        <div
-          className="contents"
-          onClick={selectContent}
-          id={item.boardId}
-        >
-          {item.boardname}
-        </div>
-      </div>
-    );
-  }
+  // contentList.map((item) =>
+  //   item.important ? (
+  //     <div className="important">
+  //       <div className="num" key={item.num}>
+  //         <Badge bg="danger">중요</Badge>
+  //       </div>
+  //       <div className="contents" id={item.num} onClick={selectContent}>
+  //         {item.value}
+  //       </div>
+  //       <div className="file">
+  //         {item.file ? (
+  //           <img src="premium-icon-attachments-327931.png" alt="첨부"></img>
+  //         ) : (
+  //           <div> </div>
+  //         )}
+  //       </div>
+  //       <div className="date">{item.date}</div>
+  //     </div>
+  //   ) : (
+  //     <div className="content">
+  //       <div className="num" key={item.num}>
+  //         {item.num}
+  //       </div>
+  //       <div className="contents" onClick={selectContent} id={item.num}>
+  //         {item.value}
+  //       </div>
+  //       <div className="file">
+  //         {item.file ? (
+  //           <img src="premium-icon-attachments-327931.png" alt="첨부"></img>
+  //         ) : (
+  //           <div> </div>
+  //         )}
+  //       </div>
+  //       <div className="date">{item.date}</div>
+  //     </div>
+  //   )
+  // );
 
   return (
     <div className="noticePage">
@@ -118,14 +184,21 @@ function NoticePage(props) {
           <div className="contentsTitle">
             <div className="num">번호</div>
             <div className="value">제목</div>
-            <div className="file">첨부</div>
             <div className="date">작성일</div>
           </div>
-          <div className="eachContents">
-            {
-              getData()
-            }
-          </div>
+          {loading ? (
+            <>
+              {boardlist.map((list, i) => {
+                return (
+                  <div key={i} className="contentsTitle eachContents">
+                    <div className="num">{list.id}</div>
+                    <div className="value">{list.title}</div>
+                    <div className="date">{list.createDt}</div>
+                  </div>
+                );
+              })}
+            </>
+          ) : null}
         </div>
       </div>
       {isAdmin ? (
@@ -160,52 +233,3 @@ function NoticePage(props) {
 }
 
 export default NoticePage;
-
-
-/* {contentList.map((item) =>
-              item.important ? (
-                <div className="important">
-                  <div className="num" key={item.num}>
-                    <Badge bg="danger">중요</Badge>
-                  </div>
-                  <div className="contents" id={item.num} onClick={selectContent}>
-                    {item.value}
-                  </div>
-                  <div className="file">
-                    {item.file ? (
-                      <img
-                        src="premium-icon-attachments-327931.png"
-                        alt="첨부"
-                      ></img>
-                    ) : (
-                      <div> </div>
-                    )}
-                  </div>
-                  <div className="date">{item.date}</div>
-                </div>
-              ) : (
-                <div className="content">
-                  <div className="num" key={item.num}>
-                    {item.num}
-                  </div>
-                  <div
-                    className="contents"
-                    onClick={selectContent}
-                    id={item.num}
-                  >
-                    {item.value}
-                  </div>
-                  <div className="file">
-                    {item.file ? (
-                      <img
-                        src="premium-icon-attachments-327931.png"
-                        alt="첨부"
-                      ></img>
-                    ) : (
-                      <div> </div>
-                    )}
-                  </div>
-                  <div className="date">{item.date}</div>
-                </div>
-              )
-            )} */

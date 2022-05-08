@@ -23,7 +23,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import NoticeDetailPage from "./pages/notice/NoticeDetailPage";
-import NoticeRegisteration from "./pages/notice/NoticeRegisteration";
+import NoticeUpdate from "./pages/notice/NoticeUpdate";
 
 function App() {
   return (
@@ -37,12 +37,13 @@ function App() {
           <Route path="/photo/photoUpdate" element={<PhotoUpdate />} />
           <Route path="/notice" element={<NoticePage />} />
           <Route path="/noticeDetail" element={<NoticeDetailPage />} />
+          <Route path="/notice/noticeUpdate" element={<NoticeUpdate />} />
+
           <Route path="/freeBoard" element={<FreeBoardPage />} />
           <Route
             path="/freeBoard/freeBoardUpdate"
             element={<FreeBoardUpdate />}
           />
-          <Route path="/notice/noticeUpdate" element={<NoticeRegisteration/>} />
           <Route path="/management" element={<ManagepentPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/agree" element={<AgreePage />} />
