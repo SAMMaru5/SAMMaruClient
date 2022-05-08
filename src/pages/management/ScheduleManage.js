@@ -31,7 +31,13 @@ export default class Calendar extends React.Component {
     let url = "/no-permit/schedules?start="+year+"-01-05&end=3000-01-05";
     call(url, "GET", null).then((response) =>
     {
-      this.setState({ items: response.response, loading: false, currentId : response.response[response.response.length-1].id})
+      if(response.response.length == 0){
+        console.log(response);
+        this.setState({ites: [], loading : false, currendId : 0})
+      }
+      else{
+        this.setState({ items: response.response, loading: false, currentId : response.response[response.response.length-1].id})
+      }
     }
     );
   }
