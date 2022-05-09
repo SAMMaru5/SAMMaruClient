@@ -1,7 +1,7 @@
 import "./NoticePage.scss";
 import { Badge, Button, Pagination } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { getCookie } from "../../hooks/useCookie";
 import Swal from "sweetalert2";
 import { call } from "../../hooks/useFetch";
@@ -16,6 +16,7 @@ function NoticePage(props) {
   const [refreshTokenValue, setRefreshTokenValue] = useState("");
   const [boardlist, setBoardlist] = useState({});
   const [loading, setloading] = useState(false);
+  const [boardId, setBoardId] = useState();
 
   useEffect(() => {
     const accessToken = getCookie("accessToken");
@@ -31,6 +32,7 @@ function NoticePage(props) {
       if (response.success) {
         for (let i = 0; i < response.response.length; i++) {
           if (response.response[i].name == "공지사항") {
+            setBoardId(response.response[i].id);
             call(
               `/no-permit/api/boards/${response.response[i].id}/pages/1`,
               "GET"
@@ -191,7 +193,13 @@ function NoticePage(props) {
               {boardlist.map((list, i) => {
                 return (
                   <div className="eachContents">
-                    <div key={i} className="content">
+                    <div key={i} className="content" onClick={()=>{navigate('/noticeDetail', {
+                                                                                state: {
+                                                                                    boardId : boardId,
+                                                                                    articleId : list.id
+                                                                                    ,
+                                                                                },
+                                                                              });}}>
                       <div className="num">{list.id}</div>
                       <div className="value">{list.title}</div>
                       <div className="date">{list.createDt}</div>
