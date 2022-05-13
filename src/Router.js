@@ -13,17 +13,20 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PhotoPage from "./pages/photo/PhotoPage";
 
 import NoticePage from "./pages/notice/NoticePage";
+import NoticeDetailPage from "./pages/notice/NoticeDetailPage";
+import NoticeUpdate from "./pages/notice/NoticeUpdate";
+
 import PhotoDetail from "./pages/photo/PhotoDetail";
 import PhotoUpdate from "./pages/photo/PhotoUpdate";
 
 import FreeBoardPage from "./pages/freeBoard/FreeBoardPage";
 import FreeBoardUpdate from "./pages/freeBoard/FreeBoardUpdate";
+import FreeBoardDetail from "./pages/freeBoard/FreeBoardDetailPage";
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
-import NoticeDetailPage from "./pages/notice/NoticeDetailPage";
-import NoticeUpdate from "./pages/notice/NoticeUpdate";
+
 
 function App() {
   return (
@@ -40,10 +43,9 @@ function App() {
           <Route path="/notice/noticeUpdate" element={<NoticeUpdate />} />
 
           <Route path="/freeBoard" element={<FreeBoardPage />} />
-          <Route
-            path="/freeBoard/freeBoardUpdate"
-            element={<FreeBoardUpdate />}
-          />
+          <Route path="/freeBoard/freeBoardUpdate" element={<FreeBoardUpdate />}/>
+          <Route path="/freeBoardDetail" element={<FreeBoardDetail />}/>
+          
           <Route path="/management" element={<ManagepentPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/agree" element={<AgreePage />} />

@@ -11,6 +11,7 @@ function FreeBoardPage() {
   const [refreshTokenValue, setRefreshTokenValue] = useState("");
   const [boardlist, setBoardlist] = useState({});
   const [loading, setloading] = useState(false);
+  const [boardId, setBoardId] = useState();
 
   useEffect(() => {
     const accessToken = getCookie("accessToken");
@@ -26,6 +27,7 @@ function FreeBoardPage() {
       if (response.success) {
         for (let i = 0; i < response.response.length; i++) {
           if (response.response[i].name == "자유게시판") {
+            setBoardId(response.response[i].id);
             call(
               `/no-permit/api/boards/${response.response[i].id}/pages/1`,
               "GET"
@@ -119,7 +121,13 @@ function FreeBoardPage() {
               {boardlist.map((list, i) => {
                 return (
                   <div className=" eachContents">
-                    <div key={i} className="content">
+                    <div key={i} className="content" onClick={()=>{navigate('/freeBoardDetail', {
+                                                                                state: {
+                                                                                    boardId : boardId,
+                                                                                    articleId : list.id
+                                                                                    ,
+                                                                                },
+                                                                              });}}>
                       <div className="num">{list.id}</div>
                       <div className="value">{list.title}</div>
                       <div className="date">{list.createDt}</div>
