@@ -18,13 +18,12 @@ const PhotoDetail = () => {
   useEffect(() => {
     call(
       "/api/boards/" +
-        location.state.boardid +
+        location.state.boardId +
         "/articles/" +
         location.state.articleId,
       "GET"
     ).then((response) => {
       if (response.success) {
-        console.log(response.response);
         setArticle(response.response);
         setLoading(true);
         setCreateDt(response.response.createDt.slice(0, 10));
@@ -59,7 +58,11 @@ const PhotoDetail = () => {
                 <div className="slide">
                   <img
                     src={
-                      "http://localhost:8080/files/1/" +
+                      "http://localhost:8080/no-permit/api/boards/" +
+                      location.state.boardId +
+                      "/articles/" +
+                      location.state.articleId +
+                      "/files/" +
                       article.files[0].filePath
                     }
                     alt="photo-img"
@@ -71,7 +74,11 @@ const PhotoDetail = () => {
                 <div className="slide">
                   <img
                     src={
-                      "http://localhost:8080/files/1/" +
+                      "http://localhost:8080/no-permit/api/boards/" +
+                      location.state.boardId +
+                      "/articles/" +
+                      location.state.articleId +
+                      "/files/" +
                       article.files[0].filePath
                     }
                     alt="photo-img"
@@ -83,7 +90,11 @@ const PhotoDetail = () => {
                 <div className="slide">
                   <img
                     src={
-                      "http://localhost:8080/files/1/" +
+                      "http://localhost:8080/no-permit/api/boards/" +
+                      location.state.boardId +
+                      "/articles/" +
+                      location.state.articleId +
+                      "/files/" +
                       article.files[0].filePath
                     }
                     alt="photo-img"
@@ -95,7 +106,11 @@ const PhotoDetail = () => {
                 <div className="slide">
                   <img
                     src={
-                      "http://localhost:8080/files/1/" +
+                      "http://localhost:8080/no-permit/api/boards/" +
+                      location.state.boardId +
+                      "/articles/" +
+                      location.state.articleId +
+                      "/files/" +
                       article.files[0].filePath
                     }
                     alt="photo-img"
@@ -107,31 +122,11 @@ const PhotoDetail = () => {
                 <div className="slide">
                   <img
                     src={
-                      "http://localhost:8080/files/1/" +
-                      article.files[0].filePath
-                    }
-                    alt="photo-img"
-                    style={{ width: "100%" }}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="slide">
-                  <img
-                    src={
-                      "http://localhost:8080/files/1/" +
-                      article.files[0].filePath
-                    }
-                    alt="photo-imgg"
-                    style={{ width: "100%" }}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="slide">
-                  <img
-                    src={
-                      "http://localhost:8080/files/1/" +
+                      "http://localhost:8080/no-permit/api/boards/" +
+                      location.state.boardId +
+                      "/articles/" +
+                      location.state.articleId +
+                      "/files/" +
                       article.files[0].filePath
                     }
                     alt="photo-img"
@@ -151,17 +146,20 @@ const PhotoDetail = () => {
             style={{ display: "flex", justifyContent: "center" }}
           >
             <img
-              src={"http://localhost:8080/files/1/" + article.files[0].filePath}
+              src={
+                "http://localhost:8080/no-permit/api/boards/" +
+                location.state.boardId +
+                "/articles/" +
+                location.state.articleId +
+                "/files/" +
+                article.files[0].filePath
+              }
               style={{ width: "60%", height: "10%" }}
             />
           </div>
           <hr />
 
-          <p>
-            Loemasdfds dagsd dsgka djpafjef jewfpj Loemasdfds dagsd dsgka
-            djpafjef jewfpjLoemasdfds dagsd dsgka djpafjef jewfpjLoemasdfds
-            dagsd dsgka djpafjef jewfpjLoemasdfds dagsd dsgka djpafjef jewfpj
-          </p>
+          <p>{article.content}</p>
         </div>
       ) : (
         <div></div>

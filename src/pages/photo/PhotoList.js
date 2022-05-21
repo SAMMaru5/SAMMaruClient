@@ -92,7 +92,7 @@ const PhotoList = () => {
                     onClick={() => {
                       navigate("./photoDetail", {
                         state: {
-                          boardid: boardid,
+                          boardId: boardid,
                           articleId: list.id,
                         },
                       });
