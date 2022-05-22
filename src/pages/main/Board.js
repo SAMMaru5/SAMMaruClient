@@ -12,7 +12,7 @@ function BoardList({board}){
             </td>
             <td>
                 <p className='content'>
-                    {board.content}
+                    {board.title}
                 </p>
             </td>
         </tr>
