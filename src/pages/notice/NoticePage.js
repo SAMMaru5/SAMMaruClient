@@ -37,7 +37,7 @@ function NoticePage(props) {
               `/no-permit/api/boards/${response.response[i].id}/pages/1`,
               "GET"
             ).then((response) => {
-              console.log(response);
+              // console.log(response);
               if (response.success) {
                 setBoardlist(response.response);
                 setloading(true);
@@ -60,7 +60,7 @@ function NoticePage(props) {
   }, []);
 
   const selectContent = (e) => {
-    console.log(e.target.id);
+    // console.log(e.target.id);
     navigate("/noticeDetail", { state: { id: e.target.id } });
   };
 
@@ -104,6 +104,31 @@ function NoticePage(props) {
       </div>
     ));
   }
+  const onClickDetaile = (list) => {
+    call("/api/user/info", "GET").then((response)=>{
+      if(response !== undefined && response !=='undefined'){
+        navigate('/noticeDetail', {
+          state: {
+              boardId : boardId,
+              articleId : list.id
+              ,
+          },
+        });
+      }
+      else{
+        Swal.fire({
+          icon: "error",
+          title: "로그인이 필요합니다.",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/login");
+          }
+        });
+      }
+      
+    })
+
+  };
 
   // const contentList = async () => {
   //   try {
@@ -192,14 +217,8 @@ function NoticePage(props) {
             <>
               {boardlist.map((list, i) => {
                 return (
-                  <div className="eachContents">
-                    <div key={i} className="content" onClick={()=>{navigate('/noticeDetail', {
-                                                                                state: {
-                                                                                    boardId : boardId,
-                                                                                    articleId : list.id
-                                                                                    ,
-                                                                                },
-                                                                              });}}>
+                  <div key={i} className="eachContents">
+                    <div className="content" onClick={()=>{onClickDetaile(list)}}>
                       <div className="num">{list.id}</div>
                       <div className="value">{list.title}</div>
                       <div className="date">{list.createDt}</div>
