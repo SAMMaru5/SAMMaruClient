@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Badge, Button, Pagination } from "react-bootstrap";
+import { Button, Pagination } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../hooks/useCookie";
 import Swal from "sweetalert2";
@@ -26,13 +26,13 @@ function FreeBoardPage() {
     call("/no-permit/api/boards", "GET").then((response) => {
       if (response.success) {
         for (let i = 0; i < response.response.length; i++) {
-          if (response.response[i].name == "자유게시판") {
+          if (response.response[i].name === "자유게시판") {
             setBoardId(response.response[i].id);
             call(
               `/no-permit/api/boards/${response.response[i].id}/pages/1`,
               "GET"
             ).then((response) => {
-              console.log(response);
+              // console.log(response);
               if (response.success) {
                 setBoardlist(response.response);
                 setloading(true);
@@ -55,7 +55,7 @@ function FreeBoardPage() {
   }, []);
 
   const freeBoardUpload = () => {
-    if (authorizationValue == "") {
+    if (authorizationValue === "") {
       Swal.fire({
         icon: "error",
         title: "로그인이 필요합니다.",
@@ -67,7 +67,7 @@ function FreeBoardPage() {
       return;
     }
 
-    if (refreshTokenValue == "") {
+    if (refreshTokenValue === "") {
       Swal.fire({
         icon: "error",
         title: "로그인이 필요합니다.",
@@ -81,6 +81,32 @@ function FreeBoardPage() {
     navigate("./freeBoardUpdate");
   };
 
+  const onClickDetaile = (list) => {
+    call("/api/user/info", "GET").then((response)=>{
+      if(response !== undefined && response !=='undefined'){
+        navigate('/freeBoardDetail', {
+          state: {
+              boardId : boardId,
+              articleId : list.id
+              ,
+          },
+        });
+      }
+      else{
+        Swal.fire({
+          icon: "error",
+          title: "로그인이 필요합니다.",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/login");
+          }
+        });
+      }
+      
+    })
+
+  };
+  
   return (
     <div className="noticePage">
       <div className="title">
@@ -115,19 +141,13 @@ function FreeBoardPage() {
             <div className="value">제목</div>
             <div className="date">작성일</div>
           </div>
-
+          
           {loading ? (
             <>
               {boardlist.map((list, i) => {
                 return (
-                  <div className=" eachContents">
-                    <div key={i} className="content" onClick={()=>{navigate('/freeBoardDetail', {
-                                                                                state: {
-                                                                                    boardId : boardId,
-                                                                                    articleId : list.id
-                                                                                    ,
-                                                                                },
-                                                                              });}}>
+                  <div key={i} className=" eachContents">
+                    <div className="content" onClick={()=>{onClickDetaile(list)}}>
                       <div className="num">{list.id}</div>
                       <div className="value">{list.title}</div>
                       <div className="date">{list.createDt}</div>
