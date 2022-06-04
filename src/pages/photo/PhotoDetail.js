@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
+
 import "./PhotoDetail.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -11,6 +13,7 @@ import { call } from "../../hooks/useFetch";
 import { Navigation } from "swiper";
 const PhotoDetail = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(false);
   const [createDt, setCreateDt] = useState("");
@@ -160,6 +163,14 @@ const PhotoDetail = () => {
           <hr />
 
           <p>{article.content}</p>
+          <Button
+            variant="primary"
+            onClick={() => {
+              navigate("../photo");
+            }}
+          >
+            글 목록
+          </Button>
         </div>
       ) : (
         <div></div>
