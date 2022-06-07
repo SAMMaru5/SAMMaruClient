@@ -38,8 +38,15 @@ function Navigation() {
         <p className="attendance">접속자(0명)</p>
 
         {userInfo != null && loading ? (
+          
           <div>
+
             <p className="userInfo">
+            
+              {userInfo.response.role === "ROLE_ADMIN" ?
+                 <span><a href="/management">관리자 페이지</a> |{" "}</span> :
+                null
+              }
               <a href="/checkPw">정보 수정</a> |{" "}
               <a
                 href="#!"
