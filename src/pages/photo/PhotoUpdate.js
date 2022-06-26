@@ -95,8 +95,11 @@ function PhotoUpdate() {
     }
 
     let formData = new FormData();
-
-    formData.append("file", uploadfile[0]);
+    console.log(uploadfile.length);
+    for(let i = 0; i < uploadfile.length; i++){
+      formData.append("file", uploadfile[i]);
+    }
+    
 
     formData.append(
       "article",
