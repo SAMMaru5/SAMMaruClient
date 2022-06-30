@@ -49,6 +49,10 @@ function RegisterPage(){
     }
 
     const register = (e)=>{
+        const registerBtn = document.getElementById("registerBtn");
+        registerBtn.setAttribute('disabled', true);
+        registerBtn.style.color="white";
+        registerBtn.innerText = "회원가입 중..."
         call("/auth/signup", "POST", User)
         .then((response)=>{
             if(response.success){
@@ -66,6 +70,11 @@ function RegisterPage(){
                 Swal.fire({
                     icon: 'error',
                     title: '회원가입에 실패했습니다.',
+                  }).then((result)=>{
+                    if(result){
+                        registerBtn.removeAttribute('disabled');
+                        registerBtn.innerText = "회원가입"
+                    }
                   })
             }
             })
@@ -311,7 +320,7 @@ function RegisterPage(){
                 <thead>
                     <tr>
                         <td colSpan={"3"}>
-                            <button type="submit"><h5>회원가입</h5></button>
+                            <button id="registerBtn" type="submit"><h5>회원가입</h5></button>
                         </td>
                     </tr>
                 </thead>
