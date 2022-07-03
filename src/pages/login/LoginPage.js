@@ -41,7 +41,7 @@ function LoginPage() {
                     alt="로그인 로고 이미지"
                 />
                 </figure>
-                <input type={"text"} autoComplete="username" placeholder="아이디" required onChange={(e) =>{setUser({...User, "studentId" : e.target.value})}}></input>
+                <input type={"text"} autoComplete="username" placeholder="학번" required onChange={(e) =>{setUser({...User, "studentId" : e.target.value})}}></input>
                 <input type={"password"} autoComplete="current-password" placeholder="비밀번호" required onChange={(e) =>{setUser({...User, "password" : e.target.value})}}></input>
                 <button type="submit">로그인</button>
                 <div className="autoLoginFrame"><label htmlFor="autoLogin"><input id="autoLogin" type={"checkbox"}></input> &nbsp; 자동 로그인</label></div>
