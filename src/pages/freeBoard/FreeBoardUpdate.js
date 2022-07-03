@@ -44,6 +44,10 @@ function FreeBoardUpdate() {
   const onSubmit = (e) => {
     e.preventDefault();
 
+    const freeBoardBtn = document.getElementById("freeBoardBtn");
+    freeBoardBtn.setAttribute('disabled', true);
+    freeBoardBtn.innerText = "글등록 중..."
+
     let formData = new FormData();
 
     formData.append("file", uploadfile[0]);
@@ -101,6 +105,11 @@ function FreeBoardUpdate() {
           Swal.fire({
             icon: "error",
             title: "게시글 작성을 실패했습니다.",
+          }).then((result)=>{
+            if(result){
+              freeBoardBtn.removeAttribute('disabled');
+              freeBoardBtn.innerText = "작성완료"
+            }
           });
         }
       });
@@ -151,7 +160,7 @@ function FreeBoardUpdate() {
           />
         </Form.Group>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <Button variant="dark" type="submit" size="lg">
+          <Button id="freeBoardBtn" variant="dark" type="submit" size="lg">
             작성완료
           </Button>
           <Button variant="light" size="lg">

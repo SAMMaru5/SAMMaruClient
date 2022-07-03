@@ -31,16 +31,26 @@ function ModifyUserInfoPage() {
 
   function modifyUser(e){
     e.preventDefault();
+    const modifyUserBtn = document.getElementById("modifyUserBtn");
+    modifyUserBtn.setAttribute('disabled', true);
+    modifyUserBtn.innerText = "정보수정 중...";
+    modifyUserBtn.style.color = "white";
     if(User.password !== pwCheck2){
                 Swal.fire({
                 title: '비밀번호가 일치하지 않습니다.',
                 icon: 'warning',
             }
-        )
+        ).then((result)=>{
+            if(result){
+              modifyUserBtn.removeAttribute('disabled');
+              modifyUserBtn.innerText = "정보수정"
+          }
+          });
     }
     else{
       call("/api/user/info", "PATCH", User).then(
         (response)=>{
+            console.log(response);
           if(response.success){
             Swal.fire({
               title: '회원정보가 수정되었습니다.',
@@ -146,7 +156,7 @@ function ModifyUserInfoPage() {
                 <thead>
                     <tr>
                         <td colSpan={"3"}>
-                            <button type="submit"><h5>정보수정</h5></button>
+                            <button id="modifyUserBtn" type="submit"><h5>정보수정</h5></button>
                         </td>
                     </tr>
                 </thead>
