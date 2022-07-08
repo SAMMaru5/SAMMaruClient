@@ -1,0 +1,38 @@
+#MemberManage{
+    margin: 0 5%;
+    margin-right: 20%;
+    input{
+        margin-top: 2%;
+        width: 20%;
+        margin-right: 2%;
+        font-size: 1.2em;
+    }
+
+    input::placeholder{
+        padding-left: 2%;
+    }
+
+    button{
+        width: 5%;
+        font-size: 1.2em;
+        background-color: #D3CFFF;
+        border-color: #D3CFFF;
+    }
+
+    table{
+        width: 100%;
+        
+        margin-top: 1%;
+
+        border: 1px solid black;
+        text-align: center;
+    }
+    th, tr, td{
+        border: 1px solid black;
+        font-size: 1.2em;
+    }
+    th{
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+}

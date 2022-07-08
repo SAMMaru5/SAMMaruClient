@@ -3,6 +3,7 @@ import ScheduleManage from "./ScheduleManage";
 import { Tab, Row, Col, Nav } from "react-bootstrap";
 import { useState } from "react";
 import BoardManage from "./BoardManage";
+import MemberManage from "./MemberManage";
 function ManagementPage() {
   const [visible, setVisible] = useState("hidden");
   const isSchedule = (event) => {
@@ -35,7 +36,10 @@ function ManagementPage() {
                 <Nav.Link eventKey="third">&nbsp;&nbsp;게시판 관리</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="fourth">&nbsp;&nbsp;기타 관리</Nav.Link>
+                <Nav.Link eventKey="fourth">&nbsp;&nbsp;회원 관리</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="fifth">&nbsp;&nbsp;기타 관리</Nav.Link>
               </Nav.Item>
             </Nav>
           </Col>
@@ -52,6 +56,10 @@ function ManagementPage() {
                 <BoardManage />
               </Tab.Pane>
               <Tab.Pane eventKey="fourth">
+                <h1>회원 관리</h1>
+                <MemberManage />
+              </Tab.Pane>
+              <Tab.Pane eventKey="fifth">
                 <h1>기타 관리</h1>
               </Tab.Pane>
             </Tab.Content>
