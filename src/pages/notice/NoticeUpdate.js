@@ -45,6 +45,9 @@ function NoticeRegisteration() {
   }, []);
 
   const onCreate = () => {
+    const noticeBtn = document.getElementById("noticeBtn");
+    noticeBtn.setAttribute('disabled', true);
+    noticeBtn.innerText = "글등록 중..."
     let contentData = editorRef.current.getInstance().getMarkdown();
     let formData = new FormData();
     formData.append("file", file[0]);
@@ -83,6 +86,11 @@ function NoticeRegisteration() {
         Swal.fire({
           icon: "error",
           title: "게시글 작성을 실패했습니다.",
+        }).then((result)=>{
+          if(result){
+            noticeBtn.removeAttribute('disabled');
+            noticeBtn.innerText = "글등록"
+        }
         });
       }
     });
@@ -118,7 +126,7 @@ function NoticeRegisteration() {
           />
         </div>
         <div>
-          <Button onClick={onCreate}>글등록</Button>
+          <Button id="noticeBtn" onClick={onCreate}>글등록</Button>
           <Button>목록으로</Button>
         </div>
       </div>

@@ -85,11 +85,19 @@ function PhotoUpdate() {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    const photoBtn = document.getElementById("photoBtn");
+    photoBtn.setAttribute('disabled', true);
+    photoBtn.innerText = "글등록 중..."
 
     if (uploadfile[0] === undefined) {
       Swal.fire({
         icon: "error",
         title: "사진을 추가해주세요.",
+      }).then((result)=>{
+        if(result){
+          photoBtn.removeAttribute('disabled');
+          photoBtn.innerText = "작성완료"
+      }
       });
       return;
     }
@@ -154,6 +162,11 @@ function PhotoUpdate() {
           Swal.fire({
             icon: "error",
             title: "게시글 작성을 실패했습니다.",
+          }).then((result)=>{
+            if(result){
+              photoBtn.removeAttribute('disabled');
+              photoBtn.innerText = "작성완료"
+          }
           });
         }
       });
@@ -228,7 +241,7 @@ function PhotoUpdate() {
           />
         </Form.Group>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <Button variant="dark" type="submit" size="lg" abled>
+          <Button id="photoBtn" variant="dark" type="submit" size="lg" abled>
             작성완료
           </Button>
           <Button variant="light" size="lg" abled>
