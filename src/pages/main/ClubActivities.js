@@ -1,39 +1,85 @@
-import './ClubActivities.scss'
+import "./ClubActivities.scss";
 
-function ClubActivities(){
-    return(
-    <div className="container">
-        <div className="Activities">
-          <div className="contentsLeft">
-            <div className="title">
-              <span className="small-title">SAMMaru</span> <br/>
-              <span className="big-title">개강총회</span></div>
-            <div className="shortSum">새로 시작하는 한학기</div>
-            <div className="subtitle">노는걸 잘해야 공부도 잘한다</div>
-            <div className="detail">모든 국민은 법 앞에 평등하다. 누구든지 성별·종교 또는 사회적 신분에 의하여 정치적·경제적·사회적·문화적 생활의 모든 영역에 있어서 차별을 받지 아니한다.</div>
-            <div className="button"><button><a href="#!">동아리 사진첩 바로가기</a></button></div>
+import img1 from "../../imgs/img1.jpg";
+import img2 from "../../imgs/img2.jpg";
+import img3 from "../../imgs/img3.jpg";
+
+function ClubActivities() {
+  return (
+    <section id="features">
+      <div className="container">
+        <header>
+          <h2>
+            S A M M a r u <strong> 추 억 필 름</strong>
+          </h2>
+        </header>
+        <div className="row aln-center">
+          <div className="col-4 col-6-medium col-12-small">
+            <section>
+              <a href="#" className="image featured">
+                <img src={img1} alt="" style={{ height: "100%" }} />
+              </a>
+              <header>
+                <h3>개강총회</h3>
+              </header>
+              <p>
+                This is <strong>Strongly Typed</strong>, a free, fully
+                responsive site template by
+                <a href="http://html5up.net">HTML5 UP</a>. Free for personal and
+                commercial use under the
+                <a href="http://html5up.net/license">CCA 3.0 license</a>.
+              </p>
+            </section>
           </div>
-          <div className="image">
-            <img src="KakaoTalk_Moim_3j5Aj3GPJCSf5xatggd2eVZXl3R62m.jpg" alt="사진"></img>
+          <div className="col-4 col-6-medium col-12-small">
+            <section>
+              <a href="#" className="image featured">
+                <img src={img2} alt="" style={{ height: "100%" }} />
+              </a>
+              <header>
+                <h3>Membership Training</h3>
+              </header>
+              <p>
+                <a href="http://html5up.net">HTML5 UP</a> is a side project of
+                <a href="http://twitter.com/ajlkn">AJ’s</a> (= me). I started it
+                as a way to both test my responsive tools and sharpen up my
+                coding and design skills a bit.
+              </p>
+            </section>
           </div>
-       </div>
-          <div className="Activities">
-            <div className="image">
-              <img src="KakaoTalk_Moim_3j5Aj3GPJCSf5xatggd2eVZXl3R62m.jpg" alt="사진"></img>
-            </div>
-            <div className="contentsRight">
-              <div className="title">
-                <span className="small-title">SAMMaru</span> <br />
-                <span className="big-title">개강총회</span></div>
-              <div className="shortSum">새로 시작하는 한학기</div>
-              <div className="subtitle">노는걸 잘해야 공부도 잘한다</div>
-              <div className="detail">모든 국민은 법 앞에 평등하다. 누구든지 성별·종교 또는 사회적 신분에 의하여 정치적·경제적·사회적·문화적 생활의 모든 영역에 있어서 차별을 받지 아니한다.</div>
-              <div className="button"><button><a href="#!">동아리 사진첩 바로가기</a></button></div>
-            </div>
-  
+          <div className="col-4 col-6-medium col-12-small">
+            <section>
+              <a href="#" className="image featured">
+                <img src={img3} alt="" style={{ height: "100%" }} />
+              </a>
+              <header>
+                <h3>소규모 프로젝트</h3>
+              </header>
+              <p>
+                <strong>Responsive Tools</strong> is a simple set of tools for
+                building responsive sites and apps. All of my templates at
+                <a href="http://html5up.net">HTML5 UP</a> are built using these
+                tools.
+              </p>
+            </section>
           </div>
+          <div className="col-12">
+            <ul className="actions">
+              <li>
+                <a
+                  href="#"
+                  className="button icon solid fa-file"
+                  style={{ backgroundColor: "#6a81ed" }}
+                >
+                  More
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-      )
+    </section>
+  );
 }
 
 export default ClubActivities;
