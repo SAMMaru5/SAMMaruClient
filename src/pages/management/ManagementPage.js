@@ -4,7 +4,9 @@ import { Tab, Row, Col, Nav } from "react-bootstrap";
 import { useState } from "react";
 import BoardManage from "./BoardManage";
 import MemberManage from "./MemberManage";
+
 function ManagementPage() {
+
   const [visible, setVisible] = useState("hidden");
   const isSchedule = (event) => {
     if (event.target.id === "left-tabs-tab-second") {
@@ -13,6 +15,8 @@ function ManagementPage() {
       setVisible("hidden");
     }
   };
+
+
 
   return (
     <div className="ManagementPage">
@@ -57,7 +61,7 @@ function ManagementPage() {
               </Tab.Pane>
               <Tab.Pane eventKey="fourth">
                 <h1>회원 관리</h1>
-                <MemberManage />
+                <MemberManage/>
               </Tab.Pane>
               <Tab.Pane eventKey="fifth">
                 <h1>기타 관리</h1>
