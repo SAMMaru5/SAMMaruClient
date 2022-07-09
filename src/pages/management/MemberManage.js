@@ -4,15 +4,15 @@ import { call } from "../../hooks/useFetch";
 import "./MemberManage.scss";
 import Swal from "sweetalert2";
 
-function MemberManage(props) {
-    const [members, setMembers] = useState({});
+function MemberManage() {
+    const [members, setMembers] = useState([]);
     const [loading, setLoading] = useState(false);
-    
+    const [name, setName] = useState("");
+
     useEffect(() => {
 
         call("/api/users/info", "GET", "")
         .then((response) => {
-            console.log(response);
             if(response.success){
                 setMembers(response.response);
                 setLoading(true);
@@ -22,7 +22,14 @@ function MemberManage(props) {
   
     }, [])
 
-    const changeAuthority = (id, name, authority)=>{
+    const changeAuthority = (id, name, authority, index)=>{
+        let newMeber = [...members];
+        newMeber[index].role = authority
+
+        setMembers(newMeber)
+        const authorityKinds = document.getElementsByClassName("authorityKinds");
+        authorityKinds[index].value = authority;
+
         let authorityStr = "미지정으"
         if(authority ==="ROLE_ADMIN"){
             authorityStr = "관리자"
@@ -43,7 +50,6 @@ function MemberManage(props) {
                 call("/api/users/"+id+"/role", "PATCH", {"role":authority})
   
                     .then((response) => {
-                        console.log(response)
                         if(response.success){
                             Swal.fire({
                                 icon: 'success',
@@ -69,11 +75,23 @@ function MemberManage(props) {
           });
     }
 
+    const searchMember = (e)=>{
+        e.preventDefault();
+        call("/api/user/info/"+name, "GET", "")
+        .then((result)=>{
+            if(result.success){
+                setMembers([result.response]);
+            }
+        })
+    }
+
     return(
         <div id="MemberManage">
-            <input type={"text"} placeholder="학번을 입력해주세요."></input>
-            <button type="submit" >검색</button>
-            {loading && members.length !== 0? 
+            <form>
+                <input type={"text"} value={name} onChange={(res)=>{setName(res.target.value)}} placeholder="이름을 입력해주세요."></input>
+                <button type="submit" onClick={(e)=>{searchMember(e)}}>검색</button>
+            </form>
+            {loading? 
             <table>
                 <colgroup>
 
@@ -114,47 +132,19 @@ function MemberManage(props) {
 
                             </td>
                             <td>
-                            {member.role==="ROLE_TEMP" ?
-                                <select defaultValue={"ROLE_TEMP"} onChange={(res)=>{changeAuthority(member.userId, member.username, res.target.value)}}>
 
-                                    <option value="ROLE_TEMP">
-                                        미지정
-                                    </option>
-                                    <option value="ROLE_MEMBER">
-                                        회원
-                                    </option>
-                                    <option value="ROLE_ADMIN">
-                                        관리자
-                                    </option>
-                                </select>
-                                : member.role==="ROLE_MEMBER" ?
-                                    <select defaultValue={"ROLE_MEMBER"}  onChange={(res)=>{changeAuthority(member.userId, member.username, res.target.value)}}>
-
-                                        <option value="ROLE_TEMP">
-                                            미지정
-                                        </option>
-                                        <option value="ROLE_MEMBER">
-                                            회원
-                                        </option>
-                                        <option value="ROLE_ADMIN">
-                                            관리자
-                                        </option>
-                                    </select>
-                                :
-                                    <select defaultValue={"ROLE_ADMIN"}  onChange={(res)=>{changeAuthority(member.userId, member.username, res.target.value)}}>
-
-                                        <option value="ROLE_TEMP">
-                                            미지정
-                                        </option>
-                                        <option value="ROLE_MEMBER">
-                                            회원
-                                        </option>
-                                        <option value="ROLE_ADMIN">
-                                            관리자
-                                        </option>
-                                    </select>
-
-                                }
+                            <select className="authorityKinds" value={member.role} onChange={(res)=>{changeAuthority(member.userId, member.username, res.target.value, i) }}>
+                                <option value="ROLE_TEMP">
+                                    미지정
+                                </option>
+                                <option value="ROLE_MEMBER">
+                                    회원
+                                </option>
+                                <option value="ROLE_ADMIN">
+                                    관리자
+                                </option>
+                            </select>
+                                
                             
                         </td>
                     </tr>
