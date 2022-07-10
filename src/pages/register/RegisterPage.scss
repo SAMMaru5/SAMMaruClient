@@ -131,4 +131,15 @@
         font-size: 0.85em;
         color: rgba(0, 0, 0, 0.6);
     }
+    .errMsg{
+        color: red;
+        white-space: 'nowrap';
+        position: absolute;
+        
+    }
+
+    .siteInfo{
+        display: none;
+        height: 40px;
+    }
 }

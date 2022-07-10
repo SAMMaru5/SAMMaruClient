@@ -6,12 +6,19 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { API_BASE_URL } from "../../hooks/app-config";
 import { getCookie } from "../../hooks/useCookie";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "./PhotoUpdate.scss";
+import { Navigation } from "swiper";
 
 function PhotoUpdate() {
   const [boardId, setBoardId] = useState(0);
   const [photo, setPhoto] = useState({ title: "", content: "" });
   const navigate = useNavigate();
   const [uploadfile, setUploadfile] = useState([]);
+  const [showImages, setShowImages] = useState([]);
   const [authorizationValue, setAuthorizationValue] = useState("");
   const [refreshTokenValue, setRefreshTokenValue] = useState("");
 
@@ -28,7 +35,7 @@ function PhotoUpdate() {
     call("/no-permit/api/boards", "GET").then((response) => {
       if (response.success) {
         for (let i = 0; i < response.response.length; i++) {
-          if (response.response[i].name == "사진첩") {
+          if (response.response[i].name === "사진첩") {
             setBoardId(response.response[i].id);
           }
         }
@@ -41,27 +48,73 @@ function PhotoUpdate() {
     });
   }, []);
 
+  const fileChange = (e) =>{
+    const imageLists = e.target.files;
+    let imgUrlLists = [...showImages];
+    let imgFileLists = [...uploadfile];
+
+    for(let i = 0; i<imageLists.length; i++){
+      imgFileLists.push(imageLists[i]);
+      const currentImageUrl = URL.createObjectURL(imageLists[i]);
+      imgUrlLists.push(currentImageUrl);
+    }
+
+    setUploadfile(imgFileLists);
+    setShowImages(imgUrlLists);
+  }
+  
+  const handleDeleteImage= (id) =>{
+    Swal.fire({
+      icon: "info",
+      html:'<img style="width:400px; height:400px" class="preImg" src='+showImages[id] +' alt='+`${showImages[id]}-${id}`+'/> ',
+      title: `${id+1}번째 사진을 삭제하시겠습니까? `,
+      showDenyButton: true,
+      confirmButtonText: '네',
+      denyButtonText: `아니요`
+
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setShowImages(showImages.filter((_, index) => index !== id));
+        setUploadfile(uploadfile.filter((_, index) => index !== id));
+      }
+      else{
+
+      }
+    });
+  }
+
   const onSubmit = (e) => {
     e.preventDefault();
+    const photoBtn = document.getElementById("photoBtn");
+    photoBtn.setAttribute('disabled', true);
+    photoBtn.innerText = "글등록 중..."
 
-    if (uploadfile[0] == null) {
+    if (uploadfile[0] === undefined) {
       Swal.fire({
         icon: "error",
         title: "사진을 추가해주세요.",
+      }).then((result)=>{
+        if(result){
+          photoBtn.removeAttribute('disabled');
+          photoBtn.innerText = "작성완료"
+      }
       });
       return;
     }
 
     let formData = new FormData();
-
-    formData.append("file", uploadfile[0]);
+    console.log(uploadfile.length);
+    for(let i = 0; i < uploadfile.length; i++){
+      formData.append("file", uploadfile[i]);
+    }
+    
 
     formData.append(
       "article",
       new Blob([JSON.stringify(photo)], { type: "application/json" })
     );
 
-    if (authorizationValue == "") {
+    if (authorizationValue === "") {
       Swal.fire({
         icon: "error",
         title: "로그인이 필요합니다.",
@@ -73,7 +126,7 @@ function PhotoUpdate() {
       return;
     }
 
-    if (refreshTokenValue == "") {
+    if (refreshTokenValue === "") {
       Swal.fire({
         icon: "error",
         title: "로그인이 필요합니다.",
@@ -109,6 +162,11 @@ function PhotoUpdate() {
           Swal.fire({
             icon: "error",
             title: "게시글 작성을 실패했습니다.",
+          }).then((result)=>{
+            if(result){
+              photoBtn.removeAttribute('disabled');
+              photoBtn.innerText = "작성완료"
+          }
           });
         }
       });
@@ -116,6 +174,7 @@ function PhotoUpdate() {
 
   return (
     <div
+      id="PhotoUpdate"
       className="container"
       style={{
         paddingLeft: "100px",
@@ -139,12 +198,35 @@ function PhotoUpdate() {
           />
         </Form.Group>
         <Form.Group controlId="formFileMultiple" className="mb-3">
+        <div className="show-imageList">
+            <Swiper
+              slidesPerView={5}
+              navigation={true}
+              modules={[Navigation]}
+              className="mySwiper"
+            >              
+
+            <div className="slide">
+            {
+              showImages.map((img, id)=>(
+                <SwiperSlide>
+                <div className="img" key={id}>
+                    <img src={img} alt={`${img}-${id}`} onClick={() => handleDeleteImage(id)}/>
+                </div>
+              </SwiperSlide>
+              ))
+            }
+            </div>
+
+
+              </Swiper>
+        </div>
           <Form.Label>사진 선택</Form.Label>
           <Form.Control
             type="file"
             multiple
             onChange={(e) => {
-              setUploadfile(e.target.files);
+              fileChange(e);
             }}
           />
         </Form.Group>
@@ -159,7 +241,7 @@ function PhotoUpdate() {
           />
         </Form.Group>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <Button variant="dark" type="submit" size="lg" abled>
+          <Button id="photoBtn" variant="dark" type="submit" size="lg" abled>
             작성완료
           </Button>
           <Button variant="light" size="lg" abled>

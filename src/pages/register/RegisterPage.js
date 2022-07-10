@@ -16,6 +16,9 @@ function RegisterPage(){
     const [User, setUser] = useState({"studentId" : "",  "username":"", "password" : "", "email" : ""})
     const [pwCheck, setPwCheck] = useState("");
 
+    const [flag1, setFlag1] = useState(true);
+    const [flag2, setFlag2] = useState(true);
+    const [flag3, setFlag3] = useState(true);
     useEffect(() => {
         if(agree === null){
             alert("회원가입약관의 내용에 동의하셔야 회원가입 하실 수 있습니다.")
@@ -46,6 +49,10 @@ function RegisterPage(){
     }
 
     const register = (e)=>{
+        const registerBtn = document.getElementById("registerBtn");
+        registerBtn.setAttribute('disabled', true);
+        registerBtn.style.color="white";
+        registerBtn.innerText = "회원가입 중..."
         call("/auth/signup", "POST", User)
         .then((response)=>{
             if(response.success){
@@ -63,12 +70,83 @@ function RegisterPage(){
                 Swal.fire({
                     icon: 'error',
                     title: '회원가입에 실패했습니다.',
+                  }).then((result)=>{
+                    if(result){
+                        registerBtn.removeAttribute('disabled');
+                        registerBtn.innerText = "회원가입"
+                    }
                   })
             }
             })
          
 
     } 
+
+    const checkStudentnumber = (e) =>{
+        document.getElementsByClassName("siteInfo")[0].style.display="flex";
+        var regExp = /^[0-9]{4,}$/
+        var stdErr = document.getElementById("stdErr");
+        if(e.target.value === ''){
+            stdErr.innerHTML = "필수 정보입니다.";
+            setFlag1(false);
+        }
+        else if(!regExp.test(e.target.value)){
+            stdErr.innerHTML = "학번을 입력해주세요.";
+            setFlag1(false);
+        }
+        else{
+            stdErr.innerHTML = "";
+            setFlag1(true);
+
+            if(flag2 && flag3){
+                document.getElementsByClassName("siteInfo")[0].style.display="none";
+            }
+
+        }
+    }
+
+    const checkPassword1 = (e) =>{
+        document.getElementsByClassName("siteInfo")[0].style.display="flex";
+        var regExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/
+        var pw1Err = document.getElementById("pw1Err");
+        if(e.target.value === ''){
+            pw1Err.innerHTML = "필수 정보입니다.";
+            setFlag2(false);
+        }
+        else if(!regExp.test(e.target.value)){
+            pw1Err.innerHTML = "8~20자 숫자, 영문, 특수문자를 포함해주세요.";
+            setFlag2(false);
+        }
+        else{
+            pw1Err.innerHTML = "";
+            setFlag2(true);
+            if(flag1 && flag3){
+                document.getElementsByClassName("siteInfo")[0].style.display="none";
+            }
+        }
+    }
+
+    const checkPassword2 = (e) =>{
+        document.getElementsByClassName("siteInfo")[0].style.display="flex";
+
+        var pw2Err = document.getElementById("pw2Err");
+
+        if(e.target.value === ''){
+            pw2Err.innerHTML = "필수 정보입니다.";
+            setFlag3(false);
+        }
+        else if(User.password !== e.target.value){
+            pw2Err.innerHTML = "비밀번호가 일치하지 않습니다..";
+            setFlag3(false);
+        }
+        else{
+            pw2Err.innerHTML = "";
+            setFlag3(true);
+            if(flag1 && flag2){
+                document.getElementsByClassName("siteInfo")[0].style.display="none";
+            }
+        }
+    }
 
     return(
         <div className="RegisterPage container">
@@ -92,34 +170,43 @@ function RegisterPage(){
                 </thead>
                 <tbody>
                     <tr>
-                        <td>
+                        <td >
+                            
                             <div className="textCheck">
 
                                 <label htmlFor="userId">학번</label>
                             </div>
                             <div className="inputText">
                                 <i className="fas fa-user-alt fa-sm" ></i>
-                                <input type={"text"} autoComplete="on" id="userId" pattern="^[0-9]{4,}$" title="학번을 입력해주세요." required onChange={(e)=>{setUser( {...User, "studentId" : e.target.value})} }></input>
-
+                                <input type={"text"} autoComplete="off" id="userId" pattern="^[0-9]{4,}$" title="학번을 입력해주세요." required onChange={(e)=>{checkStudentnumber(e); setUser( {...User, "studentId" : e.target.value})} }></input>
+                                <p className="errMsg" id="stdErr"></p>
                             </div>
+                            
                         </td>
                         <td>
                             <label htmlFor="userPw">비밀번호</label><br/>
                             
                             <div className="inputText">
                                 <i className="fas fa-lock fa-sm"></i>
-                                <input type={"password"} autoComplete="current-password" id="userPw" title="최소 8자리에서 최대 20자리까지 숫자, 영문, 특수문자 각 1개 이상 포함해주세요." pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$" required onChange={(e) =>{setUser({...User, "password" : e.target.value})}}></input>
+                                <input type={"password"} autoComplete="current-password" id="userPw" title="최소 8자리에서 최대 20자리까지 숫자, 영문, 특수문자 각 1개 이상 포함해주세요." pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$" required onChange={(e) =>{checkPassword1(e); setUser({...User, "password" : e.target.value})}}></input>
+                                <p className="errMsg" id="pw1Err"></p>
                             </div>
                         </td>
                         <td>
                             <label htmlFor="userPwCheck">비밀번호 확인</label><br/>
                             <div className="inputText">
                                 <i className="fas fa-lock fa-sm"></i>
-                                <input type={"password"} autoComplete="current-password" id="userPwCheck" required onChange={(e) =>{setPwCheck(e.target.value)}}></input>
+                                <input type={"password"} autoComplete="current-password" id="userPwCheck" required onChange={(e) =>{checkPassword2(e); setPwCheck(e.target.value)}}></input>
+                                <p className="errMsg" id="pw2Err"></p>
                             </div>
                         </td>
                     </tr>
+                    <tr className="siteInfo" >
+                        <td> &nbsp;</td>
+                    </tr>
                 </tbody>
+
+
                 <thead>
                 <tr>
                         <td colSpan={"3"}>
@@ -136,6 +223,7 @@ function RegisterPage(){
                             <div className="inputText">
                                 <i className="fas fa-male fa-sm"></i>
                                 <input type={"text"} id="userName" required onChange={(e) =>{setUser({...User, "username" : e.target.value})}}></input>
+                                <p className="errMsg" id="nameErr"></p>
                             </div>
                         </td>
                     </tr>
@@ -232,7 +320,7 @@ function RegisterPage(){
                 <thead>
                     <tr>
                         <td colSpan={"3"}>
-                            <button type="submit"><h5>회원가입</h5></button>
+                            <button id="registerBtn" type="submit"><h5>회원가입</h5></button>
                         </td>
                     </tr>
                 </thead>

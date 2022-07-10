@@ -23,6 +23,10 @@ function CheckPwPage() {
 
   function passwordCheck(e){
     e.preventDefault();
+    const checkPwBtn = document.getElementById("checkPwBtn");
+    checkPwBtn.setAttribute('disabled', true);
+    checkPwBtn.innerText = "확인 중..."
+    checkPwBtn.style.color="white";
     //로그인 call
     login(User).then((response)=>{
       if(response.success){
@@ -32,7 +36,12 @@ function CheckPwPage() {
           Swal.fire({
               icon: 'error',
               title: '비밀번호가 틀립니다.',
-            })
+            }).then((result)=>{
+              if(result){
+                checkPwBtn.removeAttribute('disabled');
+                checkPwBtn.innerText = "확인"
+            }
+            });
       }
   });
   }
@@ -88,7 +97,7 @@ function CheckPwPage() {
               <thead>
                     <tr>
                         <td colSpan={"3"}>
-                            <button type="submit"><h5>확인</h5></button>
+                            <button id="checkPwBtn" type="submit"><h5>확인</h5></button>
                         </td>
                     </tr>
                 </thead>

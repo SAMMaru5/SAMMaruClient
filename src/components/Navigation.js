@@ -39,7 +39,13 @@ function Navigation() {
 
         {userInfo != null && loading ? (
           <div style={{ marginLeft: "auto" }}>
+
             <p className="userInfo">
+            
+              {userInfo.response.role === "ROLE_ADMIN" ?
+                 <span><a href="/management">관리자 페이지</a> |{" "}</span> :
+                null
+              }
               <a href="/checkPw">정보 수정</a> |{" "}
               <a
                 href="#!"

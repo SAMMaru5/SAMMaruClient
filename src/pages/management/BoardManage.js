@@ -7,7 +7,7 @@ import { call } from "../../hooks/useFetch";
 import Swal from "sweetalert2";
 
 function BoardManage() {
-  const [board, setBoard] = useState({ name: "", description: "" });
+  const [board, setBoard] = useState({ boardName: "", description: "" });
   const navigate = useNavigate();
 
   const onSubmit = (e) => {
