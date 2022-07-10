@@ -1,39 +1,79 @@
-import './ClubActivities.scss'
+import "./ClubActivities.scss";
 
-function ClubActivities(){
-    return(
-    <div className="container">
-        <div className="Activities">
-          <div className="contentsLeft">
-            <div className="title">
-              <span className="small-title">SAMMaru</span> <br/>
-              <span className="big-title">개강총회</span></div>
-            <div className="shortSum">새로 시작하는 한학기</div>
-            <div className="subtitle">노는걸 잘해야 공부도 잘한다</div>
-            <div className="detail">모든 국민은 법 앞에 평등하다. 누구든지 성별·종교 또는 사회적 신분에 의하여 정치적·경제적·사회적·문화적 생활의 모든 영역에 있어서 차별을 받지 아니한다.</div>
-            <div className="button"><button><a href="#!">동아리 사진첩 바로가기</a></button></div>
+import img1 from "../../imgs/img1.jpg";
+import img2 from "../../imgs/img2.jpg";
+import img3 from "../../imgs/img3.jpg";
+
+function ClubActivities() {
+  return (
+    <section id="features">
+      <div className="container">
+        <header>
+          <h2>
+            S A M M a r u <strong> 추 억 필 름</strong>
+          </h2>
+        </header>
+        <div className="row aln-center">
+          <div className="col-4 col-6-medium col-12-small">
+            <section>
+              <a href="#" className="image featured">
+                <img src={img1} alt="" style={{ height: "100%" }} />
+              </a>
+              <header>
+                <h3>개강총회</h3>
+              </header>
+              <p>
+                개강 시기에 맞추어서 동아리간의 화합을 위해 <br />
+                <strong>개강총회</strong>를 진행했습니다.
+              </p>
+            </section>
           </div>
-          <div className="image">
-            <img src="KakaoTalk_Moim_3j5Aj3GPJCSf5xatggd2eVZXl3R62m.jpg" alt="사진"></img>
+          <div className="col-4 col-6-medium col-12-small">
+            <section>
+              <a href="#" className="image featured">
+                <img src={img2} alt="" style={{ height: "100%" }} />
+              </a>
+              <header>
+                <h3>Membership Training</h3>
+              </header>
+              <p>
+                동아리원들간의 친화력을 높이기 위해 <br />
+                Membership Training을 진행하고 있습니다.
+              </p>
+            </section>
           </div>
-       </div>
-          <div className="Activities">
-            <div className="image">
-              <img src="KakaoTalk_Moim_3j5Aj3GPJCSf5xatggd2eVZXl3R62m.jpg" alt="사진"></img>
-            </div>
-            <div className="contentsRight">
-              <div className="title">
-                <span className="small-title">SAMMaru</span> <br />
-                <span className="big-title">개강총회</span></div>
-              <div className="shortSum">새로 시작하는 한학기</div>
-              <div className="subtitle">노는걸 잘해야 공부도 잘한다</div>
-              <div className="detail">모든 국민은 법 앞에 평등하다. 누구든지 성별·종교 또는 사회적 신분에 의하여 정치적·경제적·사회적·문화적 생활의 모든 영역에 있어서 차별을 받지 아니한다.</div>
-              <div className="button"><button><a href="#!">동아리 사진첩 바로가기</a></button></div>
-            </div>
-  
+          <div className="col-4 col-6-medium col-12-small">
+            <section>
+              <a href="#" className="image featured">
+                <img src={img3} alt="" style={{ height: "100%" }} />
+              </a>
+              <header>
+                <h3>소규모 프로젝트</h3>
+              </header>
+              <p>
+                우리 동아리는 1,2학년 동아리원들의{" "}
+                <strong>프로젝트 능력 향상</strong>을 위해서 <br />
+                소규모 프로젝트를 진행하고 있습니다.
+              </p>
+            </section>
           </div>
+          <div className="col-12">
+            <ul className="actions">
+              <li>
+                <a
+                  href="#"
+                  className="button icon solid fa-file"
+                  style={{ backgroundColor: "#6a81ed" }}
+                >
+                  More
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-      )
+    </section>
+  );
 }
 
 export default ClubActivities;

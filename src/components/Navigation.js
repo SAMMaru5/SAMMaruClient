@@ -6,7 +6,7 @@ import { isAuth } from "./../hooks/useAuth";
 import { call } from "../hooks/useFetch";
 import { signout } from "../hooks/useAuth";
 import { getCookie } from "../hooks/useCookie";
-
+import { Helmet, HelmetProvider } from "react-helmet-async";
 function Navigation() {
   const [show1, setShow1] = useState(false);
   //const [show2, setShow2] = useState(false);
@@ -33,13 +33,12 @@ function Navigation() {
   }, [location, accessToken]);
 
   return (
-    <div className="Navigation container">
-      <div className="userStatus">
+    <div className="Navigation container" style={{ marginBottom: "100px" }}>
+      <div className="userStatus" style={{ display: "flex" }}>
         <p className="attendance">접속자(0명)</p>
 
         {userInfo != null && loading ? (
-          
-          <div>
+          <div style={{ marginLeft: "auto" }}>
 
             <p className="userInfo">
             
@@ -60,7 +59,7 @@ function Navigation() {
             </p>
           </div>
         ) : (
-          <div>
+          <div style={{ marginLeft: "auto" }}>
             <p className="user" onClick={() => navigate("/login")}>
               회원가입/로그인
             </p>
@@ -68,6 +67,149 @@ function Navigation() {
         )}
       </div>
 
+      <nav id="nav" style={{ justifyContent: "center" }}>
+        <img
+          src="img/logo.png"
+          alt="로고 이미지"
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/")}
+        />
+        <ul>
+          <li>
+            <a
+              href="#"
+              className="icon fa-chart-bar"
+              onMouseEnter={(e) => {
+                setShow1(!show1);
+              }}
+              onMouseLeave={(e) => {
+                setShow1(false);
+              }}
+              show={show1}
+            >
+              <span>샘마루</span>
+            </a>
+            <ul>
+              <li>
+                <a href="#">동아리 소개</a>
+              </li>
+              <li>
+                <a href="#">활동</a>
+              </li>
+              <li>
+                <a href="#">수상 경력</a>
+              </li>
+              <li>
+                <a href="#">회원</a>
+                <ul>
+                  <li>
+                    <a href="#">1기</a>
+                  </li>
+                  <li>
+                    <a href="#">2기</a>
+                  </li>
+                  <li>
+                    <a href="#">3기</a>
+                  </li>
+                  <li>
+                    <a href="#">4기</a>
+                  </li>
+                  <li>
+                    <a href="#">5기</a>
+                  </li>
+                  <li>
+                    <a href="#">6기</a>
+                  </li>
+                  <li>
+                    <a href="#">7기</a>
+                  </li>
+                  <li>
+                    <a href="#">8기</a>
+                  </li>
+                  <li>
+                    <a href="#">9기</a>
+                  </li>
+                  <li>
+                    <a href="#">10기</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a className="icon solid fa-home" href="/notice">
+              <span>공지사항</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" className="icon fa-chart-bar">
+              <span>자료실</span>
+            </a>
+            <ul>
+              <li>
+                <a href="#">특강자료</a>
+              </li>
+              <li>
+                <a href="#">활동보고서</a>
+              </li>
+              <li>
+                <a href="#">소규모 프로젝트</a>
+              </li>
+              <li>
+                <a href="#">족보</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a className="icon solid fa-cog" href="left-sidebar.html">
+              <span>자유게시판</span>
+            </a>
+          </li>
+          <li>
+            <a className="icon solid fa-retweet" href="/photo">
+              <span>사진첩</span>
+            </a>
+          </li>
+          <li>
+            <a className="icon solid fa-sitemap" href="no-sidebar.html">
+              <span>충북대학교</span>
+            </a>
+            <ul>
+              <li>
+                <a target="_blank" href="https://www.chungbuk.ac.kr/">
+                  충북대학교
+                </a>
+              </li>
+              <li>
+                <a target="_blank" href="https://eis.cbnu.ac.kr/">
+                  개신누리
+                </a>
+              </li>
+              <li>
+                <a target="_blank" href="https://software.cbnu.ac.kr/">
+                  소프트웨어학과
+                </a>
+              </li>
+              <li>
+                <a target="_blank" href="https://sw7up.cbnu.ac.kr/home">
+                  SW중심사업단
+                </a>
+              </li>
+              <li>
+                <a target="_blank" href="https://cbnu.blackboard.com/">
+                  Ecampus
+                </a>
+              </li>
+              <li>
+                <a target="_blank" href="https://dorm.chungbuk.ac.kr/">
+                  기숙사
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      {/* 
       <nav>
         <img
           src="img/logo.png"
@@ -172,7 +314,17 @@ function Navigation() {
             </NavDropdown.Item>
           </div>
         </NavDropdown>
-      </nav>
+      </nav> */}
+      <HelmetProvider>
+        <Helmet>
+          <script src="/assets/js/jquery.min.js"></script>
+          <script src="/assets/js/jquery.dropotron.min.js"></script>
+          <script src="/assets/js/browser.min.js"></script>
+          <script src="/assets/js/breakpoints.min.js"></script>
+          <script src="/assets/js/util.js"></script>
+          <script src="/assets/js/main.js"></script>
+        </Helmet>
+      </HelmetProvider>
     </div>
   );
 }
