@@ -2009,7 +2009,7 @@ button.alt:active,
 }
 
 #header > .container {
-  padding: 12em 0 3em 0;
+  padding: 7em 0 3em 0;
   border-bottom: solid 2px #e5e5e5;
   box-shadow: inset 0px -8px 0px 0px #fff, inset 0px -10px 0px 0px #e5e5e5;
 }
@@ -2393,7 +2393,7 @@ button.alt:active,
   /* Header */
 
   #header > .container {
-    padding: 12em 0 5em 0;
+    padding: 7em 0 5em 0;
   }
 
   #header h1 {

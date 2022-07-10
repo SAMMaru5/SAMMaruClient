@@ -33,7 +33,7 @@ function Navigation() {
   }, [location, accessToken]);
 
   return (
-    <div className="Navigation container">
+    <div className="Navigation container" style={{ marginBottom: "100px" }}>
       <div className="userStatus" style={{ display: "flex" }}>
         <p className="attendance">접속자(0명)</p>
 
@@ -131,7 +131,7 @@ function Navigation() {
             </ul>
           </li>
           <li>
-            <a className="icon solid fa-home" href="index.html">
+            <a className="icon solid fa-home" href="/notice">
               <span>공지사항</span>
             </a>
           </li>
@@ -160,7 +160,7 @@ function Navigation() {
             </a>
           </li>
           <li>
-            <a className="icon solid fa-retweet" href="right-sidebar.html">
+            <a className="icon solid fa-retweet" href="/photo">
               <span>사진첩</span>
             </a>
           </li>

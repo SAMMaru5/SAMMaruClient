@@ -45,7 +45,7 @@ function BoardManage() {
             type="text"
             placeholder="Enter Title"
             onChange={(e) => {
-              setBoard({ ...board, name: e.target.value });
+              setBoard({ ...board, boardName: e.target.value });
             }}
           />
         </Form.Group>

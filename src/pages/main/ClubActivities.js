@@ -23,11 +23,8 @@ function ClubActivities() {
                 <h3>개강총회</h3>
               </header>
               <p>
-                This is <strong>Strongly Typed</strong>, a free, fully
-                responsive site template by
-                <a href="http://html5up.net">HTML5 UP</a>. Free for personal and
-                commercial use under the
-                <a href="http://html5up.net/license">CCA 3.0 license</a>.
+                개강 시기에 맞추어서 동아리간의 화합을 위해 <br />
+                <strong>개강총회</strong>를 진행했습니다.
               </p>
             </section>
           </div>
@@ -40,10 +37,8 @@ function ClubActivities() {
                 <h3>Membership Training</h3>
               </header>
               <p>
-                <a href="http://html5up.net">HTML5 UP</a> is a side project of
-                <a href="http://twitter.com/ajlkn">AJ’s</a> (= me). I started it
-                as a way to both test my responsive tools and sharpen up my
-                coding and design skills a bit.
+                동아리원들간의 친화력을 높이기 위해 <br />
+                Membership Training을 진행하고 있습니다.
               </p>
             </section>
           </div>
@@ -56,10 +51,9 @@ function ClubActivities() {
                 <h3>소규모 프로젝트</h3>
               </header>
               <p>
-                <strong>Responsive Tools</strong> is a simple set of tools for
-                building responsive sites and apps. All of my templates at
-                <a href="http://html5up.net">HTML5 UP</a> are built using these
-                tools.
+                우리 동아리는 1,2학년 동아리원들의{" "}
+                <strong>프로젝트 능력 향상</strong>을 위해서 <br />
+                소규모 프로젝트를 진행하고 있습니다.
               </p>
             </section>
           </div>
