@@ -12,6 +12,8 @@ import CheckPwPage from "./pages/modifyUserInfo/CheckPwPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PhotoPage from "./pages/photo/PhotoPage";
 
+import AwardsPage from "./pages/about/AwardsPage";
+
 import NoticePage from "./pages/notice/NoticePage";
 import NoticeDetailPage from "./pages/notice/NoticeDetailPage";
 import NoticeUpdate from "./pages/notice/NoticeUpdate";
@@ -27,7 +29,6 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 
-
 function App() {
   return (
     <div className="App">
@@ -36,6 +37,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route path="awards" element={<AwardsPage />} />
           <Route path="/photo" element={<PhotoPage />} />
           <Route path="/photo/photoUpdate" element={<PhotoUpdate />} />
           <Route path="/notice" element={<NoticePage />} />
@@ -43,9 +45,12 @@ function App() {
           <Route path="/notice/noticeUpdate" element={<NoticeUpdate />} />
 
           <Route path="/freeBoard" element={<FreeBoardPage />} />
-          <Route path="/freeBoard/freeBoardUpdate" element={<FreeBoardUpdate />}/>
-          <Route path="/freeBoardDetail" element={<FreeBoardDetail />}/>
-          
+          <Route
+            path="/freeBoard/freeBoardUpdate"
+            element={<FreeBoardUpdate />}
+          />
+          <Route path="/freeBoardDetail" element={<FreeBoardDetail />} />
+
           <Route path="/management" element={<ManagepentPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/agree" element={<AgreePage />} />
