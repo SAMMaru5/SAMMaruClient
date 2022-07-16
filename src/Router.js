@@ -28,6 +28,7 @@ import FreeBoardDetail from "./pages/freeBoard/FreeBoardDetailPage";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
+import IntroClubPage from "./pages/about/IntroClubPage";
 
 function App() {
   return (
@@ -59,6 +60,8 @@ function App() {
           <Route path="/photo/photoDetail" element={<PhotoDetail />} />
           <Route path="/checkPw" element={<CheckPwPage />} />
           <Route path="/modifyUserInfo" element={<ModifyUserInfoPage />} />
+
+          <Route path="/clubIntro" element={<IntroClubPage/>} />
         </Routes>
       </Router>
       <Footer />

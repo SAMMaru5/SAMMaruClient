@@ -90,7 +90,7 @@ function Navigation() {
             </a>
             <ul>
               <li>
-                <a href="#">동아리 소개</a>
+                <a href="/clubIntro">동아리 소개</a>
               </li>
               <li>
                 <a href="#">활동</a>
