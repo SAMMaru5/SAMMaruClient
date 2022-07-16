@@ -61,13 +61,24 @@ function Board() {
         return(
             <tr onClick={()=>{onClickDetaile(board)}}>
                 <td>
-                    <p className='number'>
+                    <p>
                         {board.id}
                     </p>
                 </td>
                 <td>
-                    <p className='content'>
+                    <p>
+                        {board.createDt.slice(0, 10)}
+                    </p>
+                </td>
+   
+                <td>
+                    <p>
                         {board.title}
+                    </p>
+                </td>
+                <td>
+                    <p>
+                        {board.author}
                     </p>
                 </td>
             </tr>
@@ -75,17 +86,23 @@ function Board() {
     }
     return (
         <div className="Board">
-            <h4>동아리 공지</h4>
             <table>
                 <thead>
-                    <tr>
-                        <th>
-                            <h5>번호</h5>
+                      <tr>
+                        <th scope="col" style={{ textAlign: "center" }}>
+                          #
                         </th>
-                        <th>
-                            <h5>제목</h5>
+                        <th scope="col" style={{ textAlign: "center" }}>
+                          날짜
                         </th>
-                    </tr>
+      
+                        <th scope="col" style={{ textAlign: "center" }}>
+                          제목
+                        </th>
+                        <th scope="col" style={{ textAlign: "center" }}>
+                          작성자
+                        </th>
+                      </tr>
                 </thead>
                 {loading && announcements.success === true
                 ? 
