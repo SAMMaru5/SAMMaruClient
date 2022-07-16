@@ -4,32 +4,33 @@
   padding-top: 1.5em;
 }
 
-.grid-container{
+.grid-container {
   display: grid;
   grid-template-columns: 1fr 10px 1fr;
   gap: 0.2em;
+  margin-bottom: 5em;
 
   li {
     list-style: none;
   }
 
   span {
-    color: #3A34C6;
+    color: #3a34c6;
     font-weight: bolder;
     font-size: 2em;
   }
 
-  .item-left{
+  .item-left {
     padding: 0 1.5em;
     text-align: right;
   }
 
-  .item-right{
+  .item-right {
     padding: 0 1.5em;
     text-align: left;
   }
 
-  .item-middle{
+  .item-middle {
     border-left: 5px dotted black;
   }
 }
