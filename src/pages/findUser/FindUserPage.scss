@@ -1,0 +1,57 @@
+.FindUserPage{
+    width: 22%;
+    display: flex;
+    margin: 0 auto;
+    margin-top: 5%;
+    flex-direction: column;
+    
+    .loginLogo{
+        width: 100%;
+        height: 200px;
+    }
+    .findForm{
+        display: flex;
+        flex-direction: column;
+    }
+    input{
+        font-size: 1.2em;
+        margin-bottom: 2%;
+        padding-left: 2%;
+    }
+    button{
+        font-size: 1.2em;
+        height: 40px;
+        background-color: black;
+        color: white;
+        padding-top: 1%;
+        border: none;
+    }
+
+    .autoLoginFrame{
+        label{
+            cursor: pointer;
+        }
+
+        input{
+            cursor: pointer;
+        }
+    }
+    figure{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img{
+            height: auto;
+        }
+        
+    }
+    .findConfirm{
+        display: flex;
+        flex-direction: row-reverse;
+    }
+    p{
+        margin-top: 10%;
+        font-size: 1.2em;
+    }
+ margin-bottom: 2%;
+}
