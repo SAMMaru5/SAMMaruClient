@@ -5,6 +5,9 @@ import { useNavigate, Link } from "react-router-dom";
 import { getCookie } from "../../hooks/useCookie";
 import Swal from "sweetalert2";
 import { call } from "../../hooks/useFetch";
+
+import notice from "../../imgs/banner/notice.jpg";
+
 const axios = require("axios").default;
 
 const isAdmin = true;
@@ -37,7 +40,6 @@ function NoticePage(props) {
               `/no-permit/api/boards/${response.response[i].id}/pages/1`,
               "GET"
             ).then((response) => {
-              // console.log(response);
               if (response.success) {
                 setBoardlist(response.response);
                 setloading(true);
@@ -60,7 +62,6 @@ function NoticePage(props) {
   }, []);
 
   const selectContent = (e) => {
-    // console.log(e.target.id);
     navigate("/noticeDetail", { state: { id: e.target.id } });
   };
 
@@ -105,17 +106,15 @@ function NoticePage(props) {
     ));
   }
   const onClickDetaile = (list) => {
-    call("/api/user/info", "GET").then((response)=>{
-      if(response !== undefined && response !=='undefined'){
-        navigate('/noticeDetail', {
+    call("/api/user/info", "GET").then((response) => {
+      if (response !== undefined && response !== "undefined") {
+        navigate("/noticeDetail", {
           state: {
-              boardId : boardId,
-              articleId : list.id
-              ,
+            boardId: boardId,
+            articleId: list.id,
           },
         });
-      }
-      else{
+      } else {
         Swal.fire({
           icon: "error",
           title: "로그인이 필요합니다.",
@@ -125,71 +124,13 @@ function NoticePage(props) {
           }
         });
       }
-      
-    })
-
+    });
   };
-
-  // const contentList = async () => {
-  //   try {
-  //     const response = await axios.get("http://localhost:8080/api/boards");
-  //     setData(response.data.response);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // contentList();
-
-  // contentList.map((item) =>
-  //   item.important ? (
-  //     <div className="important">
-  //       <div className="num" key={item.num}>
-  //         <Badge bg="danger">중요</Badge>
-  //       </div>
-  //       <div className="contents" id={item.num} onClick={selectContent}>
-  //         {item.value}
-  //       </div>
-  //       <div className="file">
-  //         {item.file ? (
-  //           <img src="premium-icon-attachments-327931.png" alt="첨부"></img>
-  //         ) : (
-  //           <div> </div>
-  //         )}
-  //       </div>
-  //       <div className="date">{item.date}</div>
-  //     </div>
-  //   ) : (
-  //     <div className="content">
-  //       <div className="num" key={item.num}>
-  //         {item.num}
-  //       </div>
-  //       <div className="contents" onClick={selectContent} id={item.num}>
-  //         {item.value}
-  //       </div>
-  //       <div className="file">
-  //         {item.file ? (
-  //           <img src="premium-icon-attachments-327931.png" alt="첨부"></img>
-  //         ) : (
-  //           <div> </div>
-  //         )}
-  //       </div>
-  //       <div className="date">{item.date}</div>
-  //     </div>
-  //   )
-  // );
 
   return (
     <div className="noticePage">
-      <div className="title">
-        <div className="thumbnail">
-          <img src="noticeThumbNail.png" alt="thumbnail" />{" "}
-        </div>
-        <div className="pageName">
-          <span>공지사항</span>
-        </div>
-      </div>
       <div className="container">
+        <img src={notice} style={{ width: "100%", height: "200px" }}></img>
         <div className="location">
           <img className="home" src="home.png" alt="home"></img>
           <span>{"/"}</span>
@@ -199,14 +140,44 @@ function NoticePage(props) {
           <b> 검색구분 </b>
           <div className="inp_sch">
             <select name="srchTp">
-              <option value="title">제목</option>
-              <option value="cpntent">내용</option>
-              <option value="both">제목+내용</option>
+              <option value="title" style={{ textAlign: "center" }}>
+                제목
+              </option>
+              <option value="cpntent" style={{ textAlign: "center" }}>
+                내용
+              </option>
+              <option value="both" style={{ textAlign: "center" }}>
+                제목+내용
+              </option>
             </select>
             <input type="text"></input>
             <input type="submit" value={"검색"}></input>
           </div>
         </div>
+        {isAdmin ? (
+          <div
+            className="adminPost"
+            style={{
+              display: "flex",
+              justifyContent: "right",
+              margin: "10px 0px 20px 0px",
+            }}
+          >
+            <button
+              className="w3-bar-item w3-button"
+              style={{
+                background: "#6a81ed",
+                width: "130px",
+                padding: "10px 0px 10px 0px",
+              }}
+              onClick={onClickRegister}
+            >
+              작성하기
+            </button>
+          </div>
+        ) : (
+          <div></div>
+        )}
         <div className="contents">
           <div className="contentsTitle">
             <div className="num">번호</div>
@@ -216,12 +187,20 @@ function NoticePage(props) {
           {loading ? (
             <>
               {boardlist.map((list, i) => {
+                let createDt = list.createDt.slice(0, 10);
                 return (
                   <div key={i} className="eachContents">
-                    <div className="content" onClick={()=>{onClickDetaile(list)}}>
+                    <div
+                      className="content"
+                      onClick={() => {
+                        onClickDetaile(list);
+                      }}
+                    >
                       <div className="num">{list.id}</div>
                       <div className="value">{list.title}</div>
-                      <div className="date">{list.createDt}</div>
+                      <div className="date" style={{ textAlign: "center" }}>
+                        {createDt}
+                      </div>
                     </div>
                   </div>
                 );
@@ -230,13 +209,6 @@ function NoticePage(props) {
           ) : null}
         </div>
       </div>
-      {isAdmin ? (
-        <div className="adminPost">
-          <Button onClick={onClickRegister}>작성하기</Button>
-        </div>
-      ) : (
-        <div></div>
-      )}
 
       <div className="pageNum">
         <Pagination>
