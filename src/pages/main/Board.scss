@@ -1,41 +1,15 @@
 .Board{
-    width: 25%;
-    margin-right: 5%;
-    float: left;
-    
-    h4{
-        width: 70%;
-        text-align: center;
-        background-color: #FEEAE3;
-        padding: 1.5%;
-        margin: 0 auto;
-        margin-bottom: 10%;
+    *{font-size: 1.02em;}
+    table td:nth-child(1){
+        width: 10%;
+    }
+    table td:nth-child(2){
+        width: 15%;
+    }
+    table td:nth-child(4){
+        width: 15%;
     }
 
-    table{
-        width: 100%;
-        thead{
-            background-color: rgb(240, 248, 255);
-        }
-        thead td:first-child{
-            width: 15%;
-        }
-    
-        .number{
-            text-align: center;
-            padding-top: 3%;
-        }
-    
-        .content{
-            padding-left: 3%;
-            
-        }
-    
-        h5{
-            padding-top: 2%;
-            text-align: center;
-        }
-    }
 }
 
 
