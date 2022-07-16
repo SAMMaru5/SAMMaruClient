@@ -39,13 +39,12 @@ function Navigation() {
 
         {userInfo != null && loading ? (
           <div style={{ marginLeft: "auto" }}>
-
             <p className="userInfo">
-            
-              {userInfo.response.role === "ROLE_ADMIN" ?
-                 <span><a href="/management">관리자 페이지</a> |{" "}</span> :
-                null
-              }
+              {userInfo.response.role === "ROLE_ADMIN" ? (
+                <span>
+                  <a href="/management">관리자 페이지</a> |{" "}
+                </span>
+              ) : null}
               <a href="/checkPw">정보 수정</a> |{" "}
               <a
                 href="#!"
@@ -97,7 +96,7 @@ function Navigation() {
                 <a href="#">활동</a>
               </li>
               <li>
-                <a href="#">수상 경력</a>
+                <a href="/awards">수상 경력</a>
               </li>
               <li>
                 <a href="#">회원</a>
