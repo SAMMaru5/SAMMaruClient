@@ -42,9 +42,9 @@ const PhotoDetail = () => {
     <div className="photo-detail-content">
       {loading ? (
         <div>
-          <p style={{ justifyContent: "center", fontSize: "30px" }}>
+          <h3 style={{ justifyContent: "center", fontSize: "30px" }}>
             {article.title}{" "}
-          </p>
+          </h3>
           <p>
             {"   "}
             {article.author} | {createDt}
@@ -163,14 +163,27 @@ const PhotoDetail = () => {
           <hr />
 
           <p>{article.content}</p>
-          <Button
-            variant="primary"
-            onClick={() => {
-              navigate("../photo");
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "50px",
             }}
           >
-            글 목록
-          </Button>
+            <button
+              className="w3-bar-item w3-button"
+              style={{
+                background: "#6a81ed",
+                width: "130px",
+                padding: "10px 0px 10px 0px",
+              }}
+              onClick={() => {
+                navigate("../photo");
+              }}
+            >
+              글 목록
+            </button>
+          </div>
         </div>
       ) : (
         <div></div>
