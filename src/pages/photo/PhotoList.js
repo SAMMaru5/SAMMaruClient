@@ -107,10 +107,13 @@ const PhotoList = () => {
                         "/files/" +
                         list.files[0].filePath
                       }
-                      style={{ width: "100%", height: "100%" }}
+                      style={{ width: "100%", height: "230px" }}
                     ></img>
                     <br />
-                    {list.title}
+                    <br />
+                    <h4>
+                      <strong>{list.title}</strong>
+                    </h4>
                     <hr />
                     {list.author} | {createDt}
                   </div>
