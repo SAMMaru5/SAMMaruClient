@@ -160,7 +160,7 @@ function Navigation() {
             </ul>
           </li>
           <li>
-            <a className="icon solid fa-cog" href="left-sidebar.html">
+            <a className="icon solid fa-cog" href="/freeBoard">
               <span>자유게시판</span>
             </a>
           </li>

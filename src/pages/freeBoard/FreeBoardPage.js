@@ -5,6 +5,8 @@ import { getCookie } from "../../hooks/useCookie";
 import Swal from "sweetalert2";
 import { call } from "../../hooks/useFetch";
 
+import free from "../../imgs/banner/free.jpg";
+
 function FreeBoardPage() {
   const navigate = useNavigate();
   const [authorizationValue, setAuthorizationValue] = useState("");
@@ -81,18 +83,16 @@ function FreeBoardPage() {
     navigate("./freeBoardUpdate");
   };
 
-  const onClickDetaile = (list) => {
-    call("/api/user/info", "GET").then((response)=>{
-      if(response !== undefined && response !=='undefined'){
-        navigate('/freeBoardDetail', {
+  const onClickDetail = (list) => {
+    call("/api/user/info", "GET").then((response) => {
+      if (response !== undefined && response !== "undefined") {
+        navigate("/freeBoardDetail", {
           state: {
-              boardId : boardId,
-              articleId : list.id
-              ,
+            boardId: boardId,
+            articleId: list.id,
           },
         });
-      }
-      else{
+      } else {
         Swal.fire({
           icon: "error",
           title: "로그인이 필요합니다.",
@@ -102,22 +102,13 @@ function FreeBoardPage() {
           }
         });
       }
-      
-    })
-
+    });
   };
-  
+
   return (
     <div className="noticePage">
-      <div className="title">
-        <div className="thumbnail">
-          <img src="noticeThumbNail.png" alt="thumbnail" />{" "}
-        </div>
-        <div className="pageName">
-          <span>자유게시판</span>
-        </div>
-      </div>
       <div className="container">
+        <img src={free} style={{ width: "100%", height: "200px" }}></img>
         <div className="location">
           <img className="home" src="home.png" alt="home"></img>
           <span>{"/"}</span>
@@ -127,30 +118,65 @@ function FreeBoardPage() {
           <b> 검색구분 </b>
           <div className="inp_sch">
             <select name="srchTp">
-              <option value="title">제목</option>
-              <option value="cpntent">내용</option>
-              <option value="both">제목+내용</option>
+              <option value="title" style={{ textAlign: "center" }}>
+                제목
+              </option>
+              <option value="cpntent" style={{ textAlign: "center" }}>
+                내용
+              </option>
+              <option value="both" style={{ textAlign: "center" }}>
+                제목+내용
+              </option>
             </select>
             <input type="text"></input>
             <input type="submit" value={"검색"}></input>
           </div>
         </div>
+
+        <div
+          className="adminPost"
+          style={{
+            display: "flex",
+            justifyContent: "right",
+            margin: "10px 0px 20px 0px",
+          }}
+        >
+          <button
+            className="w3-bar-item w3-button"
+            style={{
+              background: "#6a81ed",
+              width: "130px",
+              padding: "10px 0px 10px 0px",
+            }}
+            onClick={freeBoardUpload}
+          >
+            작성하기
+          </button>
+        </div>
+
         <div className="contents">
           <div className="contentsTitle">
             <div className="num">번호</div>
             <div className="value">제목</div>
             <div className="date">작성일</div>
           </div>
-          
           {loading ? (
             <>
               {boardlist.map((list, i) => {
+                let createDt = list.createDt.slice(0, 10);
                 return (
-                  <div key={i} className=" eachContents">
-                    <div className="content" onClick={()=>{onClickDetaile(list)}}>
+                  <div key={i} className="eachContents">
+                    <div
+                      className="content"
+                      onClick={() => {
+                        onClickDetail(list);
+                      }}
+                    >
                       <div className="num">{list.id}</div>
                       <div className="value">{list.title}</div>
-                      <div className="date">{list.createDt}</div>
+                      <div className="date" style={{ textAlign: "center" }}>
+                        {createDt}
+                      </div>
                     </div>
                   </div>
                 );
@@ -158,15 +184,6 @@ function FreeBoardPage() {
             </>
           ) : null}
         </div>
-      </div>
-      <div className="adminPost">
-        <Button
-          onClick={() => {
-            freeBoardUpload();
-          }}
-        >
-          작성하기
-        </Button>
       </div>
 
       <div className="pageNum">
