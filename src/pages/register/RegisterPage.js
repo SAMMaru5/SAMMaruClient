@@ -107,7 +107,7 @@ function RegisterPage(){
 
     const checkPassword1 = (e) =>{
         document.getElementsByClassName("siteInfo")[0].style.display="flex";
-        var regExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/
+        var regExp = /(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\W)(?=\S+$).{8,20}/
         var pw1Err = document.getElementById("pw1Err");
         if(e.target.value === ''){
             pw1Err.innerHTML = "필수 정보입니다.";
@@ -188,7 +188,7 @@ function RegisterPage(){
                             
                             <div className="inputText">
                                 <i className="fas fa-lock fa-sm"></i>
-                                <input type={"password"} autoComplete="current-password" id="userPw" title="최소 8자리에서 최대 20자리까지 숫자, 영문, 특수문자 각 1개 이상 포함해주세요." pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$" required onChange={(e) =>{checkPassword1(e); setUser({...User, "password" : e.target.value})}}></input>
+                                <input type={"password"} autoComplete="current-password" id="userPw" title="최소 8자리에서 최대 20자리까지 숫자, 영문, 특수문자 각 1개 이상 포함해주세요." pattern="(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\W)(?=\S+$).{8,20}" required onChange={(e) =>{checkPassword1(e); setUser({...User, "password" : e.target.value})}}></input>
                                 <p className="errMsg" id="pw1Err"></p>
                             </div>
                         </td>
