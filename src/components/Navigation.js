@@ -1,6 +1,5 @@
 import "./Navigation.scss";
 import { useEffect, useState } from "react";
-import { NavDropdown } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 import { isAuth } from "./../hooks/useAuth";
 import { call } from "../hooks/useFetch";
@@ -10,10 +9,10 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 function Navigation() {
   const [show1, setShow1] = useState(false);
   //const [show2, setShow2] = useState(false);
-  const [show3, setShow3] = useState(false);
+  // const [show3, setShow3] = useState(false);
   //const [show4, setShow4] = useState(false);
   //const [show5, setShow5] = useState(false);
-  const [show6, setShow6] = useState(false);
+  // const [show6, setShow6] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -76,7 +75,7 @@ function Navigation() {
         <ul>
           <li>
             <a
-              href="#"
+              href="#!"
               className="icon fa-chart-bar"
               onMouseEnter={(e) => {
                 setShow1(!show1);
@@ -93,43 +92,43 @@ function Navigation() {
                 <a href="/clubIntro">동아리 소개</a>
               </li>
               <li>
-                <a href="#">활동</a>
+                <a href="#!">활동</a>
               </li>
               <li>
                 <a href="/awards">수상 경력</a>
               </li>
               <li>
-                <a href="#">회원</a>
+                <a href="#!">회원</a>
                 <ul>
                   <li>
                     <a href="/clubMember">1기</a>
                   </li>
                   <li>
-                    <a href="#">2기</a>
+                    <a href="#!">2기</a>
                   </li>
                   <li>
-                    <a href="#">3기</a>
+                    <a href="#!">3기</a>
                   </li>
                   <li>
-                    <a href="#">4기</a>
+                    <a href="#!">4기</a>
                   </li>
                   <li>
-                    <a href="#">5기</a>
+                    <a href="#!">5기</a>
                   </li>
                   <li>
-                    <a href="#">6기</a>
+                    <a href="#!">6기</a>
                   </li>
                   <li>
-                    <a href="#">7기</a>
+                    <a href="#!">7기</a>
                   </li>
                   <li>
-                    <a href="#">8기</a>
+                    <a href="#!">8기</a>
                   </li>
                   <li>
-                    <a href="#">9기</a>
+                    <a href="#!">9기</a>
                   </li>
                   <li>
-                    <a href="#">10기</a>
+                    <a href="#!">10기</a>
                   </li>
                 </ul>
               </li>
@@ -141,21 +140,21 @@ function Navigation() {
             </a>
           </li>
           <li>
-            <a href="#" className="icon fa-chart-bar">
+            <a href="#!" className="icon fa-chart-bar">
               <span>자료실</span>
             </a>
             <ul>
               <li>
-                <a href="#">특강자료</a>
+                <a href="#!">특강자료</a>
               </li>
               <li>
-                <a href="#">활동보고서</a>
+                <a href="#!">활동보고서</a>
               </li>
               <li>
-                <a href="#">소규모 프로젝트</a>
+                <a href="#!">소규모 프로젝트</a>
               </li>
               <li>
-                <a href="#">족보</a>
+                <a href="#!">족보</a>
               </li>
             </ul>
           </li>
@@ -175,32 +174,32 @@ function Navigation() {
             </a>
             <ul>
               <li>
-                <a target="_blank" href="https://www.chungbuk.ac.kr/">
+                <a target="_blank" rel="noopener noreferrer" href="https://www.chungbuk.ac.kr/">
                   충북대학교
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://eis.cbnu.ac.kr/">
+                <a target="_blank" rel="noopener noreferrer"  href="https://eis.cbnu.ac.kr/">
                   개신누리
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://software.cbnu.ac.kr/">
+                <a target="_blank" rel="noopener noreferrer"  href="https://software.cbnu.ac.kr/">
                   소프트웨어학과
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://sw7up.cbnu.ac.kr/home">
+                <a target="_blank" rel="noopener noreferrer"  href="https://sw7up.cbnu.ac.kr/home">
                   SW중심사업단
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://cbnu.blackboard.com/">
+                <a target="_blank" rel="noopener noreferrer"  href="https://cbnu.blackboard.com/">
                   Ecampus
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://dorm.chungbuk.ac.kr/">
+                <a target="_blank" rel="noopener noreferrer"  href="https://dorm.chungbuk.ac.kr/">
                   기숙사
                 </a>
               </li>

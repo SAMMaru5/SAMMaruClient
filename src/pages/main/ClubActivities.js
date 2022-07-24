@@ -16,7 +16,7 @@ function ClubActivities() {
         <div className="row aln-center">
           <div className="col-4 col-6-medium col-12-small">
             <section>
-              <a href="#" className="image featured">
+              <a href="#!" className="image featured">
                 <img src={img1} alt="" style={{ height: "100%" }} />
               </a>
               <header>
@@ -30,7 +30,7 @@ function ClubActivities() {
           </div>
           <div className="col-4 col-6-medium col-12-small">
             <section>
-              <a href="#" className="image featured">
+              <a href="#!" className="image featured">
                 <img src={img2} alt="" style={{ height: "100%" }} />
               </a>
               <header>
@@ -44,7 +44,7 @@ function ClubActivities() {
           </div>
           <div className="col-4 col-6-medium col-12-small">
             <section>
-              <a href="#" className="image featured">
+              <a href="#!" className="image featured">
                 <img src={img3} alt="" style={{ height: "100%" }} />
               </a>
               <header>
@@ -61,7 +61,7 @@ function ClubActivities() {
             <ul className="actions">
               <li>
                 <a
-                  href="#"
+                  href="#!"
                   className="button icon solid fa-file"
                   style={{ backgroundColor: "#6a81ed" }}
                 >

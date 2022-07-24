@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Button } from "react-bootstrap";
 
 import "./PhotoDetail.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -37,7 +36,7 @@ const PhotoDetail = () => {
         });
       }
     });
-  }, []);
+  }, [location.state.boardId, location.state.articleId]);
   return (
     <div className="photo-detail-content">
       {loading ? (
@@ -68,7 +67,7 @@ const PhotoDetail = () => {
                       "/files/" +
                       article.files[0].filePath
                     }
-                    alt="photo-img"
+                    alt="photoDetail-img"
                     style={{ width: "100%" }}
                   />
                 </div>
@@ -84,7 +83,7 @@ const PhotoDetail = () => {
                       "/files/" +
                       article.files[0].filePath
                     }
-                    alt="photo-img"
+                    alt="photoDetail-img"
                     style={{ width: "100%" }}
                   />
                 </div>
@@ -100,7 +99,7 @@ const PhotoDetail = () => {
                       "/files/" +
                       article.files[0].filePath
                     }
-                    alt="photo-img"
+                    alt="photoDetail-img"
                     style={{ width: "100%" }}
                   />
                 </div>
@@ -116,7 +115,7 @@ const PhotoDetail = () => {
                       "/files/" +
                       article.files[0].filePath
                     }
-                    alt="photo-img"
+                    alt="photoDetail-img"
                     style={{ width: "100%" }}
                   />
                 </div>
@@ -132,7 +131,7 @@ const PhotoDetail = () => {
                       "/files/" +
                       article.files[0].filePath
                     }
-                    alt="photo-img"
+                    alt="photoDetail-img"
                     style={{ width: "100%" }}
                   />
                 </div>
@@ -157,6 +156,7 @@ const PhotoDetail = () => {
                 "/files/" +
                 article.files[0].filePath
               }
+              alt="photoDetail-img"
               style={{ width: "60%", height: "10%" }}
             />
           </div>
