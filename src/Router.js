@@ -29,6 +29,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import IntroClubPage from "./pages/about/IntroClubPage";
+import ClubMember from "./pages/about/member/ClubMember";
 
 function App() {
   return (
@@ -62,6 +63,8 @@ function App() {
           <Route path="/modifyUserInfo" element={<ModifyUserInfoPage />} />
 
           <Route path="/clubIntro" element={<IntroClubPage/>} />
+
+          <Route path="/clubMember" element={<ClubMember/>} />
         </Routes>
       </Router>
       <Footer />

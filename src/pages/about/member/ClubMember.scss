@@ -1,0 +1,39 @@
+#memberPage{
+  .container{
+    width: 80%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .studentId{
+    display: flex;
+  }
+
+  .studentId span {
+    text-align: left;
+    font-size: 24px;
+    font-weight: bolder;
+    color: #3a34c6;
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 2em;
+  }
+
+  .member {
+    border: 1px solid black;
+    padding: 1.2em 0 10px 0;
+  }
+
+  .member img {
+    width: 130px;
+    height: 160px;
+  }
+
+  .member div {
+    padding-top: 10px;
+  }
+}

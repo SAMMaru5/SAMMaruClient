@@ -102,7 +102,7 @@ function Navigation() {
                 <a href="#">회원</a>
                 <ul>
                   <li>
-                    <a href="#">1기</a>
+                    <a href="/clubMember">1기</a>
                   </li>
                   <li>
                     <a href="#">2기</a>
