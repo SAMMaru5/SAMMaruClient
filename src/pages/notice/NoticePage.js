@@ -105,7 +105,7 @@ function NoticePage(props) {
       </div>
     ));
   }
-  const onClickDetaile = (list) => {
+  const onClickDetail = (list) => {
     call("/api/user/info", "GET").then((response) => {
       if (response !== undefined && response !== "undefined") {
         navigate("/noticeDetail", {
@@ -193,7 +193,7 @@ function NoticePage(props) {
                     <div
                       className="content"
                       onClick={() => {
-                        onClickDetaile(list);
+                        onClickDetail(list);
                       }}
                     >
                       <div className="num">{list.id}</div>
