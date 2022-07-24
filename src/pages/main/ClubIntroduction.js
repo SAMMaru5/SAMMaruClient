@@ -4,14 +4,14 @@ import pic from "../../imgs/pic.jpg";
 import github from "../../imgs/logo.png";
 
 function clubIntroduction() {
-  function openTab(tabName) {
-    var i;
-    var x = document.getElementsByClassName("tab");
-    for (i = 0; i < x.length; i++) {
-      x[i].style.display = "none";
-    }
-    document.getElementById(tabName).style.display = "block";
-  }
+  // function openTab(tabName) {
+  //   var i;
+  //   var x = document.getElementsByClassName("tab");
+  //   for (i = 0; i < x.length; i++) {
+  //     x[i].style.display = "none";
+  //   }
+  //   document.getElementById(tabName).style.display = "block";
+  // }
 
   return (
     <section id="main">
@@ -21,14 +21,14 @@ function clubIntroduction() {
             <article className="box post">
               <header>
                 <h2>
-                  <a href="#">
+                  <a href="#!">
                     충북대학교 소프트웨어학과 알고리즘 동아리
                     <br />
                     <strong>SAMMaru </strong> ...
                   </a>
                 </h2>
               </header>
-              <a href="#" className="image featured">
+              <a href="#!" className="image featured">
                 <img src={pic} style={{ height: "100%" }} alt="" />
               </a>
               <h3>샘마루는 어떤 동아리 일까요?</h3>
@@ -46,7 +46,7 @@ function clubIntroduction() {
               <ul className="actions">
                 <li>
                   <a
-                    href="#"
+                    href="#!"
                     className="button icon solid fa-file"
                     style={{ backgroundColor: "rgb(106, 129, 237)" }}
                   >
@@ -65,7 +65,7 @@ function clubIntroduction() {
                     <header>
                       <span className="date">특강/세미나</span>
                       <h3>
-                        <a href="#">자체적으로 진행하는 특강/세미나</a>
+                        <a href="#!">자체적으로 진행하는 특강/세미나</a>
                       </h3>
                     </header>
                     <p>
@@ -82,7 +82,7 @@ function clubIntroduction() {
                     <header>
                       <span className="date">시험자료</span>
                       <h3>
-                        <a href="#">학과 시험은 기출문제로 공부하자</a>
+                        <a href="#!">학과 시험은 기출문제로 공부하자</a>
                       </h3>
                     </header>
                     <p>
@@ -101,10 +101,10 @@ function clubIntroduction() {
                   <article className="box highlight">
                     <header>
                       <h3>
-                        <a href="#">동아리 스터디</a>
+                        <a href="#!">동아리 스터디</a>
                       </h3>
                     </header>
-                    <a href="#" className="image left">
+                    <a href="#!" className="image left">
                       <img src={github} alt="" />
                     </a>
                     <p>

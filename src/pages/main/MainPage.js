@@ -1,6 +1,6 @@
-import Activity from "./Activity";
+// import Activity from "./Activity";
 import Board from "./Board";
-import Schedule from "./Schedule";
+// import Schedule from "./Schedule";
 import ScheduleDetaile from "./ScheduleDetaile";
 import ClubIntroduction from "./ClubIntroduction";
 import ClubActivities from "./ClubActivities";
@@ -19,11 +19,11 @@ function MainPage() {
     for (i = 0; i < tab.current.length; i++) {
       tab.current[i].style.display = "none";
     }
-    if (tabName == "scheduletab") {
+    if (tabName === "scheduletab") {
       tab.current[0].style.display = "block";
-    } else if (tabName == "noticetab") {
+    } else if (tabName === "noticetab") {
       tab.current[1].style.display = "block";
-    } else if (tabName == "boardtab") {
+    } else if (tabName === "boardtab") {
       tab.current[2].style.display = "block";
     }
   }

@@ -28,7 +28,7 @@ function FreeBoardUpdate() {
     call("/no-permit/api/boards", "GET").then((response) => {
       if (response.success) {
         for (let i = 0; i < response.response.length; i++) {
-          if (response.response[i].name == "자유게시판") {
+          if (response.response[i].name === "자유게시판") {
             setBoardId(response.response[i].id);
           }
         }
@@ -57,7 +57,7 @@ function FreeBoardUpdate() {
       new Blob([JSON.stringify(photo)], { type: "application/json" })
     );
 
-    if (authorizationValue == "") {
+    if (authorizationValue === "") {
       Swal.fire({
         icon: "error",
         title: "로그인이 필요합니다.",
@@ -69,7 +69,7 @@ function FreeBoardUpdate() {
       return;
     }
 
-    if (refreshTokenValue == "") {
+    if (refreshTokenValue === "") {
       Swal.fire({
         icon: "error",
         title: "로그인이 필요합니다.",

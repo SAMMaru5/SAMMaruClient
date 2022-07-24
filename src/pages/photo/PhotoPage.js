@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import PhotoList from "./PhotoList";
-import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../hooks/useCookie";
 import Swal from "sweetalert2";
@@ -12,7 +11,6 @@ function PhotoPage() {
   const navigate = useNavigate();
   const [authorizationValue, setAuthorizationValue] = useState("");
   const [refreshTokenValue, setRefreshTokenValue] = useState("");
-  const [boardId, setBoardId] = useState(0);
 
   useEffect(() => {
     const accessToken = getCookie("accessToken");
@@ -26,7 +24,7 @@ function PhotoPage() {
   }, []);
 
   const photoUpload = () => {
-    if (authorizationValue == "") {
+    if (authorizationValue === "") {
       Swal.fire({
         icon: "error",
         title: "로그인이 필요합니다.",
@@ -38,7 +36,7 @@ function PhotoPage() {
       return;
     }
 
-    if (refreshTokenValue == "") {
+    if (refreshTokenValue === "") {
       Swal.fire({
         icon: "error",
         title: "로그인이 필요합니다.",
@@ -60,7 +58,7 @@ function PhotoPage() {
         marginTop: "150px",
       }}
     >
-      <img src={photo} style={{ width: "100%", height: "200px" }}></img>
+      <img src={photo} alt="사진첩 배너" style={{ width: "100%", height: "200px" }}></img>
       <div
         style={{ display: "flex", justifyContent: "right", marginTop: "50px" }}
       >

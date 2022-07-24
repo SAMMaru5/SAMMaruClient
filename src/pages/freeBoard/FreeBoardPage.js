@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Pagination } from "react-bootstrap";
+import { Pagination } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../hooks/useCookie";
 import Swal from "sweetalert2";
@@ -108,7 +108,7 @@ function FreeBoardPage() {
   return (
     <div className="noticePage">
       <div className="container">
-        <img src={free} style={{ width: "100%", height: "200px" }}></img>
+        <img src={free} alt="자유게시판 배너" style={{ width: "100%", height: "200px" }}></img>
         <div className="location">
           <img className="home" src="home.png" alt="home"></img>
           <span>{"/"}</span>

@@ -66,7 +66,7 @@ function PhotoUpdate() {
   const handleDeleteImage= (id) =>{
     Swal.fire({
       icon: "info",
-      html:'<img style="width:400px; height:400px" class="preImg" src='+showImages[id] +' alt='+`${showImages[id]}-${id}`+'/> ',
+      html:'<img style="width:400px; height:400px" class="preImg" src='+showImages[id]+' alt='+(showImages[id] - id)+'/> ',
       title: `${id+1}번째 사진을 삭제하시겠습니까? `,
       showDenyButton: true,
       confirmButtonText: '네',

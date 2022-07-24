@@ -21,7 +21,7 @@ function FreeBoardDetailPage() {
       setArticle(response.response);
       setLoading(true);
     });
-  }, []);
+  }, [location.state.boardId, location.state.articleId]);
 
   return (
     <div className="FreeBoardDetail">
