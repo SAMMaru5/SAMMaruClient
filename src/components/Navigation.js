@@ -154,7 +154,7 @@ function Navigation() {
                 <a href="#!">소규모 프로젝트</a>
               </li>
               <li>
-                <a href="#!">족보</a>
+                <a href="/exam">족보</a>
               </li>
             </ul>
           </li>
@@ -174,32 +174,56 @@ function Navigation() {
             </a>
             <ul>
               <li>
-                <a target="_blank" rel="noopener noreferrer" href="https://www.chungbuk.ac.kr/">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://www.chungbuk.ac.kr/"
+                >
                   충북대학교
                 </a>
               </li>
               <li>
-                <a target="_blank" rel="noopener noreferrer"  href="https://eis.cbnu.ac.kr/">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://eis.cbnu.ac.kr/"
+                >
                   개신누리
                 </a>
               </li>
               <li>
-                <a target="_blank" rel="noopener noreferrer"  href="https://software.cbnu.ac.kr/">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://software.cbnu.ac.kr/"
+                >
                   소프트웨어학과
                 </a>
               </li>
               <li>
-                <a target="_blank" rel="noopener noreferrer"  href="https://sw7up.cbnu.ac.kr/home">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://sw7up.cbnu.ac.kr/home"
+                >
                   SW중심사업단
                 </a>
               </li>
               <li>
-                <a target="_blank" rel="noopener noreferrer"  href="https://cbnu.blackboard.com/">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://cbnu.blackboard.com/"
+                >
                   Ecampus
                 </a>
               </li>
               <li>
-                <a target="_blank" rel="noopener noreferrer"  href="https://dorm.chungbuk.ac.kr/">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://dorm.chungbuk.ac.kr/"
+                >
                   기숙사
                 </a>
               </li>

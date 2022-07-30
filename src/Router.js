@@ -14,6 +14,10 @@ import PhotoPage from "./pages/photo/PhotoPage";
 
 import AwardsPage from "./pages/about/AwardsPage";
 
+import ExamPage from "./pages/exam/ExamPage";
+import ExamUpdate from "./pages/exam/ExamUpdate";
+import ExamDetail from "./pages/exam/ExamDetailPage";
+
 import NoticePage from "./pages/notice/NoticePage";
 import NoticeDetailPage from "./pages/notice/NoticeDetailPage";
 import NoticeUpdate from "./pages/notice/NoticeUpdate";
@@ -39,7 +43,10 @@ function App() {
 
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="awards" element={<AwardsPage />} />
+          <Route path="/awards" element={<AwardsPage />} />
+          <Route path="/exam" element={<ExamPage />} />
+          <Route path="/exam/examUpdate" element={<ExamUpdate />} />
+          <Route path="/examDetail" element={<ExamDetail />} />
           <Route path="/photo" element={<PhotoPage />} />
           <Route path="/photo/photoUpdate" element={<PhotoUpdate />} />
           <Route path="/notice" element={<NoticePage />} />
@@ -62,9 +69,9 @@ function App() {
           <Route path="/checkPw" element={<CheckPwPage />} />
           <Route path="/modifyUserInfo" element={<ModifyUserInfoPage />} />
 
-          <Route path="/clubIntro" element={<IntroClubPage/>} />
+          <Route path="/clubIntro" element={<IntroClubPage />} />
 
-          <Route path="/clubMember" element={<ClubMember/>} />
+          <Route path="/clubMember" element={<ClubMember />} />
         </Routes>
       </Router>
       <Footer />
