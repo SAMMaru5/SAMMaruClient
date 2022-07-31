@@ -3,6 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import "./PhotoList.scss";
 import { useNavigate } from "react-router-dom";
 import { call } from "../../hooks/useFetch";
+import { myRole } from "../../hooks/useAuth"
 
 import Swal from "sweetalert2";
 
@@ -53,6 +54,29 @@ const PhotoList = () => {
     });
   }, []);
 
+  const onClickDetail = (list)=>{
+    myRole().then((response)=>{
+      if (response === "not authorized"){
+        Swal.fire({
+          icon: "error",
+          title: "로그인이 필요합니다.",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/login");
+          }
+        });
+      }
+      else {
+        navigate("./photoDetail", {
+          state: {
+            boardId: boardid,
+            articleId: list.id,
+          },
+        });
+      }
+    })
+  }
+
   return (
     <div className="photoMain" style={{ display: "flex" }}>
       {loading ? (
@@ -89,12 +113,7 @@ const PhotoList = () => {
                   <div
                     style={{ marginBottom: "20px", cursor: "pointer" }}
                     onClick={() => {
-                      navigate("./photoDetail", {
-                        state: {
-                          boardId: boardid,
-                          articleId: list.id,
-                        },
-                      });
+                      onClickDetail(list)
                     }}
                   >
                     <img
