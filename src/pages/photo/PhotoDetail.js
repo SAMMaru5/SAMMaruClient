@@ -16,6 +16,7 @@ const PhotoDetail = () => {
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(false);
   const [createDt, setCreateDt] = useState("");
+  const [mainImg, setMainImg] = useState("");
 
   useEffect(() => {
     call(
@@ -27,6 +28,7 @@ const PhotoDetail = () => {
     ).then((response) => {
       if (response.success) {
         setArticle(response.response);
+        setMainImg(response.response.files[0].filePath)
         setLoading(true);
         setCreateDt(response.response.createDt.slice(0, 10));
       } else {
@@ -56,89 +58,26 @@ const PhotoDetail = () => {
               modules={[Navigation]}
               className="mySwiper"
             >
-              <SwiperSlide>
-                <div className="slide">
-                  <img
-                    src={
-                      "http://localhost:8080/no-permit/api/boards/" +
-                      location.state.boardId +
-                      "/articles/" +
-                      location.state.articleId +
-                      "/files/" +
-                      article.files[0].filePath
-                    }
-                    alt="photoDetail-img"
-                    style={{ width: "100%" }}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="slide">
-                  <img
-                    src={
-                      "http://localhost:8080/no-permit/api/boards/" +
-                      location.state.boardId +
-                      "/articles/" +
-                      location.state.articleId +
-                      "/files/" +
-                      article.files[0].filePath
-                    }
-                    alt="photoDetail-img"
-                    style={{ width: "100%" }}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="slide">
-                  <img
-                    src={
-                      "http://localhost:8080/no-permit/api/boards/" +
-                      location.state.boardId +
-                      "/articles/" +
-                      location.state.articleId +
-                      "/files/" +
-                      article.files[0].filePath
-                    }
-                    alt="photoDetail-img"
-                    style={{ width: "100%" }}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="slide">
-                  <img
-                    src={
-                      "http://localhost:8080/no-permit/api/boards/" +
-                      location.state.boardId +
-                      "/articles/" +
-                      location.state.articleId +
-                      "/files/" +
-                      article.files[0].filePath
-                    }
-                    alt="photoDetail-img"
-                    style={{ width: "100%" }}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="slide">
-                  <img
-                    src={
-                      "http://localhost:8080/no-permit/api/boards/" +
-                      location.state.boardId +
-                      "/articles/" +
-                      location.state.articleId +
-                      "/files/" +
-                      article.files[0].filePath
-                    }
-                    alt="photoDetail-img"
-                    style={{ width: "100%" }}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="slide">돌아가 없어</div>
-              </SwiperSlide>
+              {
+                article.files.map((img, id)=>(
+                  <SwiperSlide>
+                    <div className="slide" onClick={()=>{setMainImg(img.filePath)}} key={id}>
+                      <img
+                        src={
+                          "http://localhost:8080/no-permit/api/boards/" +
+                          location.state.boardId +
+                          "/articles/" +
+                          location.state.articleId +
+                          "/files/" +
+                          img.filePath
+                        }
+                        alt="photoDetail-img"
+                        style={{ width: "100%", cursor: "pointer"}}
+                      />
+                    </div>
+                </SwiperSlide>
+                ))
+              }
             </Swiper>
           </div>
           <hr />
@@ -154,7 +93,7 @@ const PhotoDetail = () => {
                 "/articles/" +
                 location.state.articleId +
                 "/files/" +
-                article.files[0].filePath
+                mainImg
               }
               alt="photoDetail-img"
               style={{ width: "60%", height: "10%" }}
