@@ -31,7 +31,7 @@ function NoticeRegisteration() {
     call("/no-permit/api/boards", "GET").then((response) => {
       if (response.success) {
         for (let i = 0; i < response.response.length; i++) {
-          if (response.response[i].name == "공지사항") {
+          if (response.response[i].name === "공지사항") {
             setBoardId(response.response[i].id);
           }
         }

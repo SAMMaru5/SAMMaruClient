@@ -5,9 +5,9 @@ import { getCookie } from "../../hooks/useCookie";
 import Swal from "sweetalert2";
 import { call } from "../../hooks/useFetch";
 
-import free from "../../imgs/banner/free.jpg";
+import exam from "../../imgs/banner/exam.jpg";
 
-function FreeBoardPage() {
+function ExamPage() {
   const navigate = useNavigate();
   const [authorizationValue, setAuthorizationValue] = useState("");
   const [refreshTokenValue, setRefreshTokenValue] = useState("");
@@ -28,7 +28,7 @@ function FreeBoardPage() {
     call("/no-permit/api/boards", "GET").then((response) => {
       if (response.success) {
         for (let i = 0; i < response.response.length; i++) {
-          if (response.response[i].name === "자유게시판") {
+          if (response.response[i].name === "족보") {
             setBoardId(response.response[i].id);
             call(
               `/no-permit/api/boards/${response.response[i].id}/pages/1`,
@@ -41,7 +41,7 @@ function FreeBoardPage() {
               } else {
                 Swal.fire({
                   icon: "error",
-                  title: "자유게시판 목록 가져오기를 실패했습니다.",
+                  title: "족보 목록 가져오기를 실패했습니다.",
                 });
               }
             });
@@ -56,7 +56,7 @@ function FreeBoardPage() {
     });
   }, []);
 
-  const freeBoardUpload = () => {
+  const examUpload = () => {
     if (authorizationValue === "") {
       Swal.fire({
         icon: "error",
@@ -80,13 +80,13 @@ function FreeBoardPage() {
       });
       return;
     }
-    navigate("./freeBoardUpdate");
+    navigate("./examUpdate");
   };
 
   const onClickDetail = (list) => {
     call("/api/user/info", "GET").then((response) => {
       if (response !== undefined && response !== "undefined") {
-        navigate("/freeBoardDetail", {
+        navigate("/examDetail", {
           state: {
             boardId: boardId,
             articleId: list.id,
@@ -108,11 +108,17 @@ function FreeBoardPage() {
   return (
     <div className="noticePage">
       <div className="container">
-        <img src={free} alt="자유게시판 배너" style={{ width: "100%", height: "200px" }}></img>
+        <img
+          src={exam}
+          alt="족보 배너"
+          style={{ width: "100%", height: "200px" }}
+        ></img>
         <div className="location">
           <img className="home" src="home.png" alt="home"></img>
-          <span>{"/"}</span>
-          <span> 자유게시판 </span>
+          <span>{" /  "}</span>
+          <span>{"   자료실"}</span>
+          <span>{" /  "}</span>
+          <span> 족보 </span>
         </div>
         <div className="search">
           <b> 검색구분 </b>
@@ -148,7 +154,7 @@ function FreeBoardPage() {
               width: "130px",
               padding: "10px 0px 10px 0px",
             }}
-            onClick={freeBoardUpload}
+            onClick={examUpload}
           >
             작성하기
           </button>
@@ -209,4 +215,4 @@ function FreeBoardPage() {
   );
 }
 
-export default FreeBoardPage;
+export default ExamPage;

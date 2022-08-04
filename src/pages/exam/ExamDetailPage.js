@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { call } from "../../hooks/useFetch";
 
-import "./NoticeDetail.scss";
-
-function NoticeDetailPage() {
+function ExamDetailPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [article, setArticle] = useState({});
@@ -24,7 +22,7 @@ function NoticeDetailPage() {
   }, [location.state.boardId, location.state.articleId]);
 
   return (
-    <div className="NoticeDetail">
+    <div className="FreeBoardDetail">
       {loading ? (
         <div className="container">
           <div className="pageTitle">
@@ -68,7 +66,7 @@ function NoticeDetailPage() {
           <div className="catalogue">
             <button
               onClick={() => {
-                navigate("/notice");
+                navigate("/exam");
               }}
             >
               목록
@@ -78,7 +76,7 @@ function NoticeDetailPage() {
       ) : (
         <div className="container">
           <div className="pageTitle">
-            <h3>{location.state.id}</h3>
+            {/* <h3>{location.state.id}</h3> */}
             <div className="pageInfo">
               <dl>
                 <dt>작성자 &#58;</dt>
@@ -117,7 +115,7 @@ function NoticeDetailPage() {
           <div className="catalogue">
             <button
               onClick={() => {
-                navigate("/notice");
+                navigate("/exam");
               }}
             >
               목록
@@ -129,4 +127,4 @@ function NoticeDetailPage() {
   );
 }
 
-export default NoticeDetailPage;
+export default ExamDetailPage;

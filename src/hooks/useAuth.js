@@ -53,6 +53,20 @@ export function login(SignInRequest){
     );
 }
 
+export function myRole(){
+    return call("/api/user/info", "GET", '').then((response)=>{
+        if(response === undefined){
+            return "not authorized"
+        }
+        else if(response.response.role === "ROLE_MEMBER") {
+            return "member"
+        }
+        else if(response.response.role === "ROLE_ADMIN") {
+            return "admin"
+        }
+    })
+}
+
 export function signout() {
     delCookie("accessToken")
     delCookie("refreshToken")

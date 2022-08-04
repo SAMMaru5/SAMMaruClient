@@ -1,31 +1,33 @@
-.NoticeDetail{
-  .container{
+.NoticeDetail {
+  .container {
     display: flex;
     flex-direction: column;
-
+    width: 80%;
+    margin-top: 150px;
     > div {
       padding-left: 1%;
       padding-right: 1%;
     }
   }
 
-  .pageTitle{
+  .pageTitle {
     border-top: 2px solid #000;
     border-bottom: 1px solid #dfdfdf;
-    padding: 17.5px 0 16px
+    padding: 17.5px 0 16px;
   }
 
-  .pageInfo dt, dd {
+  .pageInfo dt,
+  dd {
     float: left;
     margin-right: 15px;
     display: inline;
   }
 
-  .contents{
+  .contents {
     padding: 5% 0px 5% 0px;
   }
 
-  nav{
+  nav {
     border-bottom: 1px solid #dfdfdf;
     margin-bottom: 1.5%;
     div {
@@ -42,12 +44,12 @@
         background-color: #f7f8f9;
         border-right: 1px solid #dfdfdf;
         margin-right: 1.5%;
-        cursor:auto;
+        cursor: auto;
       }
     }
   }
 
-  .catalogue{
+  .catalogue {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 3%;

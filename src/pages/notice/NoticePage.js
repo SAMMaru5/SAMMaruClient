@@ -1,19 +1,19 @@
 import "./NoticePage.scss";
-import { Badge, Button, Pagination } from "react-bootstrap";
+import {Pagination } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import { getCookie } from "../../hooks/useCookie";
 import Swal from "sweetalert2";
 import { call } from "../../hooks/useFetch";
 
 import notice from "../../imgs/banner/notice.jpg";
 
-const axios = require("axios").default;
+// const axios = require("axios").default;
 
 const isAdmin = true;
 
 function NoticePage(props) {
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
   const navigate = useNavigate();
   const [authorizationValue, setAuthorizationValue] = useState("");
   const [refreshTokenValue, setRefreshTokenValue] = useState("");
@@ -34,7 +34,7 @@ function NoticePage(props) {
     call("/no-permit/api/boards", "GET").then((response) => {
       if (response.success) {
         for (let i = 0; i < response.response.length; i++) {
-          if (response.response[i].name == "공지사항") {
+          if (response.response[i].name === "공지사항") {
             setBoardId(response.response[i].id);
             call(
               `/no-permit/api/boards/${response.response[i].id}/pages/1`,
@@ -61,12 +61,12 @@ function NoticePage(props) {
     });
   }, []);
 
-  const selectContent = (e) => {
-    navigate("/noticeDetail", { state: { id: e.target.id } });
-  };
+  // const selectContent = (e) => {
+  //   navigate("/noticeDetail", { state: { id: e.target.id } });
+  // };
 
   const onClickRegister = () => {
-    if (authorizationValue == "") {
+    if (authorizationValue === "") {
       Swal.fire({
         icon: "error",
         title: "로그인이 필요합니다.",
@@ -78,7 +78,7 @@ function NoticePage(props) {
       return;
     }
 
-    if (refreshTokenValue == "") {
+    if (refreshTokenValue === "") {
       Swal.fire({
         icon: "error",
         title: "로그인이 필요합니다.",
@@ -93,19 +93,20 @@ function NoticePage(props) {
     navigate("/notice/noticeUpdate");
   };
 
-  function getData() {
-    return data.map((item) => (
-      <div className="content">
-        <div className="num" key={item.boardId}>
-          {item.boardId}
-        </div>
-        <div className="contents" onClick={selectContent} id={item.boardId}>
-          {item.boardname}
-        </div>
-      </div>
-    ));
-  }
-  const onClickDetaile = (list) => {
+  // function getData() {
+  //   return data.map((item) => (
+  //     <div className="content">
+  //       <div className="num" key={item.boardId}>
+  //         {item.boardId}
+  //       </div>
+  //       <div className="contents" onClick={selectContent} id={item.boardId}>
+  //         {item.boardname}
+  //       </div>
+  //     </div>
+  //   ));
+  // }
+
+  const onClickDetail = (list) => {
     call("/api/user/info", "GET").then((response) => {
       if (response !== undefined && response !== "undefined") {
         navigate("/noticeDetail", {
@@ -130,7 +131,7 @@ function NoticePage(props) {
   return (
     <div className="noticePage">
       <div className="container">
-        <img src={notice} style={{ width: "100%", height: "200px" }}></img>
+        <img src={notice} alt="공지사항 배너" style={{ width: "100%", height: "200px" }}></img>
         <div className="location">
           <img className="home" src="home.png" alt="home"></img>
           <span>{"/"}</span>
@@ -193,7 +194,7 @@ function NoticePage(props) {
                     <div
                       className="content"
                       onClick={() => {
-                        onClickDetaile(list);
+                        onClickDetail(list);
                       }}
                     >
                       <div className="num">{list.id}</div>

@@ -6,6 +6,7 @@ function AwardsPage() {
     <div id="page-wrapper">
       <div className="container" style={{ width: "80%" }}>
         <img
+          alt="수상 경력 배너"
           src={awards}
           style={{
             width: "100%",

@@ -14,6 +14,10 @@ import PhotoPage from "./pages/photo/PhotoPage";
 
 import AwardsPage from "./pages/about/AwardsPage";
 
+import ExamPage from "./pages/exam/ExamPage";
+import ExamUpdate from "./pages/exam/ExamUpdate";
+import ExamDetail from "./pages/exam/ExamDetailPage";
+
 import NoticePage from "./pages/notice/NoticePage";
 import NoticeDetailPage from "./pages/notice/NoticeDetailPage";
 import NoticeUpdate from "./pages/notice/NoticeUpdate";
@@ -29,6 +33,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import IntroClubPage from "./pages/about/IntroClubPage";
+
 import ClubMember1 from "./pages/about/member/ClubMember1";
 import ClubMember2 from "./pages/about/member/ClubMember2";
 import ClubMember3 from "./pages/about/member/ClubMember3";
@@ -39,6 +44,7 @@ import ClubMember7 from "./pages/about/member/ClubMember7";
 import ClubMember8 from "./pages/about/member/ClubMember8";
 import ClubMember9 from "./pages/about/member/ClubMember9";
 
+
 function App() {
   return (
     <div className="App">
@@ -47,7 +53,10 @@ function App() {
 
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="awards" element={<AwardsPage />} />
+          <Route path="/awards" element={<AwardsPage />} />
+          <Route path="/exam" element={<ExamPage />} />
+          <Route path="/exam/examUpdate" element={<ExamUpdate />} />
+          <Route path="/examDetail" element={<ExamDetail />} />
           <Route path="/photo" element={<PhotoPage />} />
           <Route path="/photo/photoUpdate" element={<PhotoUpdate />} />
           <Route path="/notice" element={<NoticePage />} />

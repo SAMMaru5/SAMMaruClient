@@ -7,7 +7,7 @@ import axios from "axios";
 import { API_BASE_URL } from "../../hooks/app-config";
 import { getCookie } from "../../hooks/useCookie";
 
-function FreeBoardUpdate() {
+function ExamUpdate() {
   const [boardId, setBoardId] = useState(0);
   const [photo, setPhoto] = useState({ title: "", content: "" });
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ function FreeBoardUpdate() {
     call("/no-permit/api/boards", "GET").then((response) => {
       if (response.success) {
         for (let i = 0; i < response.response.length; i++) {
-          if (response.response[i].name === "자유게시판") {
+          if (response.response[i].name === "족보") {
             setBoardId(response.response[i].id);
           }
         }
@@ -44,9 +44,9 @@ function FreeBoardUpdate() {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const freeBoardBtn = document.getElementById("freeBoardBtn");
-    freeBoardBtn.setAttribute('disabled', true);
-    freeBoardBtn.innerText = "글등록 중..."
+    const examBtn = document.getElementById("examBtn");
+    examBtn.setAttribute("disabled", true);
+    examBtn.innerText = "글등록 중...";
 
     let formData = new FormData();
 
@@ -98,17 +98,17 @@ function FreeBoardUpdate() {
             title: "게시글 작성을 성공했습니다.",
           }).then((result) => {
             if (result.isConfirmed) {
-              navigate("/freeBoard");
+              navigate("/exam");
             }
           });
         } else {
           Swal.fire({
             icon: "error",
             title: "게시글 작성을 실패했습니다.",
-          }).then((result)=>{
-            if(result){
-              freeBoardBtn.removeAttribute('disabled');
-              freeBoardBtn.innerText = "작성완료"
+          }).then((result) => {
+            if (result) {
+              examBtn.removeAttribute("disabled");
+              examBtn.innerText = "작성완료";
             }
           });
         }
@@ -160,7 +160,7 @@ function FreeBoardUpdate() {
           />
         </Form.Group>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <Button id="freeBoardBtn" variant="dark" type="submit" size="lg">
+          <Button id="examBtn" variant="dark" type="submit" size="lg">
             작성완료
           </Button>
           <Button variant="light" size="lg">
@@ -172,4 +172,4 @@ function FreeBoardUpdate() {
   );
 }
 
-export default FreeBoardUpdate;
+export default ExamUpdate;
