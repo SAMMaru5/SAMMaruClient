@@ -151,7 +151,7 @@ function Navigation() {
                 <a href="/report">활동보고서</a>
               </li>
               <li>
-                <a href="#!">소규모 프로젝트</a>
+                <a href="/project">소규모 프로젝트</a>
               </li>
               <li>
                 <a href="/exam">족보</a>

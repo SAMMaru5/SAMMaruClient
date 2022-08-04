@@ -18,6 +18,10 @@ import ExamPage from "./pages/exam/ExamPage";
 import ExamUpdate from "./pages/exam/ExamUpdate";
 import ExamDetail from "./pages/exam/ExamDetailPage";
 
+import ProjectPage from "./pages/subProject/ProjectPage";
+import ProjectUpdate from "./pages/subProject/ProjectUpdate";
+import ProjectDetail from "./pages/subProject/ProjectDetailPage";
+
 import NoticePage from "./pages/notice/NoticePage";
 import NoticeDetailPage from "./pages/notice/NoticeDetailPage";
 import NoticeUpdate from "./pages/notice/NoticeUpdate";
@@ -61,6 +65,11 @@ function App() {
           <Route path="/exam" element={<ExamPage />} />
           <Route path="/exam/examUpdate" element={<ExamUpdate />} />
           <Route path="/examDetail" element={<ExamDetail />} />
+
+          <Route path="/project" element={<ProjectPage />} />
+          <Route path="/project/projectUpdate" element={<ProjectUpdate />} />
+          <Route path="/projectDetail" element={<ProjectDetail />} />
+
           <Route path="/photo" element={<PhotoPage />} />
           <Route path="/photo/photoUpdate" element={<PhotoUpdate />} />
           <Route path="/notice" element={<NoticePage />} />
