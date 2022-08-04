@@ -29,7 +29,15 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import IntroClubPage from "./pages/about/IntroClubPage";
-import ClubMember from "./pages/about/member/ClubMember";
+import ClubMember1 from "./pages/about/member/ClubMember1";
+import ClubMember2 from "./pages/about/member/ClubMember2";
+import ClubMember3 from "./pages/about/member/ClubMember3";
+import ClubMember4 from "./pages/about/member/ClubMember4";
+import ClubMember5 from "./pages/about/member/ClubMember5";
+import ClubMember6 from "./pages/about/member/ClubMember6";
+import ClubMember7 from "./pages/about/member/ClubMember7";
+import ClubMember8 from "./pages/about/member/ClubMember8";
+import ClubMember9 from "./pages/about/member/ClubMember9";
 
 function App() {
   return (
@@ -64,7 +72,15 @@ function App() {
 
           <Route path="/clubIntro" element={<IntroClubPage/>} />
 
-          <Route path="/clubMember" element={<ClubMember/>} />
+          <Route path="/clubMember1" element={<ClubMember1 />} />
+          <Route path="/clubMember2" element={<ClubMember2 />} />
+          <Route path="/clubMember3" element={<ClubMember3 />} />
+          <Route path="/clubMember4" element={<ClubMember4 />} />
+          <Route path="/clubMember5" element={<ClubMember5 />} />
+          <Route path="/clubMember6" element={<ClubMember6 />} />
+          <Route path="/clubMember7" element={<ClubMember7 />} />
+          <Route path="/clubMember8" element={<ClubMember8 />} />
+          <Route path="/clubMember9" element={<ClubMember9 />} />
         </Routes>
       </Router>
       <Footer />
