@@ -98,34 +98,34 @@ function Navigation() {
                 <a href="/awards">수상 경력</a>
               </li>
               <li>
-                <a href="#!">회원</a>
+                <a href="/clubMember1">회원</a>
                 <ul>
                   <li>
-                    <a href="/clubMember">1기</a>
+                    <a href="/clubMember1">1기</a>
                   </li>
                   <li>
-                    <a href="#!">2기</a>
+                    <a href="/clubMember2">2기</a>
                   </li>
                   <li>
-                    <a href="#!">3기</a>
+                    <a href="/clubMember3">3기</a>
                   </li>
                   <li>
-                    <a href="#!">4기</a>
+                    <a href="/clubMember4">4기</a>
                   </li>
                   <li>
-                    <a href="#!">5기</a>
+                    <a href="/clubMember5">5기</a>
                   </li>
                   <li>
-                    <a href="#!">6기</a>
+                    <a href="/clubMember6">6기</a>
                   </li>
                   <li>
-                    <a href="#!">7기</a>
+                    <a href="/clubMember7">7기</a>
                   </li>
                   <li>
-                    <a href="#!">8기</a>
+                    <a href="/clubMember8">8기</a>
                   </li>
                   <li>
-                    <a href="#!">9기</a>
+                    <a href="/clubMember9">9기</a>
                   </li>
                   <li>
                     <a href="#!">10기</a>
