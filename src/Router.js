@@ -29,6 +29,10 @@ import FreeBoardPage from "./pages/freeBoard/FreeBoardPage";
 import FreeBoardUpdate from "./pages/freeBoard/FreeBoardUpdate";
 import FreeBoardDetail from "./pages/freeBoard/FreeBoardDetailPage";
 
+import ReportPage from "./pages/report/ReportPage";
+import ReportUpdate from "./pages/report/ReportUpdate";
+import ReportDetail from "./pages/report/ReportDetailPage";
+
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
@@ -62,6 +66,9 @@ function App() {
           <Route path="/notice" element={<NoticePage />} />
           <Route path="/noticeDetail" element={<NoticeDetailPage />} />
           <Route path="/notice/noticeUpdate" element={<NoticeUpdate />} />
+          <Route path="/report" element={<ReportPage />} />
+          <Route path="/report/reportUpdate" element={<ReportUpdate />} />
+          <Route path="/reportDetail" element={<ReportDetail />} />
 
           <Route path="/freeBoard" element={<FreeBoardPage />} />
           <Route

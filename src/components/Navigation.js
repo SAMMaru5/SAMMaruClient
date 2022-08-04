@@ -148,7 +148,7 @@ function Navigation() {
                 <a href="#!">특강자료</a>
               </li>
               <li>
-                <a href="#!">활동보고서</a>
+                <a href="/report">활동보고서</a>
               </li>
               <li>
                 <a href="#!">소규모 프로젝트</a>
