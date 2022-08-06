@@ -15,7 +15,10 @@ function clubIntroduction() {
 
   return (
     <section id="main">
-      <div className="container">
+      <div
+        className="container"
+        style={{ paddingLeft: "10%", paddingRight: "10%" }}
+      >
         <div className="row">
           <div id="content" className="col-8 col-12-medium">
             <article className="box post">
@@ -65,7 +68,7 @@ function clubIntroduction() {
                     <header>
                       <span className="date">특강/세미나</span>
                       <h3>
-                        <a href="#!">자체적으로 진행하는 특강/세미나</a>
+                        <a href="/seminar">자체적 특강/세미나</a>
                       </h3>
                     </header>
                     <p>
@@ -82,7 +85,7 @@ function clubIntroduction() {
                     <header>
                       <span className="date">시험자료</span>
                       <h3>
-                        <a href="#!">학과 시험은 기출문제로 공부하자</a>
+                        <a href="/exam">학과 시험은 기출문제로</a>
                       </h3>
                     </header>
                     <p>
@@ -101,17 +104,15 @@ function clubIntroduction() {
                   <article className="box highlight">
                     <header>
                       <h3>
-                        <a href="#!">동아리 스터디</a>
+                        <a href="/project">동아리 스터디</a>
                       </h3>
                     </header>
-                    <a href="#!" className="image left">
+                    <a href="/project" className="image left">
                       <img src={github} alt="" />
                     </a>
                     <p>
                       샘마루 동아리는 자체적으로 깃허브를 운영하며 스터디를
-                      진행하고, 소규모 프로젝트 코드를 정리합니다. 동아리원
-                      누구나 참여가 가능하며 선후배가 간의 원활한 소통을 위하여
-                      관리하고 있습니다.
+                      진행합니다. 동아리원 누구나 참여가 가능합니다.
                     </p>
                     <ul className="actions">
                       <li>
