@@ -42,9 +42,25 @@ function FreeBoardDetailPage() {
               </dl>
             </div>
           </div>
-
           <div className="contents">{article.content}</div>
+          {
+            article.files.length !== 0 ?
+              <div className="file-download-frame">
+                파일 다운로드<br />
+                <a href={"http://localhost:8080/no-permit/api/boards/" +
+                  location.state.boardId +
+                  "/articles/" +
+                  location.state.articleId +
+                  "/files/" +
+                  article.files[0].filePath}
 
+                className="text-decoration-none">{article.files[0].fileName}</a>
+              </div>
+              :
+              <div>
+              </div>
+          }
+          
           <div>
             <nav>
               <div>
