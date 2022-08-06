@@ -38,7 +38,9 @@ function AgreePage(){
                         <tr>
                             <td>
                                 <div className="checkAgree">
-                                    <label htmlFor="agree1"><input type={"checkbox"} id="agree1" onChange={(e)=>{setAgree1(e.target.checked)}}/> &nbsp; 회원가입약관의 내용에 동의합니다.</label>
+                                    <input type={"checkbox"} id="agree1" onChange={(e)=>{setAgree1(e.target.checked)}}/> 
+                                    
+                                    <label htmlFor="agree1">&nbsp; 회원가입약관의 내용에 동의합니다.</label>
                                     
                                 </div>
                             </td>

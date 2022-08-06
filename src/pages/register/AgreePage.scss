@@ -1,4 +1,8 @@
 .AgreePage{
+    input{
+        -webkit-appearance:auto;
+        appearance: auto;
+    }
     .titleFrame{
         display: flex;
         justify-content: space-between;
