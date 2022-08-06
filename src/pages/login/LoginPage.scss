@@ -1,4 +1,8 @@
 .LoginPage{
+    input{
+        -webkit-appearance:auto;
+        appearance: auto;
+    }
     width: 100%;
     display: flex;
     justify-content: center;
