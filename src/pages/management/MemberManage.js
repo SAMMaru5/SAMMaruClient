@@ -87,9 +87,9 @@ function MemberManage() {
 
     return(
         <div id="MemberManage">
-            <form>
-                <input type={"text"} value={name} onChange={(res)=>{setName(res.target.value)}} placeholder="이름을 입력해주세요."></input>
-                <button type="submit" onClick={(e)=>{searchMember(e)}}>검색</button>
+            <form className="d-flex align-items-center">
+                <input className="w-25" type={"text"} value={name} onChange={(res)=>{setName(res.target.value)}} placeholder="이름을 입력해주세요."></input>
+                <button style={{'height' : '50px', 'width' : '100px'}} className="p-0 mt-3" type="submit" onClick={(e)=>{searchMember(e)}}>검색</button>
             </form>
             {loading? 
             <table>
@@ -133,7 +133,7 @@ function MemberManage() {
                             </td>
                             <td>
 
-                            <select className="authorityKinds" value={member.role} onChange={(res)=>{changeAuthority(member.userId, member.username, res.target.value, i) }}>
+                            <select className="authorityKinds text-center" value={member.role} onChange={(res)=>{changeAuthority(member.userId, member.username, res.target.value, i) }}>
                                 <option value="ROLE_TEMP">
                                     미지정
                                 </option>

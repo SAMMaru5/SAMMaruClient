@@ -184,7 +184,7 @@ function RegisterPage(){
                             
                         </td>
                         <td>
-                            <label htmlFor="userPw">비밀번호</label><br/>
+                            <label htmlFor="userPw">비밀번호</label>
                             
                             <div className="inputText">
                                 <i className="fas fa-lock fa-sm"></i>
@@ -193,7 +193,7 @@ function RegisterPage(){
                             </div>
                         </td>
                         <td>
-                            <label htmlFor="userPwCheck">비밀번호 확인</label><br/>
+                            <label htmlFor="userPwCheck">비밀번호 확인</label>
                             <div className="inputText">
                                 <i className="fas fa-lock fa-sm"></i>
                                 <input type={"password"} autoComplete="current-password" id="userPwCheck" required onChange={(e) =>{checkPassword2(e); setPwCheck(e.target.value)}}></input>
