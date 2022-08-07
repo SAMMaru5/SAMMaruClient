@@ -1,0 +1,67 @@
+.SeminarDetail {
+  button {
+    padding: 0;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+
+    width: 80%;
+    margin-top: 150px;
+
+    > div {
+      padding-left: 1%;
+      padding-right: 1%;
+    }
+  }
+
+  .pageTitle {
+    border-top: 2px solid #000;
+    border-bottom: 1px solid #dfdfdf;
+    padding: 17.5px 0 16px;
+  }
+
+  .pageInfo dt,
+  dd {
+    float: left;
+    margin-right: 15px;
+    display: inline;
+  }
+
+  .contents {
+    padding: 5% 0px 5% 0px;
+  }
+
+  nav {
+    border-bottom: 1px solid #dfdfdf;
+    margin-bottom: 1.5%;
+    div {
+      border-top: 1px solid #dfdfdf;
+      cursor: pointer;
+
+      span {
+        display: inline-block;
+        width: 10%;
+        height: 45px;
+        line-height: 45px;
+        font-size: 17px;
+        text-align: center;
+        background-color: #f7f8f9;
+        border-right: 1px solid #dfdfdf;
+        margin-right: 1.5%;
+        cursor: auto;
+      }
+    }
+  }
+
+  .catalogue {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 3%;
+    button {
+      margin-right: 1%;
+      width: 8%;
+      height: 2.5em;
+    }
+  }
+}

@@ -143,7 +143,7 @@ function Navigation() {
             </a>
             <ul>
               <li>
-                <a href="/seminar">특강자료</a>
+                <a href="/seminar">특강 자료</a>
               </li>
               <li>
                 <a href="/report">활동보고서</a>
