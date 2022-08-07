@@ -23,12 +23,9 @@ function MainPage() {
       tab.current[0].style.display = "block";
     } else if (tabName === "noticetab") {
       tab.current[1].style.display = "block";
-    } else if (tabName === "boardtab") {
-      tab.current[2].style.display = "block";
     }
   }
 
-  
   return (
     <>
       <body className="homepage is-preload">
@@ -88,34 +85,29 @@ function MainPage() {
                 </button>
                 <button
                   className="w3-bar-item w3-button"
-                  style={{ background: "#6a81ed" }}
+                  style={{ background: "#6a81ed", marginLeft: "50px" }}
                   onClick={() => {
                     openTab("noticetab");
                   }}
                 >
                   공지사항
                 </button>
-                <button
-                  className="w3-bar-item w3-button"
-                  style={{ background: "#6a81ed" }}
-                  onClick={() => {
-                    openTab("boardtab");
-                  }}
-                >
-                  자유게시판
-                </button>
               </div>
               <div
                 style={{
-                  backgroundColor: "rgb(247, 247, 247)",
                   marginTop: "50px",
-                  height: "600px",
+                  height: "500px",
                 }}
               >
                 <div
                   id="schedule"
                   className="tab"
                   ref={(elem) => (tab.current[0] = elem)}
+                  style={{
+                    display: "block",
+                    paddingLeft: "10%",
+                    paddingRight: "10%",
+                  }}
                 >
                   <ScheduleDetaile />
                 </div>
@@ -123,18 +115,13 @@ function MainPage() {
                   id="notice"
                   className="tab"
                   ref={(elem) => (tab.current[1] = elem)}
-                  style={{ display: "none" }}
+                  style={{
+                    display: "none",
+                    paddingLeft: "10%",
+                    paddingRight: "10%",
+                  }}
                 >
-                 <Board />
-                </div>
-
-                <div
-                  id="board"
-                  className="tab"
-                  ref={(elem) => (tab.current[2] = elem)}
-                  style={{ display: "none" }}
-                >
-                  <p>고민중</p>
+                  <Board />
                 </div>
               </div>
             </div>
