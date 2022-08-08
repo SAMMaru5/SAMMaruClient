@@ -1,86 +1,81 @@
-.Navigation{
+.Navigation {
   margin: 0 auto;
   margin-bottom: 3%;
-  .userStatus{
+
+  .userStatus {
     margin-top: 1%;
     width: 100%;
     height: 40px;
-    p{
-        display: inline-block;
+    p {
+      display: inline-block;
     }
 
-    .user{
-        float: right;
-        cursor: pointer;
+    .user {
+      float: right;
+      cursor: pointer;
     }
-    .userInfo{
+    .userInfo {
       float: right;
     }
 
-    .user:hover{
+    .user:hover {
       text-decoration: underline;
     }
   }
 
-  .dropdown-toggle::after{
+  .dropdown-toggle::after {
     display: none;
   }
-  .nav-dropdown a{
+  .nav-dropdown a {
     font-size: 1.6em;
     color: black;
     font-weight: 600;
-
   }
-  a{
+  a {
     color: black;
     text-decoration: none;
   }
-  a:hover{
+  a:hover {
     text-decoration: underline;
   }
 
-nav{
-  display: flex;
- 
+  nav {
+    display: flex;
+
     width: 100%;
     height: 100px;
-    
-    img{
-        width: 150px;
+
+    img {
+      width: 150px;
     }
     .dropdown {
       margin-left: 5%;
     }
-    .dropdown-menu{
+    .dropdown-menu {
       border-radius: 1rem;
-      background-color: #C3CFE5;
+      background-color: #c3cfe5;
     }
-    .dropdown-item{
+    .dropdown-item {
       font-size: 1em;
       text-align: center;
     }
-    .navItem1{
+    .navItem1 {
       width: 7rem;
     }
-    .navItem2{
+    .navItem2 {
       width: 9rem;
     }
-    .navItem3{
+    .navItem3 {
       width: 10rem;
     }
-    .navItem4{
+    .navItem4 {
       width: 7rem;
     }
-    .navItem5{
+    .navItem5 {
       width: 10rem;
     }
-    .dropdown-menu{
+    .dropdown-menu {
       min-width: 5rem;
     }
-   
-  
+  }
 }
-
-
-}
-
