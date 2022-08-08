@@ -169,9 +169,11 @@ function Navigation() {
             </a>
             <ul>
               <li>
+
                 <a href="/seminar" style={{ color: "#878787" }}>
                   특강자료
                 </a>
+
               </li>
               <li>
                 <a href="/report" style={{ color: "#878787" }}>

@@ -37,6 +37,10 @@ import ReportPage from "./pages/report/ReportPage";
 import ReportUpdate from "./pages/report/ReportUpdate";
 import ReportDetail from "./pages/report/ReportDetailPage";
 
+import SeminarPage from "./pages/seminar/SeminarPage";
+import SeminarUpdate from "./pages/seminar/SeminarUpdate";
+import SeminarDetail from "./pages/seminar/SeminarDetailPage";
+
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
@@ -51,7 +55,6 @@ import ClubMember6 from "./pages/about/member/ClubMember6";
 import ClubMember7 from "./pages/about/member/ClubMember7";
 import ClubMember8 from "./pages/about/member/ClubMember8";
 import ClubMember9 from "./pages/about/member/ClubMember9";
-
 
 function App() {
   return (
@@ -69,6 +72,10 @@ function App() {
           <Route path="/project" element={<ProjectPage />} />
           <Route path="/project/projectUpdate" element={<ProjectUpdate />} />
           <Route path="/projectDetail" element={<ProjectDetail />} />
+
+          <Route path="/seminar" element={<SeminarPage />} />
+          <Route path="/seminar/seminarUpdate" element={<SeminarUpdate />} />
+          <Route path="/seminarDetail" element={<SeminarDetail />} />
 
           <Route path="/photo" element={<PhotoPage />} />
           <Route path="/photo/photoUpdate" element={<PhotoUpdate />} />
@@ -95,7 +102,7 @@ function App() {
           <Route path="/checkPw" element={<CheckPwPage />} />
           <Route path="/modifyUserInfo" element={<ModifyUserInfoPage />} />
 
-          <Route path="/clubIntro" element={<IntroClubPage/>} />
+          <Route path="/clubIntro" element={<IntroClubPage />} />
 
           <Route path="/clubMember1" element={<ClubMember1 />} />
           <Route path="/clubMember2" element={<ClubMember2 />} />
