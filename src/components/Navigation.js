@@ -89,44 +89,70 @@ function Navigation() {
             </a>
             <ul>
               <li>
-                <a href="/clubIntro">동아리 소개</a>
+                <a href="/clubIntro" style={{ color: "#878787" }}>
+                  동아리 소개
+                </a>
               </li>
 
               <li>
-                <a href="/awards">수상 경력</a>
+                <a href="/awards" style={{ color: "#878787" }}>
+                  수상 경력
+                </a>
               </li>
               <li>
-                <a href="/clubMember1">회원</a>
+                <a href="/clubMember1" style={{ color: "#878787" }}>
+                  회원
+                </a>
                 <ul>
                   <li>
-                    <a href="/clubMember1">1기</a>
+                    <a href="/clubMember1" style={{ color: "#878787" }}>
+                      1기
+                    </a>
                   </li>
                   <li>
-                    <a href="/clubMember2">2기</a>
+                    <a href="/clubMember2" style={{ color: "#878787" }}>
+                      2기
+                    </a>
                   </li>
                   <li>
-                    <a href="/clubMember3">3기</a>
+                    <a href="/clubMember3" style={{ color: "#878787" }}>
+                      3기
+                    </a>
                   </li>
                   <li>
-                    <a href="/clubMember4">4기</a>
+                    <a href="/clubMember4" style={{ color: "#878787" }}>
+                      4기
+                    </a>
                   </li>
                   <li>
-                    <a href="/clubMember5">5기</a>
+                    <a href="/clubMember5" style={{ color: "#878787" }}>
+                      5기
+                    </a>
                   </li>
                   <li>
-                    <a href="/clubMember6">6기</a>
+                    <a href="/clubMember6" style={{ color: "#878787" }}>
+                      6기
+                    </a>
                   </li>
                   <li>
-                    <a href="/clubMember7">7기</a>
+                    <a href="/clubMember7" style={{ color: "#878787" }}>
+                      7기
+                    </a>
                   </li>
                   <li>
-                    <a href="/clubMember8">8기</a>
+                    <a href="/clubMember8" style={{ color: "#878787" }}>
+                      8기
+                    </a>
                   </li>
                   <li>
-                    <a href="/clubMember9">9기</a>
+                    <a href="/clubMember9" style={{ color: "#878787" }}>
+                      9기
+                    </a>
                   </li>
                   <li>
-                    <a href="#!">10기</a>
+                    <a href="#!" style={{ color: "#878787" }}>
+                      10기
+                    </a>
                   </li>
                 </ul>
               </li>
@@ -143,16 +169,26 @@ function Navigation() {
             </a>
             <ul>
               <li>
-                <a href="/seminar">특강 자료</a>
+
+                <a href="/seminar" style={{ color: "#878787" }}>
+                  특강자료
+                </a>
+
               </li>
               <li>
-                <a href="/report">활동보고서</a>
+                <a href="/report" style={{ color: "#878787" }}>
+                  활동보고서
+                </a>
               </li>
               <li>
-                <a href="/project">소규모 프로젝트</a>
+                <a href="/project" style={{ color: "#878787" }}>
+                  소규모 프로젝트
+                </a>
               </li>
               <li>
-                <a href="/exam">족보</a>
+                <a href="/exam" style={{ color: "#878787" }}>
+                  족보
+                </a>
               </li>
             </ul>
           </li>
@@ -179,6 +215,7 @@ function Navigation() {
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://www.chungbuk.ac.kr/"
+                  style={{ color: "#878787" }}
                 >
                   충북대학교
                 </a>
@@ -188,6 +225,7 @@ function Navigation() {
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://eis.cbnu.ac.kr/"
+                  style={{ color: "#878787" }}
                 >
                   개신누리
                 </a>
@@ -197,6 +235,7 @@ function Navigation() {
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://software.cbnu.ac.kr/"
+                  style={{ color: "#878787" }}
                 >
                   소프트웨어학과
                 </a>
@@ -206,6 +245,7 @@ function Navigation() {
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://sw7up.cbnu.ac.kr/home"
+                  style={{ color: "#878787" }}
                 >
                   SW중심사업단
                 </a>
@@ -215,6 +255,7 @@ function Navigation() {
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://cbnu.blackboard.com/"
+                  style={{ color: "#878787" }}
                 >
                   Ecampus
                 </a>
@@ -224,6 +265,7 @@ function Navigation() {
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://dorm.chungbuk.ac.kr/"
+                  style={{ color: "#878787" }}
                 >
                   기숙사
                 </a>
