@@ -104,15 +104,15 @@ function App() {
 
           <Route path="/clubIntro" element={<IntroClubPage />} />
 
-          <Route path="/clubMember1" element={<ClubMember1 />} />
-          <Route path="/clubMember2" element={<ClubMember2 />} />
-          <Route path="/clubMember3" element={<ClubMember3 />} />
-          <Route path="/clubMember4" element={<ClubMember4 />} />
-          <Route path="/clubMember5" element={<ClubMember5 />} />
-          <Route path="/clubMember6" element={<ClubMember6 />} />
-          <Route path="/clubMember7" element={<ClubMember7 />} />
-          <Route path="/clubMember8" element={<ClubMember8 />} />
-          <Route path="/clubMember9" element={<ClubMember9 />} />
+          <Route path="/member/1" element={<ClubMember1 />} />
+          <Route path="/member/2" element={<ClubMember2 />} />
+          <Route path="/member/3" element={<ClubMember3 />} />
+          <Route path="/member/4" element={<ClubMember4 />} />
+          <Route path="/member/5" element={<ClubMember5 />} />
+          <Route path="/member/6" element={<ClubMember6 />} />
+          <Route path="/member/7" element={<ClubMember7 />} />
+          <Route path="/member/8" element={<ClubMember8 />} />
+          <Route path="/member/9" element={<ClubMember9 />} />
         </Routes>
       </Router>
       <Footer />

@@ -6,6 +6,7 @@ import { call } from "../hooks/useFetch";
 import { signout } from "../hooks/useAuth";
 import { getCookie } from "../hooks/useCookie";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+
 function Navigation() {
   const [show1, setShow1] = useState(false);
   //const [show2, setShow2] = useState(false);
@@ -100,54 +101,34 @@ function Navigation() {
                 </a>
               </li>
               <li>
-                <a href="/clubMember1" style={{ color: "#878787" }}>
-                  회원
-                </a>
+                <a href={'/member'} style={{ color: "#878787" }}>회원</a>
                 <ul>
                   <li>
-                    <a href="/clubMember1" style={{ color: "#878787" }}>
-                      1기
-                    </a>
+                    <a href="/member/1" style={{ color: "#878787" }}>1기</a>
                   </li>
                   <li>
-                    <a href="/clubMember2" style={{ color: "#878787" }}>
-                      2기
-                    </a>
+                    <a href="/member/2" style={{ color: "#878787" }}>2기</a>
                   </li>
                   <li>
-                    <a href="/clubMember3" style={{ color: "#878787" }}>
-                      3기
-                    </a>
+                    <a href="/member/3" style={{ color: "#878787" }}>3기</a>
                   </li>
                   <li>
-                    <a href="/clubMember4" style={{ color: "#878787" }}>
-                      4기
-                    </a>
+                    <a href="/member/4" style={{ color: "#878787" }}>4기</a>
                   </li>
                   <li>
-                    <a href="/clubMember5" style={{ color: "#878787" }}>
-                      5기
-                    </a>
+                    <a href="/member/5" style={{ color: "#878787" }}>5기</a>
                   </li>
                   <li>
-                    <a href="/clubMember6" style={{ color: "#878787" }}>
-                      6기
-                    </a>
+                    <a href="/member/6" style={{ color: "#878787" }}>6기</a>
                   </li>
                   <li>
-                    <a href="/clubMember7" style={{ color: "#878787" }}>
-                      7기
-                    </a>
+                    <a href="/member/7" style={{ color: "#878787" }}>7기</a>
                   </li>
                   <li>
-                    <a href="/clubMember8" style={{ color: "#878787" }}>
-                      8기
-                    </a>
+                    <a href="/member/8" style={{ color: "#878787" }}>8기</a>
                   </li>
                   <li>
-                    <a href="/clubMember9" style={{ color: "#878787" }}>
-                      9기
-                    </a>
+                    <a href="/member/9" style={{ color: "#878787" }}>9기</a>
                   </li>
                   <li>
                     <a href="#!" style={{ color: "#878787" }}>
