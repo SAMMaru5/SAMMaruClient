@@ -48,12 +48,12 @@ function PhotoUpdate() {
     });
   }, []);
 
-  const fileChange = (e) =>{
+  const fileChange = (e) => {
     const imageLists = e.target.files;
     let imgUrlLists = [...showImages];
     let imgFileLists = [...uploadfile];
 
-    for(let i = 0; i<imageLists.length; i++){
+    for (let i = 0; i < imageLists.length; i++) {
       imgFileLists.push(imageLists[i]);
       const currentImageUrl = URL.createObjectURL(imageLists[i]);
       imgUrlLists.push(currentImageUrl);
@@ -61,53 +61,54 @@ function PhotoUpdate() {
 
     setUploadfile(imgFileLists);
     setShowImages(imgUrlLists);
-  }
-  
-  const handleDeleteImage= (id) =>{
+  };
+
+  const handleDeleteImage = (id) => {
     Swal.fire({
       icon: "info",
-      html:'<img style="width:400px; height:400px" class="preImg" src='+showImages[id]+' alt='+(showImages[id] - id)+'/> ',
-      title: `${id+1}번째 사진을 삭제하시겠습니까? `,
+      html:
+        '<img style="height:100%" class="preImg" src=' +
+        showImages[id] +
+        " alt=" +
+        (showImages[id] - id) +
+        "/> ",
+      title: `${id + 1}번째 사진을 삭제하시겠습니까? `,
       showDenyButton: true,
-      confirmButtonText: '네',
-      denyButtonText: `아니요`
-
+      confirmButtonText: "네",
+      denyButtonText: `아니요`,
     }).then((result) => {
       if (result.isConfirmed) {
         setShowImages(showImages.filter((_, index) => index !== id));
         setUploadfile(uploadfile.filter((_, index) => index !== id));
-      }
-      else{
-
+      } else {
       }
     });
-  }
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
     const photoBtn = document.getElementById("photoBtn");
-    photoBtn.setAttribute('disabled', true);
-    photoBtn.innerText = "글등록 중..."
+    photoBtn.setAttribute("disabled", true);
+    photoBtn.innerText = "글등록 중...";
 
     if (uploadfile[0] === undefined) {
       Swal.fire({
         icon: "error",
         title: "사진을 추가해주세요.",
-      }).then((result)=>{
-        if(result){
-          photoBtn.removeAttribute('disabled');
-          photoBtn.innerText = "작성완료"
-      }
+      }).then((result) => {
+        if (result) {
+          photoBtn.removeAttribute("disabled");
+          photoBtn.innerText = "작성완료";
+        }
       });
       return;
     }
 
     let formData = new FormData();
     console.log(uploadfile.length);
-    for(let i = 0; i < uploadfile.length; i++){
+    for (let i = 0; i < uploadfile.length; i++) {
       formData.append("file", uploadfile[i]);
     }
-    
 
     formData.append(
       "article",
@@ -162,14 +163,32 @@ function PhotoUpdate() {
           Swal.fire({
             icon: "error",
             title: "게시글 작성을 실패했습니다.",
-          }).then((result)=>{
-            if(result){
-              photoBtn.removeAttribute('disabled');
-              photoBtn.innerText = "작성완료"
-          }
+          }).then((result) => {
+            if (result) {
+              photoBtn.removeAttribute("disabled");
+              photoBtn.innerText = "작성완료";
+            }
           });
         }
       });
+  };
+
+  const handlePostCancel = () => {
+    Swal.fire({
+      title: "글 작성을 취소하시겠습니까?",
+      text: "다시 되돌릴 수 없습니다.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "확인",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("../photo");
+      } else {
+      }
+    });
   };
 
   return (
@@ -177,9 +196,7 @@ function PhotoUpdate() {
       id="PhotoUpdate"
       className="container"
       style={{
-        paddingLeft: "100px",
-        paddingRight: "100px",
-        marginBottom: "100px",
+        padding: "50px 100px 100px 100px",
       }}
     >
       <Form
@@ -198,29 +215,29 @@ function PhotoUpdate() {
           />
         </Form.Group>
         <Form.Group controlId="formFileMultiple" className="mb-3">
-        <div className="show-imageList">
+          <div className="show-imageList">
             <Swiper
               slidesPerView={5}
               navigation={true}
               modules={[Navigation]}
               className="mySwiper"
-            >              
-
-            <div className="slide">
-            {
-              showImages.map((img, id)=>(
-                <SwiperSlide>
-                <div className="img" key={id}>
-                    <img src={img} alt={`${img}-${id}`} onClick={() => handleDeleteImage(id)}/>
-                </div>
-              </SwiperSlide>
-              ))
-            }
-            </div>
-
-
-              </Swiper>
-        </div>
+            >
+              <div className="slide">
+                {showImages.map((img, id) => (
+                  <SwiperSlide key={id}>
+                    <div className="img">
+                      <img
+                        src={img}
+                        alt={`${img}-${id}`}
+                        style={{ width: "50%", height: "50%" }}
+                        onClick={() => handleDeleteImage(id)}
+                      />
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </div>
+            </Swiper>
+          </div>
           <Form.Label>사진 선택</Form.Label>
           <Form.Control
             type="file"
@@ -244,7 +261,7 @@ function PhotoUpdate() {
           <Button id="photoBtn" variant="dark" type="submit" size="lg" abled>
             작성완료
           </Button>
-          <Button variant="light" size="lg" abled>
+          <Button variant="grey" size="lg" abled onClick={handlePostCancel}>
             작성취소
           </Button>
         </div>

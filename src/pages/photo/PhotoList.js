@@ -3,7 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import "./PhotoList.scss";
 import { useNavigate } from "react-router-dom";
 import { call } from "../../hooks/useFetch";
-import { myRole } from "../../hooks/useAuth"
+import { myRole } from "../../hooks/useAuth";
 
 import Swal from "sweetalert2";
 
@@ -12,6 +12,7 @@ const PhotoList = () => {
   const [photoList, setPhotoList] = useState({});
   const [loading, setloading] = useState(false);
   const [boardid, setBoardid] = useState();
+  const [colMd, setColMd] = useState(3);
   // const [authorizationValue, setAuthorizationValue] = useState("");
   // const [refreshTokenValue, setRefreshTokenValue] = useState("");
   // const [img, setImg] = useState("");
@@ -54,9 +55,37 @@ const PhotoList = () => {
     });
   }, []);
 
-  const onClickDetail = (list)=>{
-    myRole().then((response)=>{
-      if (response === "not authorized"){
+  // 게시글이 하나일 때 글이 정상적인 형태로 나타나지 않으므로 별도로 설정
+  useEffect(() => {
+    if (photoList.length === 1) setColMd(10);
+    else {
+      if (window.innerWidth >= 1200) setColMd(3);
+      else if (window.innerWidth >= 1000) setColMd(4);
+      else if (window.innerWidth >= 500) setColMd(6);
+      else setColMd(3);
+      // cleanup 함수 : 메모리 누수 방지
+      return () => {
+        setColMd(3);
+      };
+    }
+  }, [photoList]);
+
+  // 브라우저 너비의 변화에 따라 Col태그의 md값을 변경하기 위해 추가
+  // (반응형, 문제점: 크기 변경 시 하단의 이벤트 호출이 매우 많이 일어남)
+  window.addEventListener(
+    "resize",
+    function () {
+      if (window.innerWidth >= 1200) setColMd(3);
+      else if (window.innerWidth >= 1000) setColMd(4);
+      else if (window.innerWidth >= 500) setColMd(6);
+      else setColMd(3);
+    },
+    true
+  );
+
+  const onClickDetail = (list) => {
+    myRole().then((response) => {
+      if (response === "not authorized") {
         Swal.fire({
           icon: "error",
           title: "로그인이 필요합니다.",
@@ -65,8 +94,7 @@ const PhotoList = () => {
             navigate("/login");
           }
         });
-      }
-      else {
+      } else {
         navigate("./photoDetail", {
           state: {
             boardId: boardid,
@@ -74,8 +102,8 @@ const PhotoList = () => {
           },
         });
       }
-    })
-  }
+    });
+  };
 
   return (
     <div className="photoMain" style={{ display: "flex" }}>
@@ -109,13 +137,17 @@ const PhotoList = () => {
               // };
               // console.log(img);
               return (
-                <Col md="3" key={i}>
+                <Col md={colMd} key={i}>
                   <div
-                    style={{ marginBottom: "20px", cursor: "pointer" }}
+                    style={{ cursor: "pointer" }}
                     onClick={() => {
-                      onClickDetail(list)
+                      onClickDetail(list);
                     }}
+                    className="eachPost shadow"
                   >
+                    <span className="hoverViewCnt">
+                      Views <span>{list.viewCnt}</span>
+                    </span>
                     <img
                       alt="사진첩 사진"
                       src={
@@ -126,15 +158,18 @@ const PhotoList = () => {
                         "/files/" +
                         list.files[0].filePath
                       }
-                      style={{ width: "100%", height: "230px" }}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                      }}
                     ></img>
                     <br />
                     <br />
-                    <h4>
-                      <strong>{list.title}</strong>
-                    </h4>
+                    <strong>{list.title}</strong>
                     <hr />
-                    {list.author} | {createDt}
+                    <span>
+                      {list.author} | {createDt}
+                    </span>
                   </div>
                 </Col>
               );
