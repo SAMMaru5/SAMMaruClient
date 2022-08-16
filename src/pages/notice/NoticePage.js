@@ -1,7 +1,7 @@
 import "./NoticePage.scss";
 import {Pagination } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../hooks/useCookie";
 import Swal from "sweetalert2";
 import { call } from "../../hooks/useFetch";
