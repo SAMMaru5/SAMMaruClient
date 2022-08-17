@@ -28,7 +28,7 @@ function MainPage() {
 
   return (
     <>
-      <body className="homepage is-preload">
+      <div className="homepage is-preload">
         <div id="page-wrapper">
           <section id="header">
             <div className="container">
@@ -146,14 +146,13 @@ function MainPage() {
         </div>
         {/* 
  
-
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/jquery.dropotron.min.js"></script>
     <script src="assets/js/browser.min.js"></script>
     <script src="assets/js/breakpoints.min.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script> */}
-      </body>
+      </div>
     </>
   );
 }
