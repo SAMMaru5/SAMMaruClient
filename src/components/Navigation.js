@@ -8,13 +8,6 @@ import { getCookie } from "../hooks/useCookie";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 function Navigation() {
-  const [show1, setShow1] = useState(false);
-  //const [show2, setShow2] = useState(false);
-  // const [show3, setShow3] = useState(false);
-  //const [show4, setShow4] = useState(false);
-  //const [show5, setShow5] = useState(false);
-  // const [show6, setShow6] = useState(false);
-
   const navigate = useNavigate();
   const location = useLocation();
   const [userInfo, setUserInfo] = useState({});
@@ -75,17 +68,7 @@ function Navigation() {
         />
         <ul>
           <li>
-            <a
-              href="/clubIntro"
-              className="icon fa-chart-bar"
-              onMouseEnter={(e) => {
-                setShow1(!show1);
-              }}
-              onMouseLeave={(e) => {
-                setShow1(false);
-              }}
-              show={show1}
-            >
+            <a href="/clubIntro" className="icon fa-chart-bar">
               <span>샘마루</span>
             </a>
             <ul>
