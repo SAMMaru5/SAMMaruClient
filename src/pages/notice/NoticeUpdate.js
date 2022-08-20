@@ -44,9 +44,10 @@ function NoticeRegisteration() {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const freeBoardBtn = document.getElementById("freeBoardBtn");
-    freeBoardBtn.setAttribute('disabled', true);
-    freeBoardBtn.innerText = "글등록 중..."
+
+    const noticeBtn = document.getElementById("noticeBtn");
+    noticeBtn.setAttribute('disabled', true);
+    noticeBtn.innerText = "글등록 중..."
 
     let formData = new FormData();
     formData.append("file", uploadfile[0]);
@@ -107,8 +108,8 @@ function NoticeRegisteration() {
               title: "게시글 작성을 실패했습니다.",
             }).then((result)=>{
               if(result){
-                freeBoardBtn.removeAttribute('disabled');
-                freeBoardBtn.innerText = "작성완료"
+                noticeBtn.removeAttribute('disabled');
+                noticeBtn.innerText = "작성완료"
               }
             });
           }
@@ -138,7 +139,8 @@ function NoticeRegisteration() {
                     onChange={(e) => {
                       setNotice({ ...notice, title: e.target.value });
                     }}
-                ></Form.Control>
+                />
+              </Form.Group>
                 <Form.Group className="mb-3" controlId="formFileMultiple">
                   <Form.Label>파일 등록</Form.Label>
                   <Form.Control
@@ -158,17 +160,18 @@ function NoticeRegisteration() {
                         setNotice({ ...notice, content: e.target.value });
                       }}
                   />
-                </Form.Group>
+
               </Form.Group>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Button id="noticeBtn" variant="dark" type="submit" size="lg">글등록</Button>
+                <Button variant="light" size="lg">목록으로</Button>
+              </div>
             </Form>
           </div>
         </div>
         <div>
         </div>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <Button id="noticeBtn" variant="dark" type="submit" size="lg">글등록</Button>
-          <Button variant="light" size="lg">목록으로</Button>
-        </div>
+
       </div>
   );
 }
