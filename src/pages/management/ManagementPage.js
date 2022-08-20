@@ -1,11 +1,32 @@
 import "./ManagementPage.scss";
 import ScheduleManage from "./ScheduleManage";
 import { Tab, Row, Col, Nav } from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BoardManage from "./BoardManage";
 import MemberManage from "./MemberManage";
+import { myRole } from "../../hooks/useAuth";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 function ManagementPage() {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    myRole().then((response)=>{
+      if (response !== "admin"){
+        Swal.fire({
+          icon: "error",
+          title: "로그인이 필요합니다.",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/login");
+          }
+        });
+      }
+    })
+
+  }, [navigate])
+  
 
   const [visible, setVisible] = useState("hidden");
   const isSchedule = (event) => {
