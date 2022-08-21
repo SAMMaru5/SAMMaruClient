@@ -18,7 +18,7 @@ function Navigation() {
     isAuth();
 
     if (accessToken && accessToken !== null) {
-      call("/api/user/info", "GET", "").then((response) => {
+      call("/no-permit/api/user/info", "GET", "").then((response) => {
         setUserInfo(response);
         setloading(true);
       });
