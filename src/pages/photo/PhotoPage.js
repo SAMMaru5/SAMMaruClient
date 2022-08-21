@@ -1,53 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import PhotoList from "./PhotoList";
 import { useNavigate } from "react-router-dom";
-import { getCookie } from "../../hooks/useCookie";
 import Swal from "sweetalert2";
 
 import photo from "../../imgs/banner/photo.jpg";
+import { myRole } from "../../hooks/useAuth";
 
 function PhotoPage() {
   const navigate = useNavigate();
-  const [authorizationValue, setAuthorizationValue] = useState("");
-  const [refreshTokenValue, setRefreshTokenValue] = useState("");
-
-  useEffect(() => {
-    const accessToken = getCookie("accessToken");
-    const refreshToken = getCookie("refreshToken");
-    if (accessToken && accessToken !== null) {
-      setAuthorizationValue("Bearer " + accessToken);
-    }
-    if (refreshToken && refreshToken !== null) {
-      setRefreshTokenValue("Bearer " + refreshToken);
-    }
-  }, []);
 
   const photoUpload = () => {
-    if (authorizationValue === "") {
-      Swal.fire({
-        icon: "error",
-        title: "로그인이 필요합니다.",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/login");
-        }
-      });
-      return;
-    }
+    myRole().then((response) => {
+      if (response === "member" || response === "admin") {
+        navigate("./photoUpdate");
+      }
+      else if (response ==="temp"){
+        Swal.fire({
+          icon: "info",
+          title: "접근 권한이 없습니다. <br/> 관리자에게 문의해 주세요.",
+        })
+      }
+      else {
+        Swal.fire({
+          icon: "error",
+          title: "로그인이 필요합니다.",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/login");
+          }
+        });
+      }
+    });
 
-    if (refreshTokenValue === "") {
-      Swal.fire({
-        icon: "error",
-        title: "로그인이 필요합니다.",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/login");
-        }
-      });
-      return;
-    }
-    navigate("./photoUpdate");
   };
 
   return (

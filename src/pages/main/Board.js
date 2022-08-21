@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { call } from "../../hooks/useFetch";
 import { useNavigate} from "react-router-dom";
 import Swal from "sweetalert2";
+import { myRole } from '../../hooks/useAuth';
 
 
 function Board() {
@@ -31,8 +32,8 @@ function Board() {
     }, [])
     
     const onClickDetaile = (list) => {
-        call("/api/user/info", "GET").then((response)=>{
-          if(response !== undefined && response !=='undefined'){
+      myRole().then((response)=>{
+        if (response === "member" || response === "admin") {
             navigate('/noticeDetail', {
               state: {
                   boardId : boardId,
@@ -40,6 +41,12 @@ function Board() {
                   ,
               },
             });
+          }
+          else if (response ==="temp"){
+            Swal.fire({
+              icon: "info",
+              title: "접근 권한이 없습니다. <br/> 관리자에게 문의해 주세요.",
+            })
           }
           else{
             Swal.fire({
