@@ -9,8 +9,8 @@ function MemberManage() {
     const [loading, setLoading] = useState(false);
     const [name, setName] = useState("");
 
-    useEffect(() => {
 
+    const searchAllUsers = ()=>{
         call("/api/users/info", "GET", "")
         .then((response) => {
             if(response.success){
@@ -19,7 +19,10 @@ function MemberManage() {
             }
   
         })
-  
+    }
+
+    useEffect(() => {
+        searchAllUsers()
     }, [])
 
     const changeAuthority = (id, name, authority, index)=>{
@@ -77,12 +80,25 @@ function MemberManage() {
 
     const searchMember = (e)=>{
         e.preventDefault();
-        call("/api/user/info/"+name, "GET", "")
-        .then((result)=>{
-            if(result.success){
-                setMembers([result.response]);
-            }
-        })
+        
+        if (name ==='') {
+            searchAllUsers()
+        }
+        else{
+            call("/api/users/detail?username="+name, "GET", "")
+            .then((result)=>{
+                if(result.success){
+                    setMembers([result.response]);
+                }
+                else{
+                    Swal.fire({
+                        icon: 'info',
+                        title: name + '회원은 <br/>존재하지 않습니다!',
+                      })
+                }
+            })
+        }
+        
     }
 
     return(
