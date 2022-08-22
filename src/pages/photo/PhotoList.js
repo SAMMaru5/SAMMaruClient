@@ -12,7 +12,6 @@ const PhotoList = () => {
   const [photoList, setPhotoList] = useState({});
   const [loading, setloading] = useState(false);
   const [boardid, setBoardid] = useState();
-  const [colMd, setColMd] = useState(3);
   // const [authorizationValue, setAuthorizationValue] = useState("");
   // const [refreshTokenValue, setRefreshTokenValue] = useState("");
   // const [img, setImg] = useState("");
@@ -54,34 +53,6 @@ const PhotoList = () => {
       }
     });
   }, []);
-
-  // 게시글이 하나일 때 글이 정상적인 형태로 나타나지 않으므로 별도로 설정
-  useEffect(() => {
-    if (photoList.length === 1) setColMd(10);
-    else {
-      if (window.innerWidth >= 1200) setColMd(3);
-      else if (window.innerWidth >= 1000) setColMd(4);
-      else if (window.innerWidth >= 500) setColMd(6);
-      else setColMd(3);
-      // cleanup 함수 : 메모리 누수 방지
-      return () => {
-        setColMd(3);
-      };
-    }
-  }, [photoList]);
-
-  // 브라우저 너비의 변화에 따라 Col태그의 md값을 변경하기 위해 추가
-  // (반응형, 문제점: 크기 변경 시 하단의 이벤트 호출이 매우 많이 일어남)
-  window.addEventListener(
-    "resize",
-    function () {
-      if (window.innerWidth >= 1200) setColMd(3);
-      else if (window.innerWidth >= 1000) setColMd(4);
-      else if (window.innerWidth >= 500) setColMd(6);
-      else setColMd(3);
-    },
-    true
-  );
 
   const onClickDetail = (list) => {
     myRole().then((response) => {
@@ -137,7 +108,7 @@ const PhotoList = () => {
               // };
               // console.log(img);
               return (
-                <Col md={colMd} key={i}>
+                <Col key={i}>
                   <div
                     style={{ cursor: "pointer" }}
                     onClick={() => {
