@@ -45,8 +45,8 @@ function FreeBoardUpdate() {
     e.preventDefault();
 
     const freeBoardBtn = document.getElementById("freeBoardBtn");
-    freeBoardBtn.setAttribute('disabled', true);
-    freeBoardBtn.innerText = "글등록 중..."
+    freeBoardBtn.setAttribute("disabled", true);
+    freeBoardBtn.innerText = "글등록 중...";
 
     let formData = new FormData();
 
@@ -105,10 +105,10 @@ function FreeBoardUpdate() {
           Swal.fire({
             icon: "error",
             title: "게시글 작성을 실패했습니다.",
-          }).then((result)=>{
-            if(result){
-              freeBoardBtn.removeAttribute('disabled');
-              freeBoardBtn.innerText = "작성완료"
+          }).then((result) => {
+            if (result) {
+              freeBoardBtn.removeAttribute("disabled");
+              freeBoardBtn.innerText = "작성완료";
             }
           });
         }
