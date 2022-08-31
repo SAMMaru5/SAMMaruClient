@@ -114,6 +114,24 @@ function NoticeRegisteration() {
       });
   };
 
+  const handlePostCancel = () => {
+    Swal.fire({
+      title: "글 작성을 취소하시겠습니까?",
+      text: "다시 되돌릴 수 없습니다.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "확인",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("../notice");
+      } else {
+      }
+    });
+  };
+
   return (
     <div
       className="container"
@@ -166,10 +184,10 @@ function NoticeRegisteration() {
             </Form.Group>
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Button id="noticeBtn" variant="dark" type="submit" size="lg">
-                글등록
+                작성완료
               </Button>
-              <Button variant="light" size="lg">
-                목록으로
+              <Button variant="grey" size="lg" onClick={handlePostCancel}>
+                작성취소
               </Button>
             </div>
           </Form>
