@@ -115,6 +115,24 @@ function SeminarUpdate() {
       });
   };
 
+  const handlePostCancel = () => {
+    Swal.fire({
+      title: "글 작성을 취소하시겠습니까?",
+      text: "다시 되돌릴 수 없습니다.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "확인",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("../seminar");
+      } else {
+      }
+    });
+  };
+
   return (
     <div
       className="container"
@@ -163,7 +181,7 @@ function SeminarUpdate() {
           <Button id="examBtn" variant="dark" type="submit" size="lg">
             작성완료
           </Button>
-          <Button variant="light" size="lg">
+          <Button variant="grey" size="lg" onClick={handlePostCancel}>
             작성취소
           </Button>
         </div>
