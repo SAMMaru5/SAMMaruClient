@@ -258,10 +258,10 @@ function PhotoUpdate() {
           />
         </Form.Group>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <Button id="photoBtn" variant="dark" type="submit" size="lg" abled>
+          <Button id="photoBtn" variant="dark" type="submit" size="lg">
             작성완료
           </Button>
-          <Button variant="grey" size="lg" abled onClick={handlePostCancel}>
+          <Button variant="grey" size="lg" onClick={handlePostCancel}>
             작성취소
           </Button>
         </div>
