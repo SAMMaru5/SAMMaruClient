@@ -59,6 +59,9 @@ export function myRole(){
         if(response.success === false){
             return "not authorized"
         }
+        else if(response.response.role ==="ROLE_TEMP"){
+            return "temp"
+        }
         else if(response.response.role === "ROLE_MEMBER") {
             return "member"
         }

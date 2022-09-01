@@ -13,18 +13,8 @@ const PhotoList = () => {
   const [loading, setloading] = useState(false);
   const [boardid, setBoardid] = useState();
   const [colMd, setColMd] = useState(3);
-  // const [authorizationValue, setAuthorizationValue] = useState("");
-  // const [refreshTokenValue, setRefreshTokenValue] = useState("");
-  // const [img, setImg] = useState("");
+
   useEffect(() => {
-    // const accessToken = getCookie("accessToken");
-    // const refreshToken = getCookie("refreshToken");
-    // if (accessToken && accessToken !== null) {
-    //   setAuthorizationValue(accessToken);
-    // }
-    // if (refreshToken && refreshToken !== null) {
-    //   setRefreshTokenValue(refreshToken);
-    // }
     call("/no-permit/api/boards", "GET").then((response) => {
       if (response.success) {
         for (let i = 0; i < response.response.length; i++) {
@@ -84,8 +74,22 @@ const PhotoList = () => {
   );
 
   const onClickDetail = (list) => {
-    myRole().then((response) => {
-      if (response === "not authorized") {
+    myRole().then((response)=>{
+      if (response === "member" || response === "admin") {
+        navigate("./photoDetail", {
+          state: {
+            boardId: boardid,
+            articleId: list.id,
+          },
+        });
+      } 
+      else if (response ==="temp"){
+        Swal.fire({
+          icon: "info",
+          title: "접근 권한이 없습니다. <br/> 관리자에게 문의해 주세요.",
+        })
+      }
+      else {
         Swal.fire({
           icon: "error",
           title: "로그인이 필요합니다.",
@@ -94,13 +98,7 @@ const PhotoList = () => {
             navigate("/login");
           }
         });
-      } else {
-        navigate("./photoDetail", {
-          state: {
-            boardId: boardid,
-            articleId: list.id,
-          },
-        });
+
       }
     });
   };
@@ -112,30 +110,6 @@ const PhotoList = () => {
           <Row>
             {photoList.map((list, i) => {
               let createDt = list.createDt.slice(0, 10);
-              // console.log(list);
-              // let url =
-              //   "http://localhost:8080/api/boards/" +
-              //   boardid +
-              //   "/articles/" +
-              //   list.id +
-              //   "/files/0808b7eb-5534-4a62-85ed-c71cb0b88d10.png";
-              // let xhr = new XMLHttpRequest();
-
-              // xhr.open("GET", url, true);
-              // xhr.setRequestHeader(
-              //   "Authorization",
-              //   "Bearer " + authorizationValue
-              // );
-              // xhr.responseType = "blob";
-              // xhr.send();
-              // xhr.onreadystatechange = function () {
-              //   if (this.readyState == 4 && this.status == 200) {
-              //     let url = window.URL || window.webkitURL;
-              //     let imgsrc = url.createObjectURL(this.response);
-              //     setImg(imgsrc);
-              //   }
-              // };
-              // console.log(img);
               return (
                 <Col md={colMd} key={i}>
                   <div
