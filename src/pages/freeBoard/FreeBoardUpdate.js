@@ -45,8 +45,8 @@ function FreeBoardUpdate() {
     e.preventDefault();
 
     const freeBoardBtn = document.getElementById("freeBoardBtn");
-    freeBoardBtn.setAttribute('disabled', true);
-    freeBoardBtn.innerText = "글등록 중..."
+    freeBoardBtn.setAttribute("disabled", true);
+    freeBoardBtn.innerText = "글등록 중...";
 
     let formData = new FormData();
 
@@ -105,14 +105,32 @@ function FreeBoardUpdate() {
           Swal.fire({
             icon: "error",
             title: "게시글 작성을 실패했습니다.",
-          }).then((result)=>{
-            if(result){
-              freeBoardBtn.removeAttribute('disabled');
-              freeBoardBtn.innerText = "작성완료"
+          }).then((result) => {
+            if (result) {
+              freeBoardBtn.removeAttribute("disabled");
+              freeBoardBtn.innerText = "작성완료";
             }
           });
         }
       });
+  };
+
+  const handlePostCancel = () => {
+    Swal.fire({
+      title: "글 작성을 취소하시겠습니까?",
+      text: "다시 되돌릴 수 없습니다.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "확인",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("../freeBoard");
+      } else {
+      }
+    });
   };
 
   return (
@@ -163,7 +181,7 @@ function FreeBoardUpdate() {
           <Button id="freeBoardBtn" variant="dark" type="submit" size="lg">
             작성완료
           </Button>
-          <Button variant="light" size="lg">
+          <Button variant="grey" size="lg" onClick={handlePostCancel}>
             작성취소
           </Button>
         </div>
