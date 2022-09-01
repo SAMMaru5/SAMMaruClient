@@ -1,30 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Pagination } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { getCookie } from "../../hooks/useCookie";
 import Swal from "sweetalert2";
 import { call } from "../../hooks/useFetch";
 
 import free from "../../imgs/banner/free.jpg";
+import { myRole } from "../../hooks/useAuth";
 
 function FreeBoardPage() {
   const navigate = useNavigate();
-  const [authorizationValue, setAuthorizationValue] = useState("");
-  const [refreshTokenValue, setRefreshTokenValue] = useState("");
   const [boardlist, setBoardlist] = useState({});
   const [loading, setloading] = useState(false);
   const [boardId, setBoardId] = useState();
 
   useEffect(() => {
-    const accessToken = getCookie("accessToken");
-    const refreshToken = getCookie("refreshToken");
-    if (accessToken && accessToken !== null) {
-      setAuthorizationValue("Bearer " + accessToken);
-    }
-    if (refreshToken && refreshToken !== null) {
-      setRefreshTokenValue("Bearer " + refreshToken);
-    }
-
     call("/no-permit/api/boards", "GET").then((response) => {
       if (response.success) {
         for (let i = 0; i < response.response.length; i++) {
@@ -57,42 +46,17 @@ function FreeBoardPage() {
   }, []);
 
   const freeBoardUpload = () => {
-    if (authorizationValue === "") {
-      Swal.fire({
-        icon: "error",
-        title: "로그인이 필요합니다.",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/login");
-        }
-      });
-      return;
-    }
-
-    if (refreshTokenValue === "") {
-      Swal.fire({
-        icon: "error",
-        title: "로그인이 필요합니다.",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/login");
-        }
-      });
-      return;
-    }
-    navigate("./freeBoardUpdate");
-  };
-
-  const onClickDetail = (list) => {
-    call("/api/user/info", "GET").then((response) => {
-      if (response !== undefined && response !== "undefined") {
-        navigate("/freeBoardDetail", {
-          state: {
-            boardId: boardId,
-            articleId: list.id,
-          },
-        });
-      } else {
+    myRole().then((response) => {
+      if (response === "member" || response === "admin") {
+        navigate("./freeBoardUpdate");
+      }
+      else if (response === "temp") {
+        Swal.fire({
+          icon: "info",
+          title: "접근 권한이 없습니다. <br/> 관리자에게 문의해 주세요.",
+        })
+      }
+      else{
         Swal.fire({
           icon: "error",
           title: "로그인이 필요합니다.",
@@ -102,7 +66,37 @@ function FreeBoardPage() {
           }
         });
       }
-    });
+    })
+    
+  };
+
+  const onClickDetail = (list) => {
+    myRole().then((response)=>{
+      if (response === "member" || response === "admin") {
+        navigate("/freeBoardDetail", {
+          state: {
+            boardId: boardId,
+            articleId: list.id,
+          },
+        });
+      } 
+      else if (response ==="temp"){
+        Swal.fire({
+          icon: "info",
+          title: "접근 권한이 없습니다. <br/> 관리자에게 문의해 주세요.",
+        })
+      }
+      else {
+        Swal.fire({
+          icon: "error",
+          title: "로그인이 필요합니다.",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/login");
+          }
+        });
+      }
+    })
   };
 
   return (
