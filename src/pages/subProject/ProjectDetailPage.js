@@ -69,19 +69,11 @@ function ProjectDetailPage() {
             <nav>
               <div>
                 {" "}
-                <span>
-                  {" "}
-                  <b>&lt;</b> 이전글
-                </span>{" "}
-                이전글입니다{" "}
+                <span>이전글</span> 이전글입니다{" "}
               </div>
               <div>
                 {" "}
-                <span>
-                  {" "}
-                  <b>&gt;</b> 다음글
-                </span>{" "}
-                다음글입니다{" "}
+                <span>다음글</span> 다음글입니다{" "}
               </div>
             </nav>
           </div>
@@ -118,19 +110,11 @@ function ProjectDetailPage() {
             <nav>
               <div>
                 {" "}
-                <span>
-                  {" "}
-                  <b>&lt;</b> 이전글
-                </span>{" "}
-                이전글입니다{" "}
+                <span>이전글</span> 이전글입니다{" "}
               </div>
               <div>
                 {" "}
-                <span>
-                  {" "}
-                  <b>&gt;</b> 다음글
-                </span>{" "}
-                다음글입니다{" "}
+                <span>다음글</span> 다음글입니다{" "}
               </div>
             </nav>
           </div>
