@@ -1,5 +1,5 @@
 .NoticeDetail {
-  button{
+  button {
     padding: 0;
   }
   .container {
@@ -27,7 +27,31 @@
   }
 
   .contents {
-    padding: 5% 0px 5% 0px;
+    padding: 5% 0px 1% 0px;
+    .contentsBottom {
+      margin: 8% auto 1%;
+      text-align: center;
+      .like {
+        border-radius: 10px;
+        padding: 1.7% 1.25% 1.25%;
+        background-color: rgb(13, 110, 253);
+        cursor: pointer;
+        i {
+          font-size: 30px;
+        }
+        .likeCnt {
+          padding-left: 7px;
+          -ms-user-select: none;
+          -moz-user-select: -moz-none;
+          -khtml-user-select: none;
+          -webkit-user-select: none;
+          user-select: none;
+        }
+      }
+      .like:hover {
+        background-color: rgb(8, 90, 214);
+      }
+    }
   }
 
   nav {
