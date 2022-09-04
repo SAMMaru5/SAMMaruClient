@@ -50,9 +50,9 @@ function ExamDetailPage() {
                 onClick={() => setLike((prev) => !prev)}
               >
                 {like ? (
-                  <i class="fa-solid fa-thumbs-up"></i>
+                  <i className="fa-solid fa-thumbs-up"></i>
                 ) : (
-                  <i class="fa-regular fa-thumbs-up"></i>
+                  <i className="fa-regular fa-thumbs-up"></i>
                 )}
                 {/* "article.likeCnt"와 "article.viewCnt"의 값이 동일하게 넘어오는 문제가 있습니다(수정 필요!!) */}
                 {like ? (
