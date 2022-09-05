@@ -104,6 +104,7 @@ function NoticePage(props) {
 
   /** Pagination 버튼을 생성하는 함수 */
   const addingPaginationItem = () => {
+    if (!Object.keys(boardlist).length) return;
     const result = [];
     for (let k = 0; k < 10; k++) {
       result.push(
