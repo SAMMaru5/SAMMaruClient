@@ -32,7 +32,7 @@ export function isAuth(){
 }
 
 export function login(SignInRequest){
-    return call("/auth/signin", "POST", SignInRequest).then((response)=>{
+    return call("/auth/login", "POST", SignInRequest).then((response)=>{
         const todayDate = new Date();
         try{
             
