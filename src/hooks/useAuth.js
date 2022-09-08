@@ -35,12 +35,10 @@ export function login(SignInRequest){
     return call("/auth/signin", "POST", SignInRequest).then((response)=>{
         const todayDate = new Date();
         try{
+            
             if(response.response.accessToken){
                 const decode = jwtDecode (response.response.accessToken);
                 setCookie("accessToken", response.response.accessToken, decode.exp - todayDate.getTime()/1000);
-
-                const decode2 = jwtDecode (response.response.refreshToken);
-                setCookie("refreshToken", response.response.refreshToken, decode2.exp - todayDate.getTime()/1000);
                 return response
                 // window.location.href = "/";
             }
