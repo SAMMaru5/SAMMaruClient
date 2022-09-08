@@ -1,12 +1,14 @@
-.NoticeDetail {
+.ProjectDetail {
   button {
     padding: 0;
   }
   .container {
     display: flex;
     flex-direction: column;
+
     width: 80%;
     margin-top: 150px;
+
     > div {
       padding-left: 1%;
       padding-right: 1%;

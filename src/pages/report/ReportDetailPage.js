@@ -9,6 +9,7 @@ function ReportDetailPage() {
   const location = useLocation();
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(false);
+  const [like, setLike] = useState(false);
 
   useEffect(() => {
     call(
@@ -43,26 +44,47 @@ function ReportDetailPage() {
             </div>
           </div>
 
-          <div className="contents">{article.content}</div>
+          <div className="contents">
+            {article.content}
+            <div className="contentsBottom">
+              <span
+                className="text-center text-white like"
+                onClick={() => setLike((prev) => !prev)}
+              >
+                {like ? (
+                  <i className="fa-solid fa-thumbs-up"></i>
+                ) : (
+                  <i className="fa-regular fa-thumbs-up"></i>
+                )}
+                {/* "article.likeCnt"와 "article.viewCnt"의 값이 동일하게 넘어오는 문제가 있습니다(수정 필요!!) */}
+                {like ? (
+                  <span className="likeCnt font-weight-bold">
+                    {article.likeCnt + 1}
+                  </span>
+                ) : (
+                  <span className="likeCnt">{article.likeCnt}</span>
+                )}
+              </span>
+            </div>
+          </div>
           {article.files.length !== 0 ? (
             <div className="file-download-frame">
-              <div className="border-top p-3">
-                <h5 className="mb-3">첨부파일</h5>
-                <a
-                  href={
-                    "http://localhost:8080/no-permit/api/boards/" +
-                    location.state.boardId +
-                    "/articles/" +
-                    location.state.articleId +
-                    "/files/" +
-                    article.files[0].filePath
-                  }
-                  className="text-decoration-none border-0 p-2"
-                >
-                  <span className="icon fa-file"></span>{" "}
-                  {article.files[0].fileName}
-                </a>
-              </div>
+              파일 다운로드
+              <br />
+              <a
+                href={
+                  "http://localhost:8080/no-permit/api/boards/" +
+                  location.state.boardId +
+                  "/articles/" +
+                  location.state.articleId +
+                  "/files/" +
+                  article.files[0].filePath
+                }
+                className="text-decoration-none"
+              >
+                {article.files[0].fileName}
+              </a>
+
             </div>
           ) : (
             <div></div>
