@@ -42,40 +42,38 @@ function ExamDetailPage() {
           </div>
 
           <div className="contents">{article.content}</div>
-          {
-            article.files.length !== 0 ?
-              <div className="file-download-frame">
-                파일 다운로드<br />
-                <a href={"http://localhost:8080/no-permit/api/boards/" +
-                  location.state.boardId +
-                  "/articles/" +
-                  location.state.articleId +
-                  "/files/" +
-                  article.files[0].filePath}
-
-                className="text-decoration-none">{article.files[0].fileName}</a>
+          {article.files.length !== 0 ? (
+            <div className="file-download-frame">
+              <div className="border-top p-3">
+                <h5 className="mb-3">첨부파일</h5>
+                <a
+                  href={
+                    "http://localhost:8080/no-permit/api/boards/" +
+                    location.state.boardId +
+                    "/articles/" +
+                    location.state.articleId +
+                    "/files/" +
+                    article.files[0].filePath
+                  }
+                  className="text-decoration-none border-0 p-2"
+                >
+                  <span className="icon fa-file"></span>{" "}
+                  {article.files[0].fileName}
+                </a>
               </div>
-              :
-              <div>
-              </div>
-          }
+            </div>
+          ) : (
+            <div></div>
+          )}
           <div>
             <nav>
               <div>
                 {" "}
-                <span>
-                  {" "}
-                  <b>&lt;</b> 이전글
-                </span>{" "}
-                이전글입니다{" "}
+                <span>이전글</span> 이전글입니다{" "}
               </div>
               <div>
                 {" "}
-                <span>
-                  {" "}
-                  <b>&gt;</b> 다음글
-                </span>{" "}
-                다음글입니다{" "}
+                <span>다음글</span> 다음글입니다{" "}
               </div>
             </nav>
           </div>
@@ -112,19 +110,11 @@ function ExamDetailPage() {
             <nav>
               <div>
                 {" "}
-                <span>
-                  {" "}
-                  <b>&lt;</b> 이전글
-                </span>{" "}
-                이전글입니다{" "}
+                <span>이전글</span> 이전글입니다{" "}
               </div>
               <div>
                 {" "}
-                <span>
-                  {" "}
-                  <b>&gt;</b> 다음글
-                </span>{" "}
-                다음글입니다{" "}
+                <span>다음글</span> 다음글입니다{" "}
               </div>
             </nav>
           </div>
