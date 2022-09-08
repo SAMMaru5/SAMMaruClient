@@ -43,6 +43,7 @@ function FreeBoardDetailPage() {
               </dl>
             </div>
           </div>
+
           <div className="contents">
             {article.content}
             <div className="contentsBottom">
@@ -83,6 +84,7 @@ function FreeBoardDetailPage() {
               >
                 {article.files[0].fileName}
               </a>
+
             </div>
           ) : (
             <div></div>
@@ -92,19 +94,11 @@ function FreeBoardDetailPage() {
             <nav>
               <div>
                 {" "}
-                <span>
-                  {" "}
-                  <b>&lt;</b> 이전글
-                </span>{" "}
-                이전글입니다{" "}
+                <span>이전글</span> 이전글입니다{" "}
               </div>
               <div>
                 {" "}
-                <span>
-                  {" "}
-                  <b>&gt;</b> 다음글
-                </span>{" "}
-                다음글입니다{" "}
+                <span>다음글</span> 다음글입니다{" "}
               </div>
             </nav>
           </div>
@@ -141,19 +135,11 @@ function FreeBoardDetailPage() {
             <nav>
               <div>
                 {" "}
-                <span>
-                  {" "}
-                  <b>&lt;</b> 이전글
-                </span>{" "}
-                이전글입니다{" "}
+                <span>이전글</span> 이전글입니다{" "}
               </div>
               <div>
                 {" "}
-                <span>
-                  {" "}
-                  <b>&gt;</b> 다음글
-                </span>{" "}
-                다음글입니다{" "}
+                <span>다음글</span> 다음글입니다{" "}
               </div>
             </nav>
           </div>

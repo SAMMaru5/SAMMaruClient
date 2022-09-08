@@ -84,6 +84,7 @@ function NoticeDetailPage() {
               >
                 {article.files[0].fileName}
               </a>
+
             </div>
           ) : (
             <div></div>
@@ -92,19 +93,11 @@ function NoticeDetailPage() {
             <nav>
               <div>
                 {" "}
-                <span>
-                  {" "}
-                  <b>&lt;</b> 이전글
-                </span>{" "}
-                이전글입니다{" "}
+                <span>이전글</span> 이전글입니다{" "}
               </div>
               <div>
                 {" "}
-                <span>
-                  {" "}
-                  <b>&gt;</b> 다음글
-                </span>{" "}
-                다음글입니다{" "}
+                <span>다음글</span> 다음글입니다{" "}
               </div>
             </nav>
           </div>
@@ -141,19 +134,11 @@ function NoticeDetailPage() {
             <nav>
               <div>
                 {" "}
-                <span>
-                  {" "}
-                  <b>&lt;</b> 이전글
-                </span>{" "}
-                이전글입니다{" "}
+                <span>이전글</span> 이전글입니다{" "}
               </div>
               <div>
                 {" "}
-                <span>
-                  {" "}
-                  <b>&gt;</b> 다음글
-                </span>{" "}
-                다음글입니다{" "}
+                <span>다음글</span> 다음글입니다{" "}
               </div>
             </nav>
           </div>
