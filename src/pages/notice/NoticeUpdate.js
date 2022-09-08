@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { call } from "../../hooks/useFetch";
 import axios from "axios";
+import { myRole } from "../../hooks/useAuth";
 
 function NoticeRegisteration() {
   const [boardId, setBoardId] = useState(0);
@@ -58,29 +59,25 @@ function NoticeRegisteration() {
     );
 
 
-    if (authorizationValue === "") {
-      Swal.fire({
-        icon: "error",
-        title: "로그인이 필요합니다.",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/login");
-        }
-      });
-      return;
-    }
+    myRole().then((response)=>{
 
-    if (refreshTokenValue === "") {
-      Swal.fire({
-        icon: "error",
-        title: "로그인이 필요합니다.",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/login");
-        }
-      });
-      return;
-    }
+    if (response === "temp"){
+        Swal.fire({
+          icon: "info",
+          title: "접근 권한이 없습니다. <br/> 관리자에게 문의해 주세요.",
+        })
+      }
+    else if(response === "not authorized") {
+        Swal.fire({
+          icon: "error",
+          title: "로그인이 필요합니다.",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/login");
+          }
+        });
+      }
+    });
 
     let headers = {
       "Content-Type": "application/json",
