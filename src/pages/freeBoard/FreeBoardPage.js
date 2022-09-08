@@ -12,6 +12,8 @@ function FreeBoardPage() {
   const [boardlist, setBoardlist] = useState({});
   const [loading, setloading] = useState(false);
   const [boardId, setBoardId] = useState();
+  const [pageNum, setPageNum] = useState(1);
+  const [pageList, setPageList] = useState(1);
 
   useEffect(() => {
     call("/no-permit/api/boards", "GET").then((response) => {
@@ -20,7 +22,7 @@ function FreeBoardPage() {
           if (response.response[i].name === "자유게시판") {
             setBoardId(response.response[i].id);
             call(
-              `/no-permit/api/boards/${response.response[i].id}/pages/1`,
+              `/no-permit/api/boards/${response.response[i].id}/pages/${pageNum}`,
               "GET"
             ).then((response) => {
               // console.log(response);
@@ -43,20 +45,22 @@ function FreeBoardPage() {
         });
       }
     });
-  }, []);
+
+    if (pageNum % 10 === 1) setPageList(pageNum);
+    else if (pageNum % 10 === 0) setPageList(pageNum - 9);
+    else setPageList(parseInt(pageNum / 10) * 10 + 1);
+  }, [pageNum]);
 
   const freeBoardUpload = () => {
     myRole().then((response) => {
       if (response === "member" || response === "admin") {
         navigate("./freeBoardUpdate");
-      }
-      else if (response === "temp") {
+      } else if (response === "temp") {
         Swal.fire({
           icon: "info",
           title: "접근 권한이 없습니다. <br/> 관리자에게 문의해 주세요.",
-        })
-      }
-      else{
+        });
+      } else {
         Swal.fire({
           icon: "error",
           title: "로그인이 필요합니다.",
@@ -66,12 +70,11 @@ function FreeBoardPage() {
           }
         });
       }
-    })
-    
+    });
   };
 
   const onClickDetail = (list) => {
-    myRole().then((response)=>{
+    myRole().then((response) => {
       if (response === "member" || response === "admin") {
         navigate("/freeBoardDetail", {
           state: {
@@ -79,14 +82,12 @@ function FreeBoardPage() {
             articleId: list.id,
           },
         });
-      } 
-      else if (response ==="temp"){
+      } else if (response === "temp") {
         Swal.fire({
           icon: "info",
           title: "접근 권한이 없습니다. <br/> 관리자에게 문의해 주세요.",
-        })
-      }
-      else {
+        });
+      } else {
         Swal.fire({
           icon: "error",
           title: "로그인이 필요합니다.",
@@ -96,13 +97,58 @@ function FreeBoardPage() {
           }
         });
       }
-    })
+    });
+  };
+
+  /** Pagination 버튼을 생성하는 함수 */
+  const addingPaginationItem = () => {
+    if (!Object.keys(boardlist).length) return;
+    const result = [];
+    for (let k = 0; k < 10; k++) {
+      result.push(
+        <Pagination.Item
+          active={pageNum === pageList + k}
+          key={k}
+          onClick={() => setPageNum(pageList + k)}
+        >
+          {pageList + k}
+        </Pagination.Item>
+      );
+      if (pageList + k === boardlist.totalPages) break;
+    }
+    return result;
+  };
+
+  /**
+   * Pagination 각 기능 버튼들의 동작사항을 정의하는 함수
+   * @param {string} command 명령 문자열을 넣어주세요
+   * */
+  const onChangingPage = (command) => {
+    switch (command) {
+      case "first":
+        setPageNum(1);
+        break;
+      case "prev":
+        if (boardlist.first) return;
+        setPageNum((prev) => prev - 1);
+        break;
+      case "next":
+        if (boardlist.last) return;
+        setPageNum((prev) => prev + 1);
+        break;
+      default:
+        setPageNum(boardlist.totalPages);
+    }
   };
 
   return (
     <div className="noticePage">
       <div className="container">
-        <img src={free} alt="자유게시판 배너" style={{ width: "100%", height: "200px" }}></img>
+        <img
+          src={free}
+          alt="자유게시판 배너"
+          style={{ width: "100%", height: "200px" }}
+        ></img>
         <div className="location">
           <img className="home" src="home.png" alt="home"></img>
           <span>{"/"}</span>
@@ -156,7 +202,7 @@ function FreeBoardPage() {
           </div>
           {loading ? (
             <>
-              {boardlist.map((list, i) => {
+              {boardlist.content.map((list, i) => {
                 let createDt = list.createDt.slice(0, 10);
                 return (
                   <div key={i} className="eachContents">
@@ -182,21 +228,11 @@ function FreeBoardPage() {
 
       <div className="pageNum">
         <Pagination>
-          <Pagination.First />
-          <Pagination.Prev />
-          <Pagination.Item active>{1}</Pagination.Item>
-          <Pagination.Ellipsis />
-
-          <Pagination.Item>{10}</Pagination.Item>
-          <Pagination.Item>{11}</Pagination.Item>
-          <Pagination.Item>{12}</Pagination.Item>
-          <Pagination.Item>{13}</Pagination.Item>
-          <Pagination.Item>{14}</Pagination.Item>
-
-          <Pagination.Ellipsis />
-          <Pagination.Item>{20}</Pagination.Item>
-          <Pagination.Next />
-          <Pagination.Last />
+          <Pagination.First onClick={() => onChangingPage("first")} />
+          <Pagination.Prev onClick={() => onChangingPage("prev")} />
+          {addingPaginationItem()}
+          <Pagination.Next onClick={() => onChangingPage("next")} />
+          <Pagination.Last onClick={() => onChangingPage("last")} />
         </Pagination>
       </div>
     </div>

@@ -131,5 +131,8 @@
   .pageNum {
     display: flex;
     justify-content: center;
+    .pagination > li:first-child {
+      margin-top: 13.5px;
+    }
   }
 }
