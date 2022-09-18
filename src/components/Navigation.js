@@ -26,7 +26,10 @@ function Navigation() {
   }, [location, accessToken]);
 
   return (
-    <div className="Navigation container" style={{ marginBottom: "100px" }}>
+    <div
+      className="Navigation container"
+      style={{ marginBottom: "100px", position: "relative" }}
+    >
       <div className="userStatus" style={{ display: "flex" }}>
         <p className="attendance">접속자 ?</p>
 
