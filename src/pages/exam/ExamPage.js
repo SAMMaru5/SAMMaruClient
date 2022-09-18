@@ -158,8 +158,8 @@ function ExamPage() {
           <span> 족보 </span>
         </div>
         <div className="search">
-          <b> 검색구분 </b>
           <div className="inp_sch">
+            <b> 검색구분 </b>
             <select name="srchTp">
               <option value="title" style={{ textAlign: "center" }}>
                 제목
