@@ -147,7 +147,8 @@ function ReportPage() {
         <img
           src={report}
           alt="활동보고서 배너"
-          style={{ width: "100%", height: "200px" }}
+          // height값을 auto로 변경하여 브라우저의 크기가 변경되어도 이미지 비율 유지
+          style={{ width: "100%", height: "auto" }}
         ></img>
         <div className="location">
           <img className="home" src="home.png" alt="home"></img>
