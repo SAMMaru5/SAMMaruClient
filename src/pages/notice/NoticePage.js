@@ -25,7 +25,7 @@ function NoticePage(props) {
           if (response.response[i].name === "공지사항") {
             setBoardId(response.response[i].id);
             call(
-              `/no-permit/api/boards/${response.response[i].id}/pages/1`,
+              `/no-permit/api/boards/${response.response[i].id}/pages/${pageNum}?pageSize=10`,
               "GET"
             ).then((response) => {
               if (response.success) {
