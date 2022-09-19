@@ -14,9 +14,6 @@ function Navigation() {
   const [loading, setloading] = useState(false);
   const accessToken = getCookie("accessToken");
   useEffect(() => {
-    //refreshToken 갱신
-    isAuth();
-
     if (accessToken && accessToken !== null) {
       call("/no-permit/api/user/info", "GET", "").then((response) => {
         setUserInfo(response);
