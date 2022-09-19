@@ -21,7 +21,7 @@ const PhotoList = () => {
           if (response.response[i].name === "사진첩") {
             setBoardid(response.response[i].id);
             call(
-              `/no-permit/api/boards/${response.response[i].id}/pages/1`,
+              `/no-permit/api/boards/${response.response[i].id}/pages/1?pageSize=16`,
               "GET"
             ).then((response) => {
               if (response.success) {
@@ -46,7 +46,7 @@ const PhotoList = () => {
   }, []);
 
   const onClickDetail = (list) => {
-    myRole().then((response)=>{
+    myRole().then((response) => {
       if (response === "member" || response === "admin") {
         navigate("./photoDetail", {
           state: {
@@ -54,14 +54,12 @@ const PhotoList = () => {
             articleId: list.id,
           },
         });
-      } 
-      else if (response ==="temp"){
+      } else if (response === "temp") {
         Swal.fire({
           icon: "info",
           title: "접근 권한이 없습니다. <br/> 관리자에게 문의해 주세요.",
-        })
-      }
-      else {
+        });
+      } else {
         Swal.fire({
           icon: "error",
           title: "로그인이 필요합니다.",
@@ -70,7 +68,6 @@ const PhotoList = () => {
             navigate("/login");
           }
         });
-
       }
     });
   };
