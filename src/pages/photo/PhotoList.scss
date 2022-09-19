@@ -45,6 +45,15 @@
     text-decoration: underline;
   }
 
+  .pageNum {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    .pagination > li:first-child {
+      margin-top: 13.5px;
+    }
+  }
+
   @media (max-width: 1300px) {
     .row {
       grid-template-columns: repeat(3, 1fr);
