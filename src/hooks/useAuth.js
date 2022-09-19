@@ -61,7 +61,7 @@ export function login(SignInRequest) {
 
 export function myRole() {
   return call("/no-permit/api/user/info", "GET", "").then((response) => {
-    if (response.success === false) {
+    if (!response) {
       return "not authorized";
     } else if (response.response.role === "ROLE_TEMP") {
       return "temp";
