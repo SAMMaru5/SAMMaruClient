@@ -11,24 +11,23 @@ function CheckPwPage() {
 
   const [UserInfo, setUserInfo] = useState({});
   const [loading, setloading] = useState(false);
-  useEffect(() => {
-    myRole().then((response) => {
-      if (response === "not authorized") {
-        Swal.fire({
-          icon: "error",
-          title: "로그인이 필요합니다.",
-        }).then((result) => {
-          navigate("/login");
-        });
-      }
-    });
 
-    call("/api/user/info", "GET", "").then((response) => {
-      setUser({ studentId: response.response.studentId });
-      setUserInfo(response.response);
-      setloading(true);
-    });
-  }, []);
+  myRole().then((response) => {
+    if (response === "not authorized") {
+      Swal.fire({
+        icon: "error",
+        title: "로그인이 필요합니다.",
+      }).then((result) => {
+        navigate("/login");
+      });
+    }
+  });
+
+  call("/api/user/info", "GET", "").then((response) => {
+    setUser({ studentId: response.response.studentId });
+    setUserInfo(response.response);
+    setloading(true);
+  });
 
   function passwordCheck(e) {
     e.preventDefault();
