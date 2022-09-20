@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Pagination } from "react-bootstrap";
 import "./PhotoList.scss";
 import { useNavigate } from "react-router-dom";
 import { call } from "../../hooks/useFetch";
@@ -11,7 +11,10 @@ const PhotoList = () => {
   const navigate = useNavigate();
   const [photoList, setPhotoList] = useState({});
   const [loading, setloading] = useState(false);
-  const [boardId, setBoardid] = useState();
+  const [boardid, setBoardid] = useState();
+  const [colMd, setColMd] = useState(3);
+  const [pageNum, setPageNum] = useState(1);
+  const [pageList, setPageList] = useState(1);
 
   useEffect(() => {
     call("/no-permit/api/boards", "GET").then((response) => {
@@ -20,7 +23,7 @@ const PhotoList = () => {
           if (response.response[i].name === "사진첩") {
             setBoardid(response.response[i].id);
             call(
-              `/no-permit/api/boards/${response.response[i].id}/pages/1?pageSize=16`,
+              `/no-permit/api/boards/${response.response[i].id}/pages/${pageNum}?pageSize=16`,
               "GET"
             ).then((response) => {
               if (response.success) {
@@ -42,12 +45,27 @@ const PhotoList = () => {
         });
       }
     });
-    console.log(photoList);
-  }, []);
+
+    if (pageNum % 10 === 1) setPageList(pageNum);
+    else if (pageNum % 10 === 0) setPageList(pageNum - 9);
+    else setPageList(parseInt(pageNum / 10) * 10 + 1);
+  }, [pageNum]);
 
   const onClickDetail = (list) => {
     myRole().then((response) => {
-      if (response === "not authorized") {
+      if (response === "member" || response === "admin") {
+        navigate("./photoDetail", {
+          state: {
+            boardId: boardid,
+            articleId: list.id,
+          },
+        });
+      } else if (response === "temp") {
+        Swal.fire({
+          icon: "info",
+          title: "접근 권한이 없습니다. <br/> 관리자에게 문의해 주세요.",
+        });
+      } else {
         Swal.fire({
           icon: "error",
           title: "로그인이 필요합니다.",
@@ -68,6 +86,47 @@ const PhotoList = () => {
         });
       }
     });
+  };
+
+  /** Pagination 버튼을 생성하는 함수 */
+  const addingPaginationItem = () => {
+    if (!Object.keys(photoList).length) return;
+    const result = [];
+    for (let k = 0; k < 10; k++) {
+      result.push(
+        <Pagination.Item
+          active={pageNum === pageList + k}
+          key={k}
+          onClick={() => setPageNum(pageList + k)}
+        >
+          {pageList + k}
+        </Pagination.Item>
+      );
+      if (pageList + k === photoList.totalPages) break;
+    }
+    return result;
+  };
+
+  /**
+   * Pagination 각 기능 버튼들의 동작사항을 정의하는 함수
+   * @param {string} command 명령 문자열을 넣어주세요
+   * */
+  const onChangingPage = (command) => {
+    switch (command) {
+      case "first":
+        setPageNum(1);
+        break;
+      case "prev":
+        if (photoList.first) return;
+        setPageNum((prev) => prev - 1);
+        break;
+      case "next":
+        if (photoList.last) return;
+        setPageNum((prev) => prev + 1);
+        break;
+      default:
+        setPageNum(photoList.totalPages);
+    }
   };
 
   return (
@@ -118,6 +177,15 @@ const PhotoList = () => {
           </Row>
         </>
       ) : null}
+      <div className="pageNum">
+        <Pagination>
+          <Pagination.First onClick={() => onChangingPage("first")} />
+          <Pagination.Prev onClick={() => onChangingPage("prev")} />
+          {addingPaginationItem()}
+          <Pagination.Next onClick={() => onChangingPage("next")} />
+          <Pagination.Last onClick={() => onChangingPage("last")} />
+        </Pagination>
+      </div>
     </div>
   );
 };
