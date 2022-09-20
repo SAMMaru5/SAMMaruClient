@@ -40,6 +40,7 @@ function MainPage() {
                   height: "100%",
                   paddingbottom: "50px",
                   marginTop: "-80px",
+                  borderRadius: "50px",
                 }}
               />
               <h1 id="logo">

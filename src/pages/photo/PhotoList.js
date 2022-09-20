@@ -70,9 +70,19 @@ const PhotoList = () => {
           icon: "error",
           title: "로그인이 필요합니다.",
         }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/login");
-          }
+          navigate("/login");
+        });
+      } else if (response === "temp") {
+        Swal.fire({
+          icon: "info",
+          title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
+        });
+      } else {
+        navigate("./photoDetail", {
+          state: {
+            boardId,
+            articleId: list.id,
+          },
         });
       }
     });
@@ -142,7 +152,7 @@ const PhotoList = () => {
                       alt="사진첩 사진"
                       src={
                         "http://localhost:8080/no-permit/api/boards/" +
-                        boardid +
+                        boardId +
                         "/articles/" +
                         list.id +
                         "/files/" +

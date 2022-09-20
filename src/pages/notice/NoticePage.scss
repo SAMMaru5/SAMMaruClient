@@ -42,9 +42,11 @@
   .search {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     padding: 2% 2% 2% 2%;
     background-color: #f5f5f5;
     margin-bottom: 5%;
+    text-align: center;
     .inp_sch {
       width: 90%;
     }
@@ -57,16 +59,17 @@
     }
     b {
       font-weight: bold;
-      margin-right: 1%;
+      margin-top: 2px;
     }
 
     input[type="text"] {
-      width: 75%;
+      width: 60%;
       background-color: #fff;
+      height: 36px;
     }
     input[type="submit"] {
       width: 10%;
-      height: 38px;
+      padding: 8px;
       background-color: #464545;
       color: white;
     }

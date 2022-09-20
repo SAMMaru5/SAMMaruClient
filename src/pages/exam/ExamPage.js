@@ -22,7 +22,7 @@ function ExamPage() {
           if (response.response[i].name === "족보") {
             setBoardId(response.response[i].id);
             call(
-              `/no-permit/api/boards/${response.response[i].id}/pages/1`,
+              `/no-permit/api/boards/${response.response[i].id}/pages/${pageNum}?pageSize=10`,
               "GET"
             ).then((response) => {
               // console.log(response);
@@ -53,48 +53,44 @@ function ExamPage() {
 
   const examUpload = () => {
     myRole().then((response) => {
-      if (response === "member" || response === "admin") {
-        navigate("./examUpdate");
-      } else if (response === "temp") {
-        Swal.fire({
-          icon: "info",
-          title: "접근 권한이 없습니다. <br/> 관리자에게 문의해 주세요.",
-        });
-      } else {
+      if (response === "not authorized") {
         Swal.fire({
           icon: "error",
           title: "로그인이 필요합니다.",
         }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/login");
-          }
+          navigate("/login");
         });
+      } else if (response === "temp") {
+        Swal.fire({
+          icon: "info",
+          title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
+        });
+      } else {
+        navigate("./examUpdate");
       }
     });
   };
 
   const onClickDetail = (list) => {
     myRole().then((response) => {
-      if (response === "member" || response === "admin") {
-        navigate("/examDetail", {
-          state: {
-            boardId: boardId,
-            articleId: list.id,
-          },
-        });
-      } else if (response === "temp") {
-        Swal.fire({
-          icon: "info",
-          title: "접근 권한이 없습니다. <br/> 관리자에게 문의해 주세요.",
-        });
-      } else {
+      if (response === "not authorized") {
         Swal.fire({
           icon: "error",
           title: "로그인이 필요합니다.",
         }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/login");
-          }
+          navigate("/login");
+        });
+      } else if (response === "temp") {
+        Swal.fire({
+          icon: "info",
+          title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
+        });
+      } else {
+        navigate("/examDetail", {
+          state: {
+            boardId,
+            articleId: list.id,
+          },
         });
       }
     });
@@ -102,7 +98,7 @@ function ExamPage() {
 
   /** Pagination 버튼을 생성하는 함수 */
   const addingPaginationItem = () => {
-    if (!Object.keys(boardlist).length) return;
+    if (!boardlist.totalElements) return;
     const result = [];
     for (let k = 0; k < 10; k++) {
       result.push(
@@ -147,7 +143,8 @@ function ExamPage() {
         <img
           src={exam}
           alt="족보 배너"
-          style={{ width: "100%", height: "200px" }}
+          // height값을 auto로 변경하여 브라우저의 크기가 변경되어도 이미지 비율 유지
+          style={{ width: "100%", height: "auto" }}
         ></img>
         <div className="location">
           <img className="home" src="home.png" alt="home"></img>
@@ -157,8 +154,8 @@ function ExamPage() {
           <span> 족보 </span>
         </div>
         <div className="search">
-          <b> 검색구분 </b>
           <div className="inp_sch">
+            <b> 검색구분 </b>
             <select name="srchTp">
               <option value="title" style={{ textAlign: "center" }}>
                 제목
