@@ -17,6 +17,24 @@ function NoticeRegisteration() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    myRole().then((response) => {
+      if (response === "not authorized") {
+        Swal.fire({
+          icon: "error",
+          title: "로그인이 필요합니다.",
+        }).then((result) => {
+          navigate("/login");
+        });
+      } else if (response === "temp" || response === "member") {
+        Swal.fire({
+          icon: "info",
+          title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
+        }).then((result) => {
+          navigate("/login");
+        });
+      }
+    });
+
     const accessToken = getCookie("accessToken");
     const refreshToken = getCookie("refreshToken");
     if (accessToken && accessToken !== null) {
@@ -56,27 +74,6 @@ function NoticeRegisteration() {
       "article",
       new Blob([JSON.stringify(notice)], { type: "application/json" })
     );
-
-
-    myRole().then((response)=>{
-
-    if (response === "temp"){
-        Swal.fire({
-          icon: "info",
-          title: "접근 권한이 없습니다. <br/> 관리자에게 문의해 주세요.",
-        })
-      }
-    else if(response === "not authorized") {
-        Swal.fire({
-          icon: "error",
-          title: "로그인이 필요합니다.",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/login");
-          }
-        });
-      }
-    });
 
     let headers = {
       "Content-Type": "application/json",

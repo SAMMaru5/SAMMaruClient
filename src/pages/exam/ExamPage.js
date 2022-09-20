@@ -53,48 +53,44 @@ function ExamPage() {
 
   const examUpload = () => {
     myRole().then((response) => {
-      if (response === "member" || response === "admin") {
-        navigate("./examUpdate");
-      } else if (response === "temp") {
-        Swal.fire({
-          icon: "info",
-          title: "접근 권한이 없습니다. <br/> 관리자에게 문의해 주세요.",
-        });
-      } else {
+      if (response === "not authorized") {
         Swal.fire({
           icon: "error",
           title: "로그인이 필요합니다.",
         }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/login");
-          }
+          navigate("/login");
         });
+      } else if (response === "temp") {
+        Swal.fire({
+          icon: "info",
+          title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
+        });
+      } else {
+        navigate("./examUpdate");
       }
     });
   };
 
   const onClickDetail = (list) => {
     myRole().then((response) => {
-      if (response === "member" || response === "admin") {
-        navigate("/examDetail", {
-          state: {
-            boardId: boardId,
-            articleId: list.id,
-          },
-        });
-      } else if (response === "temp") {
-        Swal.fire({
-          icon: "info",
-          title: "접근 권한이 없습니다. <br/> 관리자에게 문의해 주세요.",
-        });
-      } else {
+      if (response === "not authorized") {
         Swal.fire({
           icon: "error",
           title: "로그인이 필요합니다.",
         }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/login");
-          }
+          navigate("/login");
+        });
+      } else if (response === "temp") {
+        Swal.fire({
+          icon: "info",
+          title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
+        });
+      } else {
+        navigate("/examDetail", {
+          state: {
+            boardId,
+            articleId: list.id,
+          },
         });
       }
     });

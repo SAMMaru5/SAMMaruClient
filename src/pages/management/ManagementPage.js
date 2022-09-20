@@ -9,24 +9,25 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 function ManagementPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    myRole().then((response)=>{
-      if (response !== "admin"){
-        Swal.fire({
-          icon: "error",
-          title: "로그인이 필요합니다.",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/login");
-          }
-        });
-      }
-    })
-
-  }, [navigate])
-  
+  myRole().then((response) => {
+    if (response === "not authorized") {
+      Swal.fire({
+        icon: "error",
+        title: "로그인이 필요합니다.",
+      }).then((result) => {
+        navigate("/login");
+      });
+    } else if (response !== "admin") {
+      Swal.fire({
+        icon: "info",
+        title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
+      }).then((result) => {
+        navigate("/login");
+      });
+    }
+  });
 
   const [visible, setVisible] = useState("hidden");
   const isSchedule = (event) => {
@@ -36,8 +37,6 @@ function ManagementPage() {
       setVisible("hidden");
     }
   };
-
-
 
   return (
     <div className="ManagementPage">
@@ -82,7 +81,7 @@ function ManagementPage() {
               </Tab.Pane>
               <Tab.Pane eventKey="fourth">
                 <h1>회원 관리</h1>
-                <MemberManage/>
+                <MemberManage />
               </Tab.Pane>
               <Tab.Pane eventKey="fifth">
                 <h1>기타 관리</h1>

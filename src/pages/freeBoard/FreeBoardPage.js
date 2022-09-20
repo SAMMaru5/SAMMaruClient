@@ -53,50 +53,48 @@ function FreeBoardPage() {
 
   const freeBoardUpload = () => {
     myRole().then((response) => {
-      if (response === "member" || response === "admin") {
-        navigate("./freeBoardUpdate");
-      } else if (response === "temp") {
-        Swal.fire({
-          icon: "info",
-          title: "접근 권한이 없습니다. <br/> 관리자에게 문의해 주세요.",
-        });
-      } else {
+      if (response === "not authorized") {
         Swal.fire({
           icon: "error",
           title: "로그인이 필요합니다.",
         }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/login");
-          }
+          navigate("/login");
         });
+      } else if (response === "temp") {
+        Swal.fire({
+          icon: "info",
+          title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
+        });
+      } else {
+        navigate("./freeBoardUpdate");
       }
     });
   };
 
   const onClickDetail = (list) => {
     myRole().then((response) => {
-      if (response === "member" || response === "admin") {
-        navigate("/freeBoardDetail", {
-          state: {
-            boardId: boardId,
-            articleId: list.id,
-          },
-        });
-      } else if (response === "temp") {
-        Swal.fire({
-          icon: "info",
-          title: "접근 권한이 없습니다. <br/> 관리자에게 문의해 주세요.",
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "로그인이 필요합니다.",
-        }).then((result) => {
-          if (result.isConfirmed) {
+      myRole().then((response) => {
+        if (response === "not authorized") {
+          Swal.fire({
+            icon: "error",
+            title: "로그인이 필요합니다.",
+          }).then((result) => {
             navigate("/login");
-          }
-        });
-      }
+          });
+        } else if (response === "temp") {
+          Swal.fire({
+            icon: "info",
+            title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
+          });
+        } else {
+          navigate("/freeBoardDetail", {
+            state: {
+              boardId,
+              articleId: list.id,
+            },
+          });
+        }
+      });
     });
   };
 
