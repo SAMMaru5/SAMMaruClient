@@ -22,7 +22,7 @@ function ProjectPage() {
           if (response.response[i].name === "소규모프로젝트") {
             setBoardId(response.response[i].id);
             call(
-              `/no-permit/api/boards/${response.response[i].id}/pages/1`,
+              `/no-permit/api/boards/${response.response[i].id}/pages/${pageNum}?pageSize=10`,
               "GET"
             ).then((response) => {
               // console.log(response);

@@ -22,7 +22,7 @@ function FreeBoardPage() {
           if (response.response[i].name === "자유게시판") {
             setBoardId(response.response[i].id);
             call(
-              `/no-permit/api/boards/${response.response[i].id}/pages/${pageNum}`,
+              `/no-permit/api/boards/${response.response[i].id}/pages/${pageNum}?pageSize=10`,
               "GET"
             ).then((response) => {
               // console.log(response);
