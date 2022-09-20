@@ -20,7 +20,7 @@ const PhotoList = () => {
           if (response.response[i].name === "사진첩") {
             setBoardid(response.response[i].id);
             call(
-              `/no-permit/api/boards/${response.response[i].id}/pages/1`,
+              `/no-permit/api/boards/${response.response[i].id}/pages/1?pageSize=16`,
               "GET"
             ).then((response) => {
               if (response.success) {
@@ -75,7 +75,7 @@ const PhotoList = () => {
       {loading ? (
         <>
           <Row>
-            {photoList.map((list, i) => {
+            {photoList.content.map((list, i) => {
               let createDt = list.createDt.slice(0, 10);
               return (
                 <Col key={i}>

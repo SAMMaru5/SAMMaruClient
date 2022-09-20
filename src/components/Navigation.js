@@ -14,9 +14,6 @@ function Navigation() {
   const [loading, setloading] = useState(false);
   const accessToken = getCookie("accessToken");
   useEffect(() => {
-    //refreshToken 갱신
-    isAuth();
-
     if (accessToken && accessToken !== null) {
       call("/no-permit/api/user/info", "GET", "").then((response) => {
         setUserInfo(response);
@@ -26,28 +23,38 @@ function Navigation() {
   }, [location, accessToken]);
 
   return (
-    <div className="Navigation container" style={{ marginBottom: "100px" }}>
+    <div
+      className="Navigation container"
+      style={{ marginBottom: "100px", position: "relative" }}
+    >
       <div className="userStatus" style={{ display: "flex" }}>
-        <p className="attendance">접속자(0명)</p>
+        <p className="attendance">접속자 ?</p>
 
         {userInfo != null && loading ? (
           <div style={{ marginLeft: "auto" }}>
             <p className="userInfo">
               {userInfo.response.role === "ROLE_ADMIN" ? (
                 <span>
-                  <a href="/management">관리자 페이지</a> |{" "}
+                  <a href="/management" className="management">
+                    관리자 페이지
+                  </a>
                 </span>
               ) : null}
-              <a href="/checkPw">정보 수정</a> |{" "}
+              <a href="/checkPw" className="changeInfo">
+                정보 수정
+              </a>
               <a
                 href="/"
                 onClick={() => {
                   signout();
                 }}
+                className="signOut"
               >
                 로그아웃
-              </a>{" "}
-              | <a href="/">{userInfo.response.username}</a>
+              </a>
+              <a href="/" className="userName">
+                {userInfo.response.username}
+              </a>
             </p>
           </div>
         ) : (
@@ -66,7 +73,7 @@ function Navigation() {
           style={{ cursor: "pointer" }}
           onClick={() => navigate("/")}
         />
-        <ul>
+        <ul className="mt-3">
           <li>
             <a href="/clubIntro" className="icon fa-chart-bar">
               <span>샘마루</span>

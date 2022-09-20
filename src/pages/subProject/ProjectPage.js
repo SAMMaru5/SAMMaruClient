@@ -22,7 +22,7 @@ function ProjectPage() {
           if (response.response[i].name === "소규모프로젝트") {
             setBoardId(response.response[i].id);
             call(
-              `/no-permit/api/boards/${response.response[i].id}/pages/1`,
+              `/no-permit/api/boards/${response.response[i].id}/pages/${pageNum}?pageSize=10`,
               "GET"
             ).then((response) => {
               // console.log(response);
@@ -98,7 +98,7 @@ function ProjectPage() {
 
   /** Pagination 버튼을 생성하는 함수 */
   const addingPaginationItem = () => {
-    if (!Object.keys(boardlist).length) return;
+    if (!boardlist.totalElements) return;
     const result = [];
     for (let k = 0; k < 10; k++) {
       result.push(
@@ -143,7 +143,8 @@ function ProjectPage() {
         <img
           src={project}
           alt="소규모프로젝트 배너"
-          style={{ width: "100%", height: "200px" }}
+          // height값을 auto로 변경하여 브라우저의 크기가 변경되어도 이미지 비율 유지
+          style={{ width: "100%", height: "auto" }}
         ></img>
         <div className="location">
           <img className="home" src="home.png" alt="home"></img>
@@ -153,8 +154,8 @@ function ProjectPage() {
           <span> 소규모 프로젝트 </span>
         </div>
         <div className="search">
-          <b> 검색구분 </b>
           <div className="inp_sch">
+            <b> 검색구분 </b>
             <select name="srchTp">
               <option value="title" style={{ textAlign: "center" }}>
                 제목
@@ -200,7 +201,7 @@ function ProjectPage() {
           </div>
           {loading ? (
             <>
-              {boardlist.map((list, i) => {
+              {boardlist.content.map((list, i) => {
                 let createDt = list.createDt.slice(0, 10);
                 return (
                   <div key={i} className="eachContents">

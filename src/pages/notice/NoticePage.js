@@ -25,7 +25,7 @@ function NoticePage(props) {
           if (response.response[i].name === "공지사항") {
             setBoardId(response.response[i].id);
             call(
-              `/no-permit/api/boards/${response.response[i].id}/pages/1`,
+              `/no-permit/api/boards/${response.response[i].id}/pages/${pageNum}?pageSize=10`,
               "GET"
             ).then((response) => {
               if (response.success) {
@@ -102,7 +102,7 @@ function NoticePage(props) {
 
   /** Pagination 버튼을 생성하는 함수 */
   const addingPaginationItem = () => {
-    if (!Object.keys(boardlist).length) return;
+    if (!boardlist.totalElements) return;
     const result = [];
     for (let k = 0; k < 10; k++) {
       result.push(
@@ -147,7 +147,8 @@ function NoticePage(props) {
         <img
           src={notice}
           alt="공지사항 배너"
-          style={{ width: "100%", height: "200px" }}
+          // height값을 auto로 변경하여 브라우저의 크기가 변경되어도 이미지 비율 유지
+          style={{ width: "100%", height: "auto" }}
         ></img>
         <div className="location">
           <img className="home" src="home.png" alt="home"></img>
@@ -155,8 +156,8 @@ function NoticePage(props) {
           <span> 공지사항 </span>
         </div>
         <div className="search">
-          <b> 검색구분 </b>
           <div className="inp_sch">
+            <b> 검색구분 </b>
             <select name="srchTp">
               <option value="title" style={{ textAlign: "center" }}>
                 제목
