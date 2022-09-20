@@ -77,7 +77,7 @@ const PhotoList = () => {
       {loading ? (
         <>
           <Row>
-            {photoList.map((list, i) => {
+            {photoList.content.map((list, i) => {
               let createDt = list.createDt.slice(0, 10);
               return (
                 <Col key={i}>

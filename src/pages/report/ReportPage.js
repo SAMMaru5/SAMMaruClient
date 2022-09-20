@@ -205,7 +205,7 @@ function ReportPage() {
           </div>
           {loading ? (
             <>
-              {boardlist.map((list, i) => {
+              {boardlist.content.map((list, i) => {
                 let createDt = list.createDt.slice(0, 10);
                 return (
                   <div key={i} className="eachContents">
