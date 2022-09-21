@@ -1,5 +1,6 @@
 import api from "../utils/api";
 import Swal from "sweetalert2";
+import navigationService from "./NavigationService";
 
 export const getBoardList = async () => {
     try {
@@ -31,4 +32,23 @@ export const getBoards = async (location) => {
     } catch (error) {
         console.error(error);
     }
+};
+
+export const handlePostCancel = (url) => {
+
+    Swal.fire({
+        title: "글 작성을 취소하시겠습니까?",
+        text: "다시 되돌릴 수 없습니다.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "확인",
+        cancelButtonText: "취소",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            navigationService.navigation.navigate("../"+url);
+        } else {
+        }
+    });
 };

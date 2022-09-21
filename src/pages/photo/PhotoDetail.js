@@ -7,9 +7,9 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Swal from "sweetalert2";
-import { call } from "../../hooks/useFetch";
 
 import { Navigation } from "swiper";
+import api from "../../utils/api";
 const PhotoDetail = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -19,18 +19,13 @@ const PhotoDetail = () => {
   const [mainImg, setMainImg] = useState("");
 
   useEffect(() => {
-    call(
-      "/api/boards/" +
-        location.state.boardId +
-        "/articles/" +
-        location.state.articleId,
-      "GET"
-    ).then((response) => {
-      if (response.success) {
-        setArticle(response.response);
-        setMainImg(response.response.files[0].filePath);
+    api.get(
+      "/api/boards/" + location.state.boardId + "/articles/" + location.state.articleId).then((response) => {
+      if (response.data.success) {
+        setArticle(response.data.response);
+        setMainImg(response.data.response.files[0].filePath);
         setLoading(true);
-        setCreateDt(response.response.createDt.slice(0, 10));
+        setCreateDt(response.data.response.createDt.slice(0, 10));
       } else {
         Swal.fire({
           icon: "error",
@@ -72,7 +67,7 @@ const PhotoDetail = () => {
                   >
                     <img
                       src={
-                        "http://localhost:8080/no-permit/api/boards/" +
+                        process.env.REACT_APP_URL+"/no-permit/api/boards/" +
                         location.state.boardId +
                         "/articles/" +
                         location.state.articleId +
@@ -99,7 +94,7 @@ const PhotoDetail = () => {
           >
             <img
               src={
-                "http://localhost:8080/no-permit/api/boards/" +
+                process.env.REACT_APP_URL+"/no-permit/api/boards/" +
                 location.state.boardId +
                 "/articles/" +
                 location.state.articleId +

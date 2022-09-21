@@ -2,8 +2,7 @@ import { useLocation, Link, useNavigate } from "react-router-dom"
 import {useEffect, useState} from "react"
 import "./RegisterPage.scss"
 import Swal from "sweetalert2"
-
-import { call } from "../../hooks/useFetch"
+import api from "../../utils/api";
 
 function RegisterPage(){
     const location = useLocation();
@@ -52,10 +51,10 @@ function RegisterPage(){
         const registerBtn = document.getElementById("registerBtn");
         registerBtn.setAttribute('disabled', true);
         registerBtn.style.color="white";
-        registerBtn.innerText = "회원가입 중..."
-        call("/auth/signup", "POST", User)
-        .then((response)=>{
-            if(response.success){
+        registerBtn.innerText = "회원가입 중...";
+
+        api.post("/auth/signup", User).then((response)=>{
+            if(response.data.success){
                 Swal.fire({
                     icon: 'success',
                     title: '회원가입에 성공했습니다.',

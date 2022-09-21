@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { call } from "../../hooks/useFetch";
 
 import "./SeminarDetail.scss";
+import {getBoards} from "../../hooks/boardServices";
 
 function SeminarDetailPage() {
   const navigate = useNavigate();
@@ -12,14 +12,8 @@ function SeminarDetailPage() {
   const [like, setLike] = useState(false);
 
   useEffect(() => {
-    call(
-      "/api/boards/" +
-        location.state.boardId +
-        "/articles/" +
-        location.state.articleId,
-      "GET"
-    ).then((response) => {
-      setArticle(response.response);
+    getBoards(location).then( data => {
+      setArticle(data.data.response);
       setLoading(true);
     });
   }, [location.state.boardId, location.state.articleId]);
@@ -73,7 +67,7 @@ function SeminarDetailPage() {
                 <h5 className="mb-3">첨부파일</h5>
                 <a
                   href={
-                    "http://localhost:8080/no-permit/api/boards/" +
+                    process.env.REACT_APP_URL+"/no-permit/api/boards/" +
                     location.state.boardId +
                     "/articles/" +
                     location.state.articleId +

@@ -9,23 +9,21 @@ const isAdmin = true;
 
 function NoticePage(props) {
   const navigate = useNavigate();
-  const [boardlist, setBoardlist] = useState({});
-  const [loading, setloading] = useState(false);
+  const [boardList, setBoardList] = useState({});
+  const [loading, setLoading] = useState(false);
   const [boardId, setBoardId] = useState();
   const [pageNum, setPageNum] = useState(1);
   const [pageList, setPageList] = useState(1);
 
   useEffect(() => {
     getBoardList().then(response => {
-      console.log(response.data);
       if(response.data.success) {
         response.data.response.forEach(res => {
           if(res.name === '공지사항'){
             setBoardId(res.id);
             getArticleList(res.id).then(res => {
-              console.log(res.data);
-              setBoardlist(res.data.response);
-              setloading(true);
+              setBoardList(res.data.response);
+              setLoading(true);
             });
           }
         })
@@ -52,7 +50,7 @@ function NoticePage(props) {
 
   /** Pagination 버튼을 생성하는 함수 */
   const addingPaginationItem = () => {
-    if (!boardlist.totalElements) return;
+    if (!boardList.totalElements) return;
     const result = [];
     for (let k = 0; k < 10; k++) {
       result.push(
@@ -64,7 +62,7 @@ function NoticePage(props) {
           {pageList + k}
         </Pagination.Item>
       );
-      if (pageList + k === boardlist.totalPages) break;
+      if (pageList + k === boardList.totalPages) break;
     }
     return result;
   };
@@ -79,15 +77,15 @@ function NoticePage(props) {
         setPageNum(1);
         break;
       case "prev":
-        if (boardlist.first) return;
+        if (boardList.first) return;
         setPageNum((prev) => prev - 1);
         break;
       case "next":
-        if (boardlist.last) return;
+        if (boardList.last) return;
         setPageNum((prev) => prev + 1);
         break;
       default:
-        setPageNum(boardlist.totalPages);
+        setPageNum(boardList.totalPages);
     }
   };
 
@@ -155,7 +153,7 @@ function NoticePage(props) {
           </div>
           {loading ? (
             <>
-              {boardlist.content.map((list, i) => {
+              {boardList.content.map((list, i) => {
                 let createDt = list.createDt.slice(0, 10);
                 return (
                   <div key={i} className="eachContents">

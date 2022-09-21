@@ -1,32 +1,23 @@
 import "./CheckPwPage.scss";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { call } from "../../hooks/useFetch";
 import { login, myRole } from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import api from "../../utils/api";
+
 function CheckPwPage() {
   const navigate = useNavigate();
 
   const [User, setUser] = useState({ studentId: "", password: "" });
 
   const [UserInfo, setUserInfo] = useState({});
-  const [loading, setloading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  myRole().then((response) => {
-    if (response === "not authorized") {
-      Swal.fire({
-        icon: "error",
-        title: "로그인이 필요합니다.",
-      }).then((result) => {
-        navigate("/login");
-      });
-    }
-  });
 
-  call("/api/user/info", "GET", "").then((response) => {
-    setUser({ studentId: response.response.studentId });
-    setUserInfo(response.response);
-    setloading(true);
+  api.get("/api/user/info").then((response) => {
+    setUser({ studentId: response.data.response.studentId });
+    setUserInfo(response.data.response);
+    setLoading(true);
   });
 
   function passwordCheck(e) {
@@ -37,7 +28,7 @@ function CheckPwPage() {
     checkPwBtn.style.color = "white";
     //로그인 call
     login(User).then((response) => {
-      if (response.success) {
+      if (response.data.success) {
         navigate("/modifyUserInfo", { state: true });
       } else {
         Swal.fire({

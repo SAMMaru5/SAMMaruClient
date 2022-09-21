@@ -1,55 +1,39 @@
 import "./Board.scss";
 import { useEffect, useState } from "react";
-import { call } from "../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
-import { myRole } from "../../hooks/useAuth";
+import api from "../../utils/api";
+import {getBoardList} from "../../hooks/boardServices";
 
 function Board() {
     const navigate = useNavigate();
-    const [announcements, setannouncements] = useState({});
-    const [loading, setloading] = useState(false);
+    const [announcements, setAnnouncements] = useState({});
+    const [loading, setLoading] = useState(false);
     const [boardId, setBoardId] = useState();
 
     useEffect(() => {
-        call("/no-permit/api/home/announcements", "GET", "").then((response) => {
-            setannouncements(response);
-            setloading(true);
+        api.get("/no-permit/api/home/announcements").then((response) => {
+            setAnnouncements(response);
+            setLoading(true);
         });
 
-        call("/no-permit/api/boards", "GET").then((response) => {
-            if (response.success) {
-                for (let i = 0; i < response.response.length; i++) {
-                    if (response.response[i].name === "공지사항") {
-                        setBoardId(response.response[i].id);
+        getBoardList().then(response => {
+            console.log(response.data);
+            if(response.data.success) {
+                response.data.response.forEach(res => {
+                    if(res.name === '공지사항'){
+                        setBoardId(res.id);
                     }
-                }
+                })
             }
         });
     }, []);
 
     const onClickDetail = (list) => {
-        myRole().then((response) => {
-            if (response === "not authorized") {
-                Swal.fire({
-                    icon: "error",
-                    title: "로그인이 필요합니다.",
-                }).then((result) => {
-                    navigate("/login");
-                });
-            } else if (response === "temp") {
-                Swal.fire({
-                    icon: "info",
-                    title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
-                });
-            } else {
-                navigate("/noticeDetail", {
-                    state: {
-                        boardId,
-                        articleId: list.id,
-                    },
-                });
-            }
+        navigate("/noticeDetail", {
+            state: {
+                boardId,
+                articleId: list.id,
+            },
         });
     };
 

@@ -1,7 +1,7 @@
 import "./ManagementPage.scss";
 import ScheduleManage from "./ScheduleManage";
 import { Tab, Row, Col, Nav } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BoardManage from "./BoardManage";
 import MemberManage from "./MemberManage";
 import { myRole } from "../../hooks/useAuth";

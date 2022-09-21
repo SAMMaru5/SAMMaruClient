@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { call } from "../../hooks/useFetch";
 import "./MemberManage.scss";
 import Swal from "sweetalert2";
+import api from "../../utils/api";
 
 function MemberManage() {
     const [members, setMembers] = useState([]);
@@ -11,10 +11,10 @@ function MemberManage() {
 
 
     const searchAllUsers = ()=>{
-        call("/api/users/info", "GET", "")
+        api.get("/api/users/info")
         .then((response) => {
-            if(response.success){
-                setMembers(response.response);
+            if(response.data.success){
+                setMembers(response.data.response);
                 setLoading(true);
             }
   
@@ -50,10 +50,9 @@ function MemberManage() {
       
           }).then((result) => {
             if (result.isConfirmed) {
-                call("/api/users/"+id+"/role", "PATCH", {"role":authority})
-  
+                api.patch("/api/users/"+id+"/role", {"role":authority})
                     .then((response) => {
-                        if(response.success){
+                        if(response.data.success){
                             Swal.fire({
                                 icon: 'success',
                                 title: '권한을 변경하였습니다.',
@@ -85,10 +84,10 @@ function MemberManage() {
             searchAllUsers()
         }
         else{
-            call("/api/users/detail?username="+name, "GET", "")
+            api.get("/api/users/detail?username="+name)
             .then((result)=>{
-                if(result.success){
-                    setMembers([result.response]);
+                if(result.data.success){
+                    setMembers([result.data.response]);
                 }
                 else{
                     Swal.fire({

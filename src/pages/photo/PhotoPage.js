@@ -2,32 +2,13 @@ import React from "react";
 
 import PhotoList from "./PhotoList";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
-
 import photo from "../../imgs/banner/photo.jpg";
-import { myRole } from "../../hooks/useAuth";
 
 function PhotoPage() {
   const navigate = useNavigate();
 
   const photoUpload = () => {
-    myRole().then((response) => {
-      if (response === "not authorized") {
-        Swal.fire({
-          icon: "error",
-          title: "로그인이 필요합니다.",
-        }).then((result) => {
-          navigate("/login");
-        });
-      } else if (response === "temp") {
-        Swal.fire({
-          icon: "info",
-          title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
-        });
-      } else {
-        navigate("./photoUpdate");
-      }
-    });
+    navigate("./photoUpdate");
   };
 
   return (

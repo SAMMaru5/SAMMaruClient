@@ -3,12 +3,10 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import api from "../../utils/api";
 import { useNavigate } from "react-router-dom";
-import {getBoardList} from "../../hooks/boardServices";
+import {getBoardList, handlePostCancel} from "../../hooks/boardServices";
 
 function NoticeRegisteration() {
   const [boardId, setBoardId] = useState(0);
-  const [authorizationValue, setAuthorizationValue] = useState("");
-  const [refreshTokenValue, setRefreshTokenValue] = useState("");
   const [uploadfile, setUploadfile] = useState([]);
   const [notice, setNotice] = useState({ title: "", content: "" });
   const navigate = useNavigate();
@@ -41,31 +39,7 @@ function NoticeRegisteration() {
         new Blob([JSON.stringify(notice)], {type: "application/json"})
     );
 
-    if (authorizationValue === "") {
-      Swal.fire({
-        icon: "error",
-        title: "로그인이 필요합니다.",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/login");
-        }
-      });
-      return;
-    }
-
-    if (refreshTokenValue === "") {
-      Swal.fire({
-        icon: "error",
-        title: "로그인이 필요합니다.",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/login");
-        }
-      });
-      return;
-    }
-
-    const res = await api.post(`/api/boards/${boardId}/articles`, formData)
+    api.post(`/api/boards/${boardId}/articles`, formData)
         .then((response) => {
             if (response.data.success) {
               Swal.fire({
@@ -83,36 +57,7 @@ function NoticeRegisteration() {
               });
             }
         });
-    console.log(res);
 
-    //   let headers = {
-    //     "Content-Type": "application/json",
-    //     Authorization: authorizationValue,
-    //     RefreshToken: refreshTokenValue,
-    //   };
-    //
-    //   axios
-    //       .post(API_BASE_URL + `/api/boards/${boardId}/articles`, formData, {
-    //         headers: headers,
-    //       })
-    //       .then((response) => {
-    //         if (response.data.success) {
-    //           Swal.fire({
-    //             icon: "success",
-    //             title: "게시글 작성을 성공했습니다.",
-    //           }).then((result) => {
-    //             if (result.isConfirmed) {
-    //               navigate("/notice");
-    //             }
-    //           });
-    //         } else {
-    //           Swal.fire({
-    //             icon: "error",
-    //             title: "게시글 작성을 실패했습니다.",
-    //           });
-    //         }
-    //       });
-    // };
   };
 
   return (
@@ -131,27 +76,6 @@ function NoticeRegisteration() {
                 onSubmit(e);
               }}
           >
-            <Form.Group>
-              <Form.Label>제목</Form.Label>
-              <Form.Control
-                  className="mb-3"
-                  type="text"
-                  placeholder="제목"
-                  onChange={(e) => {
-                    setNotice({ ...notice, title: e.target.value });
-                  }}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formFileMultiple">
-              <Form.Label>파일 등록</Form.Label>
-              <Form.Control
-                  className="mb-3"
-                  type="file"
-                  onChange={(e) => {
-                    setUploadfile(e.target.files);
-                  }}
-              />
-            </Form.Group>
             <Form.Group
                 className="mb-3"
                 controlId="exampleForm.ControlTextarea1"
@@ -192,8 +116,8 @@ function NoticeRegisteration() {
         </div>
       </div>
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <Button id="noticeBtn" variant="dark" type="submit" size="lg" onClick={onSubmit}>글등록</Button>
-        <Button variant="light" size="lg">목록으로</Button>
+        <Button id="noticeBtn" variant="dark" type="submit" size="lg" onClick={onSubmit}>작성완료</Button>
+        <Button variant="light" size="lg" onClick={handlePostCancel('notice')}>작성취소</Button>
       </div>
     </div>
   );

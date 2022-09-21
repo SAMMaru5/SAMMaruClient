@@ -1,6 +1,4 @@
-// import Activity from "./Activity";
 import Board from "./Board";
-// import Schedule from "./Schedule";
 import ScheduleDetaile from "./ScheduleDetaile";
 import ClubIntroduction from "./ClubIntroduction";
 import ClubActivities from "./ClubActivities";

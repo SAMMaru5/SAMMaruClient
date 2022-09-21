@@ -4,10 +4,10 @@ import FullCalendar, { formatDate } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { call } from '../../hooks/useFetch'
+import api from "../../utils/api";
 
 
-export default class Schedule extends React.Component {
+class Schedule extends React.Component {
   
   constructor(props) {
     super(props);
@@ -26,8 +26,8 @@ export default class Schedule extends React.Component {
     더 이상 로딩중이 아니라는 뜻이다. */
     let year = new Date().getFullYear()-1;
     let url = "/no-permit/schedules?start="+year+"-01-05&end=3000-01-05";
-    call(url, "GET", null).then((response) =>
-      this.setState({ items: response.response, loading: false })
+    api.get(url).then((response) =>
+        this.setState({ items: response.data.response, loading: false })
     );
   }
   render() {

@@ -2,49 +2,33 @@ import React, { useState, useEffect } from "react";
 import { Pagination } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { call } from "../../hooks/useFetch";
-
 import exam from "../../imgs/banner/exam.jpg";
 import { myRole } from "../../hooks/useAuth";
+import {getArticleList, getBoardList} from "../../hooks/boardServices";
 
 function ExamPage() {
   const navigate = useNavigate();
-  const [boardlist, setBoardlist] = useState({});
-  const [loading, setloading] = useState(false);
+  const [boardList, setBoardList] = useState({});
+  const [loading, setLoading] = useState(false);
   const [boardId, setBoardId] = useState();
   const [pageNum, setPageNum] = useState(1);
   const [pageList, setPageList] = useState(1);
 
   useEffect(() => {
-    call("/no-permit/api/boards", "GET").then((response) => {
-      if (response.success) {
-        for (let i = 0; i < response.response.length; i++) {
-          if (response.response[i].name === "족보") {
-            setBoardId(response.response[i].id);
-            call(
-              `/no-permit/api/boards/${response.response[i].id}/pages/${pageNum}?pageSize=10`,
-              "GET"
-            ).then((response) => {
-              // console.log(response);
-              if (response.success) {
-                setBoardlist(response.response);
-                setloading(true);
-              } else {
-                Swal.fire({
-                  icon: "error",
-                  title: "족보 목록 가져오기를 실패했습니다.",
-                });
-              }
+    getBoardList().then(response => {
+      if(response.data.success) {
+        response.data.response.forEach(res => {
+          if(res.name === '족보'){
+            setBoardId(res.id);
+            getArticleList(res.id).then(res => {
+              setBoardList(res.data.response);
+              setLoading(true);
             });
           }
-        }
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "게시판 목록 가져오기를 실패했습니다.",
-        });
+        })
       }
     });
+
 
     if (pageNum % 10 === 1) setPageList(pageNum);
     else if (pageNum % 10 === 0) setPageList(pageNum - 9);
@@ -98,7 +82,7 @@ function ExamPage() {
 
   /** Pagination 버튼을 생성하는 함수 */
   const addingPaginationItem = () => {
-    if (!boardlist.totalElements) return;
+    if (!boardList.totalElements) return;
     const result = [];
     for (let k = 0; k < 10; k++) {
       result.push(
@@ -110,7 +94,7 @@ function ExamPage() {
           {pageList + k}
         </Pagination.Item>
       );
-      if (pageList + k === boardlist.totalPages) break;
+      if (pageList + k === boardList.totalPages) break;
     }
     return result;
   };
@@ -125,15 +109,15 @@ function ExamPage() {
         setPageNum(1);
         break;
       case "prev":
-        if (boardlist.first) return;
+        if (boardList.first) return;
         setPageNum((prev) => prev - 1);
         break;
       case "next":
-        if (boardlist.last) return;
+        if (boardList.last) return;
         setPageNum((prev) => prev + 1);
         break;
       default:
-        setPageNum(boardlist.totalPages);
+        setPageNum(boardList.totalPages);
     }
   };
 
@@ -201,7 +185,7 @@ function ExamPage() {
           </div>
           {loading ? (
             <>
-              {boardlist.content.map((list, i) => {
+              {boardList.content.map((list, i) => {
                 let createDt = list.createDt.slice(0, 10);
                 return (
                   <div key={i} className="eachContents">

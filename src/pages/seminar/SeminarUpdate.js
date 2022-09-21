@@ -1,61 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
-import { call } from "../../hooks/useFetch";
 import Swal from "sweetalert2";
-import axios from "axios";
-import { API_BASE_URL } from "../../hooks/app-config";
-import { getCookie } from "../../hooks/useCookie";
-import { myRole } from "../../hooks/useAuth";
+import {getBoardList, handlePostCancel} from "../../hooks/boardServices";
+import api from "../../utils/api";
 
 function SeminarUpdate() {
   const [boardId, setBoardId] = useState(0);
   const [photo, setPhoto] = useState({ title: "", content: "" });
   const navigate = useNavigate();
   const [uploadfile, setUploadfile] = useState([]);
-  const [authorizationValue, setAuthorizationValue] = useState("");
-  const [refreshTokenValue, setRefreshTokenValue] = useState("");
 
   useEffect(() => {
-    myRole().then((response) => {
-      if (response === "not authorized") {
-        Swal.fire({
-          icon: "error",
-          title: "로그인이 필요합니다.",
-        }).then((result) => {
-          navigate("/login");
-        });
-      } else if (response === "temp") {
-        Swal.fire({
-          icon: "info",
-          title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
-        }).then((result) => {
-          navigate("/login");
-        });
-      }
-    });
 
-    const accessToken = getCookie("accessToken");
-    const refreshToken = getCookie("refreshToken");
-    if (accessToken && accessToken !== null) {
-      setAuthorizationValue("Bearer " + accessToken);
-    }
-    if (refreshToken && refreshToken !== null) {
-      setRefreshTokenValue("Bearer " + refreshToken);
-    }
-
-    call("/no-permit/api/boards", "GET").then((response) => {
-      if (response.success) {
-        for (let i = 0; i < response.response.length; i++) {
-          if (response.response[i].name === "특강자료") {
-            setBoardId(response.response[i].id);
+    getBoardList().then(response => {
+      console.log(response.data);
+      if(response.data.success) {
+        response.data.response.forEach(res => {
+          if(res.name === '특강자료'){
+            setBoardId(res.id);
           }
-        }
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "게시판 목록 가져오기를 실패했습니다.",
-        });
+        })
       }
     });
   }, []);
@@ -76,57 +41,28 @@ function SeminarUpdate() {
       new Blob([JSON.stringify(photo)], { type: "application/json" })
     );
 
-    let headers = {
-      "Content-Type": "application/json",
-      Authorization: authorizationValue,
-      RefreshToken: refreshTokenValue,
-    };
+    api.post(`/api/boards/${boardId}/articles`, formData)
+        .then((response) => {
+          if (response.data.success) {
+            Swal.fire({
+              icon: "success",
+              title: "게시글 작성을 성공했습니다.",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                navigate("/seminar");
+              }
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "게시글 작성을 실패했습니다.",
+            });
+          }
+        });
 
-    axios
-      .post(API_BASE_URL + `/api/boards/${boardId}/articles`, formData, {
-        headers: headers,
-      })
-      .then((response) => {
-        if (response.data.success) {
-          Swal.fire({
-            icon: "success",
-            title: "게시글 작성을 성공했습니다.",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              navigate("/seminar");
-            }
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "게시글 작성을 실패했습니다.",
-          }).then((result) => {
-            if (result) {
-              examBtn.removeAttribute("disabled");
-              examBtn.innerText = "작성완료";
-            }
-          });
-        }
-      });
+
   };
 
-  const handlePostCancel = () => {
-    Swal.fire({
-      title: "글 작성을 취소하시겠습니까?",
-      text: "다시 되돌릴 수 없습니다.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "확인",
-      cancelButtonText: "취소",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        navigate("../seminar");
-      } else {
-      }
-    });
-  };
 
   return (
     <div
@@ -176,7 +112,7 @@ function SeminarUpdate() {
           <Button id="examBtn" variant="dark" type="submit" size="lg">
             작성완료
           </Button>
-          <Button variant="grey" size="lg" onClick={handlePostCancel}>
+          <Button variant="grey" size="lg" onClick={handlePostCancel('seminar')}>
             작성취소
           </Button>
         </div>

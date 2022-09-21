@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { call } from "../../hooks/useFetch"
 import "./FindUserPage.scss"
 import Swal from "sweetalert2"
+import api from "../../utils/api";
 
 function FindUserPage() {
     const [email, setEmail] = useState("")
@@ -13,36 +13,32 @@ function FindUserPage() {
         const findCheck = document.getElementById("findCheck");
         findCheck.setAttribute('disabled', true);
         findCheck.innerText = "확인 중..."
-        e.preventDefault()
-        call("/auth/tempPassword?userEmail="+email, "POST", )
-        .then((response)=>{
-            console.log(response)
-            if(response.success){
+        e.preventDefault();
+        api.post("/auth/tempPassword?userEmail="+email).then((response) => {
+            if(response.data.success){
                 Swal.fire({
                     icon: 'success',
                     title: '해당 이메일에 임시 비밀번호를 전송했습니다.',
-                  })
-                  .then((result)=>{
-                      if(result.isConfirmed){
-                          navigate("/")
-                      }
-                  })
+                })
+                    .then((result)=>{
+                        if(result.isConfirmed){
+                            navigate("/")
+                        }
+                    })
             }
             else{
                 Swal.fire({
                     icon: 'error',
                     title: '해당  회원은 존재하지 않습니다.',
-                  }).then((result)=>{
+                }).then((result)=>{
                     if(result){
                         findCheck.removeAttribute('disabled');
                         findCheck.innerText = "확인"
                     }
-                  })
+                })
 
             }
-
-
-        })
+        });
     }
 
     return(
