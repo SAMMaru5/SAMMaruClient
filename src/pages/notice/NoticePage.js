@@ -2,11 +2,8 @@ import "./NoticePage.scss";
 import { Pagination } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
-import { call } from "../../hooks/useFetch";
-
 import notice from "../../imgs/banner/notice.jpg";
-import { myRole } from "../../hooks/useAuth";
+import {getArticleList, getBoardList} from "../../hooks/boardServices";
 
 const isAdmin = true;
 
@@ -19,32 +16,19 @@ function NoticePage(props) {
   const [pageList, setPageList] = useState(1);
 
   useEffect(() => {
-    call("/no-permit/api/boards", "GET").then((response) => {
-      if (response.success) {
-        for (let i = 0; i < response.response.length; i++) {
-          if (response.response[i].name === "공지사항") {
-            setBoardId(response.response[i].id);
-            call(
-              `/no-permit/api/boards/${response.response[i].id}/pages/${pageNum}?pageSize=10`,
-              "GET"
-            ).then((response) => {
-              if (response.success) {
-                setBoardlist(response.response);
-                setloading(true);
-              } else {
-                Swal.fire({
-                  icon: "error",
-                  title: "자유게시판 목록 가져오기를 실패했습니다.",
-                });
-              }
+    getBoardList().then(response => {
+      console.log(response.data);
+      if(response.data.success) {
+        response.data.response.forEach(res => {
+          if(res.name === '공지사항'){
+            setBoardId(res.id);
+            getArticleList(res.id).then(res => {
+              console.log(res.data);
+              setBoardlist(res.data.response);
+              setloading(true);
             });
           }
-        }
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "게시판 목록 가져오기를 실패했습니다.",
-        });
+        })
       }
     });
 
@@ -54,47 +38,15 @@ function NoticePage(props) {
   }, [pageNum]);
 
   const onClickRegister = () => {
-    myRole().then((response) => {
-      if (response === "not authorized") {
-        Swal.fire({
-          icon: "error",
-          title: "로그인이 필요합니다.",
-        }).then((result) => {
-          navigate("/login");
-        });
-      } else if (response !== "admin") {
-        Swal.fire({
-          icon: "info",
-          title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
-        });
-      } else {
-        navigate("./noticeUpdate");
-      }
-    });
+    navigate("/notice/noticeUpdate");
   };
 
   const onClickDetail = (list) => {
-    myRole().then((response) => {
-      if (response === "not authorized") {
-        Swal.fire({
-          icon: "error",
-          title: "로그인이 필요합니다.",
-        }).then((result) => {
-          navigate("/login");
-        });
-      } else if (response === "temp") {
-        Swal.fire({
-          icon: "info",
-          title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
-        });
-      } else {
-        navigate("/noticeDetail", {
-          state: {
-            boardId,
-            articleId: list.id,
-          },
-        });
-      }
+    navigate("/noticeDetail", {
+      state: {
+        boardId: boardId,
+        articleId: list.id,
+      },
     });
   };
 
@@ -213,7 +165,7 @@ function NoticePage(props) {
                         onClickDetail(list);
                       }}
                     >
-                      <div className="num">{list.id}</div>
+                      <div className="num">{i}</div>
                       <div className="value">{list.title}</div>
                       <div className="date" style={{ textAlign: "center" }}>
                         {createDt}

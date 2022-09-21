@@ -1,26 +1,31 @@
 import "./Navigation.scss";
-import { useEffect, useState } from "react";
+import api from "../utils/api";
 import { useNavigate, useLocation } from "react-router-dom";
-import { isAuth } from "./../hooks/useAuth";
-import { call } from "../hooks/useFetch";
 import { signout } from "../hooks/useAuth";
-import { getCookie } from "../hooks/useCookie";
+import { useEffect, useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 function Navigation() {
+  const [show1, setShow1] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
   const [userInfo, setUserInfo] = useState({});
   const [loading, setloading] = useState(false);
-  const accessToken = getCookie("accessToken");
-  useEffect(() => {
-    if (accessToken && accessToken !== null) {
-      call("/no-permit/api/user/info", "GET", "").then((response) => {
-        setUserInfo(response);
+
+
+  useEffect( () => {
+    api.get("/no-permit/api/user/info").then(response => {
+      if(response.data.success) {
+        console.log(response.data.response);
+        setUserInfo(response.data);
         setloading(true);
-      });
-    }
-  }, [location, accessToken]);
+      } else {
+        setUserInfo(null);
+        setloading(true);
+      }
+    });
+  }, [location]);
 
   return (
     <div

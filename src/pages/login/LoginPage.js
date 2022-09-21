@@ -1,8 +1,8 @@
+import "./LoginPage.scss"
+import Swal from "sweetalert2"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import "./LoginPage.scss"
 import { login } from "../../hooks/useAuth"
-import Swal from "sweetalert2"
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -13,8 +13,9 @@ function LoginPage() {
         const loginBtn = document.getElementById("loginBtn");
         loginBtn.setAttribute('disabled', true);
         loginBtn.innerText = "로그인 중..."
+
         login(User).then((response)=>{
-            if(response.success){
+            if(response.data.success){
                 Swal.fire({
                     icon: 'success',
                     title: '로그인에 성공하셨습니다.',
@@ -38,7 +39,7 @@ function LoginPage() {
 
             }
         });
-        
+
     } 
 
     return(
