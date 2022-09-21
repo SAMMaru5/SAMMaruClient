@@ -6,8 +6,8 @@ export function call(api, method, request) {
     "Content-Type": "application/json",
   });
 
-  const accessToken = getCookie("accessToken");
-  const refreshToken = getCookie("refreshToken");
+  const accessToken = getCookie("SammaruAccessToken");
+  const refreshToken = getCookie("SammaruRefreshToken");
 
   if (accessToken && accessToken !== null) {
     headers.append("Authorization", "Bearer " + accessToken);

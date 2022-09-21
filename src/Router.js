@@ -9,6 +9,7 @@ import AgreePage from "./pages/register/AgreePage";
 import FindUserPage from "./pages/findUser/FindUserPage";
 import ModifyUserInfoPage from "./pages/modifyUserInfo/ModifyUserInfoPage";
 import CheckPwPage from "./pages/modifyUserInfo/CheckPwPage";
+import AuthGuard from "./components/AuthGuard";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PhotoPage from "./pages/photo/PhotoPage";
 
@@ -78,18 +79,21 @@ function App() {
           <Route path="/seminarDetail" element={<SeminarDetail />} />
 
           <Route path="/photo" element={<PhotoPage />} />
-          <Route path="/photo/photoUpdate" element={<PhotoUpdate />} />
+          <Route path="/photo/photoUpdate" element={ <PhotoUpdate /> } />
+          <Route path="/photo/photoDetail" element={ <PhotoDetail /> } />
+
           <Route path="/notice" element={<NoticePage />} />
-          <Route path="/noticeDetail" element={<NoticeDetailPage />} />
-          <Route path="/notice/noticeUpdate" element={<NoticeUpdate />} />
+          <Route path="/noticeDetail" element={<AuthGuard ><NoticeDetailPage /></AuthGuard>} />
+          <Route path="/notice/noticeUpdate" element={<AuthGuard ><NoticeUpdate /></AuthGuard>} />
+
           <Route path="/report" element={<ReportPage />} />
           <Route path="/report/reportUpdate" element={<ReportUpdate />} />
           <Route path="/reportDetail" element={<ReportDetail />} />
 
           <Route path="/freeBoard" element={<FreeBoardPage />} />
           <Route
-            path="/freeBoard/freeBoardUpdate"
-            element={<FreeBoardUpdate />}
+              path="/freeBoard/freeBoardUpdate"
+              element={<FreeBoardUpdate />}
           />
           <Route path="/freeBoardDetail" element={<FreeBoardDetail />} />
 
@@ -98,7 +102,6 @@ function App() {
           <Route path="/agree" element={<AgreePage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/findUser" element={<FindUserPage />} />
-          <Route path="/photo/photoDetail" element={<PhotoDetail />} />
           <Route path="/checkPw" element={<CheckPwPage />} />
           <Route path="/modifyUserInfo" element={<ModifyUserInfoPage />} />
 

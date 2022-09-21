@@ -1,8 +1,7 @@
+import "./NoticeDetail.scss";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { call } from "../../hooks/useFetch";
-
-import "./NoticeDetail.scss";
+import {getBoards} from "../../hooks/boardServices";
 
 function NoticeDetailPage() {
   const navigate = useNavigate();
@@ -11,17 +10,11 @@ function NoticeDetailPage() {
   const [loading, setLoading] = useState(false);
   const [like, setLike] = useState(false);
 
-  useEffect(() => {
-    call(
-      "/api/boards/" +
-        location.state.boardId +
-        "/articles/" +
-        location.state.articleId,
-      "GET"
-    ).then((response) => {
-      setArticle(response.response);
-      setLoading(true);
-    });
+  useEffect(  () => {
+      getBoards(location).then( data => {
+          setArticle(data.data.response);
+          setLoading(true);
+      });
   }, [location.state.boardId, location.state.articleId]);
 
   return (
