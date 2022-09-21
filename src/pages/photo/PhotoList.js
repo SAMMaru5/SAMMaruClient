@@ -11,8 +11,7 @@ const PhotoList = () => {
   const navigate = useNavigate();
   const [photoList, setPhotoList] = useState({});
   const [loading, setloading] = useState(false);
-  const [boardid, setBoardid] = useState();
-  const [colMd, setColMd] = useState(3);
+  const [boardId, setBoardid] = useState();
   const [pageNum, setPageNum] = useState(1);
   const [pageList, setPageList] = useState(1);
 
@@ -53,19 +52,7 @@ const PhotoList = () => {
 
   const onClickDetail = (list) => {
     myRole().then((response) => {
-      if (response === "member" || response === "admin") {
-        navigate("./photoDetail", {
-          state: {
-            boardId: boardid,
-            articleId: list.id,
-          },
-        });
-      } else if (response === "temp") {
-        Swal.fire({
-          icon: "info",
-          title: "접근 권한이 없습니다. <br/> 관리자에게 문의해 주세요.",
-        });
-      } else {
+      if (response === "not authorized") {
         Swal.fire({
           icon: "error",
           title: "로그인이 필요합니다.",
