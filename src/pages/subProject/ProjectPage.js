@@ -2,47 +2,30 @@ import React, { useState, useEffect } from "react";
 import { Pagination } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { call } from "../../hooks/useFetch";
-
 import project from "../../imgs/banner/project.jpg";
 import { myRole } from "../../hooks/useAuth";
+import {getArticleList, getBoardList} from "../../hooks/boardServices";
 
 function ProjectPage() {
   const navigate = useNavigate();
-  const [boardlist, setBoardlist] = useState({});
-  const [loading, setloading] = useState(false);
+  const [boardList, setBoardList] = useState({});
+  const [loading, setLoading] = useState(false);
   const [boardId, setBoardId] = useState();
   const [pageNum, setPageNum] = useState(1);
   const [pageList, setPageList] = useState(1);
 
   useEffect(() => {
-    call("/no-permit/api/boards", "GET").then((response) => {
-      if (response.success) {
-        for (let i = 0; i < response.response.length; i++) {
-          if (response.response[i].name === "소규모프로젝트") {
-            setBoardId(response.response[i].id);
-            call(
-              `/no-permit/api/boards/${response.response[i].id}/pages/${pageNum}?pageSize=10`,
-              "GET"
-            ).then((response) => {
-              // console.log(response);
-              if (response.success) {
-                setBoardlist(response.response);
-                setloading(true);
-              } else {
-                Swal.fire({
-                  icon: "error",
-                  title: "소규모프로젝트 목록 가져오기를 실패했습니다.",
-                });
-              }
+    getBoardList().then(response => {
+      if(response.data.success) {
+        response.data.response.forEach(res => {
+          if(res.name === '소규모프로젝트'){
+            setBoardId(res.id);
+            getArticleList(res.id).then(res => {
+              setBoardList(res.data.response);
+              setLoading(true);
             });
           }
-        }
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "게시판 목록 가져오기를 실패했습니다.",
-        });
+        })
       }
     });
 
@@ -52,53 +35,22 @@ function ProjectPage() {
   }, [pageNum]);
 
   const examUpload = () => {
-    myRole().then((response) => {
-      if (response === "not authorized") {
-        Swal.fire({
-          icon: "error",
-          title: "로그인이 필요합니다.",
-        }).then((result) => {
-          navigate("/login");
-        });
-      } else if (response === "temp") {
-        Swal.fire({
-          icon: "info",
-          title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
-        });
-      } else {
-        navigate("./projectUpdate");
-      }
-    });
+    navigate("./projectUpdate");
+
   };
 
   const onClickDetail = (list) => {
-    myRole().then((response) => {
-      if (response === "not authorized") {
-        Swal.fire({
-          icon: "error",
-          title: "로그인이 필요합니다.",
-        }).then((result) => {
-          navigate("/login");
-        });
-      } else if (response === "temp") {
-        Swal.fire({
-          icon: "info",
-          title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
-        });
-      } else {
-        navigate("/projectDetail", {
-          state: {
-            boardId,
-            articleId: list.id,
-          },
-        });
-      }
+    navigate("/projectDetail", {
+      state: {
+        boardId,
+        articleId: list.id,
+      },
     });
   };
 
   /** Pagination 버튼을 생성하는 함수 */
   const addingPaginationItem = () => {
-    if (!boardlist.totalElements) return;
+    if (!boardList.totalElements) return;
     const result = [];
     for (let k = 0; k < 10; k++) {
       result.push(
@@ -110,7 +62,7 @@ function ProjectPage() {
           {pageList + k}
         </Pagination.Item>
       );
-      if (pageList + k === boardlist.totalPages) break;
+      if (pageList + k === boardList.totalPages) break;
     }
     return result;
   };
@@ -125,15 +77,15 @@ function ProjectPage() {
         setPageNum(1);
         break;
       case "prev":
-        if (boardlist.first) return;
+        if (boardList.first) return;
         setPageNum((prev) => prev - 1);
         break;
       case "next":
-        if (boardlist.last) return;
+        if (boardList.last) return;
         setPageNum((prev) => prev + 1);
         break;
       default:
-        setPageNum(boardlist.totalPages);
+        setPageNum(boardList.totalPages);
     }
   };
 
@@ -201,7 +153,7 @@ function ProjectPage() {
           </div>
           {loading ? (
             <>
-              {boardlist.content.map((list, i) => {
+              {boardList.content.map((list, i) => {
                 let createDt = list.createDt.slice(0, 10);
                 return (
                   <div key={i} className="eachContents">

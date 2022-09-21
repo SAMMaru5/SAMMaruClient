@@ -1,10 +1,10 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { Form, Button } from "react-bootstrap";
-import { call } from "../../hooks/useFetch";
 import Swal from "sweetalert2";
+import api from "../../utils/api";
+import {myRole} from "../../hooks/useAuth";
 
 function BoardManage() {
   const [board, setBoard] = useState({ boardName: "", description: "" });
@@ -12,9 +12,28 @@ function BoardManage() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    call("/api/boards", "POST", board).then((response) => {
-      console.log(response);
-      if (response.success) {
+
+    myRole().then((response) => {
+      if (response === "not authorized") {
+        Swal.fire({
+          icon: "error",
+          title: "로그인이 필요합니다.",
+        }).then((result) => {
+          navigate("/login");
+        });
+      } else if (response !== "admin") {
+        Swal.fire({
+          icon: "info",
+          title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
+        }).then((result) => {
+          navigate("/login");
+        });
+      }
+    });
+
+
+    api.post("/api/boards").then((response) => {
+      if (response.data.success) {
         Swal.fire({
           icon: "success",
           title: "게시판 생성을 성공했습니다.",

@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Pagination } from "react-bootstrap";
 import "./PhotoList.scss";
 import { useNavigate } from "react-router-dom";
-import { call } from "../../hooks/useFetch";
-import { myRole } from "../../hooks/useAuth";
-
-import Swal from "sweetalert2";
+import {getArticleList, getBoardList} from "../../hooks/boardServices";
 
 const PhotoList = () => {
   const navigate = useNavigate();
@@ -16,32 +13,17 @@ const PhotoList = () => {
   const [pageList, setPageList] = useState(1);
 
   useEffect(() => {
-    call("/no-permit/api/boards", "GET").then((response) => {
-      if (response.success) {
-        for (let i = 0; i < response.response.length; i++) {
-          if (response.response[i].name === "사진첩") {
-            setBoardid(response.response[i].id);
-            call(
-              `/no-permit/api/boards/${response.response[i].id}/pages/${pageNum}?pageSize=16`,
-              "GET"
-            ).then((response) => {
-              if (response.success) {
-                setPhotoList(response.response);
-                setloading(true);
-              } else {
-                Swal.fire({
-                  icon: "error",
-                  title: "사진 목록 가져오기를 실패했습니다.",
-                });
-              }
+    getBoardList().then(response => {
+      if(response.data.success) {
+        response.data.response.forEach(res => {
+          if(res.name === '사진첩'){
+            setBoardid(res.id);
+            getArticleList(res.id).then(res => {
+              setPhotoList(res.data.response);
+              setloading(true);
             });
           }
-        }
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "게시판 목록 가져오기를 실패했습니다.",
-        });
+        })
       }
     });
 
@@ -51,27 +33,11 @@ const PhotoList = () => {
   }, [pageNum]);
 
   const onClickDetail = (list) => {
-    myRole().then((response) => {
-      if (response === "not authorized") {
-        Swal.fire({
-          icon: "error",
-          title: "로그인이 필요합니다.",
-        }).then((result) => {
-          navigate("/login");
-        });
-      } else if (response === "temp") {
-        Swal.fire({
-          icon: "info",
-          title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
-        });
-      } else {
-        navigate("./photoDetail", {
-          state: {
-            boardId,
-            articleId: list.id,
-          },
-        });
-      }
+    navigate("./photoDetail", {
+      state: {
+        boardId,
+        articleId: list.id,
+      },
     });
   };
 
@@ -138,7 +104,7 @@ const PhotoList = () => {
                     <img
                       alt="사진첩 사진"
                       src={
-                        "http://localhost:8080/no-permit/api/boards/" +
+                        process.env.REACT_APP_URL+"/no-permit/api/boards/" +
                         boardId +
                         "/articles/" +
                         list.id +

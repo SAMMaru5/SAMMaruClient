@@ -1,8 +1,8 @@
 import "./ModifyUserInfoPage.scss";
 import { useLocation,useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react";
-import { call } from "../../hooks/useFetch";
 import Swal from "sweetalert2"
+import api from "../../utils/api";
 
 function ModifyUserInfoPage() {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ function ModifyUserInfoPage() {
   const pwCheck1 = location.state;
 
   const [User, setUser] = useState({"studentId" : "",  "username":"", "password" : "", "email" : ""})
-  const [loading, setloading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [pwCheck2, setPwCheck] = useState("");
 
   useEffect(() => {
@@ -21,10 +21,10 @@ function ModifyUserInfoPage() {
   }, [navigate, pwCheck1])
 
   useEffect(() => {
-    call("/api/user/info", "GET", "").then(
+    api.get("/api/user/info").then(
       (response)=>{
-        setUser({"studentId" : response.response.studentId, "username" : response.response.username, "email" : response.response.email});
-        setloading(true);
+        setUser({"studentId" : response.data.response.studentId, "username" : response.data.response.username, "email" : response.data.response.email});
+        setLoading(true);
       }
     )
   }, []);
@@ -48,10 +48,9 @@ function ModifyUserInfoPage() {
           });
     }
     else{
-      call("/api/user/info", "PATCH", User).then(
+      api.patch("/api/user/info", User).then(
         (response)=>{
-            console.log(response);
-          if(response.success){
+          if(response.data.success){
             Swal.fire({
               title: '회원정보가 수정되었습니다.',
               icon: 'success',

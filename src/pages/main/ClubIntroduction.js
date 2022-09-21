@@ -4,15 +4,6 @@ import pic from "../../imgs/pic.jpg";
 import github from "../../imgs/logo.png";
 
 function clubIntroduction() {
-  // function openTab(tabName) {
-  //   var i;
-  //   var x = document.getElementsByClassName("tab");
-  //   for (i = 0; i < x.length; i++) {
-  //     x[i].style.display = "none";
-  //   }
-  //   document.getElementById(tabName).style.display = "block";
-  // }
-
   return (
     <section id="main">
       <div

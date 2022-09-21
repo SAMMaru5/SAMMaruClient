@@ -5,8 +5,8 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import {Row, Col} from 'react-bootstrap';
-import {call} from '../../hooks/useFetch'
 import Swal from "sweetalert2"
+import api from "../../utils/api";
 
 
 export default class Calendar extends React.Component {
@@ -29,16 +29,16 @@ export default class Calendar extends React.Component {
     더 이상 로딩중이 아니라는 뜻이다. */
     let year = new Date().getFullYear()-1;
     let url = "/no-permit/schedules?start="+year+"-01-05&end=3000-01-05";
-    call(url, "GET", null).then((response) =>
-    {
-      if(response.response.length === 0){
-        console.log(response);
-        this.setState({ites: [], loading : false, currendId : 0})
-      }
-      else{
-        this.setState({ items: response.response, loading: false, currentId : response.response[response.response.length-1].id})
-      }
-    }
+    api.get(url).then((response) =>
+        {
+          if(response.data.response.length === 0){
+            console.log(response);
+            this.setState({ites: [], loading : false, currendId : 0})
+          }
+          else{
+            this.setState({ items: response.data.response, loading: false, currentId : response.data.response[response.data.response.length-1].id})
+          }
+        }
     );
   }
 
@@ -168,10 +168,10 @@ export default class Calendar extends React.Component {
     ).then((result)=>{
       if (result.value && result.isConfirmed) {
         // console.log(title, selectInfo.startStr, selectInfo.endStr, selectInfo.startStr);
-        call("/api/schedules", "POST", {"title" : result.value, "start": selectInfo.startStr, "end": selectInfo.endStr, "content" : ""}).then((response) =>
+        api.post("/api/schedules", {"title" : result.value, "start": selectInfo.startStr, "end": selectInfo.endStr, "content" : ""}).then((response) =>
         {
-          if(response !== undefined && response !=='undefined'){  
-            if(response.success === true){
+          if(response.data !== undefined && response.data !=='undefined'){
+            if(response.data.success === true){
               this.setState({currentId : this.state.currentId+1})
               calendarApi.addEvent({
                 id: this.state.currentId,
@@ -217,10 +217,10 @@ export default class Calendar extends React.Component {
 			cancelButtonText : "아니오",
 }).then((result)=>{
   if(result.isConfirmed){
-    call("/api/schedules/"+clickInfo.event._def.publicId, "DELETE", "").then((response)=>{
-      if(response !==undefined && response !=="undefined"){
-        if(response.success === true){
-          clickInfo.event.remove()
+    api.delete("/api/schedules/"+clickInfo.event._def.publicId).then((response)=>{
+      if(response.data !==undefined && response.data !=="undefined"){
+        if(response.data.success === true){
+          clickInfo.event.remove();
           Swal.fire({
                 icon: 'success',
                 title: `'${clickInfo.event.title}'일정을 삭제했습니다.`,
@@ -270,9 +270,9 @@ export default class Calendar extends React.Component {
       }
 
       url = "/no-permit/schedules?start="+year+"-"+month+"-01&end="+endYear+"-"+endMonth+"-12";
-      call(url, "GET", null).then((response) =>{
+      api.get(url).then((response) =>{
         this.setState({
-          currentEvents: response.response
+          currentEvents: response.data.response
         })
       }
       );

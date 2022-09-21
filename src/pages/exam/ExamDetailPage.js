@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { call } from "../../hooks/useFetch";
+import {getBoards} from "../../hooks/boardServices";
 
 function ExamDetailPage() {
   const navigate = useNavigate();
@@ -10,14 +10,8 @@ function ExamDetailPage() {
   const [like, setLike] = useState(false);
 
   useEffect(() => {
-    call(
-      "/api/boards/" +
-        location.state.boardId +
-        "/articles/" +
-        location.state.articleId,
-      "GET"
-    ).then((response) => {
-      setArticle(response.response);
+    getBoards(location).then(data => {
+      setArticle(data.data.response);
       setLoading(true);
     });
   }, [location.state.boardId, location.state.articleId]);
