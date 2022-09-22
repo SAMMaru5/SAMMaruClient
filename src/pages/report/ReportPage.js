@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Pagination } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import report from "../../imgs/banner/report.jpg";
-import {getArticleList, getBoardList} from "../../hooks/boardServices";
+import { getArticleList, getBoardList } from "../../hooks/boardServices";
 
 function ReportPage() {
   const navigate = useNavigate();
@@ -13,17 +13,17 @@ function ReportPage() {
   const [pageList, setPageList] = useState(1);
 
   useEffect(() => {
-    getBoardList().then(response => {
-      if(response.data.success) {
-        response.data.response.forEach(res => {
-          if(res.name === '활동보고서'){
+    getBoardList().then((response) => {
+      if (response.data.success) {
+        response.data.response.forEach((res) => {
+          if (res.name === "활동보고서") {
             setBoardId(res.id);
-            getArticleList(res.id).then(res => {
+            getArticleList(res.id, pageNum, 10).then((res) => {
               setBoardList(res.data.response);
               setLoading(true);
             });
           }
-        })
+        });
       }
     });
 
