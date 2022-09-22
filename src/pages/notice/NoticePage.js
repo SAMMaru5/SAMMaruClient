@@ -3,11 +3,11 @@ import { Pagination } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import notice from "../../imgs/banner/notice.jpg";
-import {getArticleList, getBoardList} from "../../hooks/boardServices";
+import { getArticleList, getBoardList } from "../../hooks/boardServices";
 
 const isAdmin = true;
 
-function NoticePage(props) {
+function NoticePage() {
   const navigate = useNavigate();
   const [boardList, setBoardList] = useState({});
   const [loading, setLoading] = useState(false);
@@ -16,17 +16,17 @@ function NoticePage(props) {
   const [pageList, setPageList] = useState(1);
 
   useEffect(() => {
-    getBoardList().then(response => {
-      if(response.data.success) {
-        response.data.response.forEach(res => {
-          if(res.name === '공지사항'){
+    getBoardList().then((response) => {
+      if (response.data.success) {
+        response.data.response.forEach((res) => {
+          if (res.name === "공지사항") {
             setBoardId(res.id);
-            getArticleList(res.id).then(res => {
+            getArticleList(res.id, pageNum, 10).then((res) => {
               setBoardList(res.data.response);
               setLoading(true);
             });
           }
-        })
+        });
       }
     });
 
