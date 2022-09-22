@@ -3,7 +3,7 @@ import { Pagination } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import seminar from "../../imgs/banner/seminar.jpg";
-import {getArticleList, getBoardList} from "../../hooks/boardServices";
+import { getArticleList, getBoardList } from "../../hooks/boardServices";
 
 function SeminarPage() {
   const navigate = useNavigate();
@@ -14,17 +14,17 @@ function SeminarPage() {
   const [pageList, setPageList] = useState(1);
 
   useEffect(() => {
-    getBoardList().then(response => {
-      if(response.data.success) {
-        response.data.response.forEach(res => {
-          if(res.name === '특강자료'){
+    getBoardList().then((response) => {
+      if (response.data.success) {
+        response.data.response.forEach((res) => {
+          if (res.name === "특강자료") {
             setBoardId(res.id);
-            getArticleList(res.id).then(res => {
+            getArticleList(res.id, pageNum, 10).then((res) => {
               setBoardList(res.data.response);
               setLoading(true);
             });
           }
-        })
+        });
       }
     });
 
@@ -35,7 +35,6 @@ function SeminarPage() {
 
   const seminarUpload = () => {
     navigate("./seminarUpdate");
-
   };
 
   const onClickDetail = (list) => {

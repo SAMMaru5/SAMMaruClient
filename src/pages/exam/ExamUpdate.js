@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import Swal from "sweetalert2";
-import {getBoardList, handlePostCancel} from "../../hooks/boardServices";
+import { getBoardList } from "../../hooks/boardServices";
 import api from "../../utils/api";
 
 function ExamUpdate() {
@@ -12,14 +12,14 @@ function ExamUpdate() {
   const [uploadFile, setUploadFile] = useState([]);
 
   useEffect(() => {
-    getBoardList().then(response => {
+    getBoardList().then((response) => {
       console.log(response.data);
-      if(response.data.success) {
-        response.data.response.forEach(res => {
-          if(res.name === '족보'){
+      if (response.data.success) {
+        response.data.response.forEach((res) => {
+          if (res.name === "족보") {
             setBoardId(res.id);
           }
-        })
+        });
       }
     });
   }, []);
@@ -40,7 +40,6 @@ function ExamUpdate() {
       new Blob([JSON.stringify(photo)], { type: "application/json" })
     );
 
-
     api.post(`/api/boards/${boardId}/articles`, formData).then((response) => {
       if (response.data.success) {
         Swal.fire({
@@ -56,6 +55,24 @@ function ExamUpdate() {
           icon: "error",
           title: "게시글 작성을 실패했습니다.",
         });
+      }
+    });
+  };
+
+  const handlePostCancel = () => {
+    Swal.fire({
+      title: "글 작성을 취소하시겠습니까?",
+      text: "다시 되돌릴 수 없습니다.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "확인",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("../exam");
+      } else {
       }
     });
   };
@@ -108,7 +125,7 @@ function ExamUpdate() {
           <Button id="examBtn" variant="dark" type="submit" size="lg">
             작성완료
           </Button>
-          <Button variant="grey" size="lg" onClick={handlePostCancel('exam')}>
+          <Button variant="grey" size="lg" onClick={handlePostCancel}>
             작성취소
           </Button>
         </div>
