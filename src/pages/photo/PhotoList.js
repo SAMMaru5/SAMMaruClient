@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Pagination } from "react-bootstrap";
 import "./PhotoList.scss";
 import { useNavigate } from "react-router-dom";
-import {getArticleList, getBoardList} from "../../hooks/boardServices";
+import { getArticleList, getBoardList } from "../../hooks/boardServices";
 
 const PhotoList = () => {
   const navigate = useNavigate();
@@ -13,17 +13,17 @@ const PhotoList = () => {
   const [pageList, setPageList] = useState(1);
 
   useEffect(() => {
-    getBoardList().then(response => {
-      if(response.data.success) {
-        response.data.response.forEach(res => {
-          if(res.name === '사진첩'){
+    getBoardList().then((response) => {
+      if (response.data.success) {
+        response.data.response.forEach((res) => {
+          if (res.name === "사진첩") {
             setBoardid(res.id);
-            getArticleList(res.id).then(res => {
+            getArticleList(res.id, pageNum, 10).then((res) => {
               setPhotoList(res.data.response);
               setloading(true);
             });
           }
-        })
+        });
       }
     });
 
@@ -104,7 +104,8 @@ const PhotoList = () => {
                     <img
                       alt="사진첩 사진"
                       src={
-                        process.env.REACT_APP_URL+"/no-permit/api/boards/" +
+                        process.env.REACT_APP_URL +
+                        "/no-permit/api/boards/" +
                         boardId +
                         "/articles/" +
                         list.id +
