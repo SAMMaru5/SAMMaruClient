@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import project from "../../imgs/banner/project.jpg";
 import { myRole } from "../../hooks/useAuth";
-import {getArticleList, getBoardList} from "../../hooks/boardServices";
+import { getArticleList, getBoardList } from "../../hooks/boardServices";
 
 function ProjectPage() {
   const navigate = useNavigate();
@@ -15,17 +15,17 @@ function ProjectPage() {
   const [pageList, setPageList] = useState(1);
 
   useEffect(() => {
-    getBoardList().then(response => {
-      if(response.data.success) {
-        response.data.response.forEach(res => {
-          if(res.name === '소규모프로젝트'){
+    getBoardList().then((response) => {
+      if (response.data.success) {
+        response.data.response.forEach((res) => {
+          if (res.name === "소규모프로젝트") {
             setBoardId(res.id);
-            getArticleList(res.id).then(res => {
+            getArticleList(res.id, pageNum, 10).then((res) => {
               setBoardList(res.data.response);
               setLoading(true);
             });
           }
-        })
+        });
       }
     });
 
@@ -36,7 +36,6 @@ function ProjectPage() {
 
   const examUpload = () => {
     navigate("./projectUpdate");
-
   };
 
   const onClickDetail = (list) => {
