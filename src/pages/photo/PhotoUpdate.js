@@ -8,7 +8,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "./PhotoUpdate.scss";
 import { Navigation } from "swiper";
-import {getBoardList, handlePostCancel} from "../../hooks/boardServices";
+import { getBoardList } from "../../hooks/boardServices";
 import api from "../../utils/api";
 
 function PhotoUpdate() {
@@ -19,14 +19,14 @@ function PhotoUpdate() {
   const [showImages, setShowImages] = useState([]);
 
   useEffect(() => {
-    getBoardList().then(response => {
+    getBoardList().then((response) => {
       console.log(response.data);
-      if(response.data.success) {
-        response.data.response.forEach(res => {
-          if(res.name === '사진첩'){
+      if (response.data.success) {
+        response.data.response.forEach((res) => {
+          if (res.name === "사진첩") {
             setBoardId(res.id);
           }
-        })
+        });
       }
     });
   }, []);
@@ -98,27 +98,42 @@ function PhotoUpdate() {
       new Blob([JSON.stringify(photo)], { type: "application/json" })
     );
 
-
-    api.post(`/api/boards/${boardId}/articles`, formData)
-        .then((response) => {
-          if (response.data.success) {
-            Swal.fire({
-              icon: "success",
-              title: "게시글 작성을 성공했습니다.",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                navigate("/photo");
-              }
-            });
-          } else {
-            Swal.fire({
-              icon: "error",
-              title: "게시글 작성을 실패했습니다.",
-            });
+    api.post(`/api/boards/${boardId}/articles`, formData).then((response) => {
+      if (response.data.success) {
+        Swal.fire({
+          icon: "success",
+          title: "게시글 작성을 성공했습니다.",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/photo");
           }
         });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "게시글 작성을 실패했습니다.",
+        });
+      }
+    });
   };
 
+  const handlePostCancel = () => {
+    Swal.fire({
+      title: "글 작성을 취소하시겠습니까?",
+      text: "다시 되돌릴 수 없습니다.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "확인",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("../photo");
+      } else {
+      }
+    });
+  };
 
   return (
     <div
@@ -190,7 +205,7 @@ function PhotoUpdate() {
           <Button id="photoBtn" variant="dark" type="submit" size="lg">
             작성완료
           </Button>
-          <Button variant="grey" size="lg" onClick={handlePostCancel('/photo')}>
+          <Button variant="grey" size="lg" onClick={handlePostCancel}>
             작성취소
           </Button>
         </div>
