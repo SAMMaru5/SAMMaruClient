@@ -65,7 +65,7 @@ function ExamDetailPage() {
               <br />
               <a
                 href={
-                  "http://localhost:8080/no-permit/api/boards/" +
+                  process.env.REACT_APP_URL + "/no-permit/api/boards/" +
                   location.state.boardId +
                   "/articles/" +
                   location.state.articleId +

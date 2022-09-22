@@ -2,7 +2,8 @@ import "./LoginPage.scss"
 import Swal from "sweetalert2"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { login } from "../../hooks/useAuth"
+import axios from "axios";
+import {getCookie} from "../../hooks/useCookie";
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -14,32 +15,49 @@ function LoginPage() {
         loginBtn.setAttribute('disabled', true);
         loginBtn.innerText = "로그인 중..."
 
-        login(User).then((response)=>{
-            if(response.data.success){
-                Swal.fire({
-                    icon: 'success',
-                    title: '로그인에 성공하셨습니다.',
-                  })
-                  .then((result)=>{
-                      if(result.isConfirmed){
-                          navigate("/")
-                      }
-                  })
-            }
-            else{
-                Swal.fire({
-                    icon: 'error',
-                    title: '로그인에 실패하셨습니다.',
-                  }).then((result)=>{
-                    if(result){
-                        loginBtn.removeAttribute('disabled');
-                        loginBtn.innerText = "로그인"
-                    }
-                  })
 
-            }
-        });
-
+        axios.post(process.env.REACT_APP_URL + "/auth/login" , { ...User }, { withCredentials: true})
+            .then((response) => {
+                console.log(response);
+                if (response.data.success) {
+                    console.log("login function::::: " + getCookie('SammaruAccessToken'));
+                    sessionStorage.setItem(
+                        "EXPIRED_TIME",
+                        response.data.response.expiresAt
+                    );
+                    Swal.fire({
+                        icon: 'success',
+                        title: '로그인에 성공하셨습니다.',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            navigate("/")
+                        }
+                    });
+                }
+            }).catch( error => {
+                   if(error.response.status === 403) {
+                       Swal.fire({
+                           icon: 'error',
+                           title: '권한이 없습니다. 관리자에게 문의해주세요.',
+                       }).then((result) => {
+                           if (result) {
+                               loginBtn.removeAttribute('disabled');
+                               loginBtn.innerText = "로그인"
+                           }
+                       });
+                   }
+                   else {
+                       Swal.fire({
+                           icon: 'error',
+                           title: '로그인에 실패하였습니다. 다시 시도해주세요.',
+                       }).then((result) => {
+                           if (result) {
+                               loginBtn.removeAttribute('disabled');
+                               loginBtn.innerText = "로그인"
+                           }
+                       });
+                   }
+            });
     } 
 
     return(

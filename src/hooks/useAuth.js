@@ -1,27 +1,6 @@
-import { delCookie } from "./useCookie";
 import api from "../utils/api";
+import Swal from "sweetalert2";
 
-export function login(SignInRequest) {
-    return api.post("/auth/login" , { ...SignInRequest })
-        .then((response) => {
-            console.log(
-                "response.data.response.accessToken:::",
-                response.data.response.accessToken
-            );
-            try {
-                if (response.data.response.accessToken) {
-                    sessionStorage.setItem(
-                        "EXPIRED_TIME",
-                        response.data.response.expiresAt
-                    );
-                    return response;
-                }
-            } catch (error) {
-                console.log(error);
-                return false;
-            }
-    });
-}
 
 
 export function myRole() {
@@ -39,7 +18,20 @@ export function myRole() {
 }
 
 export function signout() {
-    sessionStorage.clear();
-    delCookie("accessToken");
+    api.delete("/auth/logout").then(response => {
+        sessionStorage.removeItem("EXPIRED_TIME");
+        if(response.data.success){
+            Swal.fire({
+                icon: 'success',
+                title: '로그아웃에 성공하셨습니다.',
+            });
+        }
+        else{
+            Swal.fire({
+                icon: 'error',
+                title: '로그아웃에 실패하셨습니다.',
+            });
+        }
+    })
     window.location.href = "/";
 }
