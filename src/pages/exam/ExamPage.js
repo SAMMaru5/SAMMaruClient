@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import exam from "../../imgs/banner/exam.jpg";
 import { myRole } from "../../hooks/useAuth";
-import {getArticleList, getBoardList} from "../../hooks/boardServices";
+import { getArticleList, getBoardList } from "../../hooks/boardServices";
 
 function ExamPage() {
   const navigate = useNavigate();
@@ -15,20 +15,19 @@ function ExamPage() {
   const [pageList, setPageList] = useState(1);
 
   useEffect(() => {
-    getBoardList().then(response => {
-      if(response.data.success) {
-        response.data.response.forEach(res => {
-          if(res.name === '족보'){
+    getBoardList().then((response) => {
+      if (response.data.success) {
+        response.data.response.forEach((res) => {
+          if (res.name === "족보") {
             setBoardId(res.id);
-            getArticleList(res.id).then(res => {
+            getArticleList(res.id, pageNum, 10).then((res) => {
               setBoardList(res.data.response);
               setLoading(true);
             });
           }
-        })
+        });
       }
     });
-
 
     if (pageNum % 10 === 1) setPageList(pageNum);
     else if (pageNum % 10 === 0) setPageList(pageNum - 9);
