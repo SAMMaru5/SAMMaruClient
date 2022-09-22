@@ -47,13 +47,13 @@ const PhotoList = () => {
     const result = [];
     for (let k = 0; k < 10; k++) {
       result.push(
-        <Pagination.Item
-          active={pageNum === pageList + k}
-          key={k}
-          onClick={() => setPageNum(pageList + k)}
-        >
-          {pageList + k}
-        </Pagination.Item>
+          <Pagination.Item
+              active={pageNum === pageList + k}
+              key={k}
+              onClick={() => setPageNum(pageList + k)}
+          >
+            {pageList + k}
+          </Pagination.Item>
       );
       if (pageList + k === photoList.totalPages) break;
     }
@@ -83,64 +83,64 @@ const PhotoList = () => {
   };
 
   return (
-    <div className="photoMain" style={{ display: "flex" }}>
-      {loading ? (
-        <>
-          <Row>
-            {photoList.content.map((list, i) => {
-              let createDt = list.createDt.slice(0, 10);
-              return (
-                <Col key={i}>
-                  <div
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      onClickDetail(list);
-                    }}
-                    className="eachPost shadow"
-                  >
+      <div className="photoMain" style={{ display: "flex" }}>
+        {loading ? (
+            <>
+              <Row>
+                {photoList.content.map((list, i) => {
+                  let createDt = list.createDt.slice(0, 10);
+                  return (
+                      <Col key={i}>
+                        <div
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              onClickDetail(list);
+                            }}
+                            className="eachPost shadow"
+                        >
                     <span className="hoverViewCnt">
                       Views <span>{list.viewCnt}</span>
                     </span>
-                    <img
-                      alt="사진첩 사진"
-                      src={
-                        process.env.REACT_APP_URL +
-                        "/no-permit/api/boards/" +
-                        boardId +
-                        "/articles/" +
-                        list.id +
-                        "/files/" +
-                        list.files[0].filePath
-                      }
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                      }}
-                    ></img>
-                    <br />
-                    <br />
-                    <strong>{list.title}</strong>
-                    <hr />
-                    <span>
+                          <img
+                              alt="사진첩 사진"
+                              src={
+                                  process.env.REACT_APP_URL +
+                                  "/no-permit/api/boards/" +
+                                  boardId +
+                                  "/articles/" +
+                                  list.id +
+                                  "/files/" +
+                                  list.files[0].filePath
+                              }
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                              }}
+                          ></img>
+                          <br />
+                          <br />
+                          <strong>{list.title}</strong>
+                          <hr />
+                          <span>
                       {list.author} | {createDt}
                     </span>
-                  </div>
-                </Col>
-              );
-            })}
-          </Row>
-        </>
-      ) : null}
-      <div className="pageNum">
-        <Pagination>
-          <Pagination.First onClick={() => onChangingPage("first")} />
-          <Pagination.Prev onClick={() => onChangingPage("prev")} />
-          {addingPaginationItem()}
-          <Pagination.Next onClick={() => onChangingPage("next")} />
-          <Pagination.Last onClick={() => onChangingPage("last")} />
-        </Pagination>
+                        </div>
+                      </Col>
+                  );
+                })}
+              </Row>
+            </>
+        ) : null}
+        <div className="pageNum">
+          <Pagination>
+            <Pagination.First onClick={() => onChangingPage("first")} />
+            <Pagination.Prev onClick={() => onChangingPage("prev")} />
+            {addingPaginationItem()}
+            <Pagination.Next onClick={() => onChangingPage("next")} />
+            <Pagination.Last onClick={() => onChangingPage("last")} />
+          </Pagination>
+        </div>
       </div>
-    </div>
   );
 };
 

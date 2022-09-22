@@ -1,9 +1,9 @@
 import "./CheckPwPage.scss";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login, myRole } from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import api from "../../utils/api";
+import axios from "axios";
 
 function CheckPwPage() {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ function CheckPwPage() {
     checkPwBtn.innerText = "확인 중...";
     checkPwBtn.style.color = "white";
     //로그인 call
-    login(User).then((response) => {
+    axios.post(process.env.REACT_APP_URL + "/auth/login" , { ...User }, { withCredentials: true}).then((response) => {
       if (response.data.success) {
         navigate("/modifyUserInfo", { state: true });
       } else {

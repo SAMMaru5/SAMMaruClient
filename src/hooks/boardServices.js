@@ -27,15 +27,11 @@ export const getArticleList = async (id, pageNum, postNum) => {
   }
 };
 
+
 export const getBoards = async (location) => {
-  try {
-    return await api.get(
-      "/api/boards/" +
-        location.state.boardId +
-        "/articles/" +
-        location.state.articleId
-    );
-  } catch (error) {
-    console.error(error);
-  }
+    try {
+        return await api.get("/api/boards/" + location.state.boardId + "/articles/" + location.state.articleId);
+    } catch (error) {
+        console.error(error);
+    }
 };
