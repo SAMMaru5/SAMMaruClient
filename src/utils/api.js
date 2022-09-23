@@ -15,15 +15,15 @@ instance.interceptors.request.use(async function (config) {
     Accept: "application/json",
   };
 
-  console.log("interceptor function::::: " + cookie);
+  // console.log("interceptor function::::: " + cookie);
 
   if (sessionStorage.getItem("EXPIRED_TIME") && cookie) {
-    console.log("api function::::: " + getCookie("SammaruAccessToken"));
+    // console.log("api function::::: " + getCookie("SammaruAccessToken"));
     const expiredTime = new Date(
       sessionStorage.getItem("EXPIRED_TIME").toString().substring(0, 19)
     );
     sessionStorage.removeItem("EXPIRED_TIME");
-    console.log(sessionStorage.getItem("EXPIRED_TIME"));
+    // console.log(sessionStorage.getItem("EXPIRED_TIME"));
 
     if (expiredTime.getTime() - currentTime.getTime() <= 300000) {
       await axios
