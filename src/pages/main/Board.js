@@ -17,7 +17,6 @@ function Board() {
     });
 
     getBoardList().then((response) => {
-      console.log(response.data);
       if (response.data.success) {
         response.data.response.forEach((res) => {
           if (res.name === "공지사항") {
