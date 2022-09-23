@@ -86,8 +86,6 @@ function FreeBoardPage() {
     }
   };
 
-  console.log(boardList);
-
   return (
     <div className="noticePage">
       <div className="container">
