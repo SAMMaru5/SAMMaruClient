@@ -79,7 +79,6 @@ class Schedule extends React.Component {
                   click: function () {
                     // Month 날짜 변경
                     let calendar = ref.current.getApi();
-                    console.log("test");
                     calendar.prev();
                   },
                 },
