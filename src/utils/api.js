@@ -32,7 +32,9 @@ instance.interceptors.request.use(async function (config) {
           {},
           { withCredentials: true }
         )
-        .then((res) => console.log(res));
+        .then((res) => {
+          // console.log(res);
+        });
     }
   }
 
