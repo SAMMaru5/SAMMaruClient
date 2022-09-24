@@ -12,7 +12,7 @@ function Board() {
 
   useEffect(() => {
     api.get("/no-permit/api/home/announcements").then((response) => {
-      setAnnouncements(response);
+      setAnnouncements(response.data);
       setLoading(true);
     });
 
@@ -90,4 +90,5 @@ function Board() {
     </div>
   );
 }
+
 export default Board;
