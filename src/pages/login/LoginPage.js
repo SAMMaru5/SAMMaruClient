@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { getCookie } from "../../hooks/useCookie";
+// import { getCookie } from "../../hooks/useCookie";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ function LoginPage() {
       .then((response) => {
         console.log(response);
         if (response.data.success) {
-          console.log("login function::::: " + getCookie("SammaruAccessToken"));
+          // console.log("login function::::: " + getCookie("SammaruAccessToken"));
           sessionStorage.setItem(
             "EXPIRED_TIME",
             response.data.response.expiresAt
@@ -43,7 +43,7 @@ function LoginPage() {
         if (error.response.status === 403) {
           Swal.fire({
             icon: "error",
-            title: "권한이 없습니다. 관리자에게 문의해주세요.",
+            title: error.response.data.apiError.message,
           }).then((result) => {
             if (result) {
               loginBtn.removeAttribute("disabled");
