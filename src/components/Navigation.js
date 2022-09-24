@@ -4,22 +4,18 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { signout } from "../hooks/useAuth";
 import { useEffect, useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import {getCookie} from "../hooks/useCookie";
+import { getCookie } from "../hooks/useCookie";
 
 function Navigation() {
-  const [show1, setShow1] = useState(false);
-
   const navigate = useNavigate();
   const location = useLocation();
   const [userInfo, setUserInfo] = useState({});
   const [loading, setloading] = useState(false);
 
-
-  useEffect( () => {
-    if(getCookie('SammaruAccessToken')){
-      api.get("/no-permit/api/user/info").then(response => {
-        if(response.data.success) {
-          console.log(response.data.response);
+  useEffect(() => {
+    if (getCookie("SammaruAccessToken")) {
+      api.get("/no-permit/api/user/info").then((response) => {
+        if (response.data.success) {
           setUserInfo(response.data);
           setloading(true);
         } else {
