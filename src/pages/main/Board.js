@@ -65,7 +65,7 @@ function Board() {
         <thead>
           <tr>
             <th scope="col" style={{ textAlign: "center" }}>
-              #
+              번호
             </th>
             <th scope="col" style={{ textAlign: "center" }}>
               날짜
