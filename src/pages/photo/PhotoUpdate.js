@@ -20,7 +20,6 @@ function PhotoUpdate() {
 
   useEffect(() => {
     getBoardList().then((response) => {
-      console.log(response.data);
       if (response.data.success) {
         response.data.response.forEach((res) => {
           if (res.name === "사진첩") {
@@ -88,7 +87,6 @@ function PhotoUpdate() {
     }
 
     let formData = new FormData();
-    console.log(uploadfile.length);
     for (let i = 0; i < uploadfile.length; i++) {
       formData.append("file", uploadfile[i]);
     }

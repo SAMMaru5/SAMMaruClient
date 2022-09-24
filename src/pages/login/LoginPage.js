@@ -22,7 +22,6 @@ function LoginPage() {
         { withCredentials: true }
       )
       .then((response) => {
-        console.log(response);
         if (response.data.success) {
           // console.log("login function::::: " + getCookie("SammaruAccessToken"));
           sessionStorage.setItem(
