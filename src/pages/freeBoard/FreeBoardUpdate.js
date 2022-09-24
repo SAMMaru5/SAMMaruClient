@@ -13,7 +13,6 @@ function FreeBoardUpdate() {
 
   useEffect(() => {
     getBoardList().then((response) => {
-      console.log(response.data);
       if (response.data.success) {
         response.data.response.forEach((res) => {
           if (res.name === "자유게시판") {
