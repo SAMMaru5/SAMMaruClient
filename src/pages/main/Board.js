@@ -12,7 +12,7 @@ function Board() {
 
   useEffect(() => {
     api.get("/no-permit/api/home/announcements").then((response) => {
-      setAnnouncements(response);
+      setAnnouncements(response.data);
       setLoading(true);
     });
 
@@ -65,7 +65,7 @@ function Board() {
         <thead>
           <tr>
             <th scope="col" style={{ textAlign: "center" }}>
-              #
+              번호
             </th>
             <th scope="col" style={{ textAlign: "center" }}>
               날짜
@@ -90,4 +90,5 @@ function Board() {
     </div>
   );
 }
+
 export default Board;

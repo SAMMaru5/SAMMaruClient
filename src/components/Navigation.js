@@ -7,8 +7,6 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import { delCookie, getCookie } from "../hooks/useCookie";
 
 function Navigation() {
-  const [show1, setShow1] = useState(false);
-
   const navigate = useNavigate();
   const location = useLocation();
   const [userInfo, setUserInfo] = useState({});
@@ -103,7 +101,7 @@ function Navigation() {
                 </a>
               </li>
               <li>
-                <a href={"/member"} style={{ color: "#878787" }}>
+                <a href={"/member/1"} style={{ color: "#878787" }}>
                   회원
                 </a>
                 <ul>
