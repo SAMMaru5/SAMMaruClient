@@ -2,7 +2,7 @@ import "./App.scss";
 import Navigation from "./components/Navigation";
 import MainPage from "./pages/main/MainPage";
 import Footer from "./components/Footer";
-import ManagepentPage from "./pages/management/ManagementPage";
+import ManagementPage from "./pages/management/ManagementPage";
 import LoginPage from "./pages/login/LoginPage";
 import RegisterPage from "./pages/register/RegisterPage";
 import AgreePage from "./pages/register/AgreePage";
@@ -67,55 +67,234 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/awards" element={<AwardsPage />} />
           <Route path="/exam" element={<ExamPage />} />
-          <Route path="/exam/examUpdate" element={<ExamUpdate />} />
-          <Route path="/examDetail" element={<ExamDetail />} />
+          <Route
+            path="/exam/examUpdate"
+            element={
+              <AuthGuard>
+                <ExamUpdate />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/examDetail"
+            element={
+              <AuthGuard>
+                <ExamDetail />
+              </AuthGuard>
+            }
+          />
 
           <Route path="/project" element={<ProjectPage />} />
-          <Route path="/project/projectUpdate" element={<ProjectUpdate />} />
-          <Route path="/projectDetail" element={<ProjectDetail />} />
+          <Route
+            path="/project/projectUpdate"
+            element={
+              <AuthGuard>
+                <ProjectUpdate />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/projectDetail"
+            element={
+              <AuthGuard>
+                <ProjectDetail />
+              </AuthGuard>
+            }
+          />
 
           <Route path="/seminar" element={<SeminarPage />} />
-          <Route path="/seminar/seminarUpdate" element={<SeminarUpdate />} />
-          <Route path="/seminarDetail" element={<SeminarDetail />} />
+          <Route
+            path="/seminar/seminarUpdate"
+            element={
+              <AuthGuard>
+                <SeminarUpdate />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/seminarDetail"
+            element={
+              <AuthGuard>
+                <SeminarDetail />
+              </AuthGuard>
+            }
+          />
 
           <Route path="/photo" element={<PhotoPage />} />
-          <Route path="/photo/photoUpdate" element={ <PhotoUpdate /> } />
-          <Route path="/photo/photoDetail" element={ <PhotoDetail /> } />
+          <Route
+            path="/photo/photoUpdate"
+            element={
+              <AuthGuard>
+                <PhotoUpdate />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/photo/photoDetail"
+            element={
+              <AuthGuard>
+                <PhotoDetail />
+              </AuthGuard>
+            }
+          />
 
           <Route path="/notice" element={<NoticePage />} />
-          <Route path="/noticeDetail" element={<AuthGuard ><NoticeDetailPage /></AuthGuard>} />
-          <Route path="/notice/noticeUpdate" element={<AuthGuard ><NoticeUpdate /></AuthGuard>} />
+          <Route
+            path="/noticeDetail"
+            element={
+              <AuthGuard>
+                <NoticeDetailPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/notice/noticeUpdate"
+            element={
+              <AuthGuard>
+                <NoticeUpdate />
+              </AuthGuard>
+            }
+          />
 
           <Route path="/report" element={<ReportPage />} />
-          <Route path="/report/reportUpdate" element={<ReportUpdate />} />
-          <Route path="/reportDetail" element={<ReportDetail />} />
+          <Route
+            path="/report/reportUpdate"
+            element={
+              <AuthGuard>
+                <ReportUpdate />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/reportDetail"
+            element={
+              <AuthGuard>
+                <ReportDetail />
+              </AuthGuard>
+            }
+          />
 
           <Route path="/freeBoard" element={<FreeBoardPage />} />
           <Route
-              path="/freeBoard/freeBoardUpdate"
-              element={<FreeBoardUpdate />}
+            path="/freeBoard/freeBoardUpdate"
+            element={
+              <AuthGuard>
+                <FreeBoardUpdate />
+              </AuthGuard>
+            }
           />
-          <Route path="/freeBoardDetail" element={<FreeBoardDetail />} />
+          <Route
+            path="/freeBoardDetail"
+            element={
+              <AuthGuard>
+                <FreeBoardDetail />
+              </AuthGuard>
+            }
+          />
 
-          <Route path="/management" element={<ManagepentPage />} />
+          <Route
+            path="/management"
+            element={
+              <AuthGuard>
+                <ManagementPage />
+              </AuthGuard>
+            }
+          />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/agree" element={<AgreePage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/findUser" element={<FindUserPage />} />
-          <Route path="/checkPw" element={<CheckPwPage />} />
-          <Route path="/modifyUserInfo" element={<ModifyUserInfoPage />} />
+          <Route
+            path="/checkPw"
+            element={
+              <AuthGuard>
+                <CheckPwPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/modifyUserInfo"
+            element={
+              <AuthGuard>
+                <ModifyUserInfoPage />
+              </AuthGuard>
+            }
+          />
 
           <Route path="/clubIntro" element={<IntroClubPage />} />
 
-          <Route path="/member/1" element={<ClubMember1 />} />
-          <Route path="/member/2" element={<ClubMember2 />} />
-          <Route path="/member/3" element={<ClubMember3 />} />
-          <Route path="/member/4" element={<ClubMember4 />} />
-          <Route path="/member/5" element={<ClubMember5 />} />
-          <Route path="/member/6" element={<ClubMember6 />} />
-          <Route path="/member/7" element={<ClubMember7 />} />
-          <Route path="/member/8" element={<ClubMember8 />} />
-          <Route path="/member/9" element={<ClubMember9 />} />
+          <Route
+            path="/member/1"
+            element={
+              <AuthGuard>
+                <ClubMember1 />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/member/2"
+            element={
+              <AuthGuard>
+                <ClubMember2 />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/member/3"
+            element={
+              <AuthGuard>
+                <ClubMember3 />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/member/4"
+            element={
+              <AuthGuard>
+                <ClubMember4 />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/member/5"
+            element={
+              <AuthGuard>
+                <ClubMember5 />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/member/6"
+            element={
+              <AuthGuard>
+                <ClubMember6 />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/member/7"
+            element={
+              <AuthGuard>
+                <ClubMember7 />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/member/8"
+            element={
+              <AuthGuard>
+                <ClubMember8 />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/member/9"
+            element={
+              <AuthGuard>
+                <ClubMember9 />
+              </AuthGuard>
+            }
+          />
         </Routes>
       </Router>
       <Footer />
