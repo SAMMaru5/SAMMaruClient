@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import Swal from "sweetalert2";
 import api from "../../utils/api";
-import {myRole} from "../../hooks/useAuth";
+import { myRole } from "../../hooks/useAuth";
 
 function BoardManage() {
   const [board, setBoard] = useState({ boardName: "", description: "" });
@@ -31,8 +31,7 @@ function BoardManage() {
       }
     });
 
-
-    api.post("/api/boards").then((response) => {
+    api.post("/api/boards", board).then((response) => {
       if (response.data.success) {
         Swal.fire({
           icon: "success",
