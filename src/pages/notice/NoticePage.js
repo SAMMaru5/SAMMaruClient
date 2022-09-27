@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import notice from "../../imgs/banner/notice.jpg";
 import { getArticleList, getBoardList } from "../../hooks/boardServices";
+import { myRole } from "../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 const isAdmin = true;
 
@@ -36,7 +38,20 @@ function NoticePage() {
   }, [pageNum]);
 
   const onClickRegister = () => {
-    navigate("/notice/noticeUpdate");
+    myRole().then((response) => {
+      if (response === "not authorized") {
+        navigate("/login");
+      } else if (response !== "admin") {
+        Swal.fire({
+          icon: "info",
+          title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
+        }).then((result) => {
+          return;
+        });
+      } else {
+        navigate("/notice/noticeUpdate");
+      }
+    });
   };
 
   const onClickDetail = (list) => {
@@ -54,13 +69,13 @@ function NoticePage() {
     const result = [];
     for (let k = 0; k < 10; k++) {
       result.push(
-          <Pagination.Item
-              active={pageNum === pageList + k}
-              key={k}
-              onClick={() => setPageNum(pageList + k)}
-          >
-            {pageList + k}
-          </Pagination.Item>
+        <Pagination.Item
+          active={pageNum === pageList + k}
+          key={k}
+          onClick={() => setPageNum(pageList + k)}
+        >
+          {pageList + k}
+        </Pagination.Item>
       );
       if (pageList + k === boardList.totalPages) break;
     }
@@ -90,103 +105,103 @@ function NoticePage() {
   };
 
   return (
-      <div className="noticePage">
-        <div className="container">
-          <img
-              src={notice}
-              alt="공지사항 배너"
-              // height값을 auto로 변경하여 브라우저의 크기가 변경되어도 이미지 비율 유지
-              style={{ width: "100%", height: "auto" }}
-          ></img>
-          <div className="location">
-            <img className="home" src="home.png" alt="home"></img>
-            <span>{"/"}</span>
-            <span> 공지사항 </span>
-          </div>
-          <div className="search">
-            <div className="inp_sch">
-              <b> 검색구분 </b>
-              <select name="srchTp">
-                <option value="title" style={{ textAlign: "center" }}>
-                  제목
-                </option>
-                <option value="cpntent" style={{ textAlign: "center" }}>
-                  내용
-                </option>
-                <option value="both" style={{ textAlign: "center" }}>
-                  제목+내용
-                </option>
-              </select>
-              <input type="text"></input>
-              <input type="submit" value={"검색"}></input>
-            </div>
-          </div>
-          {isAdmin ? (
-              <div
-                  className="adminPost"
-                  style={{
-                    display: "flex",
-                    justifyContent: "right",
-                    margin: "10px 0px 20px 0px",
-                  }}
-              >
-                <button
-                    className="w3-bar-item w3-button"
-                    style={{
-                      background: "#6a81ed",
-                      width: "130px",
-                      padding: "10px 0px 10px 0px",
-                    }}
-                    onClick={onClickRegister}
-                >
-                  작성하기
-                </button>
-              </div>
-          ) : (
-              <div></div>
-          )}
-          <div className="contents">
-            <div className="contentsTitle">
-              <div className="num">번호</div>
-              <div className="value">제목</div>
-              <div className="date">작성일</div>
-            </div>
-            {loading ? (
-                <>
-                  {boardList.content.map((list, i) => {
-                    let createDt = list.createDt.slice(0, 10);
-                    return (
-                        <div key={i} className="eachContents">
-                          <div
-                              className="content"
-                              onClick={() => {
-                                onClickDetail(list);
-                              }}
-                          >
-                            <div className="num">{i}</div>
-                            <div className="value">{list.title}</div>
-                            <div className="date" style={{ textAlign: "center" }}>
-                              {createDt}
-                            </div>
-                          </div>
-                        </div>
-                    );
-                  })}
-                </>
-            ) : null}
+    <div className="noticePage">
+      <div className="container">
+        <img
+          src={notice}
+          alt="공지사항 배너"
+          // height값을 auto로 변경하여 브라우저의 크기가 변경되어도 이미지 비율 유지
+          style={{ width: "100%", height: "auto" }}
+        ></img>
+        <div className="location">
+          <img className="home" src="home.png" alt="home"></img>
+          <span>{"/"}</span>
+          <span> 공지사항 </span>
+        </div>
+        <div className="search">
+          <div className="inp_sch">
+            <b> 검색구분 </b>
+            <select name="srchTp">
+              <option value="title" style={{ textAlign: "center" }}>
+                제목
+              </option>
+              <option value="cpntent" style={{ textAlign: "center" }}>
+                내용
+              </option>
+              <option value="both" style={{ textAlign: "center" }}>
+                제목+내용
+              </option>
+            </select>
+            <input type="text"></input>
+            <input type="submit" value={"검색"}></input>
           </div>
         </div>
-
-        <div className="pageNum">
-          <Pagination>
-            <Pagination.First onClick={() => onChangingPage("first")} />
-            <Pagination.Prev onClick={() => onChangingPage("prev")} />
-            {addingPaginationItem()}
-            <Pagination.Next onClick={() => onChangingPage("next")} />
-            <Pagination.Last onClick={() => onChangingPage("last")} />
-          </Pagination>
+        {isAdmin ? (
+          <div
+            className="adminPost"
+            style={{
+              display: "flex",
+              justifyContent: "right",
+              margin: "10px 0px 20px 0px",
+            }}
+          >
+            <button
+              className="w3-bar-item w3-button"
+              style={{
+                background: "#6a81ed",
+                width: "130px",
+                padding: "10px 0px 10px 0px",
+              }}
+              onClick={onClickRegister}
+            >
+              작성하기
+            </button>
+          </div>
+        ) : (
+          <div></div>
+        )}
+        <div className="contents">
+          <div className="contentsTitle">
+            <div className="num">번호</div>
+            <div className="value">제목</div>
+            <div className="date">작성일</div>
+          </div>
+          {loading ? (
+            <>
+              {boardList.content.map((list, i) => {
+                let createDt = list.createDt.slice(0, 10);
+                return (
+                  <div key={i} className="eachContents">
+                    <div
+                      className="content"
+                      onClick={() => {
+                        onClickDetail(list);
+                      }}
+                    >
+                      <div className="num">{i}</div>
+                      <div className="value">{list.title}</div>
+                      <div className="date" style={{ textAlign: "center" }}>
+                        {createDt}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </>
+          ) : null}
         </div>
       </div>
+
+      <div className="pageNum">
+        <Pagination>
+          <Pagination.First onClick={() => onChangingPage("first")} />
+          <Pagination.Prev onClick={() => onChangingPage("prev")} />
+          {addingPaginationItem()}
+          <Pagination.Next onClick={() => onChangingPage("next")} />
+          <Pagination.Last onClick={() => onChangingPage("last")} />
+        </Pagination>
+      </div>
+    </div>
   );
 }
 

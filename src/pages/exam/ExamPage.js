@@ -35,23 +35,7 @@ function ExamPage() {
   }, [pageNum]);
 
   const examUpload = () => {
-    myRole().then((response) => {
-      if (response === "not authorized") {
-        Swal.fire({
-          icon: "error",
-          title: "로그인이 필요합니다.",
-        }).then((result) => {
-          navigate("/login");
-        });
-      } else if (response === "temp") {
-        Swal.fire({
-          icon: "info",
-          title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
-        });
-      } else {
-        navigate("./examUpdate");
-      }
-    });
+    navigate("./examUpdate");
   };
 
   const onClickDetail = (list) => {
