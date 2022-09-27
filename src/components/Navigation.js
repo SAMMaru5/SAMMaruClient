@@ -1,10 +1,10 @@
 import "./Navigation.scss";
 import api from "../utils/api";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { signout } from "../hooks/useAuth";
 import { useEffect, useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { getCookie } from "../hooks/useCookie";
+import { delCookie, getCookie } from "../hooks/useCookie";
 
 function Navigation() {
   const navigate = useNavigate();
@@ -13,17 +13,23 @@ function Navigation() {
   const [loading, setloading] = useState(false);
 
   useEffect(() => {
-    if (getCookie("SammaruAccessToken")) {
-      api.get("/no-permit/api/user/info").then((response) => {
-        if (response.data.success) {
-          setUserInfo(response.data);
-          setloading(true);
-        } else {
-          setUserInfo(null);
-          setloading(true);
-        }
-      });
+    async function getUserInfo() {
+      try {
+        await api.get("/no-permit/api/user/info").then((response) => {
+          if (response.data.success) {
+            console.log(response.data.response);
+            setUserInfo(response.data);
+            setloading(true);
+          } else {
+            setUserInfo(null);
+            setloading(true);
+          }
+        });
+      } catch (error) {
+        delCookie("SammaruAccessToken");
+      }
     }
+    getCookie("SammaruAccessToken") && getUserInfo();
   }, [location]);
 
   return (
@@ -39,26 +45,26 @@ function Navigation() {
             <p className="userInfo">
               {userInfo.response.role === "ROLE_ADMIN" ? (
                 <span>
-                  <a href="/management" className="management">
+                  <Link to="/management" className="management">
                     관리자 페이지
-                  </a>
+                  </Link>
                 </span>
               ) : null}
-              <a href="/checkPw" className="changeInfo">
+              <Link to="/checkPw" className="changeInfo">
                 정보 수정
-              </a>
-              <a
-                href="/"
+              </Link>
+              <Link
+                to="/"
                 onClick={() => {
                   signout();
                 }}
                 className="signOut"
               >
                 로그아웃
-              </a>
-              <a href="/" className="userName">
+              </Link>
+              <Link to="/" className="userName">
                 {userInfo.response.username}
-              </a>
+              </Link>
             </p>
           </div>
         ) : (
