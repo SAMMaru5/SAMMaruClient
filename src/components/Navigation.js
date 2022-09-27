@@ -95,7 +95,7 @@ function Navigation() {
                 </a>
               </li>
               <li>
-                <a href={"/member"} style={{ color: "#878787" }}>
+                <a href={"/member/1"} style={{ color: "#878787" }}>
                   회원
                 </a>
                 <ul>
