@@ -1,0 +1,41 @@
+.notFoundPage {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10% auto;
+  text-align: center;
+  img {
+    width: 65px;
+    height: auto;
+  }
+  .mainText {
+    margin: 1.5% auto;
+    color: black;
+    font-size: 30px;
+    font-weight: 600;
+  }
+
+  .subText {
+    margin-bottom: 2%;
+    text-align: center;
+    font-size: 14px;
+    color: grey;
+  }
+
+  .goHome {
+    margin-bottom: 0.8%;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 15px 35px;
+    color: white;
+    background-color: black;
+  }
+
+  .goBack {
+    font-size: 8px;
+    color: grey !important;
+    box-shadow: none;
+    background-color: transparent;
+  }
+}

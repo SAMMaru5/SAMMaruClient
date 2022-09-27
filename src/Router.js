@@ -56,6 +56,7 @@ import ClubMember6 from "./pages/about/member/ClubMember6";
 import ClubMember7 from "./pages/about/member/ClubMember7";
 import ClubMember8 from "./pages/about/member/ClubMember8";
 import ClubMember9 from "./pages/about/member/ClubMember9";
+import NotFound from "./pages/notFound/NotFound";
 
 function App() {
   return (
@@ -222,7 +223,6 @@ function App() {
           />
 
           <Route path="/clubIntro" element={<IntroClubPage />} />
-
           <Route
             path="/member/1"
             element={
@@ -295,6 +295,7 @@ function App() {
               </AuthGuard>
             }
           />
+        <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
       <Footer />
