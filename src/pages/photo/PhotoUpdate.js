@@ -10,6 +10,7 @@ import "./PhotoUpdate.scss";
 import { Navigation } from "swiper";
 import { getBoardList } from "../../hooks/boardServices";
 import api from "../../utils/api";
+import { delCookie, getCookie } from "../../hooks/useCookie";
 
 function PhotoUpdate() {
   const [boardId, setBoardId] = useState(0);
@@ -69,50 +70,80 @@ function PhotoUpdate() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const photoBtn = document.getElementById("photoBtn");
-    photoBtn.setAttribute("disabled", true);
-    photoBtn.innerText = "글등록 중...";
-
-    if (uploadfile[0] === undefined) {
+    function expiredLogin() {
       Swal.fire({
+        title: "로그인 상태 허용 시간이 초과되었습니다.",
+        text: "로그인 페이지로 다시 이동하시겠습니까?",
         icon: "error",
-        title: "사진을 추가해주세요.",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "확인",
+        cancelButtonText: "취소",
       }).then((result) => {
-        if (result) {
-          photoBtn.removeAttribute("disabled");
-          photoBtn.innerText = "작성완료";
+        if (result.isConfirmed) {
+          window.location.href = "/login";
         }
       });
-      return;
     }
 
-    let formData = new FormData();
-    for (let i = 0; i < uploadfile.length; i++) {
-      formData.append("file", uploadfile[i]);
-    }
+    async function getUserInfo() {
+      try {
+        await api.get("/no-permit/api/user/info").then((response) => {
+          const photoBtn = document.getElementById("photoBtn");
+          photoBtn.setAttribute("disabled", true);
+          photoBtn.innerText = "글등록 중...";
 
-    formData.append(
-      "article",
-      new Blob([JSON.stringify(photo)], { type: "application/json" })
-    );
-
-    api.post(`/api/boards/${boardId}/articles`, formData).then((response) => {
-      if (response.data.success) {
-        Swal.fire({
-          icon: "success",
-          title: "게시글 작성을 성공했습니다.",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/photo");
+          if (uploadfile[0] === undefined) {
+            Swal.fire({
+              icon: "error",
+              title: "사진을 추가해주세요.",
+            }).then((result) => {
+              if (result) {
+                photoBtn.removeAttribute("disabled");
+                photoBtn.innerText = "작성완료";
+              }
+            });
+            return;
           }
+
+          let formData = new FormData();
+          for (let i = 0; i < uploadfile.length; i++) {
+            formData.append("file", uploadfile[i]);
+          }
+
+          formData.append(
+            "article",
+            new Blob([JSON.stringify(photo)], { type: "application/json" })
+          );
+
+          api
+            .post(`/api/boards/${boardId}/articles`, formData)
+            .then((response) => {
+              if (response.data.success) {
+                Swal.fire({
+                  icon: "success",
+                  title: "게시글 작성을 성공했습니다.",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    navigate("/photo");
+                  }
+                });
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "게시글 작성을 실패했습니다.",
+                });
+              }
+            });
         });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "게시글 작성을 실패했습니다.",
-        });
+      } catch (error) {
+        delCookie("SammaruAccessToken");
+        expiredLogin();
       }
-    });
+    }
+    if (getCookie("SammaruAccessToken")) getUserInfo();
+    else expiredLogin();
   };
 
   const handlePostCancel = () => {
