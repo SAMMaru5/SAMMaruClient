@@ -17,7 +17,6 @@ function Navigation() {
       try {
         await api.get("/no-permit/api/user/info").then((response) => {
           if (response.data.success) {
-            console.log(response.data.response);
             setUserInfo(response.data);
             setloading(true);
           } else {

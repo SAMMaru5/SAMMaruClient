@@ -4,10 +4,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import notice from "../../imgs/banner/notice.jpg";
 import { getArticleList, getBoardList } from "../../hooks/boardServices";
-import { myRole } from "../../hooks/useAuth";
-import Swal from "sweetalert2";
-
-const isAdmin = true;
 
 function NoticePage() {
   const navigate = useNavigate();
@@ -38,20 +34,7 @@ function NoticePage() {
   }, [pageNum]);
 
   const onClickRegister = () => {
-    myRole().then((response) => {
-      if (response === "not authorized") {
-        navigate("/login");
-      } else if (response !== "admin") {
-        Swal.fire({
-          icon: "info",
-          title: "접근 권한이 없습니다. 관리자에게 문의해 주세요.",
-        }).then((result) => {
-          return;
-        });
-      } else {
-        navigate("/notice/noticeUpdate");
-      }
-    });
+    navigate("/notice/noticeUpdate");
   };
 
   const onClickDetail = (list) => {
@@ -136,30 +119,26 @@ function NoticePage() {
             <input type="submit" value={"검색"}></input>
           </div>
         </div>
-        {isAdmin ? (
-          <div
-            className="adminPost"
+        <div
+          className="adminPost"
+          style={{
+            display: "flex",
+            justifyContent: "right",
+            margin: "10px 0px 20px 0px",
+          }}
+        >
+          <button
+            className="w3-bar-item w3-button"
             style={{
-              display: "flex",
-              justifyContent: "right",
-              margin: "10px 0px 20px 0px",
+              background: "#6a81ed",
+              width: "130px",
+              padding: "10px 0px 10px 0px",
             }}
+            onClick={onClickRegister}
           >
-            <button
-              className="w3-bar-item w3-button"
-              style={{
-                background: "#6a81ed",
-                width: "130px",
-                padding: "10px 0px 10px 0px",
-              }}
-              onClick={onClickRegister}
-            >
-              작성하기
-            </button>
-          </div>
-        ) : (
-          <div></div>
-        )}
+            작성하기
+          </button>
+        </div>
         <div className="contents">
           <div className="contentsTitle">
             <div className="num">번호</div>
