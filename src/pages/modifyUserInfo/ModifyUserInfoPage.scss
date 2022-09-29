@@ -1,4 +1,7 @@
 .ModifyUserInfoPage {
+  tr {
+    border: none;
+  }
   .titleFrame {
     display: flex;
     justify-content: space-between;
@@ -76,10 +79,10 @@
     position: relative;
     i {
       text-align: center;
-      padding-top: 3%;
       width: 15%;
       position: absolute;
       height: 100%;
+      line-height: 320%;
     }
   }
   .checkLabel {
@@ -98,11 +101,12 @@
   button {
     float: right;
     margin-right: 3%;
-    width: 100px;
+    width: 110px;
     height: 40px;
     border: 1px solid rgb(98, 98, 243);
     background-color: rgb(44, 44, 255);
     border-radius: 5px;
+    padding: 0;
 
     h5 {
       padding: 2%;
