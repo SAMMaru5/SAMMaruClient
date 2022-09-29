@@ -1,134 +1,134 @@
-.ModifyUserInfoPage{
-    .titleFrame{
-        display: flex;
-        justify-content: space-between;
+.ModifyUserInfoPage {
+  .titleFrame {
+    display: flex;
+    justify-content: space-between;
 
-        i{
-            color: rgba(0, 0, 0, 0.5);
-        }
-
-        a{
-            color: black;
-            text-decoration: none;
-        }
-        a:hover{
-            color: gray;
-        }
-    }
-    table{
-        margin: 0 auto;
-        width: 80%;
-        border: 2px solid rgba(0,0,0,.1);
-        margin-bottom: 5%;
-
-        h5{
-            margin-bottom: 0;
-        }
-        thead{
-            border: 2px solid rgba(0,0,0,.1);;
-            background-color: #fafafa;
-
-            td{
-                padding: 1% 2%;
-            }
-        }
-        
-        tbody{
-            td{
-                align-items: center;
-                padding: 1% 3%;
-                padding-right: 5%;
-            }
-        }
-        i{
-            border-right:1px solid rgba(0, 0, 0, 0.5);;
-            width: 20px;
-        }
-    }
-    table thead:last-child{
-        background-color: white;
-    }
-    input[type=text], input[type=email], input[type=password]{
-        width: 100%;
-        padding-left: 18%;
-
-    }
-    .textCheck{
-        display: flex;
-        justify-content: space-between;
-        
-        input[type=button]{
-            background-color: rgba(0, 0, 0, 0.6);
-            border: none;
-            color: white;
-            height: 25px;
-            font-size: 0.9em;
-            width: 60px;
-        }
-        input[type=button]:hover{
-            transition-duration: 0.25s;
-            background-color: rgba(0, 0, 0, .8);
-
-        }
-    }
-    
-    .inputText{
-        position: relative;
-        i{
-            text-align: center;
-            padding-top: 3%;
-            width: 15%;
-            position: absolute;
-            height: 100%;
-        }
-    }
-    .checkLabel{
-        cursor: pointer;
-    }
-    input[type=checkbox]{
-        cursor: pointer;
+    i {
+      color: rgba(0, 0, 0, 0.5);
     }
 
-    .autoNum{
-        width: 100%;
-        height: 150px;
-        border: 2px solid rgba(0,0,0,.1);;
+    a {
+      color: black;
+      text-decoration: none;
     }
-    
-    button{
-        float: right;
-        margin-right: 3%;
-        width: 100px;
-        height: 40px;
-        border: 1px solid rgb(98, 98, 243);
-        background-color: rgb(44, 44, 255);
-        border-radius: 5px;
+    a:hover {
+      color: gray;
+    }
+  }
+  table {
+    margin: 0 auto;
+    width: 80%;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 5%;
 
-        h5{
-            padding: 2%;
+    h5 {
+      margin-bottom: 0;
+    }
+    thead {
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      background-color: #fafafa;
 
-            color: white;
-        }
+      td {
+        padding: 1% 2%;
+      }
     }
 
-    .emptyHr{
-        td{
-            padding-top: 0;
-            padding-bottom: 0;
-        }
-        p{
-            border: 1px solid rgb(255, 155, 0);
-            background-color: rgb(255, 230, 200);
-            color: rgb(255, 120, 0);
-            padding: 1%;
-            padding-left: 2%;
-            margin-top: 1%;
-            font-size: 0.9em;
-            margin-bottom: 0;
-        }
+    tbody {
+      td {
+        align-items: center;
+        padding: 1% 3%;
+        padding-right: 5%;
+      }
     }
-    .informVisible{
-        font-size: 0.85em;
-        color: rgba(0, 0, 0, 0.6);
+    i {
+      border-right: 1px solid rgba(0, 0, 0, 0.5);
+      width: 20px;
     }
+  }
+  table thead:last-child {
+    background-color: white;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding-left: 18%;
+  }
+  .textCheck {
+    display: flex;
+    justify-content: space-between;
+
+    input[type="button"] {
+      background-color: rgba(0, 0, 0, 0.6);
+      border: none;
+      color: white;
+      height: 25px;
+      font-size: 0.9em;
+      width: 60px;
+    }
+    input[type="button"]:hover {
+      transition-duration: 0.25s;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+  }
+
+  .inputText {
+    position: relative;
+    i {
+      text-align: center;
+      padding-top: 3%;
+      width: 15%;
+      position: absolute;
+      height: 100%;
+    }
+  }
+  .checkLabel {
+    cursor: pointer;
+  }
+  input[type="checkbox"] {
+    cursor: pointer;
+  }
+
+  .autoNum {
+    width: 100%;
+    height: 150px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+  }
+
+  button {
+    float: right;
+    margin-right: 3%;
+    width: 100px;
+    height: 40px;
+    border: 1px solid rgb(98, 98, 243);
+    background-color: rgb(44, 44, 255);
+    border-radius: 5px;
+
+    h5 {
+      padding: 2%;
+
+      color: white;
+    }
+  }
+
+  .emptyHr {
+    td {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    p {
+      border: 1px solid rgb(255, 155, 0);
+      background-color: rgb(255, 230, 200);
+      color: rgb(255, 120, 0);
+      padding: 1%;
+      padding-left: 2%;
+      margin-top: 1%;
+      font-size: 0.9em;
+      margin-bottom: 0;
+    }
+  }
+  .informVisible {
+    font-size: 0.85em;
+    color: rgba(0, 0, 0, 0.6);
+  }
 }
