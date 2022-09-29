@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import api from "../../utils/api";
+import { delCookie, getCookie } from "../../hooks/useCookie";
 
 function ModifyUserInfoPage() {
   const navigate = useNavigate();
@@ -10,10 +11,11 @@ function ModifyUserInfoPage() {
   const pwCheck1 = location.state;
 
   const [User, setUser] = useState({
-    studentId: "",
-    username: "",
-    password: "",
     email: "",
+    grade: "",
+    password: "",
+    username: "",
+    studentId: "",
   });
   const [loading, setLoading] = useState(false);
   const [pwCheck2, setPwCheck] = useState("");
@@ -26,11 +28,13 @@ function ModifyUserInfoPage() {
   }, [navigate, pwCheck1]);
 
   useEffect(() => {
-    api.get("/api/user/info").then((response) => {
+    api.get("/no-permit/api/user/info").then((response) => {
       setUser({
         studentId: response.data.response.studentId,
-        username: response.data.response.username,
         email: response.data.response.email,
+        grade: response.data.response.grade,
+        password: pwCheck2,
+        username: response.data.response.username,
       });
       setLoading(true);
     });
@@ -38,32 +42,84 @@ function ModifyUserInfoPage() {
 
   function modifyUser(e) {
     e.preventDefault();
-    const modifyUserBtn = document.getElementById("modifyUserBtn");
-    modifyUserBtn.setAttribute("disabled", true);
-    modifyUserBtn.innerText = "정보수정 중...";
-    modifyUserBtn.style.color = "white";
-    if (User.password !== pwCheck2) {
+    function expiredLogin() {
       Swal.fire({
-        title: "비밀번호가 일치하지 않습니다.",
-        icon: "warning",
+        title: "로그인 상태 허용 시간이 초과되었습니다.",
+        text: "로그인 페이지로 다시 이동하시겠습니까?",
+        icon: "error",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "확인",
+        cancelButtonText: "취소",
       }).then((result) => {
-        if (result) {
-          modifyUserBtn.removeAttribute("disabled");
-          modifyUserBtn.innerText = "정보수정";
-        }
-      });
-    } else {
-      api.patch("/api/user/info", User).then((response) => {
-        if (response.data.success) {
-          Swal.fire({
-            title: "회원정보가 수정되었습니다.",
-            icon: "success",
-          }).then(() => {
-            navigate("/");
-          });
+        if (result.isConfirmed) {
+          window.location.href = "/login";
         }
       });
     }
+
+    async function modifyingUserInfo() {
+      const modifyUserBtn = document.getElementById("modifyUserBtn");
+      try {
+        await api.patch("/api/user/info", User).then((response) => {
+          if (response.data.success) {
+            Swal.fire({
+              title: "회원정보가 수정되었습니다.",
+              icon: "success",
+            }).then(() => {
+              navigate("/");
+            });
+          }
+        });
+      } catch (error) {
+        if (error.response.status === 409) {
+          Swal.fire({
+            icon: "error",
+            title:
+              error.response.data.apiError.message.substring(
+                0,
+                error.response.data.apiError.message.indexOf("!")
+              ) + ".",
+            text: "다시 확인해 주세요.",
+          }).then((result) => {
+            if (result) {
+              modifyUserBtn.removeAttribute("disabled");
+              modifyUserBtn.innerText = "정보수정";
+            }
+          });
+        }
+      }
+    }
+
+    async function getUserInfo() {
+      try {
+        await api.get("/no-permit/api/user/info").then((response) => {
+          const modifyUserBtn = document.getElementById("modifyUserBtn");
+          modifyUserBtn.setAttribute("disabled", true);
+          modifyUserBtn.innerText = "정보수정 중...";
+          modifyUserBtn.style.color = "white";
+          if (User.password !== pwCheck2) {
+            Swal.fire({
+              title: "비밀번호가 일치하지 않습니다.",
+              icon: "warning",
+            }).then((result) => {
+              if (result) {
+                modifyUserBtn.removeAttribute("disabled");
+                modifyUserBtn.innerText = "정보수정";
+              }
+            });
+          } else {
+            modifyingUserInfo();
+          }
+        });
+      } catch (error) {
+        delCookie("SammaruAccessToken");
+        expiredLogin();
+      }
+    }
+    if (getCookie("SammaruAccessToken")) getUserInfo();
+    else expiredLogin();
   }
 
   return (
@@ -105,7 +161,6 @@ function ModifyUserInfoPage() {
                       autoComplete="on"
                       id="userId"
                       value={User.studentId}
-                      readOnly
                       pattern="^[0-9]{4,}$"
                       title="학번을 입력해주세요."
                       required
@@ -117,7 +172,6 @@ function ModifyUserInfoPage() {
                 </td>
                 <td>
                   <label htmlFor="userPw">비밀번호</label>
-
                   <div className="inputText">
                     <i className="fas fa-lock fa-sm"></i>
                     <input
@@ -163,7 +217,6 @@ function ModifyUserInfoPage() {
               <tr>
                 <td>
                   <label htmlFor="userName">이름</label>
-                  <br />
                   <div className="inputText">
                     <i className="fas fa-male fa-sm"></i>
                     <input
@@ -173,6 +226,22 @@ function ModifyUserInfoPage() {
                       required
                       onChange={(e) => {
                         setUser({ ...User, username: e.target.value });
+                      }}
+                    ></input>
+                  </div>
+                </td>
+                <td>
+                  <label htmlFor="userName">학년</label>
+                  <div className="inputText">
+                    <i className="fas fa-book fa-sm"></i>
+                    <input
+                      type={"text"}
+                      id="userGrade"
+                      value={User.grade}
+                      pattern="^[0-9]{1,}$"
+                      required
+                      onChange={(e) => {
+                        setUser({ ...User, grade: e.target.value });
                       }}
                     ></input>
                   </div>
