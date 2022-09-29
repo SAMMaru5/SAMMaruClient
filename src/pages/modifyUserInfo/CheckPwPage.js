@@ -15,7 +15,6 @@ function CheckPwPage() {
 
   useEffect(() => {
     api.get("/no-permit/api/user/info").then((response) => {
-      console.log(response);
       setUser({ studentId: response.data.response.studentId });
       setUserInfo(response.data.response);
       setLoading((prev) => !prev);
