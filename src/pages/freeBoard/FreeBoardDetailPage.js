@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./FreeBoardDetail.scss";
-import {getBoards} from "../../hooks/boardServices";
+import { getBoards } from "../../hooks/boardServices";
+import Comment from '../../components/Comment'
 
 function FreeBoardDetailPage() {
   const navigate = useNavigate();
@@ -11,11 +12,11 @@ function FreeBoardDetailPage() {
   const [like, setLike] = useState(false);
 
   useEffect(() => {
-    getBoards(location).then( data => {
+    getBoards(location).then(data => {
       setArticle(data.data.response);
       setLoading(true);
     });
-  }, [location.state.boardId, location.state.articleId]);
+  }, [location]);
 
   return (
     <div className="FreeBoardDetail">
@@ -66,7 +67,7 @@ function FreeBoardDetailPage() {
               <br />
               <a
                 href={
-                  process.env.REACT_APP_URL+"/no-permit/api/boards/" +
+                  process.env.REACT_APP_URL + "/no-permit/api/boards/" +
                   location.state.boardId +
                   "/articles/" +
                   location.state.articleId +
@@ -82,7 +83,7 @@ function FreeBoardDetailPage() {
           ) : (
             <div></div>
           )}
-
+          <Comment boardId={location.state.boardId} articleId={location.state.articleId} />
           <div>
             <nav>
               <div>

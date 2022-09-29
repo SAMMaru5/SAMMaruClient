@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import {getBoards} from "../../hooks/boardServices";
+import { getBoards } from "../../hooks/boardServices";
+import Comment from '../../components/Comment'
 
 function ExamDetailPage() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ function ExamDetailPage() {
       setArticle(data.data.response);
       setLoading(true);
     });
-  }, [location.state.boardId, location.state.articleId]);
+  }, [location]);
 
   return (
     <div className="ExamDetail">
@@ -81,6 +82,7 @@ function ExamDetailPage() {
           ) : (
             <div></div>
           )}
+          <Comment boardId={location.state.boardId} articleId={location.state.articleId} />
           <div>
             <nav>
               <div>

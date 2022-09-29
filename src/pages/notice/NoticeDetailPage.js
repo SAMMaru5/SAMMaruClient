@@ -1,7 +1,8 @@
 import "./NoticeDetail.scss";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import {getBoards} from "../../hooks/boardServices";
+import { getBoards } from "../../hooks/boardServices";
+import Comment from '../../components/Comment'
 
 function NoticeDetailPage() {
   const navigate = useNavigate();
@@ -10,12 +11,12 @@ function NoticeDetailPage() {
   const [loading, setLoading] = useState(false);
   const [like, setLike] = useState(false);
 
-  useEffect(  () => {
-      getBoards(location).then( data => {
-          setArticle(data.data.response);
-          setLoading(true);
-      });
-  }, [location.state.boardId, location.state.articleId]);
+  useEffect(() => {
+    getBoards(location).then(data => {
+      setArticle(data.data.response);
+      setLoading(true);
+    });
+  }, [location]);
 
   return (
     <div className="NoticeDetail">
@@ -66,7 +67,7 @@ function NoticeDetailPage() {
               <br />
               <a
                 href={
-                  process.env.REACT_APP_URL+"/no-permit/api/boards/" +
+                  process.env.REACT_APP_URL + "/no-permit/api/boards/" +
                   location.state.boardId +
                   "/articles/" +
                   location.state.articleId +
@@ -82,6 +83,7 @@ function NoticeDetailPage() {
           ) : (
             <div></div>
           )}
+          <Comment boardId={location.state.boardId} articleId={location.state.articleId} />
           <div>
             <nav>
               <div>
