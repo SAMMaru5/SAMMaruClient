@@ -3,6 +3,7 @@ import api from "../utils/api";
 import { useNavigate } from "react-router-dom";
 import "./Comment.scss";
 import Swal from "sweetalert2";
+import { delCookie, getCookie } from "../hooks/useCookie";
 
 function Comment(props) {
   const navigate = useNavigate();
@@ -56,39 +57,65 @@ function Comment(props) {
       });
   }, [props]);
 
-  const insertComment = () => {
-    api
-      .post(
-        "/api/boards/" +
-          props.boardId +
-          "/articles/" +
-          props.articleId +
-          "/comments",
-        { content: content }
-      )
-      .then((response) => {
-        if (response.data.success) {
-          Swal.fire({
-            icon: "success",
-            title: "댓글 작성을 성공했습니다.",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              setContent("");
-              navigate("#", {
-                state: {
-                  boardId: props.boardId,
-                  articleId: props.articleId,
-                },
+  const insertComment = async () => {
+    function expiredLogin() {
+      Swal.fire({
+        title: "로그인 상태 허용 시간이 초과되었습니다.",
+        text: "로그인 페이지로 다시 이동하시겠습니까?",
+        icon: "error",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "확인",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "/login";
+        }
+      });
+    }
+
+    async function getUserInfo() {
+      try {
+        await api
+          .post(
+            "/api/boards/" +
+              props.boardId +
+              "/articles/" +
+              props.articleId +
+              "/comments",
+            { content: content }
+          )
+          .then((response) => {
+            if (response.data.success) {
+              Swal.fire({
+                icon: "success",
+                title: "댓글 작성을 성공했습니다.",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  setContent("");
+                  navigate("#", {
+                    state: {
+                      boardId: props.boardId,
+                      articleId: props.articleId,
+                    },
+                  });
+                }
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "댓글 작성을 실패했습니다.",
               });
             }
           });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "댓글 작성을 실패했습니다.",
-          });
-        }
-      });
+      } catch (error) {
+        delCookie("SammaruAccessToken");
+        expiredLogin();
+      }
+    }
+    if (getCookie("SammaruAccessToken")) getUserInfo();
+    else expiredLogin();
   };
 
   const change_page = (event, value) => {
