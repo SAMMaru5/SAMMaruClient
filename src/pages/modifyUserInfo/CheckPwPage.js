@@ -1,47 +1,84 @@
 import "./CheckPwPage.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import api from "../../utils/api";
 import axios from "axios";
+import { delCookie, getCookie } from "../../hooks/useCookie";
 
 function CheckPwPage() {
   const navigate = useNavigate();
 
   const [User, setUser] = useState({ studentId: "", password: "" });
-
   const [UserInfo, setUserInfo] = useState({});
   const [loading, setLoading] = useState(false);
 
-
-  api.get("/api/user/info").then((response) => {
-    setUser({ studentId: response.data.response.studentId });
-    setUserInfo(response.data.response);
-    setLoading(true);
-  });
+  useEffect(() => {
+    api.get("/no-permit/api/user/info").then((response) => {
+      setUser({ studentId: response.data.response.studentId });
+      setUserInfo(response.data.response);
+      setLoading((prev) => !prev);
+    });
+  }, []);
 
   function passwordCheck(e) {
     e.preventDefault();
-    const checkPwBtn = document.getElementById("checkPwBtn");
-    checkPwBtn.setAttribute("disabled", true);
-    checkPwBtn.innerText = "확인 중...";
-    checkPwBtn.style.color = "white";
-    //로그인 call
-    axios.post(process.env.REACT_APP_URL + "/auth/login" , { ...User }, { withCredentials: true}).then((response) => {
-      if (response.data.success) {
-        navigate("/modifyUserInfo", { state: true });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "비밀번호가 틀립니다.",
-        }).then((result) => {
-          if (result) {
-            checkPwBtn.removeAttribute("disabled");
-            checkPwBtn.innerText = "확인";
-          }
+    function expiredLogin() {
+      Swal.fire({
+        title: "로그인 상태 허용 시간이 초과되었습니다.",
+        text: "로그인 페이지로 다시 이동하시겠습니까?",
+        icon: "error",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "확인",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "/login";
+        }
+      });
+    }
+
+    async function getUserInfo() {
+      try {
+        await api.get("/no-permit/api/user/info").then((response) => {
+          const checkPwBtn = document.getElementById("checkPwBtn");
+          checkPwBtn.setAttribute("disabled", true);
+          checkPwBtn.innerText = "확인 중...";
+          checkPwBtn.style.color = "white";
+          //로그인 call
+          axios
+            .post(
+              process.env.REACT_APP_URL + "/auth/login",
+              { ...User },
+              { withCredentials: true }
+            )
+            .then((response) => {
+              if (response.data.success)
+                navigate("/modifyUserInfo", { state: true });
+            })
+            .catch((error) => {
+              if (error.response.status === 401) {
+                Swal.fire({
+                  icon: "error",
+                  title: "현재 비밀번호와 일치하지 않습니다.",
+                }).then((result) => {
+                  if (result) {
+                    checkPwBtn.removeAttribute("disabled");
+                    checkPwBtn.innerText = "확인";
+                  }
+                });
+              }
+            });
         });
+      } catch (error) {
+        delCookie("SammaruAccessToken");
+        expiredLogin();
       }
-    });
+    }
+    if (getCookie("SammaruAccessToken")) getUserInfo();
+    else expiredLogin();
   }
 
   return (
