@@ -37,8 +37,6 @@ function Navigation() {
       style={{ marginBottom: "100px", position: "relative" }}
     >
       <div className="userStatus" style={{ display: "flex" }}>
-        <p className="attendance">접속자 ?</p>
-
         {userInfo != null && loading ? (
           <div style={{ marginLeft: "auto" }}>
             <p className="userInfo">
