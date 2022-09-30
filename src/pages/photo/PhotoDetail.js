@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Swal from "sweetalert2";
+import Comment from '../../components/Comment'
 
 import { Navigation } from "swiper";
 import api from "../../utils/api";
@@ -21,18 +22,18 @@ const PhotoDetail = () => {
   useEffect(() => {
     api.get(
       "/api/boards/" + location.state.boardId + "/articles/" + location.state.articleId).then((response) => {
-      if (response.data.success) {
-        setArticle(response.data.response);
-        setMainImg(response.data.response.files[0].filePath);
-        setLoading(true);
-        setCreateDt(response.data.response.createDt.slice(0, 10));
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "게시글 정보를 가져오기를 실패했습니다.",
-        });
-      }
-    });
+        if (response.data.success) {
+          setArticle(response.data.response);
+          setMainImg(response.data.response.files[0].filePath);
+          setLoading(true);
+          setCreateDt(response.data.response.createDt.slice(0, 10));
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "게시글 정보를 가져오기를 실패했습니다.",
+          });
+        }
+      });
   }, [location.state.boardId, location.state.articleId]);
   return (
     <div className="photo-detail-content pt-5">
@@ -67,7 +68,7 @@ const PhotoDetail = () => {
                   >
                     <img
                       src={
-                        process.env.REACT_APP_URL+"/no-permit/api/boards/" +
+                        process.env.REACT_APP_URL + "/no-permit/api/boards/" +
                         location.state.boardId +
                         "/articles/" +
                         location.state.articleId +
@@ -94,7 +95,7 @@ const PhotoDetail = () => {
           >
             <img
               src={
-                process.env.REACT_APP_URL+"/no-permit/api/boards/" +
+                process.env.REACT_APP_URL + "/no-permit/api/boards/" +
                 location.state.boardId +
                 "/articles/" +
                 location.state.articleId +
@@ -108,6 +109,7 @@ const PhotoDetail = () => {
           <hr />
 
           <p>{article.content}</p>
+          <Comment boardId={location.state.boardId} articleId={location.state.articleId} />
           <div
             style={{
               display: "flex",

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import {getBoards} from "../../hooks/boardServices";
+import { getBoards } from "../../hooks/boardServices";
+import Comment from '../../components/Comment'
 
 function ProjectDetailPage() {
   const navigate = useNavigate();
@@ -10,11 +11,11 @@ function ProjectDetailPage() {
   const [like, setLike] = useState(false);
 
   useEffect(() => {
-    getBoards(location).then( data => {
+    getBoards(location).then(data => {
       setArticle(data.data.response);
       setLoading(true);
     });
-  }, [location.state.boardId, location.state.articleId]);
+  }, [location]);
 
   return (
     <div className="ProjectDetail">
@@ -65,7 +66,7 @@ function ProjectDetailPage() {
               <br />
               <a
                 href={
-                  process.env.REACT_APP_URL+"/no-permit/api/boards/" +
+                  process.env.REACT_APP_URL + "/no-permit/api/boards/" +
                   location.state.boardId +
                   "/articles/" +
                   location.state.articleId +
@@ -81,6 +82,7 @@ function ProjectDetailPage() {
           ) : (
             <div></div>
           )}
+          <Comment boardId={location.state.boardId} articleId={location.state.articleId} />
           <div>
             <nav>
               <div>
