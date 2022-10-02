@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getBoards } from "../../hooks/boardServices";
-import Comment from '../../components/Comment'
+import Comment from "../../components/Comment";
+import "./ExamDetail.scss";
+import { deletePost } from "../../hooks/usePostServices";
 
 function ExamDetailPage() {
   const navigate = useNavigate();
@@ -11,7 +13,7 @@ function ExamDetailPage() {
   const [like, setLike] = useState(false);
 
   useEffect(() => {
-    getBoards(location).then(data => {
+    getBoards(location).then((data) => {
       setArticle(data.data.response);
       setLoading(true);
     });
@@ -66,7 +68,8 @@ function ExamDetailPage() {
               <br />
               <a
                 href={
-                  process.env.REACT_APP_URL + "/no-permit/api/boards/" +
+                  process.env.REACT_APP_URL +
+                  "/no-permit/api/boards/" +
                   location.state.boardId +
                   "/articles/" +
                   location.state.articleId +
@@ -77,12 +80,14 @@ function ExamDetailPage() {
               >
                 {article.files[0].fileName}
               </a>
-
             </div>
           ) : (
             <div></div>
           )}
-          <Comment boardId={location.state.boardId} articleId={location.state.articleId} />
+          <Comment
+            boardId={location.state.boardId}
+            articleId={location.state.articleId}
+          />
           <div>
             <nav>
               <div>
@@ -97,6 +102,13 @@ function ExamDetailPage() {
           </div>
           <div className="catalogue">
             <button
+              className="deep-orange darken-4"
+              onClick={() => deletePost(location.state)}
+            >
+              글 삭제
+            </button>
+            <button
+              className="grey darken-3"
               onClick={() => {
                 navigate("/exam");
               }}
