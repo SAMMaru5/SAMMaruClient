@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./FreeBoardDetail.scss";
 import { getBoards } from "../../hooks/boardServices";
-import Comment from '../../components/Comment'
+import Comment from "../../components/Comment";
+import { deletePost } from "../../hooks/usePostServices";
 
 function FreeBoardDetailPage() {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ function FreeBoardDetailPage() {
   const [like, setLike] = useState(false);
 
   useEffect(() => {
-    getBoards(location).then(data => {
+    getBoards(location).then((data) => {
       setArticle(data.data.response);
       setLoading(true);
     });
@@ -67,7 +68,8 @@ function FreeBoardDetailPage() {
               <br />
               <a
                 href={
-                  process.env.REACT_APP_URL + "/no-permit/api/boards/" +
+                  process.env.REACT_APP_URL +
+                  "/no-permit/api/boards/" +
                   location.state.boardId +
                   "/articles/" +
                   location.state.articleId +
@@ -78,12 +80,14 @@ function FreeBoardDetailPage() {
               >
                 {article.files[0].fileName}
               </a>
-
             </div>
           ) : (
             <div></div>
           )}
-          <Comment boardId={location.state.boardId} articleId={location.state.articleId} />
+          <Comment
+            boardId={location.state.boardId}
+            articleId={location.state.articleId}
+          />
           <div>
             <nav>
               <div>
@@ -98,6 +102,13 @@ function FreeBoardDetailPage() {
           </div>
           <div className="catalogue">
             <button
+              className="deep-orange darken-4"
+              onClick={() => deletePost(location.state)}
+            >
+              글 삭제
+            </button>
+            <button
+              className="grey darken-3"
               onClick={() => {
                 navigate("/freeBoard");
               }}

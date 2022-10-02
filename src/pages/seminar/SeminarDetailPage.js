@@ -3,7 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import "./SeminarDetail.scss";
 import { getBoards } from "../../hooks/boardServices";
-import Comment from '../../components/Comment'
+import Comment from "../../components/Comment";
+import { deletePost } from "../../hooks/usePostServices";
 
 function SeminarDetailPage() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ function SeminarDetailPage() {
   const [like, setLike] = useState(false);
 
   useEffect(() => {
-    getBoards(location).then(data => {
+    getBoards(location).then((data) => {
       setArticle(data.data.response);
       setLoading(true);
     });
@@ -68,7 +69,8 @@ function SeminarDetailPage() {
                 <h5 className="mb-3">첨부파일</h5>
                 <a
                   href={
-                    process.env.REACT_APP_URL + "/no-permit/api/boards/" +
+                    process.env.REACT_APP_URL +
+                    "/no-permit/api/boards/" +
                     location.state.boardId +
                     "/articles/" +
                     location.state.articleId +
@@ -85,7 +87,10 @@ function SeminarDetailPage() {
           ) : (
             <div></div>
           )}
-          <Comment boardId={location.state.boardId} articleId={location.state.articleId} />
+          <Comment
+            boardId={location.state.boardId}
+            articleId={location.state.articleId}
+          />
           <div>
             <nav>
               <div>
@@ -100,6 +105,13 @@ function SeminarDetailPage() {
           </div>
           <div className="catalogue">
             <button
+              className="deep-orange darken-4"
+              onClick={() => deletePost(location.state)}
+            >
+              글 삭제
+            </button>
+            <button
+              className="grey darken-3"
               onClick={() => {
                 navigate("/seminar");
               }}

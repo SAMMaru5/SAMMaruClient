@@ -163,7 +163,9 @@ function Comment(props) {
             }}
             placeholder="댓글을 입력해주세요."
           ></textarea>
-          <button onClick={insertComment}>등록</button>
+          <button className="success-color" onClick={insertComment}>
+            등록
+          </button>
         </div>
         <table>
           <tbody>
