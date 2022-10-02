@@ -3,7 +3,7 @@ import { useState } from "react";
 import "./MemberManage.scss";
 import Swal from "sweetalert2";
 import api from "../../utils/api";
-import { delCookie, getCookie } from "../../hooks/useCookie";
+import { checkExpiredAccesstoken } from "../../hooks/useAuth";
 
 function MemberManage() {
   const [members, setMembers] = useState([]);
@@ -24,96 +24,76 @@ function MemberManage() {
   }, []);
 
   const changeAuthority = (id, name, authority, index) => {
-    function expiredLogin() {
-      Swal.fire({
-        title: "로그인 상태 허용 시간이 초과되었습니다.",
-        text: "로그인 페이지로 다시 이동하시겠습니까?",
-        icon: "error",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "확인",
-        cancelButtonText: "취소",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.href = "/login";
+    checkExpiredAccesstoken().then((response) => {
+      if (response) {
+        let newMeber = [...members];
+        newMeber[index].role = authority;
+
+        setMembers(newMeber);
+        const authorityKinds =
+          document.getElementsByClassName("authorityKinds");
+        authorityKinds[index].value = authority;
+
+        let authorityStr = "미지정으";
+        if (authority === "ROLE_ADMIN") {
+          authorityStr = "관리자";
+        } else if (authority === "ROLE_MEMBER") {
+          authorityStr = "회원으";
         }
-      });
-    }
 
-    let newMeber = [...members];
-    newMeber[index].role = authority;
-
-    setMembers(newMeber);
-    const authorityKinds = document.getElementsByClassName("authorityKinds");
-    authorityKinds[index].value = authority;
-
-    let authorityStr = "미지정으";
-    if (authority === "ROLE_ADMIN") {
-      authorityStr = "관리자";
-    } else if (authority === "ROLE_MEMBER") {
-      authorityStr = "회원으";
-    }
-
-    Swal.fire({
-      icon: "info",
-      title: `${name} 사용자의 권한을 ${authorityStr}로 바꾸시겠습니까? `,
-      showDenyButton: true,
-      confirmButtonText: "네",
-      denyButtonText: `아니요`,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        async function getUserInfo() {
-          try {
-            await api.get("/no-permit/api/user/info").then((response) => {
-              api
-                .patch("/api/users/" + id + "/role", { role: authority })
-                .then((response) => {
-                  if (response.data.success) {
-                    Swal.fire({
-                      icon: "success",
-                      title: "권한을 변경하였습니다.",
-                    });
-                  } else {
-                    Swal.fire({
-                      icon: "error",
-                      title: "권한 변경에 실패하셨습니다.",
-                    }).then((response) => {
-                      if (response.isConfirmed) {
-                        window.location.replace("/");
-                      }
-                    });
-                  }
-                });
-            });
-          } catch (error) {
-            delCookie("SammaruAccessToken");
-            expiredLogin();
+        Swal.fire({
+          icon: "info",
+          title: `${name} 사용자의 권한을 ${authorityStr}로 바꾸시겠습니까? `,
+          showDenyButton: true,
+          confirmButtonText: "네",
+          denyButtonText: `아니요`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            api
+              .patch("/api/users/" + id + "/role", { role: authority })
+              .then((response) => {
+                if (response.data.success) {
+                  Swal.fire({
+                    icon: "success",
+                    title: "권한을 변경하였습니다.",
+                  });
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    title: "권한 변경에 실패하셨습니다.",
+                  }).then((response) => {
+                    if (response.isConfirmed) {
+                      window.location.replace("/");
+                    }
+                  });
+                }
+              });
           }
-        }
-        if (getCookie("SammaruAccessToken")) getUserInfo();
-        else expiredLogin();
+        });
       }
     });
   };
 
   const searchMember = (e) => {
     e.preventDefault();
-
-    if (name === "") {
-      searchAllUsers();
-    } else {
-      api.get("/api/users/detail?username=" + name).then((result) => {
-        if (result.data.success) {
-          setMembers([result.data.response]);
+    checkExpiredAccesstoken().then((response) => {
+      if (response) {
+        if (name === "") {
+          searchAllUsers();
         } else {
-          Swal.fire({
-            icon: "info",
-            title: name + "회원은 <br/>존재하지 않습니다!",
+          api.get("/api/users/detail?username=" + name).then((result) => {
+            if (result.data.success) {
+              setMembers(result.data.response);
+            } else {
+              Swal.fire({
+                icon: "info",
+                title: name + "회원은 <br/>존재하지 않습니다!",
+              });
+            }
           });
         }
-      });
-    }
+      }
+    });
   };
 
   return (
@@ -130,7 +110,7 @@ function MemberManage() {
         ></input>
         <button
           style={{ height: "50px", width: "100px" }}
-          className="p-0 mt-3"
+          className="p-0 mt-3 info-color"
           type="submit"
           onClick={(e) => {
             searchMember(e);

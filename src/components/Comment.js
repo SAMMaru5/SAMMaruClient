@@ -3,7 +3,7 @@ import api from "../utils/api";
 import { useNavigate } from "react-router-dom";
 import "./Comment.scss";
 import Swal from "sweetalert2";
-import { delCookie, getCookie } from "../hooks/useCookie";
+import { checkExpiredAccesstoken } from "../hooks/useAuth";
 
 function Comment(props) {
   const navigate = useNavigate();
@@ -57,27 +57,10 @@ function Comment(props) {
       });
   }, [props]);
 
-  const insertComment = async () => {
-    function expiredLogin() {
-      Swal.fire({
-        title: "로그인 상태 허용 시간이 초과되었습니다.",
-        text: "로그인 페이지로 다시 이동하시겠습니까?",
-        icon: "error",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "확인",
-        cancelButtonText: "취소",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.href = "/login";
-        }
-      });
-    }
-
-    async function getUserInfo() {
-      try {
-        await api
+  const insertComment = () => {
+    checkExpiredAccesstoken().then((response) => {
+      if (response) {
+        api
           .post(
             "/api/boards/" +
               props.boardId +
@@ -109,13 +92,8 @@ function Comment(props) {
               });
             }
           });
-      } catch (error) {
-        delCookie("SammaruAccessToken");
-        expiredLogin();
       }
-    }
-    if (getCookie("SammaruAccessToken")) getUserInfo();
-    else expiredLogin();
+    });
   };
 
   const change_page = (event, value) => {

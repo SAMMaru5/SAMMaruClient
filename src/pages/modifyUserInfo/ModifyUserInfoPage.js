@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import api from "../../utils/api";
 import { delCookie, getCookie } from "../../hooks/useCookie";
+import { checkExpiredAccesstoken } from "../../hooks/useAuth";
 
 function ModifyUserInfoPage() {
   const navigate = useNavigate();
@@ -42,22 +43,6 @@ function ModifyUserInfoPage() {
 
   function modifyUser(e) {
     e.preventDefault();
-    function expiredLogin() {
-      Swal.fire({
-        title: "로그인 상태 허용 시간이 초과되었습니다.",
-        text: "로그인 페이지로 다시 이동하시겠습니까?",
-        icon: "error",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "확인",
-        cancelButtonText: "취소",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.href = "/login";
-        }
-      });
-    }
 
     async function modifyingUserInfo() {
       const modifyUserBtn = document.getElementById("modifyUserBtn");
@@ -92,34 +77,27 @@ function ModifyUserInfoPage() {
       }
     }
 
-    async function getUserInfo() {
-      try {
-        await api.get("/no-permit/api/user/info").then((response) => {
-          const modifyUserBtn = document.getElementById("modifyUserBtn");
-          modifyUserBtn.setAttribute("disabled", true);
-          modifyUserBtn.innerText = "정보수정 중...";
-          modifyUserBtn.style.color = "white";
-          if (User.password !== pwCheck2) {
-            Swal.fire({
-              title: "비밀번호가 일치하지 않습니다.",
-              icon: "warning",
-            }).then((result) => {
-              if (result) {
-                modifyUserBtn.removeAttribute("disabled");
-                modifyUserBtn.innerText = "정보수정";
-              }
-            });
-          } else {
-            modifyingUserInfo();
-          }
-        });
-      } catch (error) {
-        delCookie("SammaruAccessToken");
-        expiredLogin();
+    checkExpiredAccesstoken().then((response) => {
+      if (response) {
+        const modifyUserBtn = document.getElementById("modifyUserBtn");
+        modifyUserBtn.setAttribute("disabled", true);
+        modifyUserBtn.innerText = "정보수정 중...";
+        modifyUserBtn.style.color = "white";
+        if (User.password !== pwCheck2) {
+          Swal.fire({
+            title: "비밀번호가 일치하지 않습니다.",
+            icon: "warning",
+          }).then((result) => {
+            if (result) {
+              modifyUserBtn.removeAttribute("disabled");
+              modifyUserBtn.innerText = "정보수정";
+            }
+          });
+        } else {
+          modifyingUserInfo();
+        }
       }
-    }
-    if (getCookie("SammaruAccessToken")) getUserInfo();
-    else expiredLogin();
+    });
   }
 
   return (
