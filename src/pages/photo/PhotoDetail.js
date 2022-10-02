@@ -7,10 +7,11 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Swal from "sweetalert2";
-import Comment from '../../components/Comment'
+import Comment from "../../components/Comment";
 
 import { Navigation } from "swiper";
 import api from "../../utils/api";
+import { deletePost } from "../../hooks/usePostServices";
 const PhotoDetail = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -20,8 +21,14 @@ const PhotoDetail = () => {
   const [mainImg, setMainImg] = useState("");
 
   useEffect(() => {
-    api.get(
-      "/api/boards/" + location.state.boardId + "/articles/" + location.state.articleId).then((response) => {
+    api
+      .get(
+        "/api/boards/" +
+          location.state.boardId +
+          "/articles/" +
+          location.state.articleId
+      )
+      .then((response) => {
         if (response.data.success) {
           setArticle(response.data.response);
           setMainImg(response.data.response.files[0].filePath);
@@ -68,7 +75,8 @@ const PhotoDetail = () => {
                   >
                     <img
                       src={
-                        process.env.REACT_APP_URL + "/no-permit/api/boards/" +
+                        process.env.REACT_APP_URL +
+                        "/no-permit/api/boards/" +
                         location.state.boardId +
                         "/articles/" +
                         location.state.articleId +
@@ -95,7 +103,8 @@ const PhotoDetail = () => {
           >
             <img
               src={
-                process.env.REACT_APP_URL + "/no-permit/api/boards/" +
+                process.env.REACT_APP_URL +
+                "/no-permit/api/boards/" +
                 location.state.boardId +
                 "/articles/" +
                 location.state.articleId +
@@ -109,7 +118,10 @@ const PhotoDetail = () => {
           <hr />
 
           <p>{article.content}</p>
-          <Comment boardId={location.state.boardId} articleId={location.state.articleId} />
+          <Comment
+            boardId={location.state.boardId}
+            articleId={location.state.articleId}
+          />
           <div
             style={{
               display: "flex",
@@ -118,9 +130,14 @@ const PhotoDetail = () => {
             }}
           >
             <button
-              className="w3-bar-item w3-button"
+              className="deep-orange darken-4 mr-3"
+              onClick={() => deletePost(location.state)}
+            >
+              글 삭제
+            </button>
+            <button
+              className="w3-bar-item w3-button grey darken-3"
               style={{
-                background: "#6a81ed",
                 width: "130px",
                 padding: "10px 0px 10px 0px",
               }}
