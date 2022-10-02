@@ -4,8 +4,7 @@ import Swal from "sweetalert2";
 import api from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { getBoardList } from "../../hooks/boardServices";
-import { myRole } from "../../hooks/useAuth";
-import { delCookie, getCookie } from "../../hooks/useCookie";
+import { checkExpiredAccesstoken, myRole } from "../../hooks/useAuth";
 
 function NoticeRegisteration() {
   const [boardId, setBoardId] = useState(0);
@@ -37,67 +36,43 @@ function NoticeRegisteration() {
     });
   }, []);
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    function expiredLogin() {
-      Swal.fire({
-        title: "로그인 상태 허용 시간이 초과되었습니다.",
-        text: "로그인 페이지로 다시 이동하시겠습니까?",
-        icon: "error",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "확인",
-        cancelButtonText: "취소",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.href = "/login";
-        }
-      });
-    }
+    checkExpiredAccesstoken().then((response) => {
+      if (response) {
+        const noticeBtn = document.getElementById("noticeBtn");
+        noticeBtn.setAttribute("disabled", true);
+        noticeBtn.innerText = "글등록 중...";
 
-    async function getUserInfo() {
-      try {
-        await api.get("/no-permit/api/user/info").then((response) => {
-          const noticeBtn = document.getElementById("noticeBtn");
-          noticeBtn.setAttribute("disabled", true);
-          noticeBtn.innerText = "글등록 중...";
+        let formData = new FormData();
+        formData.append("file", uploadfile[0]);
 
-          let formData = new FormData();
-          formData.append("file", uploadfile[0]);
+        formData.append(
+          "article",
+          new Blob([JSON.stringify(notice)], { type: "application/json" })
+        );
 
-          formData.append(
-            "article",
-            new Blob([JSON.stringify(notice)], { type: "application/json" })
-          );
-
-          api
-            .post(`/api/boards/${boardId}/articles`, formData)
-            .then((response) => {
-              if (response.data.success) {
-                Swal.fire({
-                  icon: "success",
-                  title: "게시글 작성을 성공했습니다.",
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    navigate("/notice");
-                  }
-                });
-              } else {
-                Swal.fire({
-                  icon: "error",
-                  title: "게시글 작성을 실패했습니다.",
-                });
-              }
-            });
-        });
-      } catch (error) {
-        delCookie("SammaruAccessToken");
-        expiredLogin();
+        api
+          .post(`/api/boards/${boardId}/articles`, formData)
+          .then((response) => {
+            if (response.data.success) {
+              Swal.fire({
+                icon: "success",
+                title: "게시글 작성을 성공했습니다.",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  navigate("/notice");
+                }
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "게시글 작성을 실패했습니다.",
+              });
+            }
+          });
       }
-    }
-    if (getCookie("SammaruAccessToken")) getUserInfo();
-    else expiredLogin();
+    });
   };
 
   const handlePostCancel = () => {
