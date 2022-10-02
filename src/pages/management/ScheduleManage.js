@@ -7,7 +7,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { Row, Col } from "react-bootstrap";
 import Swal from "sweetalert2";
 import api from "../../utils/api";
-import { delCookie, getCookie } from "../../hooks/useCookie";
+import { checkExpiredAccesstoken } from "../../hooks/useAuth";
 
 export default class Calendar extends React.Component {
   constructor(props) {
@@ -118,22 +118,6 @@ export default class Calendar extends React.Component {
   }
 
   handleDateSelect = (selectInfo) => {
-    function expiredLogin() {
-      Swal.fire({
-        title: "로그인 상태 허용 시간이 초과되었습니다.",
-        text: "로그인 페이지로 다시 이동하시겠습니까?",
-        icon: "error",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "확인",
-        cancelButtonText: "취소",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.href = "/login";
-        }
-      });
-    }
     // let year = formatDate(selectInfo.endStr, {year:"numeric"})
     // let month = formatDate(selectInfo.endStr, {month:"numeric"});
     // let day = formatDate(selectInfo.endStr, {day:"numeric"});
@@ -156,68 +140,58 @@ export default class Calendar extends React.Component {
     // month = month.length === 2 ? month: new Array(2).join('0')+month;
     // day = day >= 10 ? day: new Array(2).join('0')+day;
     // let endStr =year+"-"+month+"-"+day;
-
-    Swal.fire({
-      icon: "info",
-      title: "일정 정보를 입력해 주세요.",
-      input: "text",
-      showCancelButton: true,
-      confirmButtonText: "저장",
-      cancelButtonText: "취소",
-    }).then((result) => {
-      if (result.value && result.isConfirmed) {
-        // console.log(title, selectInfo.startStr, selectInfo.endStr, selectInfo.startStr);
-
-        async function getUserInfo() {
-          try {
-            await api.get("/no-permit/api/user/info").then((response) => {
-              api
-                .post("/api/schedules", {
-                  title: result.value,
-                  start: selectInfo.startStr,
-                  end: selectInfo.endStr,
-                  content: "",
-                })
-                .then((response) => {
-                  if (
-                    response.data !== undefined &&
-                    response.data !== "undefined"
-                  ) {
-                    if (response.data.success === true) {
-                      this.setState({ currentId: this.state.currentId + 1 });
-                      calendarApi.addEvent({
-                        id: this.state.currentId,
-                        title: result.value,
-                        start: selectInfo.startStr,
-                        end: selectInfo.endStr,
-                        // ,allDay: selectInfo.allDay
-                      });
-                      Swal.fire({
-                        icon: "success",
-                        title: result.value + "일정을 저장했습니다.",
-                      });
-                    }
-                  } else {
+    checkExpiredAccesstoken().then((response) => {
+      if (response) {
+        Swal.fire({
+          icon: "info",
+          title: "일정 정보를 입력해 주세요.",
+          input: "text",
+          showCancelButton: true,
+          confirmButtonText: "저장",
+          cancelButtonText: "취소",
+        }).then((result) => {
+          if (result.value && result.isConfirmed) {
+            // console.log(title, selectInfo.startStr, selectInfo.endStr, selectInfo.startStr);
+            api
+              .post("/api/schedules", {
+                title: result.value,
+                start: selectInfo.startStr,
+                end: selectInfo.endStr,
+                content: "",
+              })
+              .then((response) => {
+                if (
+                  response.data !== undefined &&
+                  response.data !== "undefined"
+                ) {
+                  if (response.data.success === true) {
+                    this.setState({ currentId: this.state.currentId + 1 });
+                    calendarApi.addEvent({
+                      id: this.state.currentId,
+                      title: result.value,
+                      start: selectInfo.startStr,
+                      end: selectInfo.endStr,
+                      // ,allDay: selectInfo.allDay
+                    });
                     Swal.fire({
-                      icon: "error",
-                      title: "관리자 권한으로 로그인해 주세요.",
-                    }).then((result) => {
-                      if (result.isConfirmed) window.location.href = "/";
+                      icon: "success",
+                      title: result.value + "일정을 저장했습니다.",
                     });
                   }
-                });
-            });
-          } catch (error) {
-            delCookie("SammaruAccessToken");
-            expiredLogin();
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    title: "관리자 권한으로 로그인해 주세요.",
+                  }).then((result) => {
+                    if (result.isConfirmed) window.location.href = "/";
+                  });
+                }
+              });
           }
-        }
-        if (getCookie("SammaruAccessToken")) getUserInfo();
-        else expiredLogin();
+        });
       }
     });
     let calendarApi = selectInfo.view.calendar;
-
     calendarApi.unselect(); // clear date selection
   };
 
