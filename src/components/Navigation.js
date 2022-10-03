@@ -181,11 +181,13 @@ function Navigation() {
                   소규모 프로젝트
                 </a>
               </li>
-              <li>
-                <a href="/exam" style={{ color: "#878787" }}>
-                  족보
-                </a>
-              </li>
+              {loading ? (
+                <li>
+                  <a href="/exam" style={{ color: "#878787" }}>
+                    족보
+                  </a>
+                </li>
+              ) : null}
             </ul>
           </li>
           <li>

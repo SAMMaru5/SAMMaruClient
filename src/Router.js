@@ -67,7 +67,14 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/awards" element={<AwardsPage />} />
-          <Route path="/exam" element={<ExamPage />} />
+          <Route
+            path="/exam"
+            element={
+              <AuthGuard>
+                <ExamPage />
+              </AuthGuard>
+            }
+          />
           <Route
             path="/exam/examUpdate"
             element={
@@ -295,7 +302,7 @@ function App() {
               </AuthGuard>
             }
           />
-        <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
       <Footer />
