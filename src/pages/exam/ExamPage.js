@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import exam from "../../imgs/banner/exam.jpg";
 import { myRole } from "../../hooks/useAuth";
 import { getArticleList, getBoardList } from "../../hooks/boardServices";
+import { getCookie } from "../../hooks/useCookie";
 
 function ExamPage() {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ function ExamPage() {
   const [pageList, setPageList] = useState(1);
 
   useEffect(() => {
+    if (!getCookie("SammaruAccessToken")) return;
     getBoardList().then((response) => {
       if (response.data.success) {
         response.data.response.forEach((res) => {
