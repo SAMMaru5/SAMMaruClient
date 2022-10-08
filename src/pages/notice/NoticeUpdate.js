@@ -11,7 +11,7 @@ import { checkExpiredAccesstoken, myRole } from "../../hooks/useAuth";
 function NoticeRegisteration() {
   const [boardId, setBoardId] = useState(0);
   const [notice, setNotice] = useState({ title: "", content: "" });
-  const [uploadfile, setUploadfile] = useState([]);
+  const [uploadFile, setUploadFile] = useState([]);
   const [showFiles, setShowFiles] = useState([]);
   const navigate = useNavigate();
   
@@ -42,7 +42,7 @@ function NoticeRegisteration() {
   const fileChange = (e) =>{
     const fileLists = e.target.files;
 
-    if (fileLists.length + uploadfile.length > 5){
+    if (fileLists.length + uploadFile.length > 5){
       Swal.fire({
         icon: "warning",
         title: "파일첨부를 5개 초과할 수 없습니다.",
@@ -50,7 +50,7 @@ function NoticeRegisteration() {
     }
     else{
       let fileUrlLists = [...showFiles]
-      let uploadFileLists = [...uploadfile]
+      let uploadFileLists = [...uploadFile]
   
       for (let i = 0; i < fileLists.length; i++){
         uploadFileLists.push(fileLists[i]);
@@ -58,7 +58,7 @@ function NoticeRegisteration() {
         fileUrlLists.push({'url' : currentFileUrl, 'name' : fileLists[i].name});
       }
       setShowFiles(fileUrlLists)
-      setUploadfile(uploadFileLists);
+      setUploadFile(uploadFileLists);
     }
     
 
@@ -66,7 +66,7 @@ function NoticeRegisteration() {
 
   const handleDeleteImage = (id) => {
     setShowFiles(showFiles.filter((_, index) => index !== id));
-    setUploadfile(uploadfile.filter((_, index) => index !== id));
+    setUploadFile(uploadFile.filter((_, index) => index !== id));
   };
 
 
@@ -79,8 +79,8 @@ function NoticeRegisteration() {
         noticeBtn.innerText = "글등록 중...";
 
         let formData = new FormData();
-        for (let i = 0; i < uploadfile.length; i++){
-          formData.append("file", uploadfile[i])
+        for (let i = 0; i < uploadFile.length; i++){
+          formData.append("file", uploadFile[i])
         }
 
         formData.append(
@@ -193,8 +193,6 @@ function NoticeRegisteration() {
                     null
 
                   }
-                  
-                  
                 </Form.Group>
                 <Form.Group
                   className="mb-3"
