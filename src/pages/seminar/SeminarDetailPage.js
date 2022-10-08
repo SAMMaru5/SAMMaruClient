@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
 import "./SeminarDetail.scss";
 import { getBoards } from "../../hooks/boardServices";
 import Comment from "../../components/Comment";
@@ -64,25 +63,28 @@ function SeminarDetailPage() {
             </div>
           </div>
           {article.files.length !== 0 ? (
-            <div className="file-download-frame">
-              <div className="border-top p-3">
-                <h5 className="mb-3">첨부파일</h5>
-                <a
-                  href={
-                    process.env.REACT_APP_URL +
-                    "/no-permit/api/boards/" +
-                    location.state.boardId +
-                    "/articles/" +
-                    location.state.articleId +
-                    "/files/" +
-                    article.files[0].filePath
-                  }
-                  className="text-decoration-none border-0 p-2"
-                >
-                  <span className="icon fa-file"></span>{" "}
-                  {article.files[0].fileName}
-                </a>
-              </div>
+            <div className="file-download-frame mt-5">
+              파일 다운로드
+              <br />
+              {article.files.map((file, id) => (
+                <div key={id}>
+                  <a
+                    href={
+                      process.env.REACT_APP_URL +
+                      "/no-permit/api/boards/" +
+                      location.state.boardId +
+                      "/articles/" +
+                      location.state.articleId +
+                      "/files/" +
+                      file.filePath
+                    }
+                    className="text-decoration-none"
+                    key={id}
+                  >
+                    {file.fileName}
+                  </a>
+                </div>
+              ))}
             </div>
           ) : (
             <div></div>

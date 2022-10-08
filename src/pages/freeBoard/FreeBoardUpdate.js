@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { getBoardList } from "../../hooks/boardServices";
 import api from "../../utils/api";
+import { useNavigate } from "react-router-dom";
+import { getBoardList } from "../../hooks/boardServices";
 import { checkExpiredAccesstoken } from "../../hooks/useAuth";
 
 function FreeBoardUpdate() {
   const [boardId, setBoardId] = useState(0);
   const [photo, setPhoto] = useState({ title: "", content: "" });
-  const navigate = useNavigate();
   const [uploadFile, setUploadFile] = useState([]);
+  const [showFiles, setShowFiles] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getBoardList().then((response) => {
@@ -24,6 +27,34 @@ function FreeBoardUpdate() {
     });
   }, []);
 
+  const fileChange = (e) => {
+    const fileLists = e.target.files;
+
+    if (fileLists.length + uploadFile.length > 5) {
+      Swal.fire({
+        icon: "warning",
+        title: "파일첨부를 5개 초과할 수 없습니다.",
+      });
+    }
+    else {
+      let fileUrlLists = [...showFiles]
+      let uploadFileLists = [...uploadFile]
+
+      for (let i = 0; i < fileLists.length; i++) {
+        uploadFileLists.push(fileLists[i]);
+        const currentFileUrl = URL.createObjectURL(fileLists[i]);
+        fileUrlLists.push({ 'url': currentFileUrl, 'name': fileLists[i].name });
+      }
+      setShowFiles(fileUrlLists)
+      setUploadFile(uploadFileLists);
+    }
+  }
+
+  const handleDeleteImage = (id) => {
+    setShowFiles(showFiles.filter((_, index) => index !== id));
+    setUploadFile(uploadFile.filter((_, index) => index !== id));
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
     checkExpiredAccesstoken().then((response) => {
@@ -33,8 +64,9 @@ function FreeBoardUpdate() {
         freeBoardBtn.innerText = "글등록 중...";
 
         let formData = new FormData();
-
-        formData.append("file", uploadFile[0]);
+        for (let i = 0; i < uploadFile.length; i++) {
+          formData.append("file", uploadFile[i])
+        }
 
         formData.append(
           "article",
@@ -109,12 +141,36 @@ function FreeBoardUpdate() {
         <Form.Group controlId="formFileMultiple" className="mb-3">
           <Form.Label>사진 선택</Form.Label>
           <Form.Control
+            className="mb-3"
             type="file"
             multiple
             onChange={(e) => {
-              setUploadFile(e.target.files);
+              fileChange(e);
             }}
           />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>등록된 파일</Form.Label>
+          {showFiles.length ?
+            <Card>
+              <ListGroup variant="flush">
+                {showFiles.map((file, id) => (
+                  <ListGroup.Item className="d-flex justify-content-between align-items-center" >
+                    <span>
+                      <svg className="me-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-code" viewBox="0 0 16 16">
+                        <path d="M6.646 5.646a.5.5 0 1 1 .708.708L5.707 8l1.647 1.646a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708l2-2zm2.708 0a.5.5 0 1 0-.708.708L10.293 8 8.646 9.646a.5.5 0 0 0 .708.708l2-2a.5.5 0 0 0 0-.708l-2-2z" />
+                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z" />
+                      </svg>
+                      {file.name}
+                    </span>
+                    <span style={{ cursor: 'pointer' }} onClick={() => handleDeleteImage(id)}>X</span>
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
+            </Card>
+            :
+            null
+          }
         </Form.Group>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
           <Form.Label>내용</Form.Label>
