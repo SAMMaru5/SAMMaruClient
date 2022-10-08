@@ -67,20 +67,25 @@ function ReportDetailPage() {
             <div className="file-download-frame">
               파일 다운로드
               <br />
-              <a
-                href={
-                  process.env.REACT_APP_URL +
-                  "/no-permit/api/boards/" +
-                  location.state.boardId +
-                  "/articles/" +
-                  location.state.articleId +
-                  "/files/" +
-                  article.files[0].filePath
-                }
-                className="text-decoration-none"
-              >
-                {article.files[0].fileName}
-              </a>
+              { article.files.map((file, id)=>(
+                <div key={id}>
+                  <a
+                    href={
+                      process.env.REACT_APP_URL +
+                      "/no-permit/api/boards/" +
+                      location.state.boardId +
+                      "/articles/" +
+                      location.state.articleId +
+                      "/files/" +
+                      file.filePath
+                    }
+                    className="text-decoration-none"
+                    key={id}
+                  >
+                    {file.fileName}
+                  </a>
+                </div>
+              )) }
             </div>
           ) : (
             <div></div>

@@ -66,8 +66,7 @@ function ExamDetailPage() {
             <div className="file-download-frame mt-5">
               파일 다운로드
               <br />
-
-              { article.files.map((file, id)=>(
+              {article.files.map((file, id) => (
                 <div key={id}>
                   <a
                     href={
@@ -85,7 +84,7 @@ function ExamDetailPage() {
                     {file.fileName}
                   </a>
                 </div>
-              )) }
+              ))}
             </div>
           ) : (
             <div></div>
