@@ -1,60 +1,122 @@
 #comment {
-    margin-top: 6%;
+  margin-top: 10%;
 
-    .textarea-frame {
-        width: 100%;
-        height: 150px;
-        background-color: rgb(248, 250, 252);
+  .textarea-frame {
+    width: 100%;
+    height: 150px;
+    background-color: rgb(248, 250, 252);
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    border: solid 1px #f3f3f3;
+  }
+
+  .textarea-frame {
+    width: 100%;
+    height: 150px;
+    background-color: rgb(248, 250, 252);
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    border: solid 1px #f3f3f3;
+  }
+
+  textarea {
+    width: 85%;
+    height: 70%;
+    padding: 1%;
+    resize: none;
+  }
+
+  textarea::placeholder {
+    font-size: 0.8em;
+  }
+
+  button {
+    font-size: 1.1em;
+    margin-left: 3%;
+    margin-right: 1%;
+    height: 25%;
+    width: 7.5%;
+  }
+
+  table {
+    margin-top: 3%;
+  }
+
+  tbody {
+    background-color: rgb(248, 250, 252);
+    .user {
+      .authorInfo {
+        span {
+          font-size: 0.5em;
+          &:first-child::after {
+            content: "|";
+            position: relative;
+            bottom: 1px;
+            color: lightgrey;
+            padding: 0 3px 0 1px;
+            margin: 0 0.75%;
+          }
+        }
+        .createDt {
+          color: #aaa;
+        }
+      }
+      .content {
+        height: fit-content;
+        max-height: 5rem;
+        word-break: break-all;
+        overflow: auto;
+      }
+
+      .commentControl {
+        float: right;
         display: flex;
-        justify-content: right;
-        align-items: center;
-        border: solid 1px #f3f3f3
+        font-size: 0.7em;
+        .modifyingComment {
+          width: 50px;
+          color: black !important;
+          background-color: transparent;
+          box-shadow: none;
+          font-weight: 300;
+        }
+        .modifyingComment:after {
+          content: "|";
+          position: absolute;
+          bottom: 1px;
+          color: lightgrey;
+          padding-left: 22%;
+        }
+        .deletingComment {
+          width: 50px;
+          color: black !important;
+          background-color: transparent;
+          box-shadow: none;
+          font-weight: 300;
+          margin-right: -10px;
+        }
+      }
     }
+  }
 
-    textarea {
-        width: 85%;
-        height: 70%;
-        padding: 1%;
-        resize: none;
-    }
+  .comment-tr {
+    padding: 10% 0;
+  }
 
-    textarea::placeholder {
-        font-size: 0.8em;
-    }
+  .content-tr {
+    border-top: none;
+  }
 
-    button {
-        font-size: 1.1em;
-        margin-left: 3%;
-        margin-right: 1%;
-        height: 25%;
-        width: 7.5%;
-    }
+  .empty-tr {
+    background-color: white;
+  }
 
-    table {
-        margin-top: 3%;
-    }
+  table tbody tr:first-child {
+    border-top: solid 1px #e5e5e5;
+  }
 
-    tbody {
-        background-color: rgb(248, 250, 252);
-    }
-
-    .comment-tr {
-        padding: 10% 0;
-    }
-
-    .content-tr {
-        border-top: none;
-    }
-
-    .empty-tr {
-        background-color: white;
-    }
-
-    table tbody tr:first-child {
-        border-top: solid 1px #e5e5e5
-    }
-
-    ul li:first-child {
-        margin: 0.75em 0 0.75em 0
-    }
+  ul li:first-child {
+    margin: 0.75em 0 0.75em 0;
+  }
 }
