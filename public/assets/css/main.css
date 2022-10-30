@@ -2200,6 +2200,10 @@ button.alt:active,
   margin-top: 1.25em;
 }
 
+#features > .noticeClicked {
+  padding-bottom: 12em;
+}
+
 /* Banner */
 
 #banner {
