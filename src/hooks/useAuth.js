@@ -46,8 +46,7 @@ export async function checkExpiredAccesstoken() {
   } else expiredLogin();
 }
 
-export function signout() {
-  api.delete("/auth/logout").then((response) => {
-    window.location.href = "/";
-  });
+export async function signout() {
+  delCookie("SammaruAccessToken");
+  window.location.href = "/";
 }
