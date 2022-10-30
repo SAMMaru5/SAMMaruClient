@@ -150,7 +150,13 @@ const PhotoDetail = () => {
           </div>
         </div>
       ) : (
-        <div></div>
+        <div className="container">
+          <img
+            src="img/loading.gif"
+            alt="로딩중"
+            style={{ margin: "3em auto", width: "25%", height: "auto" }}
+          />
+        </div>
       )}
     </div>
   );
