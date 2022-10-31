@@ -1,13 +1,10 @@
-import {getCookie} from "../hooks/useCookie";
-import React from "react";
-import { Navigate } from "react-router-dom";
+import { checkExpiredAccesstoken, signout } from "../hooks/useAuth";
 
 function AuthGuard({ children }) {
-    const isAuth = getCookie('SammaruAccessToken');
-    if(!isAuth) {
-        return  <Navigate to='/login' replace/>;
-    }
-    return children;
+  checkExpiredAccesstoken((response) => {
+    !response && signout();
+  });
+  return children;
 }
 
 export default AuthGuard;
