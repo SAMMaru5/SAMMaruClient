@@ -1,20 +1,42 @@
 import { useEffect, useState } from "react";
 import api from "../utils/api";
-import { useNavigate } from "react-router-dom";
 import "./Comment.scss";
 import Swal from "sweetalert2";
-import { checkExpiredAccesstoken } from "../hooks/useAuth";
+import { checkExpiredAccesstoken, myRole } from "../hooks/useAuth";
+import { delCookie, getCookie } from "../hooks/useCookie";
 
 function Comment(props) {
-  const navigate = useNavigate();
   const [page, setPage] = useState([]);
   const [comments, setComments] = useState([]);
   const [commentList, setCommentList] = useState([]);
   const [content, setContent] = useState("");
   const [cur_node, setCurNode] = useState(0);
   const [all_page, setAllpage] = useState(0);
+  const [userInfo, setUserInfo] = useState({});
+  const [role, setRole] = useState("");
 
   useEffect(() => {
+    getComments();
+    async function getUserInfo() {
+      try {
+        await api.get("/no-permit/api/user/info").then((response) => {
+          if (response.data.success) {
+            setUserInfo(response.data);
+          } else {
+            setUserInfo(null);
+          }
+        });
+      } catch (error) {
+        delCookie("SammaruAccessToken");
+      }
+    }
+    getCookie("SammaruAccessToken") && getUserInfo();
+    myRole().then((response) => {
+      setRole(response);
+    });
+  }, [props]);
+
+  const getComments = () => {
     api
       .get(
         "/api/boards/" +
@@ -55,7 +77,7 @@ function Comment(props) {
             " bg-primary text-white rounded";
         }
       });
-  }, [props]);
+  };
 
   const insertComment = () => {
     checkExpiredAccesstoken().then((response) => {
@@ -71,20 +93,8 @@ function Comment(props) {
           )
           .then((response) => {
             if (response.data.success) {
-              Swal.fire({
-                icon: "success",
-                title: "댓글 작성을 성공했습니다.",
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  setContent("");
-                  navigate("#", {
-                    state: {
-                      boardId: props.boardId,
-                      articleId: props.articleId,
-                    },
-                  });
-                }
-              });
+              setContent("");
+              getComments();
             } else {
               Swal.fire({
                 icon: "error",
@@ -92,6 +102,56 @@ function Comment(props) {
               });
             }
           });
+      }
+    });
+  };
+
+  const deleteComment = (commentId) => {
+    checkExpiredAccesstoken().then((response) => {
+      if (response) {
+        try {
+          api
+            .delete(
+              `/api/boards/${props.boardId}/articles/${props.articleId}/comments/${commentId}`
+            )
+            .then(() => {
+              getComments();
+            });
+        } catch (error) {
+          console.log(error);
+          return Swal.fire({
+            icon: "error",
+            title: "댓글 삭제 중 오류가 발생하였습니다.",
+          });
+        }
+      }
+    });
+  };
+
+  const modifyingComment = (commentId) => {
+    checkExpiredAccesstoken().then((response) => {
+      if (response) {
+        Swal.fire({
+          icon: "info",
+          title: "수정될 내용을 입력해 주세요.",
+          input: "text",
+          showCancelButton: true,
+          confirmButtonText: "수정",
+          cancelButtonText: "취소",
+        }).then((result) => {
+          if (result.value && result.isConfirmed) {
+            api
+              .patch(
+                `/api/boards/${props.boardId}/articles/${props.articleId}/comments/${commentId}`,
+                {
+                  content: result.value,
+                }
+              )
+              .then((response) => {
+                getComments();
+              });
+          }
+        });
       }
     });
   };
@@ -177,9 +237,36 @@ function Comment(props) {
               comments.map((comment, i) => (
                 <tr key={i} className="comment-tr">
                   <td className="user">
-                    <p>{comment.content}</p>
-                    <p>{comment.author}</p>
-                    <p>{comment.createDt.slice(0, 10)}</p>
+                    <div className="authorInfo mb-2">
+                      <span className="author">{comment.author} </span>
+                      <span className="createDt">
+                        {comment.createDt.slice(0, 10)}
+                      </span>
+                    </div>
+                    <p className="content">{comment.content}</p>
+                    <div className="commentControl">
+                      {userInfo.response.username === comment.author ? (
+                        <>
+                          <button
+                            className="modifyingComment"
+                            onClick={() =>
+                              modifyingComment(comment.id, comment.author)
+                            }
+                          >
+                            수정
+                          </button>
+                        </>
+                      ) : null}
+                      {role === "admin" ||
+                      userInfo.response.username === comment.author ? (
+                        <button
+                          className="deletingComment"
+                          onClick={() => deleteComment(comment.id)}
+                        >
+                          삭제
+                        </button>
+                      ) : null}
+                    </div>
                     {/* <span>디엠 수정</span> */}
                   </td>
                 </tr>
