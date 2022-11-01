@@ -1,5 +1,6 @@
 import api from "../utils/api";
 import Swal from "sweetalert2";
+import { delCookie } from "./useCookie";
 
 export const getBoardList = async () => {
   try {
@@ -19,19 +20,19 @@ export const getArticleList = async (id, pageNum, postNum) => {
       `/no-permit/api/boards/${id}/pages/${pageNum}?pageSize=${postNum}`
     );
   } catch (error) {
-    console.error(error);
-    return Swal.fire({
-      icon: "error",
-      title: "공지사항 목록 가져오기를 실패했습니다.",
-    });
+    window.location.href = "/login";
   }
 };
 
-
 export const getBoards = async (location) => {
-    try {
-        return await api.get("/api/boards/" + location.state.boardId + "/articles/" + location.state.articleId);
-    } catch (error) {
-        console.error(error);
-    }
+  try {
+    return await api.get(
+      "/api/boards/" +
+        location.state.boardId +
+        "/articles/" +
+        location.state.articleId
+    );
+  } catch (error) {
+    window.location.href = "/login";
+  }
 };
