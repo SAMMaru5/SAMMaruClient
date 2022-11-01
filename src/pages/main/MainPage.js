@@ -6,20 +6,22 @@ import ClubAwards from "./ClubAwards";
 import "./MainPage.scss";
 import logo from "../../imgs/logo.png";
 import sammaru from "../../imgs/sammaru.png";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 function MainPage() {
   const tab = useRef([]);
+  const [containerClassName, setContainerClassName] = useState("container");
 
   function openTab(tabName) {
     var i;
-
     for (i = 0; i < tab.current.length; i++) {
       tab.current[i].style.display = "none";
     }
     if (tabName === "scheduletab") {
+      setContainerClassName("container");
       tab.current[0].style.display = "block";
     } else if (tabName === "noticetab") {
+      setContainerClassName("noticeClicked");
       tab.current[1].style.display = "block";
     }
   }
@@ -64,9 +66,8 @@ function MainPage() {
 
           <section id="features">
             <div
-              className="container"
+              className={containerClassName}
               style={{
-                padding: "0 0 5rem 0",
                 borderBottom: "solid 2px #e5e5e5",
                 boxShadow:
                   "inset 0px -8px 0px 0px #fff, inset 0px -10px 0px 0px #e5e5e5",

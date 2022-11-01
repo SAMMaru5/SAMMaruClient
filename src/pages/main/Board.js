@@ -87,6 +87,7 @@ function Board() {
           </tbody>
         ) : null}
       </table>
+      <button onClick={() => navigate("./notice")}>더 보기</button>
     </div>
   );
 }
