@@ -124,44 +124,11 @@ function FreeBoardDetailPage() {
         </div>
       ) : (
         <div className="container">
-          <div className="pageTitle">
-            {/* <h3>{location.state.id}</h3> */}
-            <div className="pageInfo">
-              <dl>
-                <dt>작성자 &#58;</dt>
-                <dd>관리자 &nbsp; &#124;</dd>
-
-                <dt>작성일 &#58;</dt>
-                <dd>2022-03-12 &nbsp; &#124;</dd>
-
-                <dt>조회수 &#58;</dt>
-                <dd>322</dd>
-              </dl>
-            </div>
-          </div>
-
-          <div className="contents">글 내용</div>
-          <div>
-            <nav>
-              <div>
-                {" "}
-                <span>이전글</span> 이전글입니다{" "}
-              </div>
-              <div>
-                {" "}
-                <span>다음글</span> 다음글입니다{" "}
-              </div>
-            </nav>
-          </div>
-          <div className="catalogue">
-            <button
-              onClick={() => {
-                navigate("/freeBoard");
-              }}
-            >
-              목록
-            </button>
-          </div>
+          <img
+            src="img/loading.gif"
+            alt="로딩중"
+            style={{ margin: "3em auto", width: "25%", height: "auto" }}
+          />
         </div>
       )}
     </div>
