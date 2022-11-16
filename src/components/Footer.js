@@ -44,7 +44,7 @@ function Footer() {
                   <li className="icon solid fa-envelope">
                     (FE) 정원재 박지현 조희진 성열암
                     <br />
-                    (BE) 신치용 조광식 안치산 김영상
+                    (BE) 신치용 조광식 안치산 이진영 김영상
                   </li>
                   <li className="icon solid fa-phone">
                     (Front-end) &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
