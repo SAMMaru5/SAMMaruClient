@@ -3,6 +3,7 @@ import { Pagination } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import free from "../../imgs/banner/free.jpg";
 import { getArticleList, getBoardList } from "../../hooks/boardServices";
+import { myRole } from "../../hooks/useAuth";
 
 function FreeBoardPage() {
   const navigate = useNavigate();
@@ -13,14 +14,19 @@ function FreeBoardPage() {
   const [pageList, setPageList] = useState(1);
 
   useEffect(() => {
-    getBoardList().then((response) => {
-      if (response.data.success) {
-        response.data.response.forEach((res) => {
-          if (res.name === "자유게시판") {
-            setBoardId(res.id);
-            getArticleList(res.id, pageNum, 10).then((res) => {
-              setBoardList(res.data.response);
-              setLoading(true);
+    // 비회원의 권한 확인
+    myRole().then((response) => {
+      if (response != undefined) {
+        getBoardList().then((response) => {
+          if (response.data.success) {
+            response.data.response.forEach((res) => {
+              if (res.name === "자유게시판") {
+                setBoardId(res.id);
+                getArticleList(res.id, pageNum, 10).then((res) => {
+                  setBoardList(res.data.response);
+                  setLoading(true);
+                });
+              }
             });
           }
         });
