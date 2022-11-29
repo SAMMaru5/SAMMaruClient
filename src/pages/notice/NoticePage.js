@@ -17,7 +17,7 @@ function NoticePage() {
   useEffect(() => {
     // 비회원의 권한 확인
     myRole().then((response) => {
-      if (response != undefined)
+      if (response != undefined) {
         getBoardList().then((response) => {
           if (response.data.success) {
             response.data.response.forEach((res) => {
@@ -31,6 +31,7 @@ function NoticePage() {
             });
           }
         });
+      }
     });
 
     if (pageNum % 10 === 1) setPageList(pageNum);
