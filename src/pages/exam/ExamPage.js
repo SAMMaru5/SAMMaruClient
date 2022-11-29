@@ -3,8 +3,8 @@ import { Pagination } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import exam from "../../imgs/banner/exam.jpg";
-import { myRole } from "../../hooks/useAuth";
 import { getArticleList, getBoardList } from "../../hooks/boardServices";
+import { myRole } from "../../hooks/useAuth";
 
 function ExamPage() {
   const navigate = useNavigate();
@@ -15,14 +15,19 @@ function ExamPage() {
   const [pageList, setPageList] = useState(1);
 
   useEffect(() => {
-    getBoardList().then((response) => {
-      if (response.data.success) {
-        response.data.response.forEach((res) => {
-          if (res.name === "족보") {
-            setBoardId(res.id);
-            getArticleList(res.id, pageNum, 10).then((res) => {
-              setBoardList(res.data.response);
-              setLoading(true);
+    // 비회원의 권한 확인
+    myRole().then((response) => {
+      if (response != undefined) {
+        getBoardList().then((response) => {
+          if (response.data.success) {
+            response.data.response.forEach((res) => {
+              if (res.name === "족보") {
+                setBoardId(res.id);
+                getArticleList(res.id, pageNum, 10).then((res) => {
+                  setBoardList(res.data.response);
+                  setLoading(true);
+                });
+              }
             });
           }
         });
