@@ -67,14 +67,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/awards" element={<AwardsPage />} />
-          <Route
-            path="/exam"
-            element={
-              <AuthGuard>
-                <ExamPage />
-              </AuthGuard>
-            }
-          />
+          <Route path="/exam" element={<ExamPage />} />
           <Route
             path="/exam/examUpdate"
             element={
