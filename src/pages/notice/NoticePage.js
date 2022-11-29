@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import notice from "../../imgs/banner/notice.jpg";
 import { getArticleList, getBoardList } from "../../hooks/boardServices";
+import { myRole } from "../../hooks/useAuth";
 
 function NoticePage() {
   const navigate = useNavigate();
@@ -14,18 +15,22 @@ function NoticePage() {
   const [pageList, setPageList] = useState(1);
 
   useEffect(() => {
-    getBoardList().then((response) => {
-      if (response.data.success) {
-        response.data.response.forEach((res) => {
-          if (res.name === "공지사항") {
-            setBoardId(res.id);
-            getArticleList(res.id, pageNum, 10).then((res) => {
-              setBoardList(res.data.response);
-              setLoading(true);
+    // 비회원의 권한 확인
+    myRole().then((response) => {
+      if (response != undefined)
+        getBoardList().then((response) => {
+          if (response.data.success) {
+            response.data.response.forEach((res) => {
+              if (res.name === "공지사항") {
+                setBoardId(res.id);
+                getArticleList(res.id, pageNum, 10).then((res) => {
+                  setBoardList(res.data.response);
+                  setLoading(true);
+                });
+              }
             });
           }
         });
-      }
     });
 
     if (pageNum % 10 === 1) setPageList(pageNum);
