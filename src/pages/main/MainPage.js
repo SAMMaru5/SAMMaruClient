@@ -2,7 +2,6 @@ import Board from "./Board";
 import ScheduleDetaile from "./ScheduleDetaile";
 import ClubIntroduction from "./ClubIntroduction";
 import ClubActivities from "./ClubActivities";
-import ClubAwards from "./ClubAwards";
 import "./MainPage.scss";
 import logo from "../../imgs/logo.png";
 import sammaru from "../../imgs/sammaru.png";
@@ -142,7 +141,6 @@ function MainPage() {
           {/* <Board />
           <Activity />
           <Schedule /> */}
-          <ClubAwards />
         </div>
         {/* 
  
