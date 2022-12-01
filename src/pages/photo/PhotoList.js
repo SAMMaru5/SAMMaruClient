@@ -3,6 +3,7 @@ import { Row, Col, Pagination } from "react-bootstrap";
 import "./PhotoList.scss";
 import { useNavigate } from "react-router-dom";
 import { getArticleList, getBoardList } from "../../hooks/boardServices";
+import { myRole } from "../../hooks/useAuth";
 
 const PhotoList = () => {
   const navigate = useNavigate();
@@ -13,14 +14,19 @@ const PhotoList = () => {
   const [pageList, setPageList] = useState(1);
 
   useEffect(() => {
-    getBoardList().then((response) => {
-      if (response.data.success) {
-        response.data.response.forEach((res) => {
-          if (res.name === "사진첩") {
-            setBoardid(res.id);
-            getArticleList(res.id, pageNum, 10).then((res) => {
-              setPhotoList(res.data.response);
-              setloading(true);
+    // 비회원의 권한 확인
+    myRole().then((response) => {
+      if (response != undefined) {
+        getBoardList().then((response) => {
+          if (response.data.success) {
+            response.data.response.forEach((res) => {
+              if (res.name === "사진첩") {
+                setBoardid(res.id);
+                getArticleList(res.id, pageNum, 10).then((res) => {
+                  setPhotoList(res.data.response);
+                  setloading(true);
+                });
+              }
             });
           }
         });
