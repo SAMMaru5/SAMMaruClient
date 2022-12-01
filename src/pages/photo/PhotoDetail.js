@@ -117,7 +117,7 @@ const PhotoDetail = () => {
           </div>
           <hr />
 
-          <p>{article.content}</p>
+          <pre>{article.content}</pre>
           <Comment
             boardId={location.state.boardId}
             articleId={location.state.articleId}

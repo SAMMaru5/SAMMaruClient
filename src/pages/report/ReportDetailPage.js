@@ -41,7 +41,7 @@ function ReportDetailPage() {
           </div>
 
           <div className="contents">
-            {article.content}
+            <pre>{article.content}</pre>
             <div className="contentsBottom">
               <span
                 className="text-center text-white like"
