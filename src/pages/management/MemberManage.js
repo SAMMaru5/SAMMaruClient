@@ -96,6 +96,50 @@ function MemberManage() {
     });
   };
 
+  /**
+   * 회원 목록에서 특정 회원을 제거하는 함수
+   * @param {*} username
+   * @param {*} id
+   */
+  const userRemoveHandler = (username, id) => {
+    checkExpiredAccesstoken().then((response) => {
+      Swal.fire({
+        icon: "info",
+        title: `${username} 사용자를 회원\n목록에서 제거하시겠습니까?`,
+        showDenyButton: true,
+        confirmButtonText: "네",
+        denyButtonText: `아니요`,
+      }).then(async (response) => {
+        if (response.isConfirmed) {
+          try {
+            await api.delete("/api/users/" + id).then((result) => {
+              searchAllUsers();
+              Swal.fire({
+                icon: "info",
+                title: `${username} 사용자를\n 정상적으로 제거하였습니다.`,
+              });
+            });
+          } catch (error) {
+            if (error.response.status === 406) {
+              Swal.fire({
+                icon: "error",
+                title: `관리자 권한을 지닌\n사용자는 제거할 수 없습니다.`,
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "예기치 못 한 에러가 발생하였습니다.",
+              });
+              window.location.href = "/login";
+            }
+          }
+        } else {
+          return;
+        }
+      });
+    });
+  };
+
   return (
     <div id="MemberManage">
       <form className="d-flex align-items-center">
@@ -128,6 +172,7 @@ function MemberManage() {
               <th>학번</th>
               <th>이메일</th>
               <th>회원권한</th>
+              <th>회원제거</th>
             </tr>
           </thead>
 
@@ -155,6 +200,16 @@ function MemberManage() {
                       <option value="ROLE_MEMBER">회원</option>
                       <option value="ROLE_ADMIN">관리자</option>
                     </select>
+                  </td>
+                  <td>
+                    <button
+                      className="text-bg-danger"
+                      onClick={(response) => {
+                        userRemoveHandler(member.username, member.userId);
+                      }}
+                    >
+                      추방
+                    </button>
                   </td>
                 </tr>
               );
