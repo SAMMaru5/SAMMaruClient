@@ -6,6 +6,7 @@ import "./MainPage.scss";
 import logo from "../../imgs/logo.png";
 import sammaru from "../../imgs/sammaru.png";
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 function MainPage() {
   const tab = useRef([]);
@@ -43,7 +44,7 @@ function MainPage() {
                 }}
               />
               <h1 id="logo">
-                <a href="index.html" style={{ position: "relative" }}>
+                <Link to="clubIntro" style={{ position: "relative" }}>
                   WELCOME TO &nbsp;&nbsp;&nbsp;&nbsp;
                   <img
                     src={logo}
@@ -58,7 +59,7 @@ function MainPage() {
                     }}
                   />
                   &nbsp;SAMMaru
-                </a>
+                </Link>
               </h1>
             </div>
           </section>
