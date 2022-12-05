@@ -66,9 +66,9 @@ function Navigation() {
           </div>
         ) : (
           <div style={{ marginLeft: "auto" }}>
-            <p className="user" onClick={() => navigate("/login")}>
-              회원가입/로그인
-            </p>
+            <Link to="login" className="signIn" style={{ transition: "0.2s" }}>
+              로그인
+            </Link>
           </div>
         )}
       </div>
