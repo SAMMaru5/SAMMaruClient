@@ -115,7 +115,7 @@ function MemberManage() {
             await api.delete("/api/users/" + id).then((result) => {
               searchAllUsers();
               Swal.fire({
-                icon: "info",
+                icon: "success",
                 title: `${username} 사용자를\n 정상적으로 제거하였습니다.`,
               });
             });
