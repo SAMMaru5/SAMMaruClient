@@ -1,19 +1,16 @@
 .Navigation {
   margin: 0 auto;
-  margin-bottom: 3%;
+  z-index: 2;
 
   .userStatus {
-    margin-top: 1%;
+    margin-top: 2%;
+    margin-bottom: -1%;
     width: 100%;
     height: 40px;
     p {
       display: inline-block;
     }
 
-    .user {
-      float: right;
-      cursor: pointer;
-    }
     .userInfo {
       float: right;
       a {
@@ -38,8 +35,20 @@
       }
     }
 
-    .user:hover {
-      text-decoration: underline;
+    // 메인페이지 내 우측 상단의 (로그인 버튼)
+    .signIn {
+      padding: 0.25rem 2.75rem;
+      color: white;
+      background-color: black;
+      border: 1px solid black;
+      border-radius: 5px;
+    }
+
+    .signIn:hover {
+      text-decoration: none;
+      background-color: white;
+      color: black;
+      border: 1px solid black;
     }
   }
 
