@@ -66,11 +66,11 @@ function Navigation() {
           </div>
         ) : (
           <div style={{ marginLeft: "auto" }}>
-            <Link to="login" className="signIn" style={{ transition: "0.2s" }}>
-              로그인
-            </Link>
             <Link to="agree" className="signUp" style={{ transition: "0.2s" }}>
               회원가입
+            </Link>
+            <Link to="login" className="signIn" style={{ transition: "0.2s" }}>
+              로그인
             </Link>
           </div>
         )}
