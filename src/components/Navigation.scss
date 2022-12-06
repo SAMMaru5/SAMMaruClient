@@ -35,22 +35,6 @@
       }
     }
 
-    // 메인페이지 내 우측 상단의 (로그인 버튼)
-    .signIn {
-      padding: 0.25rem 2.75rem;
-      color: white;
-      background-color: black;
-      border: 1px solid black;
-      border-radius: 5px;
-    }
-
-    .signIn:hover {
-      text-decoration: none;
-      background-color: white;
-      color: black;
-      border: 1px solid black;
-    }
-
     // 메인페이지 내 우측 상단의 (회원가입 버튼)
     .signUp {
       padding: 0.25rem 1rem;
@@ -63,6 +47,23 @@
     .signUp:hover {
       text-decoration: none;
       color: rgb(110, 110, 110);
+    }
+
+    // 메인페이지 내 우측 상단의 (로그인 버튼)
+    .signIn {
+      padding: 0.25rem 2.75rem;
+      margin-right: 2rem;
+      color: white;
+      background-color: black;
+      border: 1px solid black;
+      border-radius: 5px;
+    }
+
+    .signIn:hover {
+      text-decoration: none;
+      background-color: white;
+      color: black;
+      border: 1px solid black;
     }
   }
 
