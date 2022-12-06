@@ -69,6 +69,9 @@ function Navigation() {
             <Link to="login" className="signIn" style={{ transition: "0.2s" }}>
               로그인
             </Link>
+            <Link to="agree" className="signUp" style={{ transition: "0.2s" }}>
+              회원가입
+            </Link>
           </div>
         )}
       </div>
