@@ -50,6 +50,20 @@
       color: black;
       border: 1px solid black;
     }
+
+    // 메인페이지 내 우측 상단의 (회원가입 버튼)
+    .signUp {
+      padding: 0.25rem 1rem;
+      color: black;
+      background-color: white;
+      border-radius: 5px;
+      border: none;
+    }
+
+    .signUp:hover {
+      text-decoration: none;
+      color: rgb(110, 110, 110);
+    }
   }
 
   .dropdown-toggle::after {
