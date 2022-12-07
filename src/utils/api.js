@@ -19,7 +19,7 @@ instance.interceptors.request.use(async function (config) {
     const expiredTime = new Date(
         localStorage.getItem("sm-expired").toString().substring(0, 19)
     );
-    console.log(currentTime.getTime());
+
     if (expiredTime.getTime() - currentTime.getTime() <= 300000) {
       await axios
         .post(

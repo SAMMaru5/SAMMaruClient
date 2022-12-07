@@ -67,7 +67,6 @@ function MainPage() {
               <Board />
             </div>
           </section>
-
           <ClubActivities />
 
           <section id="banner">
