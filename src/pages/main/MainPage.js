@@ -8,23 +8,6 @@ import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 function MainPage() {
-  const tab = useRef([]);
-  const [containerClassName, setContainerClassName] = useState("container");
-
-  function openTab(tabName) {
-    var i;
-    for (i = 0; i < tab.current.length; i++) {
-      tab.current[i].style.display = "none";
-    }
-    if (tabName === "scheduletab") {
-      setContainerClassName("container");
-      tab.current[0].style.display = "block";
-    } else if (tabName === "noticetab") {
-      setContainerClassName("noticeClicked");
-      tab.current[1].style.display = "block";
-    }
-  }
-
   return (
     <>
       <div className="homepage is-preload">
@@ -63,44 +46,6 @@ function MainPage() {
             </div>
           </section>
 
-          <section id="features">
-            <div className={containerClassName}>
-              <div className="w3-bar w3-black">
-                <button
-                  className="w3-bar-item w3-button"
-                  style={{ background: "#6a81ed" }}
-                  onClick={() => {
-                    openTab("scheduletab");
-                  }}
-                >
-                  학사일정
-                </button>
-                <button
-                  className="w3-bar-item w3-button"
-                  style={{ background: "#6a81ed", marginLeft: "50px" }}
-                  onClick={() => {
-                    openTab("noticetab");
-                  }}
-                >
-                  공지사항
-                </button>
-              </div>
-              <div>
-                <div
-                  id="notice"
-                  className="tab"
-                  ref={(elem) => (tab.current[1] = elem)}
-                  style={{
-                    display: "none",
-                    paddingLeft: "10%",
-                    paddingRight: "10%",
-                  }}
-                >
-                  <Board />
-                </div>
-              </div>
-            </div>
-          </section>
           <ClubActivities />
 
           <section id="banner">
@@ -114,18 +59,7 @@ function MainPage() {
           </section>
 
           <ClubIntroduction />
-          {/* <Board />
-          <Activity />
-          <Schedule /> */}
         </div>
-        {/* 
- 
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/jquery.dropotron.min.js"></script>
-    <script src="assets/js/browser.min.js"></script>
-    <script src="assets/js/breakpoints.min.js"></script>
-    <script src="assets/js/util.js"></script>
-    <script src="assets/js/main.js"></script> */}
       </div>
     </>
   );

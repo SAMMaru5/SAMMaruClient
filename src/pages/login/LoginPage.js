@@ -23,11 +23,10 @@ function LoginPage() {
       )
       .then((response) => {
         if (response.data.success) {
-          // console.log("login function::::: " + getCookie("SammaruAccessToken"));
-          sessionStorage.setItem(
-            "EXPIRED_TIME",
-            response.data.response.expiresAt
-          );
+          localStorage.setItem("sm-accessToken", response.data.response.accessToken);
+          localStorage.setItem("sm-refreshToken", response.data.response.refreshToken);
+          localStorage.setItem("sm-expired", response.data.response.accessTokenExpiresTime);
+
           Swal.fire({
             icon: "success",
             title: "로그인에 성공하셨습니다.",

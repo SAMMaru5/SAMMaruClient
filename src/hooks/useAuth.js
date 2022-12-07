@@ -47,19 +47,37 @@ export async function checkExpiredAccesstoken() {
     });
   }
 
-  if (getCookie("SammaruAccessToken")) {
+  if (localStorage.getItem('sm-accessToken')) {
     try {
       return await api.get("/no-permit/api/user/info").then((response) => {
         return response;
       });
     } catch (error) {
-      delCookie("SammaruAccessToken");
+      localStorage.clear();
       expiredLogin();
     }
   } else expiredLogin();
 }
 
 export async function signout() {
-  delCookie("SammaruAccessToken");
-  window.location.href = "/";
+  try {
+    return await api.delete(process.env.REACT_APP_URL + '/auth/logout').then(response => {
+      if(response.status === 200) {
+        localStorage.clear();
+        window.location.href = "/";
+      }
+    });
+  } catch (e) {
+  };
 }
+
+
+export async function reissue(accessToken, refreshToken) {
+  try {
+    return await api.post(process.env.REACT_APP_URL + '/auth/reissue' , {accessToken, refreshToken}).then((response) => {
+      return response;
+    });
+  } catch (e) {
+
+  }
+};
