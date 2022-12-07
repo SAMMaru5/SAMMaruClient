@@ -74,15 +74,13 @@ function clubIntroduction() {
                 <li>
                   <article className="box excerpt">
                     <header>
-                      <span className="date">시험자료</span>
+                      <span className="date">친목</span>
                       <h3>
-                        <a href="/exam">학과 시험은 기출문제로</a>
+                        <a href="/exam">다양한 이벤트</a>
                       </h3>
                     </header>
                     <p>
-                      동아리 선배들이 동아리 후배들을 위해서 과목별로 기출문제를
-                      정리해두었습니다. 시험을 보기 전 미리 본인의 실력을 테스트
-                      해볼 수 있습니다.
+                      친해지길 바라, 시험기간 야식마차 등 다양한 이벤트가 준비되어 있습니다.
                     </p>
                   </article>
                 </li>

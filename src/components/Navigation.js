@@ -1,10 +1,9 @@
 import "./Navigation.scss";
 import api from "../utils/api";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { signout } from "../hooks/useAuth";
+import {signout} from "../hooks/useAuth";
 import { useEffect, useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { delCookie, getCookie } from "../hooks/useCookie";
 
 function Navigation() {
   const navigate = useNavigate();
@@ -25,10 +24,9 @@ function Navigation() {
           }
         });
       } catch (error) {
-        delCookie("SammaruAccessToken");
       }
     }
-    getCookie("SammaruAccessToken") && getUserInfo();
+    localStorage.getItem('sm-accessToken') && getUserInfo();
   }, [location]);
 
   return (

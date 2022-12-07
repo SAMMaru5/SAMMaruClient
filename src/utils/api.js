@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getCookie } from "../hooks/useCookie";
 
 const instance = axios.create({
   withCredentials: true,
@@ -8,32 +7,31 @@ const instance = axios.create({
 
 instance.interceptors.request.use(async function (config) {
   const currentTime = new Date();
-  const cookie = getCookie("SammaruAccessToken");
+  const accessToken = localStorage.getItem("sm-accessToken");
+  const refreshToken = localStorage.getItem("sm-refreshToken");
 
   config.headers = {
-    Authorization: `Bearer ${cookie}`,
+    Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
   };
 
-  // console.log("interceptor function::::: " + cookie);
-
-  if (sessionStorage.getItem("EXPIRED_TIME") && cookie) {
-    // console.log("api function::::: " + getCookie("SammaruAccessToken"));
+  if (localStorage.getItem("sm-expired")) {
     const expiredTime = new Date(
-      sessionStorage.getItem("EXPIRED_TIME").toString().substring(0, 19)
+        localStorage.getItem("sm-expired").toString().substring(0, 19)
     );
-    sessionStorage.removeItem("EXPIRED_TIME");
-    // console.log(sessionStorage.getItem("EXPIRED_TIME"));
 
     if (expiredTime.getTime() - currentTime.getTime() <= 300000) {
       await axios
         .post(
           process.env.REACT_APP_URL + "/auth/reissue",
-          {},
-          { withCredentials: true }
+          {accessToken, refreshToken}
         )
         .then((res) => {
-          // console.log(res);
+          if(res.status === 200){
+            localStorage.setItem('sm-accessToken', res.data.response.accessToken);
+            localStorage.setItem('sm-refreshToken', res.data.response.refreshToken);
+            localStorage.setItem('sm-expired', res.data.response.accessTokenExpiresTime);
+          }
         });
     }
   }
@@ -41,8 +39,11 @@ instance.interceptors.request.use(async function (config) {
   return config;
 });
 
-instance.interceptors.response.use((response) => {
-  return response;
-});
+instance.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+);
+
 
 export default instance;
