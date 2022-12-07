@@ -1,5 +1,4 @@
 import Board from "./Board";
-import ScheduleDetaile from "./ScheduleDetaile";
 import ClubIntroduction from "./ClubIntroduction";
 import ClubActivities from "./ClubActivities";
 import "./MainPage.scss";
@@ -65,14 +64,7 @@ function MainPage() {
           </section>
 
           <section id="features">
-            <div
-              className={containerClassName}
-              style={{
-                borderBottom: "solid 2px #e5e5e5",
-                boxShadow:
-                  "inset 0px -8px 0px 0px #fff, inset 0px -10px 0px 0px #e5e5e5",
-              }}
-            >
+            <div className={containerClassName}>
               <div className="w3-bar w3-black">
                 <button
                   className="w3-bar-item w3-button"
@@ -93,24 +85,7 @@ function MainPage() {
                   공지사항
                 </button>
               </div>
-              <div
-                style={{
-                  marginTop: "50px",
-                  height: "500px",
-                }}
-              >
-                <div
-                  id="schedule"
-                  className="tab"
-                  ref={(elem) => (tab.current[0] = elem)}
-                  style={{
-                    display: "block",
-                    paddingLeft: "10%",
-                    paddingRight: "10%",
-                  }}
-                >
-                  <ScheduleDetaile />
-                </div>
+              <div>
                 <div
                   id="notice"
                   className="tab"

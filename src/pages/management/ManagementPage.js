@@ -1,5 +1,4 @@
 import "./ManagementPage.scss";
-import ScheduleManage from "./ScheduleManage";
 import { Tab, Row, Col, Nav } from "react-bootstrap";
 import { useState } from "react";
 import BoardManage from "./BoardManage";
@@ -48,9 +47,6 @@ function ManagementPage() {
               <Nav.Item>
                 <Nav.Link eventKey="first">&nbsp;메인페이지 관리</Nav.Link>
               </Nav.Item>
-              <Nav.Item id="nav-link">
-                <Nav.Link eventKey="second">&nbsp;스케쥴 관리</Nav.Link>
-              </Nav.Item>
               <Nav.Item>
                 <Nav.Link eventKey="third">&nbsp;&nbsp;게시판 관리</Nav.Link>
               </Nav.Item>
@@ -85,8 +81,6 @@ function ManagementPage() {
           </Col>
         </Row>
       </Tab.Container>
-
-      <ScheduleManage visible={visible} />
     </div>
   );
 }
