@@ -4,7 +4,6 @@ import ClubActivities from "./ClubActivities";
 import "./MainPage.scss";
 import logo from "../../imgs/logo.png";
 import sammaru from "../../imgs/sammaru.png";
-import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 function MainPage() {
@@ -12,7 +11,12 @@ function MainPage() {
     <>
       <div className="homepage is-preload">
         <div id="page-wrapper">
-          <section id="header">
+          <section
+            id="header"
+            style={{
+              marginBottom: "7rem",
+            }}
+          >
             <div className="container">
               <img
                 src={sammaru}
@@ -43,6 +47,24 @@ function MainPage() {
                   &nbsp;SAMMaru
                 </Link>
               </h1>
+            </div>
+          </section>
+
+          <section id="features">
+            <header>
+              <h2>
+                <strong style={{ letterSpacing: "1rem" }}>공지사항</strong>
+              </h2>
+            </header>
+            <div
+              id="notice"
+              className="container"
+              style={{
+                marginTop: "2rem",
+                width: "53rem",
+              }}
+            >
+              <Board />
             </div>
           </section>
 
