@@ -104,11 +104,6 @@ function LoginPage() {
           <button id="loginBtn" type="submit">
             로그인
           </button>
-          <div className="autoLoginFrame">
-            <label htmlFor="autoLogin">
-              <input id="autoLogin" type={"checkbox"}></input> 자동 로그인
-            </label>
-          </div>
           <div className="loginLink">
             <Link to="/agree" className="signUp">
               회원가입
