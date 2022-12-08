@@ -23,9 +23,18 @@ function LoginPage() {
       )
       .then((response) => {
         if (response.data.success) {
-          localStorage.setItem("sm-accessToken", response.data.response.accessToken);
-          localStorage.setItem("sm-refreshToken", response.data.response.refreshToken);
-          localStorage.setItem("sm-expired", response.data.response.accessTokenExpiresTime);
+          localStorage.setItem(
+            "sm-accessToken",
+            response.data.response.accessToken
+          );
+          localStorage.setItem(
+            "sm-refreshToken",
+            response.data.response.refreshToken
+          );
+          localStorage.setItem(
+            "sm-expired",
+            response.data.response.accessTokenExpiresTime
+          );
 
           Swal.fire({
             icon: "success",
