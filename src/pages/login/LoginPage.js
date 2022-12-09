@@ -23,9 +23,18 @@ function LoginPage() {
       )
       .then((response) => {
         if (response.data.success) {
-          localStorage.setItem("sm-accessToken", response.data.response.accessToken);
-          localStorage.setItem("sm-refreshToken", response.data.response.refreshToken);
-          localStorage.setItem("sm-expired", response.data.response.accessTokenExpiresTime);
+          localStorage.setItem(
+            "sm-accessToken",
+            response.data.response.accessToken
+          );
+          localStorage.setItem(
+            "sm-refreshToken",
+            response.data.response.refreshToken
+          );
+          localStorage.setItem(
+            "sm-expired",
+            response.data.response.accessTokenExpiresTime
+          );
 
           Swal.fire({
             icon: "success",
@@ -95,11 +104,6 @@ function LoginPage() {
           <button id="loginBtn" type="submit">
             로그인
           </button>
-          <div className="autoLoginFrame">
-            <label htmlFor="autoLogin">
-              <input id="autoLogin" type={"checkbox"}></input> 자동 로그인
-            </label>
-          </div>
           <div className="loginLink">
             <Link to="/agree" className="signUp">
               회원가입
