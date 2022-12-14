@@ -27,10 +27,10 @@ function Comment(props) {
           }
         });
       } catch (error) {
-        delCookie("SammaruAccessToken");
+        localStorage.clear();
       }
     }
-    getCookie("SammaruAccessToken") && getUserInfo();
+    localStorage.getItem('sm-accessToken') && getUserInfo();
     myRole().then((response) => {
       setRole(response);
     });
@@ -245,7 +245,7 @@ function Comment(props) {
                     </div>
                     <p className="content">{comment.content}</p>
                     <div className="commentControl">
-                      {userInfo.response.username === comment.author ? (
+                      {userInfo.response.username === comments[i].author ? (
                         <>
                           <button
                             className="modifyingComment"
