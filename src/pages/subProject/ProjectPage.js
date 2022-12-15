@@ -3,7 +3,11 @@ import { Pagination } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import project from "../../imgs/banner/project.jpg";
 import { myRole } from "../../hooks/useAuth";
-import { getArticleList, getBoardList } from "../../hooks/boardServices";
+import {
+  getArticleList,
+  getBoardList,
+  searchArticles,
+} from "../../hooks/boardServices";
 
 function ProjectPage() {
   const navigate = useNavigate();
@@ -12,6 +16,9 @@ function ProjectPage() {
   const [boardId, setBoardId] = useState();
   const [pageNum, setPageNum] = useState(1);
   const [pageList, setPageList] = useState(1);
+  const [keywordSelectOption, setKeywordSelectOption] =
+    useState("ARTICLE_TITLE");
+  const [keyword, setKeyword] = useState("");
 
   useEffect(() => {
     // 비회원의 권한 확인
@@ -108,25 +115,88 @@ function ProjectPage() {
           <span>{" /  "}</span>
           <span> 소규모 프로젝트 </span>
         </div>
-        <div className="search">
+        <div
+          className="search"
+          style={{ border: "1px solid gray", borderRadius: "5px" }}
+        >
           <div className="inp_sch">
-            <b> 검색구분 </b>
-            <select name="srchTp">
-              <option value="title" style={{ textAlign: "center" }}>
-                제목
-              </option>
-              <option value="cpntent" style={{ textAlign: "center" }}>
-                내용
-              </option>
-              <option value="both" style={{ textAlign: "center" }}>
-                제목+내용
-              </option>
-            </select>
-            <input type="text"></input>
-            <input type="submit" value={"검색"}></input>
+            <form style={{ display: "flex" }}>
+              <b
+                style={{
+                  padding: "0 0.5rem 0 6rem",
+                  marginTop: "0px",
+                  color: "black",
+                }}
+              >
+                {" "}
+                검색구분{" "}
+              </b>
+              <select
+                name="srchTp"
+                onChange={(e) => setKeywordSelectOption(e.target.value)}
+                style={{
+                  width: "5.2rem",
+                  color: "black",
+                  textAlignLast: "left",
+                }}
+              >
+                <option value="ARTICLE_TITLE" style={{ textAlign: "center" }}>
+                  제목
+                </option>
+                <option value="ARTICLE_CONTENT" style={{ textAlign: "center" }}>
+                  내용
+                </option>
+                <option
+                  value="ARTICLE_TITLE_AND_CONTENT"
+                  style={{ textAlign: "center" }}
+                >
+                  제목+내용
+                </option>
+                <option value="WRITER_NAME" style={{ textAlign: "center" }}>
+                  작성자
+                </option>
+                <option
+                  value="WRITER_STUDENT_ID"
+                  style={{ textAlign: "center" }}
+                >
+                  학번
+                </option>
+              </select>
+              <input
+                type="text"
+                value={keyword}
+                style={{ paddingLeft: "0.4rem", border: "1px solid black" }}
+                onChange={(res) => {
+                  setKeyword(res.target.value);
+                }}
+              ></input>
+              <button
+                className="p-0 elegant-color text-white"
+                style={{
+                  width: "4rem",
+                  height: "37px",
+                  boxShadow: "none",
+                  borderRadius: "3px",
+                  fontWeight: "500",
+                }}
+                type="submit"
+                onClick={(e) => {
+                  e.preventDefault();
+                  searchArticles(
+                    boardId,
+                    pageNum,
+                    keyword,
+                    keywordSelectOption
+                  ).then((response) => {
+                    setBoardList(response.data.response);
+                  });
+                }}
+              >
+                검색
+              </button>
+            </form>
           </div>
         </div>
-
         <div
           className="adminPost"
           style={{
