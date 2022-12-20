@@ -1,7 +1,7 @@
 import "./Navigation.scss";
 import api from "../utils/api";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import {signout} from "../hooks/useAuth";
+import { signout } from "../hooks/useAuth";
 import { useEffect, useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
@@ -23,10 +23,9 @@ function Navigation() {
             setloading(true);
           }
         });
-      } catch (error) {
-      }
+      } catch (error) {}
     }
-    localStorage.getItem('sm-accessToken') && getUserInfo();
+    localStorage.getItem("sm-accessToken") && getUserInfo();
   }, [location]);
 
   return (
@@ -204,6 +203,8 @@ function Navigation() {
           <li>
             <a
               className="icon solid fa-sitemap"
+              target="_blank"
+              rel="noopener noreferrer"
               href="https://www.chungbuk.ac.kr/"
             >
               <span>충북대학교</span>
@@ -216,7 +217,7 @@ function Navigation() {
                   href="https://www.chungbuk.ac.kr/"
                   style={{ color: "#878787" }}
                 >
-                  충북대학교
+                  본교 홈페이지
                 </a>
               </li>
               <li>
@@ -236,7 +237,7 @@ function Navigation() {
                   href="https://software.cbnu.ac.kr/"
                   style={{ color: "#878787" }}
                 >
-                  소프트웨어학과
+                  소프트웨어학부
                 </a>
               </li>
               <li>
@@ -246,17 +247,17 @@ function Navigation() {
                   href="https://sw7up.cbnu.ac.kr/home"
                   style={{ color: "#878787" }}
                 >
-                  SW중심사업단
+                  SW중심대학사업단
                 </a>
               </li>
               <li>
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  href="https://cbnu.blackboard.com/"
+                  href="https://ecampus.cbnu.ac.kr/"
                   style={{ color: "#878787" }}
                 >
-                  Ecampus
+                  eCampus
                 </a>
               </li>
               <li>
@@ -266,7 +267,7 @@ function Navigation() {
                   href="https://dorm.chungbuk.ac.kr/"
                   style={{ color: "#878787" }}
                 >
-                  기숙사
+                  학생생활관
                 </a>
               </li>
             </ul>
