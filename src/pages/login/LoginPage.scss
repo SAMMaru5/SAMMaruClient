@@ -1,11 +1,131 @@
 .LoginPage {
-  input {
-    -webkit-appearance: auto;
-    appearance: auto;
+  .studentNumForm {
+    height: 2.75rem;
+    .studentNumInput {
+      width: 17.25rem;
+      // width: 15.5rem;
+      padding: 0;
+      position: relative;
+      top: 1.94rem;
+      left: 2.2rem;
+      box-shadow: none !important;
+      color: black;
+      border-radius: 0;
+      font-size: 17px;
+    }
+
+    .studentNumInput::placeholder {
+      color: #bfbfbf !important;
+    }
+
+    .studentNumInput:focus {
+      outline: none;
+      background-color: white;
+    }
+
+    .studentNumInput:focus ~ .studentNum {
+      border: 1.25px solid #4d69e2 !important;
+    }
+
+    .studentNumInput:focus ~ .studentNum > .userIcon {
+      color: rgb(108, 108, 108) !important;
+    }
+
+    .studentNum {
+      display: flex;
+      width: 20rem;
+      height: 2.75rem;
+      border: 1.25px solid #ddd;
+      border-bottom: none;
+      border-top-left-radius: 6px !important;
+      border-top-right-radius: 6px !important;
+      border-bottom-left-radius: 0px !important;
+      border-bottom-right-radius: 0px !important;
+
+      .userIcon {
+        padding: 0.9rem 0.9rem;
+        color: #bfbfbf !important;
+      }
+
+      .studentNumDeleteBtn {
+        font-size: 17px;
+        padding: 0 !important;
+        position: relative;
+        left: 15.6rem;
+        top: 0.8rem;
+        box-shadow: none;
+        background-color: transparent;
+        color: #9ba1a3 !important;
+        cursor: pointer;
+      }
+    }
   }
+
+  .passwordForm {
+    margin-bottom: 0.5rem;
+    .passwordInput {
+      width: 17.25rem;
+      // width: 15.5rem;
+      padding: 0;
+      position: relative;
+      top: 1.94rem;
+      left: 2.2rem;
+      box-shadow: none !important;
+      color: black;
+      border-radius: 0;
+      font-size: 17px;
+    }
+
+    .passwordInput::placeholder {
+      color: #bfbfbf !important;
+    }
+
+    .passwordInput:focus {
+      outline: none;
+      background-color: white;
+    }
+
+    .passwordInput:focus ~ .password {
+      border: 1.25px solid #4d69e2 !important;
+    }
+
+    .passwordInput:focus ~ .password > .lockIcon {
+      color: rgb(108, 108, 108) !important;
+    }
+
+    .password {
+      display: flex;
+      width: 20rem;
+      height: 2.75rem;
+      border: 1.25px solid #ddd;
+      border-top-left-radius: 0px !important;
+      border-top-right-radius: 0px !important;
+      border-bottom-left-radius: 6px !important;
+      border-bottom-right-radius: 6px !important;
+
+      .lockIcon {
+        padding: 0.9rem 0.9rem;
+        color: #bfbfbf !important;
+      }
+
+      .passwordDeleteBtn {
+        font-size: 17px;
+        padding: 0 !important;
+        position: relative;
+        left: 15.6rem;
+        top: 0.8rem;
+        box-shadow: none;
+        background-color: transparent;
+        color: #9ba1a3 !important;
+        cursor: pointer;
+      }
+    }
+  }
+
   width: 100%;
   display: flex;
   justify-content: center;
+  font-size: 15px;
   .loginFrame {
     min-width: 400px;
   }
@@ -18,19 +138,14 @@
     flex-direction: column;
 
     #loginBtn {
-      font-size: 17px;
-      height: 2.5rem;
-      line-height: 2.1rem;
+      font-size: 15px;
+      height: 2.25rem;
+      line-height: 1.85rem;
       margin-top: 0.5rem;
       letter-spacing: -0.25px;
-      font-weight: 700;
+      font-weight: 600;
       border-radius: 4px;
     }
-  }
-  input {
-    font-size: 1.2em;
-    margin-bottom: 2%;
-    padding-left: 2%;
   }
   button {
     font-size: 1.2em;
@@ -58,6 +173,8 @@
     .signUp,
     .findPassword {
       border: none;
+      color: grey;
+      font-size: 14px;
     }
   }
   .autoLoginFrame {
