@@ -4,6 +4,7 @@ import "./FreeBoardDetail.scss";
 import { getBoards } from "../../hooks/boardServices";
 import Comment from "../../components/Comment";
 import { deletePost } from "../../hooks/usePostServices";
+import { UploadedFilesInArticle } from "../../components/UploadedFilesInArticle";
 
 function FreeBoardDetailPage() {
   const navigate = useNavigate();
@@ -62,33 +63,7 @@ function FreeBoardDetailPage() {
               </span>
             </div>
           </div>
-          {article.files.length !== 0 ? (
-            <div className="file-download-frame mt-5">
-              파일 다운로드
-              <br />
-              {article.files.map((file, id) => (
-                <div key={id}>
-                  <a
-                    href={
-                      process.env.REACT_APP_URL +
-                      "/no-permit/api/boards/" +
-                      location.state.boardId +
-                      "/articles/" +
-                      location.state.articleId +
-                      "/files/" +
-                      file.filePath
-                    }
-                    className="text-decoration-none"
-                    key={id}
-                  >
-                    {file.fileName}
-                  </a>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div></div>
-          )}
+          <UploadedFilesInArticle location={location} article={article} />
           <Comment
             boardId={location.state.boardId}
             articleId={location.state.articleId}
