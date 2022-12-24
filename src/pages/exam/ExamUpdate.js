@@ -1,6 +1,6 @@
 import { Form, Button } from "react-bootstrap";
-import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
+import Card from "react-bootstrap/Card";
+import ListGroup from "react-bootstrap/ListGroup";
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import api from "../../utils/api";
@@ -35,29 +35,24 @@ function ExamUpdate() {
         icon: "warning",
         title: "파일첨부를 5개 초과할 수 없습니다.",
       });
-    }
-    else {
-      let fileUrlLists = [...showFiles]
-      let uploadFileLists = [...uploadFile]
+    } else {
+      let fileUrlLists = [...showFiles];
+      let uploadFileLists = [...uploadFile];
 
       for (let i = 0; i < fileLists.length; i++) {
         uploadFileLists.push(fileLists[i]);
         const currentFileUrl = URL.createObjectURL(fileLists[i]);
-        fileUrlLists.push({ 'url': currentFileUrl, 'name': fileLists[i].name });
+        fileUrlLists.push({ url: currentFileUrl, name: fileLists[i].name });
       }
-      setShowFiles(fileUrlLists)
+      setShowFiles(fileUrlLists);
       setUploadFile(uploadFileLists);
     }
-
-
-  }
+  };
 
   const handleDeleteImage = (id) => {
     setShowFiles(showFiles.filter((_, index) => index !== id));
     setUploadFile(uploadFile.filter((_, index) => index !== id));
   };
-
-
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -69,7 +64,7 @@ function ExamUpdate() {
 
         let formData = new FormData();
         for (let i = 0; i < uploadFile.length; i++) {
-          formData.append("file", uploadFile[i])
+          formData.append("file", uploadFile[i]);
         }
 
         formData.append(
@@ -153,28 +148,40 @@ function ExamUpdate() {
             }}
           />
         </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>등록된 파일</Form.Label>
-            {showFiles.length ?
-              <Card>
-                <ListGroup variant="flush">
-                  {showFiles.map((file, id) => (
-                    <ListGroup.Item className="d-flex justify-content-between align-items-center" >
-                      <span>
-                        <svg className="me-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-code" viewBox="0 0 16 16">
-                          <path d="M6.646 5.646a.5.5 0 1 1 .708.708L5.707 8l1.647 1.646a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708l2-2zm2.708 0a.5.5 0 1 0-.708.708L10.293 8 8.646 9.646a.5.5 0 0 0 .708.708l2-2a.5.5 0 0 0 0-.708l-2-2z" />
-                          <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z" />
-                        </svg>
-                        {file.name}
-                      </span>
-                      <span style={{ cursor: 'pointer' }} onClick={() => handleDeleteImage(id)}>X</span>
-                    </ListGroup.Item>
-                  ))}
-                </ListGroup>
-              </Card>
-              :
-              null
-            }
+        <Form.Group className="mb-3">
+          <Form.Label>등록된 파일</Form.Label>
+          {showFiles.length ? (
+            <Card>
+              <ListGroup variant="flush">
+                {showFiles.length ? (
+                  <Card>
+                    <ListGroup variant="flush">
+                      {showFiles.map((file, id) => (
+                        <ListGroup.Item className="d-flex justify-content-between align-items-center">
+                          <span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              height="24"
+                              width="24"
+                            >
+                              <path d="M6.3 21.5q-.75 0-1.275-.525Q4.5 20.45 4.5 19.7V4.3q0-.75.525-1.275Q5.55 2.5 6.3 2.5h7.95l5.25 5.25V19.7q0 .75-.525 1.275-.525.525-1.275.525Zm7.2-13V4H6.3q-.1 0-.2.1t-.1.2v15.4q0 .1.1.2t.2.1h11.4q.1 0 .2-.1t.1-.2V8.5ZM6 4v4.5V4 20 4Z" />
+                            </svg>
+                            &nbsp;{file.name}
+                          </span>
+                          <span
+                            style={{ cursor: "pointer" }}
+                            onClick={() => handleDeleteImage(id)}
+                          >
+                            <i className="fa-solid fa-xmark" />
+                          </span>
+                        </ListGroup.Item>
+                      ))}
+                    </ListGroup>
+                  </Card>
+                ) : null}
+              </ListGroup>
+            </Card>
+          ) : null}
         </Form.Group>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
           <Form.Label>내용</Form.Label>
