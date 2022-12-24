@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getBoards } from "../../hooks/boardServices";
 import Comment from "../../components/Comment";
 import { deletePost } from "../../hooks/usePostServices";
+import { UploadedFilesInArticle } from "../../components/UploadedFilesInArticle";
 
 function NoticeDetailPage() {
   const navigate = useNavigate();
@@ -51,7 +52,6 @@ function NoticeDetailPage() {
                 ) : (
                   <i className="fa-regular fa-thumbs-up"></i>
                 )}
-                {/* "article.likeCnt"와 "article.viewCnt"의 값이 동일하게 넘어오는 문제가 있습니다(수정 필요!!) */}
                 {like ? (
                   <span className="likeCnt font-weight-bold">
                     {article.likeCnt + 1}
@@ -62,33 +62,7 @@ function NoticeDetailPage() {
               </span>
             </div>
           </div>
-          {article.files.length !== 0 ? (
-            <div className="file-download-frame mt-5">
-              파일 다운로드
-              <br />
-              {article.files.map((file, id) => (
-                <div key={id}>
-                  <a
-                    href={
-                      process.env.REACT_APP_URL +
-                      "/no-permit/api/boards/" +
-                      location.state.boardId +
-                      "/articles/" +
-                      location.state.articleId +
-                      "/files/" +
-                      file.filePath
-                    }
-                    className="text-decoration-none"
-                    key={id}
-                  >
-                    {file.fileName}
-                  </a>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div></div>
-          )}
+          <UploadedFilesInArticle location={location} article={article} />
           <Comment
             boardId={location.state.boardId}
             articleId={location.state.articleId}
