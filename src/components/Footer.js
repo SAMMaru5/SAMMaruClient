@@ -210,7 +210,7 @@ function Footer() {
               className="text-black border-0"
               style={{ marginLeft: "4.5rem" }}
             >
-              <i class="h2 fa-brands fa-github"></i>
+              <i className="h2 fa-brands fa-github"></i>
             </a>
           </div>
           <div

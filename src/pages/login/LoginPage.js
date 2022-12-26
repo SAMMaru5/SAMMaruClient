@@ -1,13 +1,19 @@
 import "./LoginPage.scss";
 import Swal from "sweetalert2";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-// import { getCookie } from "../../hooks/useCookie";
 
 function LoginPage() {
   const navigate = useNavigate();
-  const [User, setUser] = useState({ studentId: "", password: "" });
+  const [isInit, setIsInit] = useState(false);
+  const [user, setUser] = useState({ studentId: "", password: "" });
+  const [showStudentNumInputDeleteBtn, setShowStudentNumInputDeleteBtn] =
+    useState(false);
+  const [showPasswordInputDeleteBtn, setShowPasswordInputDeleteBtn] =
+    useState(false);
+  const studentNumInputWidthChange = useRef(null);
+  const passwordInputWidthChange = useRef(null);
 
   const onLogin = (e) => {
     e.preventDefault();
@@ -18,7 +24,7 @@ function LoginPage() {
     axios
       .post(
         process.env.REACT_APP_URL + "/auth/login",
-        { ...User },
+        { ...user },
         { withCredentials: true }
       )
       .then((response) => {
@@ -71,36 +77,151 @@ function LoginPage() {
       });
   };
 
+  const inputWidthChangeHandler = (idx) => {
+    try {
+      switch (idx) {
+        case 0:
+          studentNumInputWidthChange.current.style = "width: 15.5rem;";
+          passwordInputWidthChange.current.style = "width: 15.5rem;";
+          break;
+        case 1:
+          studentNumInputWidthChange.current.style = "width: 15.5rem;";
+          break;
+        case 2:
+          passwordInputWidthChange.current.style = "width: 15.5rem;";
+          break;
+        default:
+          console.error("wrong idx value came!");
+      }
+    } catch (error) {
+      return;
+    }
+  };
+
   return (
-    <div className="LoginPage">
+    <div
+      className="LoginPage"
+      onClick={() => {
+        setIsInit(true);
+        inputWidthChangeHandler(0);
+        if (studentNumInputWidthChange.current.value !== "")
+          setShowStudentNumInputDeleteBtn(true);
+        if (passwordInputWidthChange.current.value !== "")
+          setShowPasswordInputDeleteBtn(true);
+      }}
+      onKeyDown={(e) => {
+        if (e.keyCode === undefined) return;
+        setIsInit(true);
+        inputWidthChangeHandler(0);
+        if (studentNumInputWidthChange.current.value !== "")
+          setShowStudentNumInputDeleteBtn(true);
+        if (passwordInputWidthChange.current.value !== "")
+          setShowPasswordInputDeleteBtn(true);
+      }}
+    >
       <div className="loginFrame">
         <form
           className="loginForm"
+          style={{
+            margin: "0 1.5rem",
+          }}
           onSubmit={(e) => {
             onLogin(e);
           }}
         >
-          <figure className="loginLogo">
+          <figure className="loginLogo" style={{ marginBottom: "0" }}>
             <img src="img/login_logo.png" alt="로그인 로고 이미지" />
           </figure>
-          <input
-            type={"text"}
-            autoComplete="username"
-            placeholder="학번"
-            required
-            onChange={(e) => {
-              setUser({ ...User, studentId: e.target.value });
-            }}
-          ></input>
-          <input
-            type={"password"}
-            autoComplete="current-password"
-            placeholder="비밀번호"
-            required
-            onChange={(e) => {
-              setUser({ ...User, password: e.target.value });
-            }}
-          ></input>
+          <div className="studentNumForm">
+            <input
+              className="studentNumInput"
+              type={"text"}
+              autoComplete="username"
+              placeholder="학번"
+              required
+              autoFocus
+              ref={studentNumInputWidthChange}
+              onFocus={() => {
+                inputWidthChangeHandler(0);
+              }}
+              onBlur={() => {
+                if (studentNumInputWidthChange.current.value !== "")
+                  inputWidthChangeHandler(1);
+                if (passwordInputWidthChange.current.value !== "")
+                  inputWidthChangeHandler(2);
+              }}
+              onClick={() => {
+                if (studentNumInputWidthChange.current.value === "")
+                  setShowStudentNumInputDeleteBtn(false);
+                else setShowStudentNumInputDeleteBtn(true);
+              }}
+              onChange={(e) => {
+                if (e.target.value === "")
+                  setShowStudentNumInputDeleteBtn(false);
+                else if (e.target.value !== "" && isInit) {
+                  setShowStudentNumInputDeleteBtn(true);
+                }
+                setUser({ ...user, studentId: e.target.value });
+              }}
+            ></input>
+            <div className="studentNum">
+              <i className="userIcon fa-solid fa-user"></i>
+              {showStudentNumInputDeleteBtn ? (
+                <div
+                  onClick={(e) => {
+                    studentNumInputWidthChange.current.value = "";
+                    setShowStudentNumInputDeleteBtn(false);
+                  }}
+                  className="studentNumDeleteBtn fa-solid fa-solid fa-circle-xmark"
+                ></div>
+              ) : null}
+            </div>
+          </div>
+
+          <div className="passwordForm">
+            <input
+              className="passwordInput"
+              type={"password"}
+              autoComplete="current-password"
+              placeholder="비밀번호"
+              required
+              ref={passwordInputWidthChange}
+              onFocus={() => {
+                inputWidthChangeHandler(0);
+              }}
+              onBlur={() => {
+                if (studentNumInputWidthChange.current.value !== "")
+                  inputWidthChangeHandler(1);
+                if (passwordInputWidthChange.current.value !== "")
+                  inputWidthChangeHandler(2);
+              }}
+              onClick={() => {
+                if (passwordInputWidthChange.current.value === "")
+                  setShowPasswordInputDeleteBtn(false);
+                else setShowPasswordInputDeleteBtn(true);
+              }}
+              onChange={(e) => {
+                if (e.target.value === "") setShowPasswordInputDeleteBtn(false);
+                else if (e.target.value !== "" && isInit) {
+                  setShowPasswordInputDeleteBtn(true);
+                }
+                setUser({ ...user, password: e.target.value });
+              }}
+            ></input>
+            <div className="password">
+              <i className="lockIcon fa-solid fa-lock"></i>
+              {showPasswordInputDeleteBtn ? (
+                <div
+                  onClick={(e) => {
+                    passwordInputWidthChange.current.value = "";
+                    setShowPasswordInputDeleteBtn(false);
+                  }}
+                  className="passwordDeleteBtn fa-solid fa-solid fa-circle-xmark"
+                ></div>
+              ) : null}
+            </div>
+          </div>
+
           <button id="loginBtn" type="submit">
             로그인
           </button>
