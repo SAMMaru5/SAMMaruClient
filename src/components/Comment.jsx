@@ -21,7 +21,7 @@ function Comment(props) {
       try {
         await api.get("/no-permit/api/user/info").then((response) => {
           if (response.data.success) {
-            setUserInfo(response.data);
+            setUserInfo(response.data.response);
           } else {
             setUserInfo(null);
           }
@@ -30,7 +30,7 @@ function Comment(props) {
         localStorage.clear();
       }
     }
-    localStorage.getItem('sm-accessToken') && getUserInfo();
+    localStorage.getItem("sm-accessToken") && getUserInfo();
     myRole().then((response) => {
       setRole(response);
     });
@@ -245,7 +245,7 @@ function Comment(props) {
                     </div>
                     <p className="content">{comment.content}</p>
                     <div className="commentControl">
-                      {userInfo.response.username === comments[i].author ? (
+                      {userInfo.userId === comments[i].userId ? (
                         <>
                           <button
                             className="modifyingComment"
@@ -258,7 +258,7 @@ function Comment(props) {
                         </>
                       ) : null}
                       {role === "admin" ||
-                      userInfo.response.username === comment.author ? (
+                      userInfo.userId === comment.userId ? (
                         <button
                           className="deletingComment"
                           onClick={() => deleteComment(comment.id)}
@@ -267,7 +267,6 @@ function Comment(props) {
                         </button>
                       ) : null}
                     </div>
-                    {/* <span>디엠 수정</span> */}
                   </td>
                 </tr>
               ))
