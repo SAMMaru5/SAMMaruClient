@@ -3,7 +3,6 @@ import api from "../utils/api";
 import "./Comment.scss";
 import Swal from "sweetalert2";
 import { checkExpiredAccesstoken, myRole } from "../hooks/useAuth";
-import { delCookie, getCookie } from "../hooks/useCookie";
 
 function Comment(props) {
   const [page, setPage] = useState([]);
