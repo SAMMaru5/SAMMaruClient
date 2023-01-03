@@ -140,6 +140,51 @@ function MemberManage() {
     });
   };
 
+  const modifyUserCardinalHandler = (username, userId, generation) => {
+    checkExpiredAccesstoken().then((response) => {
+      Swal.fire({
+        icon: "info",
+        title: `${username} 사용자를\n${generation}기 회원으로\n변경하시겠습니까?`,
+        showDenyButton: true,
+        confirmButtonText: "네",
+        denyButtonText: `아니요`,
+      }).then(async (response) => {
+        if (response.isConfirmed) {
+          try {
+            await api
+              .patch(`/api/users/${userId}/generation`, { generation })
+              .then((result) => {
+                searchAllUsers();
+                Swal.fire({
+                  icon: "success",
+                  title: `정상적으로 변경되었습니다.`,
+                });
+              });
+          } catch (error) {
+            if (error.response.status === 406) {
+              Swal.fire({
+                icon: "error",
+                title: `관리자 권한을 지닌\n사용자는 제거할 수 없습니다.`,
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "예기치 못 한 에러가 발생하였습니다.",
+              });
+              console.log(
+                "🚀 ~ file: MemberManage.jsx:177 ~ checkExpiredAccesstoken ~ error",
+                error
+              );
+              // window.location.href = "/login";
+            }
+          }
+        } else {
+          return;
+        }
+      });
+    });
+  };
+
   return (
     <div id="MemberManage">
       <form className="d-flex align-items-center">
@@ -165,12 +210,12 @@ function MemberManage() {
       </form>
       {loading ? (
         <table>
-          <colgroup></colgroup>
           <thead>
             <tr>
               <th>이름</th>
               <th>학번</th>
               <th>이메일</th>
+              <th>기수</th>
               <th>회원권한</th>
               <th>회원제거</th>
             </tr>
@@ -183,6 +228,29 @@ function MemberManage() {
                   <td>{member.username}</td>
                   <td>{member.studentId}</td>
                   <td>{member.email}</td>
+                  <td>
+                    <input
+                      type="number"
+                      placeholder={member.generation}
+                      onChange={(e) => {
+                        if (e.target.value < 0) e.target.value = 0;
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.keyCode === 13)
+                          modifyUserCardinalHandler(
+                            member.username,
+                            member.userId,
+                            e.target.value
+                          );
+                      }}
+                      style={{
+                        height: "1.5rem",
+                        fontSize: "15px",
+                        color: "black",
+                        borderRadius: "2.5px",
+                      }}
+                    />
+                  </td>
                   <td>
                     <select
                       className="authorityKinds text-center"
