@@ -151,6 +151,10 @@ input::-moz-focus-inner {
   padding: 0;
 }
 
+input::placeholder {
+  color: #aaa;
+}
+
 input,
 textarea {
   -moz-appearance: none;
@@ -1815,40 +1819,44 @@ form ::-moz-focus-inner {
 
 table {
   width: 100%;
+  border: none !important;
+  border-radius: 5px;
+  border-collapse: separate !important;
+  box-shadow: 5px 5px 15px rgb(202, 202, 202);
+  margin-top: 1rem !important;
 }
 
-table tbody tr {
-  border-top: solid 1px #e5e5e5;
-}
-
-table tbody tr:first-child {
-  border-top: 0;
+table tr {
+  text-align: left;
+  font-size: 13px !important;
 }
 
 table td {
+  border: none !important;
   padding: 0.75em 1em 0.75em 1em;
+}
+
+table tr:nth-child(2n) {
+  background-color: rgb(245, 245, 245);
 }
 
 table th {
-  text-align: left;
-  font-weight: bold;
-  padding: 0.75em 1em 0.75em 1em;
+  padding: 0.3em 1em;
+  border: none !important;
+}
+
+table th:first-child {
+  border-radius: 5px 0 0 0;
+}
+
+table th:last-child {
+  border-radius: 0 5px 0 0;
 }
 
 table thead {
-  background: #878787;
-  color: #fff;
-  font-weight: 400;
+  color: white;
+  background-color: #444;
   text-transform: uppercase;
-  border: 0;
-  box-shadow: 0.125em 0.175em 0 0 rgba(0, 0, 0, 0.125);
-  font-size: 0.85em;
-  letter-spacing: 2px;
-}
-
-table tfoot {
-  background: #f0f0f0;
-  border-top: solid 2px #e5e5e5;
 }
 
 /* Button */
