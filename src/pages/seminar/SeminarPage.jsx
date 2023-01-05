@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Pagination } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   getArticleList,
   getBoardList,
@@ -9,12 +9,13 @@ import {
 import seminar from "../../imgs/banner/seminar.jpg";
 import { myRole } from "../../hooks/useAuth";
 
-function SeminarPage() {
+function SeminarPage(props) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [boardList, setBoardList] = useState({});
   const [loading, setLoading] = useState(false);
   const [boardId, setBoardId] = useState();
-  const [pageNum, setPageNum] = useState(1);
+  const [pageNum, setPageNum] = useState(props.pageNum);
   const [pageList, setPageList] = useState(1);
   const [keywordSelectOption, setKeywordSelectOption] =
     useState("ARTICLE_TITLE");
@@ -23,7 +24,7 @@ function SeminarPage() {
   useEffect(() => {
     // 비회원의 권한 확인
     myRole().then((response) => {
-      if (response != undefined) {
+      if (response !== undefined) {
         getBoardList().then((response) => {
           if (response.data.success) {
             response.data.response.forEach((res) => {
@@ -45,6 +46,10 @@ function SeminarPage() {
     else setPageList(parseInt(pageNum / 10) * 10 + 1);
   }, [pageNum]);
 
+  useEffect(() => {
+    location.state && setPageNum(location.state.pageNum);
+  }, [location]);
+
   const seminarUpload = () => {
     navigate("./seminarUpdate");
   };
@@ -54,6 +59,7 @@ function SeminarPage() {
       state: {
         boardId,
         articleId: list.id,
+        pageNum,
       },
     });
   };
