@@ -1,7 +1,7 @@
 import "./NoticePage.scss";
 import { Pagination } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import notice from "../../imgs/banner/notice.jpg";
 import {
   getArticleList,
@@ -10,12 +10,13 @@ import {
 } from "../../hooks/boardServices";
 import { myRole } from "../../hooks/useAuth";
 
-function NoticePage() {
+function NoticePage(props) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [boardList, setBoardList] = useState({});
   const [loading, setLoading] = useState(false);
   const [boardId, setBoardId] = useState();
-  const [pageNum, setPageNum] = useState(1);
+  const [pageNum, setPageNum] = useState(props.pageNum);
   const [pageList, setPageList] = useState(1);
   const [keywordSelectOption, setKeywordSelectOption] =
     useState("ARTICLE_TITLE");
@@ -24,7 +25,7 @@ function NoticePage() {
   useEffect(() => {
     // 비회원의 권한 확인
     myRole().then((response) => {
-      if (response != undefined) {
+      if (response !== undefined) {
         getBoardList().then((response) => {
           if (response.data.success) {
             response.data.response.forEach((res) => {
@@ -46,6 +47,10 @@ function NoticePage() {
     else setPageList(parseInt(pageNum / 10) * 10 + 1);
   }, [pageNum]);
 
+  useEffect(() => {
+    location.state && setPageNum(location.state.pageNum);
+  }, [location]);
+
   const onClickRegister = () => {
     navigate("/notice/noticeUpdate");
   };
@@ -55,6 +60,7 @@ function NoticePage() {
       state: {
         boardId: boardId,
         articleId: list.id,
+        pageNum,
       },
     });
   };
