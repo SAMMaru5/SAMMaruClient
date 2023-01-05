@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Pagination } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import exam from "../../imgs/banner/exam.jpg";
 import {
@@ -10,12 +10,13 @@ import {
 } from "../../hooks/boardServices";
 import { myRole } from "../../hooks/useAuth";
 
-function ExamPage() {
+function ExamPage(props) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [boardList, setBoardList] = useState({});
   const [loading, setLoading] = useState(false);
   const [boardId, setBoardId] = useState();
-  const [pageNum, setPageNum] = useState(1);
+  const [pageNum, setPageNum] = useState(props.pageNum);
   const [pageList, setPageList] = useState(1);
   const [keywordSelectOption, setKeywordSelectOption] =
     useState("ARTICLE_TITLE");
@@ -24,7 +25,7 @@ function ExamPage() {
   useEffect(() => {
     // 비회원의 권한 확인
     myRole().then((response) => {
-      if (response != undefined) {
+      if (response !== undefined) {
         getBoardList().then((response) => {
           if (response.data.success) {
             response.data.response.forEach((res) => {
@@ -45,6 +46,10 @@ function ExamPage() {
     else if (pageNum % 10 === 0) setPageList(pageNum - 9);
     else setPageList(parseInt(pageNum / 10) * 10 + 1);
   }, [pageNum]);
+
+  useEffect(() => {
+    location.state && setPageNum(location.state.pageNum);
+  }, [location]);
 
   const examUpload = () => {
     navigate("./examUpdate");
@@ -69,6 +74,7 @@ function ExamPage() {
           state: {
             boardId,
             articleId: list.id,
+            pageNum,
           },
         });
       }
