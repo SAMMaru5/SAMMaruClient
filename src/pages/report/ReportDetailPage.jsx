@@ -6,20 +6,43 @@ import { getBoards } from "../../hooks/boardServices";
 import Comment from "../../components/Comment";
 import { UploadedFilesInArticle } from "../../components/UploadedFilesInArticle";
 import { deletePost } from "../../hooks/usePostServices";
+import { myRole } from "../../hooks/useAuth";
+import { createBrowserHistory } from "history";
 
 function ReportDetailPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const history = createBrowserHistory();
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(false);
   const [like, setLike] = useState(false);
+  const [pageNum, setPageNum] = useState(1);
+  const [locationKeys, setLocationKeys] = useState([]);
 
   useEffect(() => {
     getBoards(location).then((data) => {
+      setPageNum(location.state.pageNum);
       setArticle(data.data.response);
       setLoading(true);
     });
   }, [location]);
+
+  // 페이지 '뒤로가기'를 감지하는 코드
+  useEffect(() => {
+    return history.listen((location) => {
+      if (history.action === "PUSH") {
+        setLocationKeys([location.key]);
+      }
+
+      if (history.action === "POP") {
+        navigate("/report", {
+          state: {
+            pageNum,
+          },
+        });
+      }
+    });
+  }, [locationKeys, history]);
 
   return (
     <div className="ReportDetail">
@@ -91,7 +114,11 @@ function ReportDetailPage() {
             <button
               className="grey darken-3"
               onClick={() => {
-                navigate("/report");
+                navigate("/report", {
+                  state: {
+                    pageNum,
+                  },
+                });
               }}
             >
               목록
