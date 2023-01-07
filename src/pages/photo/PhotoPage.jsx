@@ -4,7 +4,7 @@ import PhotoList from "./PhotoList";
 import { useNavigate } from "react-router-dom";
 import photo from "../../imgs/banner/photo.jpg";
 
-function PhotoPage() {
+function PhotoPage(props) {
   const navigate = useNavigate();
 
   const photoUpload = () => {
@@ -40,7 +40,7 @@ function PhotoPage() {
           글쓰기
         </button>
       </div>
-      <PhotoList />
+      <PhotoList pageNum={props.pageNum} />
     </div>
   );
 }

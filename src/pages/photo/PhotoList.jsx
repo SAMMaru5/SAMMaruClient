@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Pagination } from "react-bootstrap";
 import "./PhotoList.scss";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getArticleList, getBoardList } from "../../hooks/boardServices";
 import { myRole } from "../../hooks/useAuth";
 
-const PhotoList = () => {
+const PhotoList = (props) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [photoList, setPhotoList] = useState({});
   const [loading, setloading] = useState(false);
   const [boardId, setBoardid] = useState();
@@ -16,7 +17,7 @@ const PhotoList = () => {
   useEffect(() => {
     // 비회원의 권한 확인
     myRole().then((response) => {
-      if (response != undefined) {
+      if (response !== undefined) {
         getBoardList().then((response) => {
           if (response.data.success) {
             response.data.response.forEach((res) => {
@@ -38,11 +39,16 @@ const PhotoList = () => {
     else setPageList(parseInt(pageNum / 10) * 10 + 1);
   }, [pageNum]);
 
+  useEffect(() => {
+    location.state && setPageNum(location.state.pageNum);
+  }, [location]);
+
   const onClickDetail = (list) => {
     navigate("./photoDetail", {
       state: {
         boardId,
         articleId: list.id,
+        pageNum,
       },
     });
   };

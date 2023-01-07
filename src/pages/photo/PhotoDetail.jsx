@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
 import "./PhotoDetail.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -8,17 +7,21 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Swal from "sweetalert2";
 import Comment from "../../components/Comment";
-
 import { Navigation } from "swiper";
 import api from "../../utils/api";
 import { deletePost } from "../../hooks/usePostServices";
+import { createBrowserHistory } from "history";
+
 const PhotoDetail = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const history = createBrowserHistory();
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(false);
   const [createDt, setCreateDt] = useState("");
   const [mainImg, setMainImg] = useState("");
+  const [pageNum, setPageNum] = useState(1);
+  const [locationKeys, setLocationKeys] = useState([]);
 
   useEffect(() => {
     api
@@ -30,6 +33,7 @@ const PhotoDetail = () => {
       )
       .then((response) => {
         if (response.data.success) {
+          setPageNum(location.state.pageNum);
           setArticle(response.data.response);
           setMainImg(response.data.response.files[0].filePath);
           setLoading(true);
@@ -42,6 +46,24 @@ const PhotoDetail = () => {
         }
       });
   }, [location.state.boardId, location.state.articleId]);
+
+  // 페이지 '뒤로가기'를 감지하는 코드
+  useEffect(() => {
+    return history.listen((location) => {
+      if (history.action === "PUSH") {
+        setLocationKeys([location.key]);
+      }
+
+      if (history.action === "POP") {
+        navigate("/photo", {
+          state: {
+            pageNum,
+          },
+        });
+      }
+    });
+  }, [locationKeys, history]);
+
   return (
     <div className="photo-detail-content pt-5">
       {loading ? (
@@ -142,10 +164,14 @@ const PhotoDetail = () => {
                 padding: "10px 0px 10px 0px",
               }}
               onClick={() => {
-                navigate("../photo");
+                navigate("/photo", {
+                  state: {
+                    pageNum,
+                  },
+                });
               }}
             >
-              글 목록
+              목록
             </button>
           </div>
         </div>

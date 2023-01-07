@@ -67,7 +67,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/awards" element={<AwardsPage />} />
-          <Route path="/exam" element={<ExamPage />} />
+          <Route path="/exam" element={<ExamPage pageNum={1} />} />
           <Route
             path="/exam/examUpdate"
             element={
@@ -85,7 +85,7 @@ function App() {
             }
           />
 
-          <Route path="/project" element={<ProjectPage />} />
+          <Route path="/project" element={<ProjectPage pageNum={1} />} />
           <Route
             path="/project/projectUpdate"
             element={
@@ -103,7 +103,7 @@ function App() {
             }
           />
 
-          <Route path="/seminar" element={<SeminarPage />} />
+          <Route path="/seminar" element={<SeminarPage pageNum={1} />} />
           <Route
             path="/seminar/seminarUpdate"
             element={
@@ -121,7 +121,7 @@ function App() {
             }
           />
 
-          <Route path="/photo" element={<PhotoPage />} />
+          <Route path="/photo" element={<PhotoPage pageNum={1} />} />
           <Route
             path="/photo/photoUpdate"
             element={
@@ -139,7 +139,7 @@ function App() {
             }
           />
 
-          <Route path="/notice" element={<NoticePage />} />
+          <Route path="/notice" element={<NoticePage pageNum={1} />} />
           <Route
             path="/noticeDetail"
             element={
@@ -157,7 +157,7 @@ function App() {
             }
           />
 
-          <Route path="/report" element={<ReportPage />} />
+          <Route path="/report" element={<ReportPage pageNum={1} />} />
           <Route
             path="/report/reportUpdate"
             element={
@@ -175,7 +175,7 @@ function App() {
             }
           />
 
-          <Route path="/freeBoard" element={<FreeBoardPage />} />
+          <Route path="/freeBoard" element={<FreeBoardPage pageNum={1} />} />
           <Route
             path="/freeBoard/freeBoardUpdate"
             element={
