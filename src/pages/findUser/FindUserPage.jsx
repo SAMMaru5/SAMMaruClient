@@ -14,53 +14,59 @@ function FindUserPage() {
     findCheck.setAttribute("disabled", true);
     findCheck.innerText = "확인 중...";
     try {
-      await api
-        .post("/auth/tempPassword?userEmail=" + email)
-        .then((response) => {
-          if (response.data.success) {
-            Swal.fire({
-              icon: "success",
-              title: "해당 이메일에 임시 비밀번호를 전송했습니다.",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                navigate("/");
-              }
-            });
-          } else {
-            Swal.fire({
-              icon: "error",
-              title: "해당 회원은 존재하지 않습니다.",
-            }).then((result) => {
-              if (result) {
-                findCheck.removeAttribute("disabled");
-                findCheck.innerText = "확인";
-              }
-            });
-          }
-        });
+      await api.post("/tempPassword?userEmail=" + email).then((response) => {
+        if (response.data.success) {
+          Swal.fire({
+            icon: "success",
+            title: "해당 이메일로 임시 비밀번호를 전송했습니다.",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/");
+            }
+          });
+        }
+      });
     } catch (error) {
-      if (error.response.status === 400) {
-        Swal.fire({
-          icon: "error",
-          title:
-            error.response.data.apiError.message.substring(
-              0,
-              error.response.data.apiError.message.indexOf("!")
-            ) + ".",
-        }).then((result) => {
-          if (result) {
+      switch (error.response.status) {
+        case 400: {
+          Swal.fire({
+            icon: "error",
+            title:
+              error.response.data.apiError.message.substring(
+                0,
+                error.response.data.apiError.message.indexOf("!")
+              ) + ".",
+          }).then((result) => {
+            if (result) {
+              findCheck.removeAttribute("disabled");
+              findCheck.innerText = "확인";
+            }
+          });
+          break;
+        }
+
+        case 404: {
+          Swal.fire({
+            icon: "error",
+            title: "입력하신 이메일의 회원을\n찾을 수 없습니다.",
+          }).then((result) => {
+            if (result) {
+              findCheck.removeAttribute("disabled");
+              findCheck.innerText = "확인";
+            }
+          });
+          break;
+        }
+
+        default: {
+          Swal.fire({
+            icon: "error",
+            title: "예기치 못 한 에러가 발생하였습니다.",
+          }).then((result) => {
             findCheck.removeAttribute("disabled");
             findCheck.innerText = "확인";
-          }
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "예기치 못 한 에러가 발생하였습니다.",
-        }).then((result) => {
-          findCheck.removeAttribute("disabled");
-          findCheck.innerText = "확인";
-        });
+          });
+        }
       }
     }
   };
