@@ -1,19 +1,18 @@
 import "./LoginPage.scss";
 import Swal from "sweetalert2";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function LoginPage() {
   const navigate = useNavigate();
-  const [isInit, setIsInit] = useState(false);
   const [user, setUser] = useState({ studentId: "", password: "" });
   const [showStudentNumInputDeleteBtn, setShowStudentNumInputDeleteBtn] =
     useState(false);
   const [showPasswordInputDeleteBtn, setShowPasswordInputDeleteBtn] =
     useState(false);
-  const studentNumInputWidthChange = useRef(null);
-  const passwordInputWidthChange = useRef(null);
+  const [studentNumInputFocused, setStudentNumInputFocused] = useState(false);
+  const [passwordInputFocused, setPasswordInputFocused] = useState(false);
 
   const onLogin = (e) => {
     e.preventDefault();
@@ -77,48 +76,8 @@ function LoginPage() {
       });
   };
 
-  const inputWidthChangeHandler = (idx) => {
-    try {
-      switch (idx) {
-        case 0:
-          studentNumInputWidthChange.current.style = "width: 15.5rem;";
-          passwordInputWidthChange.current.style = "width: 15.5rem;";
-          break;
-        case 1:
-          studentNumInputWidthChange.current.style = "width: 15.5rem;";
-          break;
-        case 2:
-          passwordInputWidthChange.current.style = "width: 15.5rem;";
-          break;
-        default:
-          console.error("wrong idx value came!");
-      }
-    } catch (error) {
-      return;
-    }
-  };
-
   return (
-    <div
-      className="LoginPage"
-      onClick={() => {
-        setIsInit(true);
-        inputWidthChangeHandler(0);
-        if (studentNumInputWidthChange.current.value !== "")
-          setShowStudentNumInputDeleteBtn(true);
-        if (passwordInputWidthChange.current.value !== "")
-          setShowPasswordInputDeleteBtn(true);
-      }}
-      onKeyDown={(e) => {
-        if (e.keyCode === undefined) return;
-        setIsInit(true);
-        inputWidthChangeHandler(0);
-        if (studentNumInputWidthChange.current.value !== "")
-          setShowStudentNumInputDeleteBtn(true);
-        if (passwordInputWidthChange.current.value !== "")
-          setShowPasswordInputDeleteBtn(true);
-      }}
-    >
+    <div className="LoginPage">
       <div className="loginFrame">
         <form
           className="loginForm"
@@ -133,43 +92,42 @@ function LoginPage() {
             <img src="img/login_logo.png" alt="로그인 로고 이미지" />
           </figure>
           <div className="studentNumForm">
-            <input
-              className="studentNumInput"
-              type={"text"}
-              autoComplete="username"
-              placeholder="학번"
-              required
-              autoFocus
-              ref={studentNumInputWidthChange}
-              onFocus={() => {
-                inputWidthChangeHandler(0);
-              }}
-              onBlur={() => {
-                if (studentNumInputWidthChange.current.value !== "")
-                  inputWidthChangeHandler(1);
-                if (passwordInputWidthChange.current.value !== "")
-                  inputWidthChangeHandler(2);
-              }}
-              onClick={() => {
-                if (studentNumInputWidthChange.current.value === "")
-                  setShowStudentNumInputDeleteBtn(false);
-                else setShowStudentNumInputDeleteBtn(true);
-              }}
-              onChange={(e) => {
-                if (e.target.value === "")
-                  setShowStudentNumInputDeleteBtn(false);
-                else if (e.target.value !== "" && isInit) {
-                  setShowStudentNumInputDeleteBtn(true);
-                }
-                setUser({ ...user, studentId: e.target.value });
-              }}
-            ></input>
-            <div className="studentNum">
+            <div
+              className={
+                studentNumInputFocused ? "studentNum focused" : "studentNum"
+              }
+            >
               <i className="userIcon fa-solid fa-user"></i>
+              <input
+                className="studentNumInput"
+                type={"text"}
+                autoComplete="username"
+                placeholder="학번"
+                required
+                autoFocus
+                value={user.studentId}
+                onFocus={() => setStudentNumInputFocused(true)}
+                onBlur={() => setStudentNumInputFocused(false)}
+                onClick={(e) => {
+                  if (user.studentId !== "")
+                    setShowStudentNumInputDeleteBtn(true);
+                }}
+                onChange={(e) => {
+                  if (e.target.value === "")
+                    setShowStudentNumInputDeleteBtn(false);
+                  else if (e.target.value !== "") {
+                    setShowStudentNumInputDeleteBtn(true);
+                  }
+                  setUser({ ...user, studentId: e.target.value });
+                }}
+              ></input>
               {showStudentNumInputDeleteBtn ? (
                 <div
                   onClick={(e) => {
-                    studentNumInputWidthChange.current.value = "";
+                    setUser({
+                      ...user,
+                      studentId: "",
+                    });
                     setShowStudentNumInputDeleteBtn(false);
                   }}
                   className="studentNumDeleteBtn fa-solid fa-solid fa-circle-xmark"
@@ -179,41 +137,38 @@ function LoginPage() {
           </div>
 
           <div className="passwordForm">
-            <input
-              className="passwordInput"
-              type={"password"}
-              autoComplete="current-password"
-              placeholder="비밀번호"
-              required
-              ref={passwordInputWidthChange}
-              onFocus={() => {
-                inputWidthChangeHandler(0);
-              }}
-              onBlur={() => {
-                if (studentNumInputWidthChange.current.value !== "")
-                  inputWidthChangeHandler(1);
-                if (passwordInputWidthChange.current.value !== "")
-                  inputWidthChangeHandler(2);
-              }}
-              onClick={() => {
-                if (passwordInputWidthChange.current.value === "")
-                  setShowPasswordInputDeleteBtn(false);
-                else setShowPasswordInputDeleteBtn(true);
-              }}
-              onChange={(e) => {
-                if (e.target.value === "") setShowPasswordInputDeleteBtn(false);
-                else if (e.target.value !== "" && isInit) {
-                  setShowPasswordInputDeleteBtn(true);
-                }
-                setUser({ ...user, password: e.target.value });
-              }}
-            ></input>
-            <div className="password">
+            <div
+              className={passwordInputFocused ? "password focused" : "password"}
+            >
               <i className="lockIcon fa-solid fa-lock"></i>
+              <input
+                className="passwordInput"
+                type={"password"}
+                autoComplete="current-password"
+                placeholder="비밀번호"
+                required
+                value={user.password}
+                onFocus={() => setPasswordInputFocused(true)}
+                onBlur={() => setPasswordInputFocused(false)}
+                onClick={() => {
+                  if (user.password !== "") setShowPasswordInputDeleteBtn(true);
+                }}
+                onChange={(e) => {
+                  if (e.target.value === "")
+                    setShowPasswordInputDeleteBtn(false);
+                  else if (e.target.value !== "") {
+                    setShowPasswordInputDeleteBtn(true);
+                  }
+                  setUser({ ...user, password: e.target.value });
+                }}
+              ></input>
               {showPasswordInputDeleteBtn ? (
                 <div
                   onClick={(e) => {
-                    passwordInputWidthChange.current.value = "";
+                    setUser({
+                      ...user,
+                      password: "",
+                    });
                     setShowPasswordInputDeleteBtn(false);
                   }}
                   className="passwordDeleteBtn fa-solid fa-solid fa-circle-xmark"
