@@ -2,12 +2,12 @@
   .studentNumForm {
     height: 2.75rem;
     .studentNumInput {
-      width: 17.25rem;
-      // width: 15.5rem;
+      width: 85% !important;
+      height: 1.4rem;
       padding: 0;
       position: relative;
-      top: 1.94rem;
-      left: 2.2rem;
+      top: 0.6em;
+      left: -0.3rem;
       box-shadow: none !important;
       color: black;
       border-radius: 0;
@@ -16,6 +16,8 @@
 
     .studentNumInput::placeholder {
       color: #bfbfbf !important;
+      position: relative;
+      top: 0.06em;
     }
 
     .studentNumInput:focus {
@@ -23,17 +25,17 @@
       background-color: white;
     }
 
-    .studentNumInput:focus ~ .studentNum {
+    .studentNum.focused {
       border: 1.25px solid #4d69e2 !important;
     }
 
-    .studentNumInput:focus ~ .studentNum > .userIcon {
+    .studentNum.focused .userIcon {
       color: rgb(108, 108, 108) !important;
     }
 
     .studentNum {
       display: flex;
-      width: 20rem;
+      width: 100%;
       height: 2.75rem;
       border: 1.25px solid #ddd;
       border-bottom: none;
@@ -51,8 +53,9 @@
         font-size: 17px;
         padding: 0 !important;
         position: relative;
-        left: 15.6rem;
         top: 0.8rem;
+        left: 0.2rem;
+        margin-right: 0.8rem;
         box-shadow: none;
         background-color: transparent;
         color: #9ba1a3 !important;
@@ -64,12 +67,13 @@
   .passwordForm {
     margin-bottom: 0.5rem;
     .passwordInput {
-      width: 17.25rem;
-      // width: 15.5rem;
-      padding: 0;
+      width: 85% !important;
+      height: 1.4rem;
+      padding: 0 0 0.05rem 0;
+      letter-spacing: 1px;
       position: relative;
-      top: 1.94rem;
-      left: 2.2rem;
+      top: 0.6em;
+      left: -0.3rem;
       box-shadow: none !important;
       color: black;
       border-radius: 0;
@@ -78,6 +82,8 @@
 
     .passwordInput::placeholder {
       color: #bfbfbf !important;
+      position: relative;
+      top: 0.07em;
     }
 
     .passwordInput:focus {
@@ -85,17 +91,17 @@
       background-color: white;
     }
 
-    .passwordInput:focus ~ .password {
+    .password.focused {
       border: 1.25px solid #4d69e2 !important;
     }
 
-    .passwordInput:focus ~ .password > .lockIcon {
+    .password.focused .lockIcon {
       color: rgb(108, 108, 108) !important;
     }
 
     .password {
       display: flex;
-      width: 20rem;
+      width: 100%;
       height: 2.75rem;
       border: 1.25px solid #ddd;
       border-top-left-radius: 0px !important;
@@ -112,8 +118,9 @@
         font-size: 17px;
         padding: 0 !important;
         position: relative;
-        left: 15.6rem;
         top: 0.8rem;
+        left: 0.2rem;
+        margin-right: 0.8rem;
         box-shadow: none;
         background-color: transparent;
         color: #9ba1a3 !important;
