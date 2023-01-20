@@ -50,7 +50,7 @@ function ProjectPage(props) {
     location.state && setPageNum(location.state.pageNum);
   }, [location]);
 
-  const examUpload = () => {
+  const projectUpload = () => {
     navigate("./projectUpdate");
   };
 
@@ -106,7 +106,7 @@ function ProjectPage(props) {
   };
 
   return (
-    <div className="noticePage">
+    <div className="bulletin">
       <div className="container">
         <img
           src={project}
@@ -203,8 +203,8 @@ function ProjectPage(props) {
             </form>
           </div>
         </div>
+
         <div
-          className="adminPost"
           style={{
             display: "flex",
             justifyContent: "right",
@@ -218,35 +218,38 @@ function ProjectPage(props) {
               width: "130px",
               padding: "10px 0px 10px 0px",
             }}
-            onClick={examUpload}
+            onClick={projectUpload}
           >
             작성하기
           </button>
         </div>
-
-        <div className="contents">
-          <div className="contentsTitle">
+        <div className="contents" style={{ paddingBottom: "2rem" }}>
+          <div className="contentsHeader">
             <div className="num">번호</div>
-            <div className="value">제목</div>
+            <div className="articleTitle">제목</div>
+            <div className="author">작성자</div>
             <div className="date">작성일</div>
+            <div className="view">조회수</div>
           </div>
           {loading ? (
             <>
-              {boardList.content.map((list, i) => {
-                let createDt = list.createDt.slice(0, 10);
+              {boardList.content.map((list, idx) => {
+                const createDt = list.createDt.slice(0, 10);
                 return (
-                  <div key={i} className="eachContents">
+                  <div key={idx} className="eachContents">
                     <div
                       className="content"
                       onClick={() => {
                         onClickDetail(list);
                       }}
                     >
-                      <div className="num">{list.id}</div>
-                      <div className="value">{list.title}</div>
+                      <div className="num">{idx + 1}</div>
+                      <div className="articleTitle">{list.title}&nbsp;</div>
+                      <div className="author">{list.author}</div>
                       <div className="date" style={{ textAlign: "center" }}>
                         {createDt}
                       </div>
+                      <div className="view">{list.viewCnt}</div>
                     </div>
                   </div>
                 );
