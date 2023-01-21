@@ -1,4 +1,4 @@
-import "./NoticePage.scss";
+import "./bulletin.scss";
 import { Pagination } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -47,12 +47,14 @@ function NoticePage(props) {
     else setPageList(parseInt(pageNum / 10) * 10 + 1);
   }, [pageNum]);
 
+  console.log(boardList);
+
   useEffect(() => {
     location.state && setPageNum(location.state.pageNum);
   }, [location]);
 
-  const onClickRegister = () => {
-    navigate("/notice/noticeUpdate");
+  const noticeUpload = () => {
+    navigate("./noticeUpdate");
   };
 
   const onClickDetail = (list) => {
@@ -107,7 +109,7 @@ function NoticePage(props) {
   };
 
   return (
-    <div className="noticePage">
+    <div className="bulletin">
       <div className="container">
         <img
           src={notice}
@@ -202,8 +204,8 @@ function NoticePage(props) {
             </form>
           </div>
         </div>
+
         <div
-          className="adminPost"
           style={{
             display: "flex",
             justifyContent: "right",
@@ -217,34 +219,49 @@ function NoticePage(props) {
               width: "130px",
               padding: "10px 0px 10px 0px",
             }}
-            onClick={onClickRegister}
+            onClick={noticeUpload}
           >
             작성하기
           </button>
         </div>
-        <div className="contents" style={{ paddingBottom: "1rem" }}>
-          <div className="contentsTitle">
+        <div className="contents" style={{ paddingBottom: "2rem" }}>
+          <div className="contentsHeader">
             <div className="num">번호</div>
-            <div className="value">제목</div>
+            <div className="articleTitle">제목</div>
+            <div className="author">작성자</div>
             <div className="date">작성일</div>
+            <div className="view">조회수</div>
           </div>
           {loading ? (
             <>
-              {boardList.content.map((list, i) => {
-                let createDt = list.createDt.slice(0, 10);
+              {boardList.content.map((list, idx) => {
+                const createDt = list.createDt.slice(0, 10);
                 return (
-                  <div key={i} className="eachContents">
+                  <div key={idx} className="eachContents">
                     <div
                       className="content"
                       onClick={() => {
                         onClickDetail(list);
                       }}
                     >
-                      <div className="num">{i}</div>
-                      <div className="value">{list.title}</div>
+                      <div className="num">{idx + 1}</div>
+                      <div className="articleTitle">
+                        {list.title}
+                        {list.files.length > 0 ? (
+                          <div className="files">
+                            <img
+                              src="http://img0001.echosting.cafe24.com/front/type_b/image/common/icon_file.gif"
+                              alt="fileIcon"
+                            />
+                            <small>[{list.files.length}]</small>
+                          </div>
+                        ) : null}
+                      </div>
+                      <div className="author">{list.author}</div>
                       <div className="date" style={{ textAlign: "center" }}>
                         {createDt}
                       </div>
+                      <div className="view">{list.viewCnt}</div>
                     </div>
                   </div>
                 );
