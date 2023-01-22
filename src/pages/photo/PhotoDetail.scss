@@ -4,8 +4,13 @@
   .slide {
     padding: 0px 20px;
   }
-  button{
+  button {
     width: 130px;
     padding: 10px 0px;
+  }
+
+  .articleContent {
+    word-break: break-all;
+    white-space: pre-line;
   }
 }
