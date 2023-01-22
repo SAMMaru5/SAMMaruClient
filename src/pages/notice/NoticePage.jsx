@@ -47,8 +47,6 @@ function NoticePage(props) {
     else setPageList(parseInt(pageNum / 10) * 10 + 1);
   }, [pageNum]);
 
-  console.log(boardList);
-
   useEffect(() => {
     location.state && setPageNum(location.state.pageNum);
   }, [location]);
