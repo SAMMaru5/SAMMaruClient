@@ -54,6 +54,10 @@
 
   .contents {
     padding: 5% 0px 1% 0px;
+    > span {
+      word-break: break-all;
+      white-space: pre-line;
+    }
     .contentsBottom {
       margin: 8% auto 1%;
       text-align: center;
