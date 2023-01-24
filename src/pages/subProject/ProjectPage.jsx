@@ -244,7 +244,18 @@ function ProjectPage(props) {
                       }}
                     >
                       <div className="num">{idx + 1}</div>
-                      <div className="articleTitle">{list.title}&nbsp;</div>
+                      <div className="articleTitle">
+                        {list.title}
+                        {list.files.length > 0 ? (
+                          <div className="files">
+                            <img
+                              src="http://img0001.echosting.cafe24.com/front/type_b/image/common/icon_file.gif"
+                              alt="fileIcon"
+                            />
+                            <small>[{list.files.length}]</small>
+                          </div>
+                        ) : null}
+                      </div>
                       <div className="author">{list.author}</div>
                       <div className="date" style={{ textAlign: "center" }}>
                         {createDt}
