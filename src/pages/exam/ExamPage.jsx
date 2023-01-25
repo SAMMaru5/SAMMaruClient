@@ -265,10 +265,7 @@ function ExamPage(props) {
                         {list.title}
                         {list.files.length > 0 ? (
                           <div className="files">
-                            <img
-                              src="http://img0001.echosting.cafe24.com/front/type_b/image/common/icon_file.gif"
-                              alt="fileIcon"
-                            />
+                            <img src="img/file_icon.gif" alt="fileIcon" />
                             <small>[{list.files.length}]</small>
                           </div>
                         ) : null}
