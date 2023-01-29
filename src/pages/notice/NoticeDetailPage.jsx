@@ -64,7 +64,7 @@ function NoticeDetailPage() {
           </div>
 
           <div className="contents">
-            <pre>{article.content}</pre>
+            <span>{article.content}</span>
             <div className="contentsBottom">
               <span
                 className="text-center text-white like"

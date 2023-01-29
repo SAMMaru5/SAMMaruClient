@@ -139,7 +139,7 @@ const PhotoDetail = () => {
           </div>
           <hr />
 
-          <pre>{article.content}</pre>
+          <span className="articleContent">{article.content}</span>
           <Comment
             boardId={location.state.boardId}
             articleId={location.state.articleId}
