@@ -244,7 +244,15 @@ function SeminarPage(props) {
                       }}
                     >
                       <div className="num">{idx + 1}</div>
-                      <div className="articleTitle">{list.title}&nbsp;</div>
+                      <div className="articleTitle">
+                        {list.title}
+                        {list.files.length > 0 ? (
+                          <div className="files">
+                            <img src="img/file_icon.gif" alt="fileIcon" />
+                            <small>[{list.files.length}]</small>
+                          </div>
+                        ) : null}
+                      </div>
                       <div className="author">{list.author}</div>
                       <div className="date" style={{ textAlign: "center" }}>
                         {createDt}
