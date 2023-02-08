@@ -14,18 +14,20 @@ function FindUserPage() {
     findCheck.setAttribute("disabled", true);
     findCheck.innerText = "확인 중...";
     try {
-      await api.post("/tempPassword?userEmail=" + email).then((response) => {
-        if (response.data.success) {
-          Swal.fire({
-            icon: "success",
-            title: "해당 이메일로 임시 비밀번호를 전송했습니다.",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              navigate("/");
-            }
-          });
-        }
-      });
+      await api
+        .post("/auth/tempPassword?userEmail=" + email)
+        .then((response) => {
+          if (response.data.success) {
+            Swal.fire({
+              icon: "success",
+              title: "해당 이메일로 임시 비밀번호를 전송했습니다.",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                navigate("/");
+              }
+            });
+          }
+        });
     } catch (error) {
       switch (error.response.status) {
         case 400: {
