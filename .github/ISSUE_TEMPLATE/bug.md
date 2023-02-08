@@ -1,6 +1,6 @@
 ---
 name: BUG
-about: 버그 발생
+about: 버그 수정
 title: "[BUG]"
 labels: "🐛 BUG"
 assignees: ""
