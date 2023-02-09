@@ -1,23 +1,28 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
-import "./ReportDetail.scss";
 import { getBoards } from "../../hooks/boardServices";
 import Comment from "../../components/Comment";
 import { UploadedFilesInArticle } from "../../components/UploadedFilesInArticle";
 import { deletePost } from "../../hooks/usePostServices";
-import { myRole } from "../../hooks/useAuth";
 import { createBrowserHistory } from "history";
 
 function ReportDetailPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const history = createBrowserHistory();
+
   const [article, setArticle] = useState({});
+  const [prevArticleTitle, setPrevArticleTitle] = useState("");
+  const [nextArticleTitle, setNextArticleTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const [like, setLike] = useState(false);
   const [pageNum, setPageNum] = useState(1);
   const [locationKeys, setLocationKeys] = useState([]);
+
+  // router 이동 시 메모리 lack 제거를 위한 cleanup
+  useEffect(() => {
+    return () => setLoading(false);
+  }, []);
 
   useEffect(() => {
     getBoards(location).then((data) => {
@@ -44,8 +49,28 @@ function ReportDetailPage() {
     });
   }, [locationKeys, history]);
 
+  const getPrevAndNextArticleTitle = (caseNum) => {
+    getBoards({
+      ...location,
+      state: {
+        ...location.state,
+        articleId:
+          caseNum === 1 ? article.prevArticleId : article.nextArticleId,
+      },
+    }).then((response) => {
+      caseNum === 1
+        ? setPrevArticleTitle(response.data.response.title)
+        : setNextArticleTitle(response.data.response.title);
+    });
+  };
+
+  if (loading) {
+    if (article.prevArticleId !== 0) getPrevAndNextArticleTitle(1);
+    if (article.nextArticleId !== 0) getPrevAndNextArticleTitle(2);
+  }
+
   return (
-    <div className="ReportDetail">
+    <div className="articleDetail">
       {loading ? (
         <div className="container">
           <div className="pageTitle">
@@ -94,14 +119,50 @@ function ReportDetailPage() {
           />
           <div>
             <nav>
-              <div>
-                {" "}
-                <span>이전글</span> 이전글입니다{" "}
-              </div>
-              <div>
-                {" "}
-                <span>다음글</span> 다음글입니다{" "}
-              </div>
+              {article.prevArticleId !== 0 && (
+                <div>
+                  <span>
+                    이전글
+                    <img src="img/arrow-up.png" alt="prevArticle" />
+                  </span>
+                  <button
+                    onClick={(e) => {
+                      navigate("/reportDetail", {
+                        state: {
+                          boardId: location.state.boardId,
+                          articleId: article.prevArticleId,
+                          pageNum,
+                        },
+                      });
+                      window.scrollTo(0, 0);
+                    }}
+                  >
+                    {prevArticleTitle}
+                  </button>
+                </div>
+              )}
+              {article.nextArticleId !== 0 && (
+                <div>
+                  <span>
+                    다음글
+                    <img src="img/arrow-down.png" alt="nextArticle" />
+                  </span>
+                  <button
+                    onClick={(e) => {
+                      navigate("/reportDetail", {
+                        state: {
+                          boardId: location.state.boardId,
+                          articleId: article.nextArticleId,
+                          pageNum,
+                        },
+                      });
+                      window.scrollTo(0, 0);
+                    }}
+                  >
+                    {nextArticleTitle}
+                  </button>
+                </div>
+              )}
             </nav>
           </div>
           <div className="catalogue">
