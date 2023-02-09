@@ -1,0 +1,164 @@
+.bulletin {
+  font-size: 14px;
+  color: rgb(50, 50, 50);
+
+  .container {
+    width: 80%;
+    margin-top: 150px;
+  }
+
+  .location {
+    padding: 5% 0 4% 0;
+
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    img {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+    }
+    span {
+      padding: 0 0 0 1%;
+    }
+  }
+
+  .search {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 2% 2% 2% 2%;
+    background-color: #f5f5f5;
+    margin-bottom: 5%;
+    text-align: center;
+    .inp_sch {
+      width: 90%;
+    }
+    b,
+    select,
+    input[type="text"] {
+      height: 38px;
+      line-height: 38px;
+      margin-right: 0.5%;
+    }
+    b {
+      font-weight: bold;
+      margin-top: 2px;
+    }
+
+    input[type="text"] {
+      width: 60%;
+      background-color: #fff;
+      height: 36px;
+    }
+    input[type="submit"] {
+      width: 10%;
+      padding: 8px;
+      background-color: #464545;
+      color: white;
+    }
+  }
+
+  .contents {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 5%;
+    .contentsHeader {
+      border-top: 1px solid rgb(20, 50, 93);
+      border-bottom: 0.2px solid rgb(104, 104, 104);
+      background-color: rgb(250, 250, 250);
+      height: 2.5rem;
+      text-align: center;
+      font-weight: bold;
+      color: rgb(17, 45, 92);
+
+      .num {
+        width: 3.5rem;
+      }
+
+      .articleTitle {
+        padding-left: 4.5rem;
+        width: 35rem;
+      }
+
+      .author {
+        width: 14.5rem;
+      }
+
+      .date,
+      .view {
+        width: 4.5rem;
+      }
+    }
+
+    .eachContents .content {
+      text-align: center;
+      border-bottom: 1px solid rgb(226, 226, 226);
+      min-height: 3.25em;
+      padding: 0.25rem 0;
+
+      .num {
+        width: 3.5rem;
+      }
+
+      .articleTitle {
+        cursor: pointer !important;
+        text-align: left;
+        padding-left: 5rem;
+        width: 40rem;
+
+        .files {
+          position: relative;
+          top: -1.5px;
+          display: inline-block;
+          padding-left: 0.4rem;
+
+          img {
+            width: 11px;
+            height: 11px;
+          }
+
+          small {
+            padding-left: 1px;
+            color: rgb(55, 55, 55);
+            font-weight: 500;
+          }
+        }
+      }
+
+      .articleTitle:hover {
+        text-decoration: underline;
+      }
+
+      .author {
+        padding-left: 2.6rem;
+        width: 10.3rem;
+      }
+
+      .date {
+        padding-left: 4.8rem;
+        width: 10.5rem;
+      }
+
+      .view {
+        padding-left: 1.5rem;
+        width: 6rem;
+      }
+    }
+
+    .contentsHeader,
+    .eachContents .content {
+      align-items: center;
+      display: inline-flex;
+      justify-content: space-between;
+    }
+  }
+
+  .pageNum {
+    display: flex;
+    justify-content: center;
+    .pagination > li:first-child {
+      margin-top: 13.5px;
+    }
+  }
+}
