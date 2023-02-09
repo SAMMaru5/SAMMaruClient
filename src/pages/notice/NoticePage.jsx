@@ -58,7 +58,7 @@ function NoticePage(props) {
   const onClickDetail = (list) => {
     navigate("/noticeDetail", {
       state: {
-        boardId: boardId,
+        boardId,
         articleId: list.id,
         pageNum,
       },
