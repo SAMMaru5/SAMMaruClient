@@ -1,4 +1,4 @@
-import "./bulletin.scss";
+import "../bulletin.scss";
 import { Pagination } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
