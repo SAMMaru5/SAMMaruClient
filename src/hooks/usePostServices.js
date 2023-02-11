@@ -19,7 +19,6 @@ export const deletePost = (props) => {
             });
           });
       } catch (error) {
-        console.log(error);
         return Swal.fire({
           icon: "error",
           title: "게시글이 삭제 중 오류가 발생하였습니다.",
