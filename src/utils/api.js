@@ -1,5 +1,5 @@
 import axios from "axios";
-import { signout } from "../hooks/useAuth";
+import Swal from "sweetalert2";
 
 const instance = axios.create({
   withCredentials: true,
@@ -48,6 +48,18 @@ instance.interceptors.request.use(async function (config) {
               "sm-expired",
               res.data.response.accessTokenExpiresTime
             );
+          }
+        })
+        .catch((error) => {
+          switch (error.response.status) {
+            case 401:
+              window.location.reload();
+              break;
+            default:
+              Swal.fire({
+                icon: "error",
+                title: "예기치 못 한 에러가 발생하였습니다.",
+              });
           }
         });
     }
