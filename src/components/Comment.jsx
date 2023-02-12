@@ -117,7 +117,6 @@ function Comment(props) {
               getComments();
             });
         } catch (error) {
-          console.log(error);
           return Swal.fire({
             icon: "error",
             title: "댓글 삭제 중 오류가 발생하였습니다.",

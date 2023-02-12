@@ -171,11 +171,6 @@ function MemberManage() {
                 icon: "error",
                 title: "예기치 못 한 에러가 발생하였습니다.",
               });
-              console.log(
-                "🚀 ~ file: MemberManage.jsx:177 ~ checkExpiredAccesstoken ~ error",
-                error
-              );
-              // window.location.href = "/login";
             }
           }
         } else {
