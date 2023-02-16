@@ -33,10 +33,6 @@ function LoginPage() {
             response.data.response.accessToken
           );
           localStorage.setItem(
-            "sm-refreshToken",
-            response.data.response.refreshToken
-          );
-          localStorage.setItem(
             "sm-expired",
             response.data.response.accessTokenExpiresTime
           );
