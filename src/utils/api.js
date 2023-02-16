@@ -1,6 +1,9 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
+// reissue 요청 유효 시간: 1000(밀리초[ms]) * 60(초[s]) * 2 = 2(분[m])
+const REISSUE_REQUEST_VALIDATION_TIME = 1000 * 60 * 2;
+
 const instance = axios.create({
   withCredentials: true,
   baseURL: process.env.REACT_APP_URL,
@@ -16,18 +19,21 @@ instance.interceptors.request.use(async function (config) {
   };
 
   if (localStorage.getItem("sm-expired")) {
-    const expiredTime = new Date(
+    const accessTokenExpiredTime = new Date(
       localStorage.getItem("sm-expired").toString().substring(0, 19)
     ).getTime();
 
-    // 만료 시간 이후에 API의 호출이 일어난 경우 로컬 스토리지 초기화
-    if (expiredTime < currentTime) {
+    // accessToken 만료 시간 이후에 API의 호출이 일어난 경우 로컬 스토리지 초기화
+    if (accessTokenExpiredTime < currentTime) {
       localStorage.clear();
       return config;
     }
 
-    // 만료 시간 2분 내에 API의 호출이 일어나면 리이슈 요청
-    if (expiredTime - currentTime <= 120000) {
+    // accessToken 만료 시간 이전이며, reissue 요청 유효 시간 내에 API의 호출이 일어나면 reissue 요청
+    if (
+      accessTokenExpiredTime - currentTime <=
+      REISSUE_REQUEST_VALIDATION_TIME
+    ) {
       await axios
         .post(
           process.env.REACT_APP_URL + "/auth/reissue",
