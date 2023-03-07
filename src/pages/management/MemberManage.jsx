@@ -156,6 +156,21 @@ function MemberManage() {
     email,
     generation
   ) => {
+    if (
+      username === "" ||
+      studentId === "" ||
+      email === "" ||
+      generation === null
+    ) {
+      Swal.fire({
+        title: "모든 정보를 입력해 주세요",
+        icon: "warning",
+        confirmButtonColor: "#a7a7a7",
+        confirmButtonText: "닫기",
+      });
+      return;
+    }
+
     checkExpiredAccesstoken().then((response) => {
       Swal.fire({
         icon: "info",
@@ -179,6 +194,7 @@ function MemberManage() {
               .then((result) => {
                 searchAllUsers();
                 Swal.fire({
+                  confirmButtonColor: "#4880ee",
                   icon: "success",
                   title: `정상적으로 변경되었습니다.`,
                 });
@@ -305,9 +321,21 @@ function MemberManage() {
                       <td>
                         <input
                           type="number"
-                          value={member.generation}
+                          value={"" + member.generation}
                           onChange={(e) => {
                             if (e.target.value < 0) e.target.value = 0;
+                            const updatedItems = members.map(
+                              (prevMembersInfo) => {
+                                if (prevMembersInfo.userId === member.userId) {
+                                  return {
+                                    ...prevMembersInfo,
+                                    generation: e.target.value,
+                                  };
+                                }
+                                return prevMembersInfo;
+                              }
+                            );
+                            setMembers(updatedItems);
                           }}
                           style={{
                             height: "1.5rem",
