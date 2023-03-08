@@ -8,12 +8,21 @@ import { checkExpiredAccesstoken } from "../../hooks/useAuth";
 function MemberManage() {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [name, setName] = useState("");
+  const [searchName, setSearchName] = useState("");
 
   const searchAllUsers = () => {
+    setMembers([]);
     api.get("/api/users/info").then((response) => {
       if (response.data.success) {
-        setMembers(response.data.response);
+        response.data.response.map((eachMemberInfo, idx) => {
+          setMembers((prevMembers) => [
+            ...prevMembers,
+            {
+              ...eachMemberInfo,
+              userInfoModifyMode: false,
+            },
+          ]);
+        });
         setLoading(true);
       }
     });
@@ -78,16 +87,16 @@ function MemberManage() {
     e.preventDefault();
     checkExpiredAccesstoken().then((response) => {
       if (response) {
-        if (name === "") {
+        if (searchName === "") {
           searchAllUsers();
         } else {
-          api.get("/api/users/detail?username=" + name).then((result) => {
+          api.get("/api/users/detail?username=" + searchName).then((result) => {
             if (result.data.success) {
               setMembers(result.data.response);
             } else {
               Swal.fire({
                 icon: "info",
-                title: name + "회원은 <br/>존재하지 않습니다!",
+                title: searchName + "회원은 <br/>존재하지 않습니다!",
               });
             }
           });
@@ -140,38 +149,61 @@ function MemberManage() {
     });
   };
 
-  const modifyUserCardinalHandler = (username, userId, generation) => {
+  const modifyUserInfoHandler = (
+    userId,
+    username,
+    studentId,
+    email,
+    generation
+  ) => {
+    if (
+      username === "" ||
+      studentId === "" ||
+      email === "" ||
+      generation === null
+    ) {
+      Swal.fire({
+        title: "모든 정보를 입력해 주세요",
+        icon: "warning",
+        confirmButtonColor: "#a7a7a7",
+        confirmButtonText: "닫기",
+      });
+      return;
+    }
+
     checkExpiredAccesstoken().then((response) => {
       Swal.fire({
         icon: "info",
-        title: `${username} 사용자를\n${generation}기 회원으로\n변경하시겠습니까?`,
+        title: `${username} 사용자의 회원정보를\n변경하시겠습니까?`,
         showDenyButton: true,
+        confirmButtonColor: "#4880ee",
+        denyButtonColor: "#a7a7a7",
         confirmButtonText: "네",
         denyButtonText: `아니요`,
       }).then(async (response) => {
         if (response.isConfirmed) {
           try {
             await api
-              .patch(`/api/users/${userId}/generation`, { generation })
+              .patch(`/api/v2/user/info/`, {
+                email,
+                generation,
+                studentId,
+                userId,
+                username,
+              })
               .then((result) => {
                 searchAllUsers();
                 Swal.fire({
+                  confirmButtonColor: "#4880ee",
                   icon: "success",
                   title: `정상적으로 변경되었습니다.`,
                 });
               });
           } catch (error) {
-            if (error.response.status === 406) {
-              Swal.fire({
-                icon: "error",
-                title: `관리자 권한을 지닌\n사용자는 제거할 수 없습니다.`,
-              });
-            } else {
-              Swal.fire({
-                icon: "error",
-                title: "예기치 못 한 에러가 발생하였습니다.",
-              });
-            }
+            Swal.fire({
+              icon: "error",
+              title: "예기치 못 한 에러가 발생하였습니다.",
+            });
           }
         } else {
           return;
@@ -186,9 +218,9 @@ function MemberManage() {
         <input
           className="w-25"
           type={"text"}
-          value={name}
+          value={searchName}
           onChange={(res) => {
-            setName(res.target.value);
+            setSearchName(res.target.value);
           }}
           placeholder="이름을 입력해주세요."
         ></input>
@@ -207,73 +239,238 @@ function MemberManage() {
         <table>
           <thead>
             <tr>
-              <th>이름</th>
-              <th>학번</th>
-              <th>이메일</th>
-              <th>기수</th>
+              <th style={{ width: "8rem" }}>이름</th>
+              <th style={{ width: "9rem" }}>학번</th>
+              <th style={{ width: "20rem" }}>이메일</th>
+              <th style={{ width: "5rem" }}>기수</th>
               <th>회원권한</th>
+              <th>정보변경</th>
               <th>회원제거</th>
             </tr>
           </thead>
 
           <tbody>
-            {members.map((member, i) => {
+            {members.map((member, idx) => {
               return (
-                <tr key={i}>
-                  <td>{member.username}</td>
-                  <td>{member.studentId}</td>
-                  <td>{member.email}</td>
-                  <td>
-                    <input
-                      type="number"
-                      placeholder={member.generation}
-                      onChange={(e) => {
-                        if (e.target.value < 0) e.target.value = 0;
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.keyCode === 13)
-                          modifyUserCardinalHandler(
-                            member.username,
-                            member.userId,
-                            e.target.value
-                          );
-                      }}
-                      style={{
-                        height: "1.5rem",
-                        fontSize: "15px",
-                        color: "black",
-                        borderRadius: "2.5px",
-                      }}
-                    />
-                  </td>
-                  <td>
-                    <select
-                      className="authorityKinds text-center"
-                      value={member.role}
-                      onChange={(res) => {
-                        changeAuthority(
-                          member.userId,
-                          member.username,
-                          res.target.value,
-                          i
-                        );
-                      }}
-                    >
-                      <option value="ROLE_TEMP">미지정</option>
-                      <option value="ROLE_MEMBER">회원</option>
-                      <option value="ROLE_ADMIN">관리자</option>
-                    </select>
-                  </td>
-                  <td>
-                    <button
-                      className="text-bg-danger"
-                      onClick={(response) => {
-                        userRemoveHandler(member.username, member.userId);
-                      }}
-                    >
-                      추방
-                    </button>
-                  </td>
+                <tr key={idx}>
+                  {member.userInfoModifyMode ? (
+                    <>
+                      <td>
+                        <input
+                          className="usernameInput"
+                          type="text"
+                          value={member.username}
+                          onChange={(e) => {
+                            const updatedItems = members.map(
+                              (prevMembersInfo) => {
+                                if (prevMembersInfo.userId === member.userId) {
+                                  return {
+                                    ...prevMembersInfo,
+                                    username: e.target.value,
+                                  };
+                                }
+                                return prevMembersInfo;
+                              }
+                            );
+                            setMembers(updatedItems);
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className="studentIdInput"
+                          type="text"
+                          value={member.studentId}
+                          onChange={(e) => {
+                            const updatedItems = members.map(
+                              (prevMembersInfo) => {
+                                if (prevMembersInfo.userId === member.userId) {
+                                  return {
+                                    ...prevMembersInfo,
+                                    studentId: e.target.value,
+                                  };
+                                }
+                                return prevMembersInfo;
+                              }
+                            );
+                            setMembers(updatedItems);
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className="emailInput"
+                          type="text"
+                          value={member.email}
+                          onChange={(e) => {
+                            const updatedItems = members.map(
+                              (prevMembersInfo) => {
+                                if (prevMembersInfo.userId === member.userId) {
+                                  return {
+                                    ...prevMembersInfo,
+                                    email: e.target.value,
+                                  };
+                                }
+                                return prevMembersInfo;
+                              }
+                            );
+                            setMembers(updatedItems);
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          value={"" + member.generation}
+                          onChange={(e) => {
+                            if (e.target.value < 0) e.target.value = 0;
+                            const updatedItems = members.map(
+                              (prevMembersInfo) => {
+                                if (prevMembersInfo.userId === member.userId) {
+                                  return {
+                                    ...prevMembersInfo,
+                                    generation: e.target.value,
+                                  };
+                                }
+                                return prevMembersInfo;
+                              }
+                            );
+                            setMembers(updatedItems);
+                          }}
+                          style={{
+                            height: "1.5rem",
+                            fontSize: "15px",
+                            color: "black",
+                            borderRadius: "2.5px",
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <select
+                          className="authorityKinds text-center"
+                          value={member.role}
+                          disabled={true}
+                          onChange={(res) => {
+                            changeAuthority(
+                              member.userId,
+                              member.username,
+                              res.target.value,
+                              idx
+                            );
+                          }}
+                        >
+                          <option value="ROLE_TEMP">미지정</option>
+                          <option value="ROLE_MEMBER">회원</option>
+                          <option value="ROLE_ADMIN">관리자</option>
+                        </select>
+                      </td>
+                      <td>
+                        <button
+                          className="saveModifedUserInfo"
+                          onClick={(e) => {
+                            modifyUserInfoHandler(
+                              member.userId,
+                              member.username,
+                              member.studentId,
+                              member.email,
+                              member.generation
+                            );
+                          }}
+                        >
+                          저장
+                        </button>
+                        <button
+                          className="modifyUserInfoCancleButton"
+                          onClick={(response) => {
+                            const updatedItems = members.map(
+                              (prevMembersInfo) => {
+                                if (prevMembersInfo.userId === member.userId) {
+                                  return {
+                                    ...prevMembersInfo,
+                                    userInfoModifyMode:
+                                      !member.userInfoModifyMode,
+                                  };
+                                }
+                                return prevMembersInfo;
+                              }
+                            );
+                            setMembers(updatedItems);
+                          }}
+                        >
+                          취소
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          className="text-bg-danger"
+                          onClick={(response) => {
+                            userRemoveHandler(member.username, member.userId);
+                          }}
+                        >
+                          추방
+                        </button>
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td className="usernameInput">{member.username}</td>
+                      <td className="studentIdInput">{member.studentId}</td>
+                      <td>{member.email}</td>
+                      <td className="emailInput">
+                        {member.generation ? member.generation : "정보없음"}
+                      </td>
+                      <td>
+                        <select
+                          className="authorityKinds text-center"
+                          value={member.role}
+                          onChange={(res) => {
+                            changeAuthority(
+                              member.userId,
+                              member.username,
+                              res.target.value,
+                              idx
+                            );
+                          }}
+                        >
+                          <option value="ROLE_TEMP">미지정</option>
+                          <option value="ROLE_MEMBER">회원</option>
+                          <option value="ROLE_ADMIN">관리자</option>
+                        </select>
+                      </td>
+                      <td>
+                        <button
+                          className="modifyUserInfoButton"
+                          onClick={(response) => {
+                            const updatedItems = members.map(
+                              (prevMembersInfo) => {
+                                if (prevMembersInfo.userId === member.userId) {
+                                  return {
+                                    ...prevMembersInfo,
+                                    userInfoModifyMode:
+                                      !member.userInfoModifyMode,
+                                  };
+                                }
+                                return prevMembersInfo;
+                              }
+                            );
+                            setMembers(updatedItems);
+                          }}
+                        >
+                          변경
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          className="text-bg-danger"
+                          onClick={(response) => {
+                            userRemoveHandler(member.username, member.userId);
+                          }}
+                        >
+                          추방
+                        </button>
+                      </td>
+                    </>
+                  )}
                 </tr>
               );
             })}
