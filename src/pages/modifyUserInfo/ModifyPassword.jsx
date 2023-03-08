@@ -84,6 +84,8 @@ function ModifyPassword() {
 
               api.put("/api/user/password", newPassword).then((response) => {
                 Swal.fire({
+                  confirmButtonColor: "#4880ee",
+                  confirmButtonText: "확인",
                   icon: "success",
                   title: "비밀번호가 정상적으로 \n변경되었습니다.",
                 });
