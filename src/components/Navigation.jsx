@@ -44,8 +44,8 @@ function Navigation() {
                   </Link>
                 </span>
               ) : null}
-              <Link to="/checkPw" className="changeInfo">
-                정보 수정
+              <Link to="/modifyPassword" className="modifyPassword">
+                비밀번호 변경
               </Link>
               <Link
                 to="/"

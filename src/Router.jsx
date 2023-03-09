@@ -7,8 +7,7 @@ import LoginPage from "./pages/login/LoginPage";
 import RegisterPage from "./pages/register/RegisterPage";
 import AgreePage from "./pages/register/AgreePage";
 import FindUserPage from "./pages/findUser/FindUserPage";
-import ModifyUserInfoPage from "./pages/modifyUserInfo/ModifyUserInfoPage";
-import CheckPwPage from "./pages/modifyUserInfo/CheckPwPage";
+import ModifyPassword from "./pages/modifyUserInfo/ModifyPassword";
 import AuthGuard from "./components/AuthGuard";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PhotoPage from "./pages/photo/PhotoPage";
@@ -206,18 +205,10 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/findUser" element={<FindUserPage />} />
           <Route
-            path="/checkPw"
+            path="/modifyPassword"
             element={
               <AuthGuard>
-                <CheckPwPage />
-              </AuthGuard>
-            }
-          />
-          <Route
-            path="/modifyUserInfo"
-            element={
-              <AuthGuard>
-                <ModifyUserInfoPage />
+                <ModifyPassword />
               </AuthGuard>
             }
           />
