@@ -14,6 +14,11 @@ function Comment(props) {
   const [userInfo, setUserInfo] = useState({});
   const [role, setRole] = useState("");
 
+  // router 이동 시 메모리 lack 제거를 위한 cleanup
+  useEffect(() => {
+    return () => setCommentList([]);
+  }, []);
+
   useEffect(() => {
     getComments();
     async function getUserInfo() {

@@ -1,4 +1,4 @@
-.ExamDetail {
+.articleDetail {
   button {
     padding: 0;
   }
@@ -96,12 +96,29 @@
         width: 10%;
         height: 45px;
         line-height: 45px;
-        font-size: 17px;
+        font-size: 15px;
         text-align: center;
         background-color: #f7f8f9;
         border-right: 1px solid #dfdfdf;
         margin-right: 1.5%;
         cursor: auto;
+
+        img {
+          width: 25px;
+          height: 25px;
+          margin: 0 0 0.15em 0.075em;
+        }
+      }
+      button {
+        max-width: 55em;
+        background-color: transparent;
+        color: rgb(34, 34, 34) !important;
+        box-shadow: none;
+        font-weight: 300;
+        font-size: 14px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
       }
     }
   }
