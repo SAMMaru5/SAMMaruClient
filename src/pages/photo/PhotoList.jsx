@@ -95,54 +95,56 @@ const PhotoList = (props) => {
   };
 
   return (
-    <div className="photoMain" style={{ display: "flex" }}>
-      {loading ? (
-        <>
-          <Row>
-            {photoList.content.map((list, i) => {
-              let createDt = list.createDt.slice(0, 10);
-              return (
-                <Col key={i}>
-                  <div
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      onClickDetail(list);
-                    }}
-                    className="eachPost shadow"
-                  >
-                    <span className="hoverViewCnt">
-                      Views <span>{list.viewCnt}</span>
-                    </span>
-                    <img
-                      alt="사진첩 사진"
-                      src={
-                        process.env.REACT_APP_URL +
-                        "/no-permit/api/boards/" +
-                        boardId +
-                        "/articles/" +
-                        list.id +
-                        "/files/" +
-                        list.files[0].filePath
-                      }
-                      style={{
-                        width: "100%",
-                        height: "100%",
+    <div>
+      <div className="photoMain" style={{ display: "flex" }}>
+        {loading ? (
+          <>
+            <Row>
+              {photoList.content.map((list, i) => {
+                let createDt = list.createDt.slice(0, 10);
+                return (
+                  <Col key={i}>
+                    <div
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        onClickDetail(list);
                       }}
-                    ></img>
-                    <br />
-                    <br />
-                    <strong>{list.title}</strong>
-                    <hr />
-                    <span>
-                      {list.author} | {createDt}
-                    </span>
-                  </div>
-                </Col>
-              );
-            })}
-          </Row>
-        </>
-      ) : null}
+                      className="eachPost shadow"
+                    >
+                      <span className="hoverViewCnt">
+                        Views <span>{list.viewCnt}</span>
+                      </span>
+                      <img
+                        alt="사진첩 사진"
+                        src={
+                          process.env.REACT_APP_URL +
+                          "/no-permit/api/boards/" +
+                          boardId +
+                          "/articles/" +
+                          list.id +
+                          "/files/" +
+                          list.files[0].filePath
+                        }
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                        }}
+                      ></img>
+                      <br />
+                      <br />
+                      <strong>{list.title}</strong>
+                      <hr />
+                      <span>
+                        {list.author} | {createDt}
+                      </span>
+                    </div>
+                  </Col>
+                );
+              })}
+            </Row>
+          </>
+        ) : null}
+      </div>
       <div className="pageNum">
         <Pagination>
           <Pagination.First onClick={() => onChangingPage("first")} />
