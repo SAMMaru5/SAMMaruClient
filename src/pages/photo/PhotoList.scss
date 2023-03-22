@@ -1,7 +1,7 @@
 .photoMain {
   background-color: rgb(255, 255, 255);
   justify-content: center;
-  padding-bottom: 5rem;
+  padding-bottom: 3rem;
 
   .row {
     display: grid;
@@ -45,15 +45,6 @@
     text-decoration: underline;
   }
 
-  .pageNum {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    .pagination > li:first-child {
-      margin-top: 13.5px;
-    }
-  }
-
   @media (max-width: 1300px) {
     .row {
       grid-template-columns: repeat(3, 1fr);
@@ -70,5 +61,13 @@
     .row {
       grid-template-columns: repeat(1, 1fr);
     }
+  }
+}
+
+.pageNum {
+  display: flex;
+  justify-content: center;
+  .pagination > li:first-child {
+    margin-top: 12.5px;
   }
 }
