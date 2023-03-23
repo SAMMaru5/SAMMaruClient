@@ -60,16 +60,27 @@ export async function checkExpiredAccesstoken() {
 }
 
 export async function signout() {
-  try {
-    return await api
-      .delete(process.env.REACT_APP_URL + "/auth/logout")
-      .then((response) => {
-        if (response.status === 200) {
-          localStorage.clear();
+  return await api
+    .delete(process.env.REACT_APP_URL + "/auth/logout")
+    .then((response) => {
+      if (response.status === 200) {
+        localStorage.clear();
+        window.location.href = "/";
+      }
+    })
+    .catch((error) => {
+      switch (error.response.status) {
+        case 400:
+        case 401:
           window.location.href = "/";
-        }
-      });
-  } catch (e) {}
+          break;
+        default:
+          Swal.fire({
+            icon: "error",
+            title: "예기치 못 한 에러가 발생하였습니다.",
+          });
+      }
+    });
 }
 
 export async function reissue(accessToken, refreshToken) {
