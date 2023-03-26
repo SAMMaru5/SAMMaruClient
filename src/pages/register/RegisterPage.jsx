@@ -1,5 +1,5 @@
 import { useLocation, Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./RegisterPage.scss";
 import Swal from "sweetalert2";
 import api from "../../utils/api";
@@ -9,383 +9,534 @@ function RegisterPage() {
   const navigate = useNavigate();
   const agree = location.state;
 
-  // const [informAgree1, setInformAgree1] = useState(true)
-  // const [informAgree2, setInformAgree2] = useState(true)
-
-  const [User, setUser] = useState({
+  const [userInfo, setUserInfo] = useState({
     studentId: "",
     username: "",
     password: "",
     email: "",
   });
-  const [pwCheck, setPwCheck] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [emailConfirmCode, setEmailConfirmCode] = useState("");
 
-  const [flag1, setFlag1] = useState(true);
-  const [flag2, setFlag2] = useState(true);
-  const [flag3, setFlag3] = useState(true);
+  const [passwordPolicy_className, setPasswordPolicy_className] =
+    useState("patternNone");
+  const [passwordPolicy2_className, setPasswordPolicy2_className] =
+    useState("patternNone");
+  const [passwordConfirmPolicy_className, setPasswordConfirmPolicy_className] =
+    useState("patternHidden");
+  const [emailPolicy_className, setEmailPolicy_className] =
+    useState("patternHidden");
+  const [
+    emailConfirmCodeVerifyingPolicy_className,
+    setEmailConfirmCodeVerifyingPolicy_className,
+  ] = useState("patternHidden");
+
+  const [verifiedEmailAddress, setVerifiedEmailAddress] = useState("");
+
+  const nameInputFocusRef = useRef(null);
+  const studentIdInputFocusRef = useRef(null);
+  const passwordInputFocusRef = useRef(null);
+  const passwordConfirmInputFocusRef = useRef(null);
+  const emailInputFocusRef = useRef(null);
+  const emailConfirmCodeVerifyingInputFocusRef = useRef(null);
+
+  const passwordRegex = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&]).{8,20}.$";
+  const studentIdRegex = "^[0-9]{6,}$";
+  const emailRegex = "[a-zA-Z0-9._-]+@[a-z]+.+[a-z]+";
+
   useEffect(() => {
     if (agree === null) {
-      alert("회원가입약관의 내용에 동의하셔야 회원가입 하실 수 있습니다.");
+      Toast.fire({
+        icon: "warning",
+        title: "회원가입 약관의 내용에 동의하셔야 회원가입을 하실 수 있습니다",
+        timer: 4000,
+      });
       navigate("/agree");
     }
   }, [navigate, agree]);
 
-  const registerValid = async (e) => {
-    e.preventDefault();
-    if (User.studentId === "") {
-      Swal.fire({
-        title: "아이디를 입력해주세요.",
-        icon: "warning",
-      });
-    } else if (User.password !== pwCheck) {
-      Swal.fire({
-        title: "비밀번호가 일치하지 않습니다.",
-        icon: "warning",
-      });
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "center",
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+  });
+
+  const registerValid = () => {
+    // 회원가입 컴포넌트 내 입력란 (공란/유효값 검증) 확인 조건문
+    if (userInfo.username === undefined || userInfo.username === "") {
+      nameInputFocusRef.current.className = "wrongCaseBorder";
+      nameInputFocusRef.current.focus();
+      alert("성명을 입력해 주세요");
+    } else if (userInfo.studentId === undefined || userInfo.studentId === "") {
+      studentIdInputFocusRef.current.className = "wrongCaseBorder";
+      studentIdInputFocusRef.current.focus();
+      alert("학번을 입력해 주세요");
+    } else if (!new RegExp(studentIdRegex).test(userInfo.studentId)) {
+      studentIdInputFocusRef.current.className = "wrongCaseBorder";
+      studentIdInputFocusRef.current.focus();
+      alert("올바른 학번을 입력해 주세요");
+    } else if (userInfo.password === undefined || userInfo.password === "") {
+      passwordInputFocusRef.current.className = "wrongCaseBorder";
+      passwordInputFocusRef.current.focus();
+      setPasswordPolicy_className("patternWrong");
+      setPasswordPolicy2_className("patternWrong");
+      alert("비밀번호를 입력해 주세요");
+    } else if (
+      passwordPolicy_className === "patternWrong" ||
+      passwordPolicy2_className === "patternWrong"
+    ) {
+      passwordInputFocusRef.current.className = "wrongCaseBorder";
+      passwordInputFocusRef.current.focus();
+    } else if (passwordConfirm === undefined || passwordConfirm === "") {
+      passwordConfirmInputFocusRef.current.className = "wrongCaseBorder";
+      passwordConfirmInputFocusRef.current.focus();
+      setPasswordConfirmPolicy_className("patternWrong");
+    } else if (userInfo.password !== passwordConfirm) {
+      setPasswordConfirmPolicy_className("patternWrong");
+      passwordConfirmInputFocusRef.current.className = "wrongCaseBorder";
+    } else if (passwordConfirmPolicy_className === "patternWrong") {
+      passwordConfirmInputFocusRef.current.className = "wrongCaseBorder";
+      passwordConfirmInputFocusRef.current.focus();
+    } else if (userInfo.email === undefined || userInfo.email === "") {
+      emailInputFocusRef.current.className = "wrongCaseBorder";
+      emailInputFocusRef.current.focus();
+      alert("사용하실 이메일 주소를 입력해 주세요");
+    } else if (emailPolicy_className === "patternWrong") {
+      emailInputFocusRef.current.className = "wrongCaseBorder";
+      emailInputFocusRef.current.focus();
+    } else if (emailPolicy_className === "patternHidden") {
+      emailInputFocusRef.current.className = "wrongCaseBorder";
+      emailInputFocusRef.current.focus();
+      alert("인증번호 요청을 완료해 주세요");
+      return;
+    } else if (emailConfirmCode === undefined || emailConfirmCode === "") {
+      emailConfirmCodeVerifyingInputFocusRef.current.className =
+        "wrongCaseBorder";
+      emailConfirmCodeVerifyingInputFocusRef.current.focus();
+      alert("인증번호를 입력해 주세요");
+    } else if (emailConfirmCodeVerifyingPolicy_className === "patternHidden") {
+      emailConfirmCodeVerifyingInputFocusRef.current.className =
+        "wrongCaseBorder";
+      emailConfirmCodeVerifyingInputFocusRef.current.focus();
+      alert("인증번호 확인을 완료해 주세요");
+    } else if (emailConfirmCodeVerifyingPolicy_className === "patternWrong") {
+      emailConfirmCodeVerifyingInputFocusRef.current.className =
+        "wrongCaseBorder";
+      emailConfirmCodeVerifyingInputFocusRef.current.focus();
+    } else if (userInfo.email !== verifiedEmailAddress) {
+      setEmailPolicy_className("patternHidden");
+      emailInputFocusRef.current.className = "wrongCaseBorder";
+      emailInputFocusRef.current.focus();
+      setEmailConfirmCodeVerifyingPolicy_className("patternHidden");
+      emailConfirmCodeVerifyingInputFocusRef.current.value = "";
+      alert("인증번호 요청을 완료해 주세요");
     } else {
       register();
     }
   };
 
-  const register = async (e) => {
-    const registerBtn = document.getElementById("registerBtn");
-    registerBtn.setAttribute("disabled", true);
-    registerBtn.style.color = "white";
-    registerBtn.innerText = "회원가입 중...";
-
-    try {
-      await api.post("/auth/signup", User).then((response) => {
+  const register = async () => {
+    await api
+      .post(`/auth/signup`, userInfo)
+      .then((response) => {
         if (response.data.success) {
           Swal.fire({
             icon: "success",
-            title: "회원가입에 성공했습니다.",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              navigate("/login");
-            }
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "회원가입에 실패했습니다.",
-          }).then((result) => {
-            if (result) {
-              registerBtn.removeAttribute("disabled");
-              registerBtn.innerText = "회원가입";
-            }
+            title: `회원가입 완료`,
+            text: "홈페이지 하단에 표시된 연락처를 통하여 회원 권한을 요청해 주세요",
+            confirmButtonColor: "#4880ee",
+            confirmButtonText: "확인",
+          }).then((response) => {
+            navigate("/login");
           });
         }
+      })
+      .catch((error) => {
+        console.log(error.response);
+        switch (error.response.status) {
+          case 409:
+            studentIdInputFocusRef.current.className = "wrongCaseBorder";
+            studentIdInputFocusRef.current.focus();
+            Toast.fire({
+              icon: "warning",
+              title: "해당 학번의 사용자가 이미 존재합니다",
+            });
+            break;
+          default:
+            alert("예기치 못 한 에러가 발생하였습니다.\n" + error);
+        }
       });
-    } catch (error) {
-      if (error.response.status === 409) {
-        Swal.fire({
-          icon: "error",
-          title:
-            error.response.data.apiError.message.substring(
-              0,
-              error.response.data.apiError.message.indexOf("!")
-            ) + ".",
-          text: "다시 확인해 주세요.",
-        }).then((result) => {
-          if (result) {
-            registerBtn.removeAttribute("disabled");
-            registerBtn.innerText = "회원가입";
-          }
-        });
-      }
+  };
+
+  const passwordWatcher = (value) => {
+    if (new RegExp(passwordRegex).test(value)) {
+      setPasswordPolicy_className("patternRight");
+      passwordInputFocusRef.current.className = "rightCaseBorder";
+    } else {
+      setPasswordPolicy_className("patternWrong");
+      passwordInputFocusRef.current.className = "wrongCaseBorder";
+    }
+
+    if (userInfo.studentId === value || value === "")
+      setPasswordPolicy2_className("patternWrong");
+    else setPasswordPolicy2_className("patternRight");
+  };
+
+  const passwordConfirmWatcher = (value) => {
+    if (userInfo.password !== value || value === "") {
+      setPasswordConfirmPolicy_className("patternWrong");
+      passwordConfirmInputFocusRef.current.className = "wrongCaseBorder";
+    } else {
+      setPasswordConfirmPolicy_className("patternRight");
+      passwordConfirmInputFocusRef.current.className = "rightCaseBorder";
     }
   };
 
-  const checkStudentnumber = (e) => {
-    document.getElementsByClassName("siteInfo")[0].style.display = "flex";
-    var regExp = /^[0-9]{4,}$/;
-    var stdErr = document.getElementById("stdErr");
-    if (e.target.value === "") {
-      stdErr.innerHTML = "필수 정보입니다.";
-      setFlag1(false);
-    } else if (!regExp.test(e.target.value)) {
-      stdErr.innerHTML = "학번을 입력해주세요.";
-      setFlag1(false);
-    } else {
-      stdErr.innerHTML = "";
-      setFlag1(true);
-
-      if (flag2 && flag3) {
-        document.getElementsByClassName("siteInfo")[0].style.display = "none";
-      }
+  const emailConfirmCodeSendingHandler = async () => {
+    if (userInfo.email === "") {
+      emailInputFocusRef.current.className = "wrongCaseBorder";
+      emailInputFocusRef.current.focus();
+      alert("사용하실 이메일 주소를 입력해 주세요");
+      return;
+    } else if (!new RegExp(emailRegex).test(userInfo.email)) {
+      emailInputFocusRef.current.className = "wrongCaseBorder";
+      emailInputFocusRef.current.focus();
+      alert("올바른 이메일 주소를 입력해 주세요");
+      return;
     }
+    Toast.fire({
+      icon: "info",
+      title: "시스템에서 메일을 전송하고 있습니다",
+      timer: 5000,
+    });
+    setEmailConfirmCodeVerifyingPolicy_className("patternHidden");
+    await api
+      .post(`/auth/send?userEmail=${userInfo.email}`)
+      .then((response) => {
+        if (response.data.success) {
+          setEmailPolicy_className("patternRight");
+          emailInputFocusRef.current.className = "rightCaseBorder";
+        }
+      })
+      .catch((error) => {
+        switch (error.response.status) {
+          case 409:
+            Swal.close();
+            setEmailPolicy_className("patternWrong");
+            emailInputFocusRef.current.className = "wrongCaseBorder";
+            emailInputFocusRef.current.focus();
+            break;
+          default:
+            alert("예기치 못 한 에러가 발생하였습니다.\n" + error);
+        }
+      });
   };
 
-  const checkPassword1 = (e) => {
-    document.getElementsByClassName("siteInfo")[0].style.display = "flex";
-    var regExp = /(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\W)(?=\S+$).{8,20}/;
-    var pw1Err = document.getElementById("pw1Err");
-    if (e.target.value === "") {
-      pw1Err.innerHTML = "필수 정보입니다.";
-      setFlag2(false);
-    } else if (!regExp.test(e.target.value)) {
-      pw1Err.innerHTML = "8~20자 숫자, 영문, 특수문자를 포함해주세요.";
-      setFlag2(false);
-    } else {
-      pw1Err.innerHTML = "";
-      setFlag2(true);
-      if (flag1 && flag3) {
-        document.getElementsByClassName("siteInfo")[0].style.display = "none";
-      }
+  const emailConfirmCodeVerifyingHandler = async () => {
+    if (userInfo.email === undefined || userInfo.email === "") {
+      emailInputFocusRef.current.className = "wrongCaseBorder";
+      emailInputFocusRef.current.focus();
+      alert("사용하실 이메일을 입력하신 후 인증번호 요청을 완료해 주세요");
+      return;
+    } else if (emailPolicy_className === "patternHidden") {
+      emailInputFocusRef.current.className = "wrongCaseBorder";
+      alert("인증번호 요청을 완료해 주세요");
+      return;
+    } else if (emailPolicy_className === "patternWrong") {
+      emailInputFocusRef.current.className = "wrongCaseBorder";
+      emailInputFocusRef.current.focus();
+      alert("다른 이메일 주소를 입력하신 후 인증번호 요청을 완료해 주세요");
+      return;
+    } else if (!new RegExp(emailRegex).test(userInfo.email)) {
+      emailInputFocusRef.current.className = "wrongCaseBorder";
+      emailInputFocusRef.current.focus();
+      alert("올바른 이메일 주소를 입력하신 후 인증번호 요청을 완료해 주세요");
+      return;
+    } else if (emailConfirmCode === undefined || emailConfirmCode === "") {
+      emailConfirmCodeVerifyingInputFocusRef.current.className =
+        "wrongCaseBorder";
+      emailConfirmCodeVerifyingInputFocusRef.current.focus();
+      alert("인증번호를 입력해 주세요");
+      return;
+    } else if (emailPolicy_className === "patternHidden") {
+      emailConfirmCodeVerifyingInputFocusRef.current.className =
+        "wrongCaseBorder";
+      emailConfirmCodeVerifyingInputFocusRef.current.focus();
+      alert("인증번호 요청을 완료해 주세요");
+      return;
     }
-  };
 
-  const checkPassword2 = (e) => {
-    document.getElementsByClassName("siteInfo")[0].style.display = "flex";
-
-    var pw2Err = document.getElementById("pw2Err");
-
-    if (e.target.value === "") {
-      pw2Err.innerHTML = "필수 정보입니다.";
-      setFlag3(false);
-    } else if (User.password !== e.target.value) {
-      pw2Err.innerHTML = "비밀번호가 일치하지 않습니다..";
-      setFlag3(false);
-    } else {
-      pw2Err.innerHTML = "";
-      setFlag3(true);
-      if (flag1 && flag2) {
-        document.getElementsByClassName("siteInfo")[0].style.display = "none";
-      }
-    }
+    await api
+      .post(`/auth/verify?code=${emailConfirmCode}`)
+      .then((response) => {
+        if (response.data.success) {
+          emailConfirmCodeVerifyingInputFocusRef.current.className =
+            "rightCaseBorder";
+          setEmailConfirmCodeVerifyingPolicy_className("patternRight");
+          setVerifiedEmailAddress(userInfo.email);
+        }
+      })
+      .catch((error) => {
+        switch (error.response.status) {
+          case 404:
+            setEmailConfirmCodeVerifyingPolicy_className("patternWrong");
+            emailConfirmCodeVerifyingInputFocusRef.current.className =
+              "wrongCaseBorder";
+            emailConfirmCodeVerifyingInputFocusRef.current.focus();
+            break;
+          default:
+            console.log("에러: ", error);
+        }
+      });
   };
 
   return (
     <div className="RegisterPage container">
-      <div className="titleFrame">
-        <h5>
-          <strong>
-            <i className="fas fa-map-marker-alt "></i> &nbsp;정보입력
-          </strong>
-        </h5>
-        <div>
-          <Link to={"/"}>Home</Link> &nbsp;/&nbsp; 회원가입 &nbsp;/&nbsp;
-          정보입력
+      <div className="inputForm">
+        <div className="titleFrame">
+          <h5 className="formTitle">정보입력</h5>
+          <div className="routePath">
+            <Link to={"/"} className="link">
+              홈
+            </Link>{" "}
+            &nbsp;/&nbsp;{" "}
+            <Link to={"/agree"} className="link">
+              약관동의
+            </Link>{" "}
+            &nbsp;/&nbsp; 정보입력
+          </div>
         </div>
-      </div>
-      <hr />
-      <form
-        onSubmit={(e) => {
-          registerValid(e);
-        }}
-      >
-        <table>
-          <thead>
-            <tr>
-              <td colSpan={"3"}>
-                <h5>
-                  <strong>사이트 정보 입력</strong>
-                </h5>
-              </td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <div className="textCheck">
-                  <label htmlFor="userId">학번</label>
-                </div>
-                <div className="inputText">
-                  <i className="fas fa-user-alt fa-sm"></i>
-                  <input
-                    type={"text"}
-                    autoComplete="off"
-                    id="userId"
-                    pattern="^[0-9]{4,}$"
-                    title="학번을 입력해주세요."
-                    required
-                    onChange={(e) => {
-                      checkStudentnumber(e);
-                      setUser({ ...User, studentId: e.target.value });
-                    }}
-                  ></input>
-                  <p className="errMsg" id="stdErr"></p>
-                </div>
-              </td>
-              <td>
-                <label htmlFor="userPw">비밀번호</label>
-
-                <div className="inputText">
-                  <i className="fas fa-lock fa-sm"></i>
-                  <input
-                    type={"password"}
-                    autoComplete="current-password"
-                    id="userPw"
-                    title="최소 8자리에서 최대 20자리까지 숫자, 영문, 특수문자 각 1개 이상 포함해주세요."
-                    pattern="(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\W)(?=\S+$).{8,20}"
-                    required
-                    onChange={(e) => {
-                      checkPassword1(e);
-                      setUser({ ...User, password: e.target.value });
-                    }}
-                  ></input>
-                  <p className="errMsg" id="pw1Err"></p>
-                </div>
-              </td>
-              <td>
-                <label htmlFor="userPwCheck">비밀번호 확인</label>
-                <div className="inputText">
-                  <i className="fas fa-lock fa-sm"></i>
-                  <input
-                    type={"password"}
-                    autoComplete="current-password"
-                    id="userPwCheck"
-                    required
-                    onChange={(e) => {
-                      checkPassword2(e);
-                      setPwCheck(e.target.value);
-                    }}
-                  ></input>
-                  <p className="errMsg" id="pw2Err"></p>
-                </div>
-              </td>
-            </tr>
-            <tr className="siteInfo">
-              <td> &nbsp;</td>
-            </tr>
-          </tbody>
-
-          <thead>
-            <tr>
-              <td colSpan={"3"}>
-                <h5>
-                  <strong>개인 정보 입력</strong>
-                </h5>
-              </td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <label htmlFor="userName">이름</label>
-                <div className="inputText">
-                  <i className="fas fa-male fa-sm"></i>
-                  <input
-                    type={"text"}
-                    id="userName"
-                    required
-                    onChange={(e) => {
-                      setUser({ ...User, username: e.target.value });
-                    }}
-                  ></input>
-                  <p className="errMsg" id="nameErr"></p>
-                </div>
-              </td>
-            </tr>
-            <tr className="emptyHr">
-              <td colSpan={"3"}>
-                <hr />
-              </td>
-            </tr>
-            {/* <tr>
-                        <td>
-                            <div className="textCheck">
-                                <label htmlFor="userNickName">닉네임</label><br/>
-                                <input type={"button"} value={"중복체크"}></input>
-                            </div>
-                            <div className="inputText">
-                                <i className="far fa-smile fa-sm"></i>
-                                <input type={"text"} id="userNickName"></input>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr className="emptyHr">
-                        <td colSpan={"3"}>
-                            <p>Note: 공백없이 한글,영문,숫자만 입력 가능 (한글2자, 영문4자 이상) | 닉네임을 바꾸시면 앞으로 0일 이내에는 변경 할 수 없습니다.</p>
-                        </td>
-                    </tr>
-                    <tr className="emptyHr">
-                        <td colSpan={"3"}>
-                            <hr/>
-                        </td>
-                    </tr> */}
-            <tr>
-              <td>
-                <div className="textCheck">
-                  <label htmlFor="userEmail">이메일</label>
-                  <br />
-                </div>
-                <div className="inputText">
-                  <i className="far fa-envelope fa-sm"></i>
-                  <input
-                    type={"email"}
-                    id="userEmail"
-                    required
-                    onChange={(e) => {
-                      setUser({ ...User, email: e.target.value });
-                    }}
-                  ></input>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-
-          {/* <thead>
-                    <tr>
-                        <td colSpan={"3"}>
-                            <h5>
-                                <strong>
-                                    기타 개인설정
-                                </strong>
-                            </h5>
-                        </td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td colSpan={"3"}>
-                            <br/>
-                            <p>메일링 서비스</p>
-                            <label className="checkLabel" htmlFor="informCheck1"><input type={"checkbox"} checked={informAgree1} id="informCheck1" onChange={()=>{setInformAgree1(!informAgree1)}}/> &nbsp; 정보 메일을 받겠습니다.</label>
-                            <hr/>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td colSpan={"3"}>
-                            <p>정보 공개</p>
-                            <label className="checkLabel" htmlFor="informCheck2"><input type={"checkbox"} checked={informAgree2} id="informCheck2" onChange={()=>{setInformAgree2(!informAgree2)}}/> &nbsp; 다른 분들이 나의 정보를 볼 수 있도록 합니다.</label>
-                            <p className="informVisible">
-                                Note: 정보공개를 바꾸시면 앞으로 0일 이내에는 변경이 안됩니다.
-                            </p>
-                            <hr/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colSpan={"3"}>
-                            <p>자동등록방지</p>
-                            <div className="autoNum">
-
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td colSpan={"3"}>
-                            <p>자동등록방지</p>
-                            <div className="autoNum">
-
-                            </div>
-                        </td>
-                    </tr>
-                </tbody> */}
-          <thead>
-            <tr>
-              <td colSpan={"3"}>
-                <button id="registerBtn" type="submit">
-                  <h5>회원가입</h5>
+        <div>
+          <div className="studentInfo">
+            <span className="title">학생정보</span>
+            <div className="contentSection">
+              <div className="eachContent">
+                <label htmlFor="">성명</label>
+                <input
+                  type="text"
+                  required
+                  ref={nameInputFocusRef}
+                  onChange={(e) => {
+                    setUserInfo({ ...userInfo, username: e.target.value });
+                  }}
+                />
+              </div>
+              <div className="eachContent">
+                <label htmlFor="">학번(아이디)</label>
+                <input
+                  type="text"
+                  ref={studentIdInputFocusRef}
+                  onChange={(e) => {
+                    setUserInfo({ ...userInfo, studentId: e.target.value });
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div className="password">
+            <span className="title">비밀번호 입력 </span>
+            <div className="contentSection">
+              <div className="eachContent">
+                <label htmlFor="">비밀번호</label>
+                <input
+                  type="password"
+                  required
+                  minLength={8}
+                  maxLength={20}
+                  ref={passwordInputFocusRef}
+                  onChange={(e) => {
+                    setUserInfo({ ...userInfo, password: e.target.value });
+                    passwordWatcher(e.target.value);
+                  }}
+                />
+              </div>
+              <div className={"eachContent " + passwordPolicy_className}>
+                <span>
+                  {passwordPolicy_className === "patternRight" ? (
+                    <i
+                      className="fa-solid fa-check"
+                      style={{
+                        marginLeft: "-0.1rem",
+                        paddingRight: "0.25em",
+                      }}
+                    />
+                  ) : (
+                    <i
+                      className="fa-solid fa-xmark"
+                      style={{ paddingRight: "0.5em" }}
+                    />
+                  )}
+                  영문/숫자/특수문자 1가지 이상 조합(8~20자)
+                </span>
+              </div>
+              <div className={"eachContent " + passwordPolicy2_className}>
+                <span>
+                  {passwordPolicy2_className === "patternRight" ? (
+                    <i
+                      className="fa-solid fa-check"
+                      style={{
+                        marginLeft: "-0.1rem",
+                        paddingRight: "0.25em",
+                      }}
+                    />
+                  ) : (
+                    <i
+                      className="fa-solid fa-xmark"
+                      style={{ paddingRight: "0.5em" }}
+                    />
+                  )}
+                  아이디(학번) 제외
+                </span>
+              </div>
+              <div className="eachContent">
+                <label htmlFor="">비밀번호 재확인</label>
+                <input
+                  type="password"
+                  ref={passwordConfirmInputFocusRef}
+                  onChange={(e) => {
+                    setPasswordConfirm(e.target.value);
+                    passwordConfirmWatcher(e.target.value);
+                  }}
+                />
+              </div>
+              <div className={"eachContent " + passwordConfirmPolicy_className}>
+                <span>
+                  {passwordConfirmPolicy_className === "patternRight" ? (
+                    <>
+                      <i
+                        className="fa-solid fa-check"
+                        style={{
+                          marginLeft: "-0.1rem",
+                          paddingRight: "0.25em",
+                        }}
+                      />
+                      입력된 비밀번호가 일치합니다.
+                    </>
+                  ) : (
+                    <>
+                      <i
+                        className="fa-solid fa-xmark"
+                        style={{ paddingRight: "0.5em" }}
+                      />
+                      입력된 비밀번호가 일치하지 않습니다
+                    </>
+                  )}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div className="email">
+            <span className="title">이메일 정보</span>
+            <div className="contentSection">
+              <div className="eachContent">
+                <label htmlFor="">이메일 주소</label>
+                <input
+                  type="text"
+                  ref={emailInputFocusRef}
+                  onChange={(e) => {
+                    setUserInfo({ ...userInfo, email: e.target.value });
+                  }}
+                />
+                <button
+                  className="emailConfirmCodeSendingBtn"
+                  type="button"
+                  onClick={() => {
+                    emailConfirmCodeSendingHandler();
+                  }}
+                >
+                  인증번호 요청
                 </button>
-              </td>
-            </tr>
-          </thead>
-        </table>
-      </form>
+              </div>
+              <div className={"eachContent " + emailPolicy_className}>
+                <span>
+                  {emailPolicy_className === "patternRight" ? (
+                    <>
+                      <i
+                        className="fa-solid fa-check"
+                        style={{
+                          marginLeft: "-0.1rem",
+                          paddingRight: "0.25em",
+                        }}
+                      />
+                      해당 메일로 인증번호가 발송되었습니다
+                    </>
+                  ) : (
+                    <>
+                      <i
+                        className="fa-solid fa-xmark"
+                        style={{ paddingRight: "0.5em" }}
+                      />
+                      이미 사용 중인 이메일 주소입니다
+                    </>
+                  )}
+                </span>
+              </div>
+              <div className="eachContent">
+                <label htmlFor="">인증번호 확인</label>
+                <input
+                  type="text"
+                  ref={emailConfirmCodeVerifyingInputFocusRef}
+                  onChange={(e) => {
+                    setEmailConfirmCode(e.target.value);
+                  }}
+                />
+                <button
+                  className="emailConfirmCodeVerifyingBtn"
+                  type="button"
+                  onClick={() => {
+                    emailConfirmCodeVerifyingHandler();
+                  }}
+                >
+                  확인
+                </button>
+              </div>
+              <div
+                className={
+                  "eachContent " + emailConfirmCodeVerifyingPolicy_className
+                }
+              >
+                <span>
+                  {emailConfirmCodeVerifyingPolicy_className ===
+                  "patternRight" ? (
+                    <>
+                      <i
+                        className="fa-solid fa-check"
+                        style={{
+                          marginLeft: "-0.1rem",
+                          paddingRight: "0.25em",
+                        }}
+                      />
+                      이메일 인증을 완료하였습니다
+                    </>
+                  ) : (
+                    <>
+                      <i
+                        className="fa-solid fa-xmark"
+                        style={{ paddingRight: "0.5em" }}
+                      />
+                      인증번호가 올바르지 않습니다
+                    </>
+                  )}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          className="registerBtn"
+          onClick={() => {
+            registerValid();
+          }}
+        >
+          회원가입
+        </button>
+      </div>
     </div>
   );
 }
