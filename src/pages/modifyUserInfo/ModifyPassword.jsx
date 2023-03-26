@@ -278,7 +278,7 @@ function ModifyPassword() {
             </div>
           </div>
           <div className="newPasswordConfirm">
-            <label htmlFor="">비밀번호 다시 입력</label>
+            <label htmlFor="">비밀번호 재확인</label>
             <input
               className={
                 newPasswordConfirmRightPattern === -1
