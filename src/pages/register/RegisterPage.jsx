@@ -9,6 +9,13 @@ function RegisterPage() {
   const navigate = useNavigate();
   const agree = location.state;
 
+  const PATTERN_NONE = "patternNone";
+  const PATTERN_HIDDEN = "patternHidden";
+  const PATTERN_WRONG = "patternWrong";
+  const PATTERN_RIGHT = "patternRight";
+  const WRONG_CASE_BORDER = "wrongCaseBorder";
+  const RIGHT_CASE_BORDER = "rightCaseBorder";
+
   const [userInfo, setUserInfo] = useState({
     studentId: "",
     username: "",
@@ -19,17 +26,17 @@ function RegisterPage() {
   const [emailConfirmCode, setEmailConfirmCode] = useState("");
 
   const [passwordPolicy_className, setPasswordPolicy_className] =
-    useState("patternNone");
+    useState(PATTERN_NONE);
   const [passwordPolicy2_className, setPasswordPolicy2_className] =
-    useState("patternNone");
+    useState(PATTERN_NONE);
   const [passwordConfirmPolicy_className, setPasswordConfirmPolicy_className] =
-    useState("patternHidden");
+    useState(PATTERN_HIDDEN);
   const [emailPolicy_className, setEmailPolicy_className] =
-    useState("patternHidden");
+    useState(PATTERN_HIDDEN);
   const [
     emailConfirmCodeVerifyingPolicy_className,
     setEmailConfirmCodeVerifyingPolicy_className,
-  ] = useState("patternHidden");
+  ] = useState(PATTERN_HIDDEN);
 
   const [verifiedEmailAddress, setVerifiedEmailAddress] = useState("");
 
@@ -66,70 +73,70 @@ function RegisterPage() {
   const registerValid = () => {
     // 회원가입 컴포넌트 내 입력란 (공란/유효값 검증) 확인 조건문
     if (userInfo.username === undefined || userInfo.username === "") {
-      nameInputFocusRef.current.className = "wrongCaseBorder";
+      nameInputFocusRef.current.className = WRONG_CASE_BORDER;
       nameInputFocusRef.current.focus();
       alert("성명을 입력해 주세요");
     } else if (userInfo.studentId === undefined || userInfo.studentId === "") {
-      studentIdInputFocusRef.current.className = "wrongCaseBorder";
+      studentIdInputFocusRef.current.className = WRONG_CASE_BORDER;
       studentIdInputFocusRef.current.focus();
       alert("학번을 입력해 주세요");
     } else if (!new RegExp(studentIdRegex).test(userInfo.studentId)) {
-      studentIdInputFocusRef.current.className = "wrongCaseBorder";
+      studentIdInputFocusRef.current.className = WRONG_CASE_BORDER;
       studentIdInputFocusRef.current.focus();
       alert("올바른 학번을 입력해 주세요");
     } else if (userInfo.password === undefined || userInfo.password === "") {
-      passwordInputFocusRef.current.className = "wrongCaseBorder";
+      passwordInputFocusRef.current.className = WRONG_CASE_BORDER;
       passwordInputFocusRef.current.focus();
-      setPasswordPolicy_className("patternWrong");
-      setPasswordPolicy2_className("patternWrong");
+      setPasswordPolicy_className(PATTERN_WRONG);
+      setPasswordPolicy2_className(PATTERN_WRONG);
       alert("비밀번호를 입력해 주세요");
     } else if (
-      passwordPolicy_className === "patternWrong" ||
-      passwordPolicy2_className === "patternWrong"
+      passwordPolicy_className === PATTERN_WRONG ||
+      passwordPolicy2_className === PATTERN_WRONG
     ) {
-      passwordInputFocusRef.current.className = "wrongCaseBorder";
+      passwordInputFocusRef.current.className = WRONG_CASE_BORDER;
       passwordInputFocusRef.current.focus();
     } else if (passwordConfirm === undefined || passwordConfirm === "") {
-      passwordConfirmInputFocusRef.current.className = "wrongCaseBorder";
+      passwordConfirmInputFocusRef.current.className = WRONG_CASE_BORDER;
       passwordConfirmInputFocusRef.current.focus();
-      setPasswordConfirmPolicy_className("patternWrong");
+      setPasswordConfirmPolicy_className(PATTERN_WRONG);
     } else if (userInfo.password !== passwordConfirm) {
-      setPasswordConfirmPolicy_className("patternWrong");
-      passwordConfirmInputFocusRef.current.className = "wrongCaseBorder";
-    } else if (passwordConfirmPolicy_className === "patternWrong") {
-      passwordConfirmInputFocusRef.current.className = "wrongCaseBorder";
+      setPasswordConfirmPolicy_className(PATTERN_WRONG);
+      passwordConfirmInputFocusRef.current.className = WRONG_CASE_BORDER;
+    } else if (passwordConfirmPolicy_className === PATTERN_WRONG) {
+      passwordConfirmInputFocusRef.current.className = WRONG_CASE_BORDER;
       passwordConfirmInputFocusRef.current.focus();
     } else if (userInfo.email === undefined || userInfo.email === "") {
-      emailInputFocusRef.current.className = "wrongCaseBorder";
+      emailInputFocusRef.current.className = WRONG_CASE_BORDER;
       emailInputFocusRef.current.focus();
       alert("사용하실 이메일 주소를 입력해 주세요");
-    } else if (emailPolicy_className === "patternWrong") {
-      emailInputFocusRef.current.className = "wrongCaseBorder";
+    } else if (emailPolicy_className === PATTERN_WRONG) {
+      emailInputFocusRef.current.className = WRONG_CASE_BORDER;
       emailInputFocusRef.current.focus();
-    } else if (emailPolicy_className === "patternHidden") {
-      emailInputFocusRef.current.className = "wrongCaseBorder";
+    } else if (emailPolicy_className === PATTERN_HIDDEN) {
+      emailInputFocusRef.current.className = WRONG_CASE_BORDER;
       emailInputFocusRef.current.focus();
       alert("인증번호 요청을 완료해 주세요");
       return;
     } else if (emailConfirmCode === undefined || emailConfirmCode === "") {
       emailConfirmCodeVerifyingInputFocusRef.current.className =
-        "wrongCaseBorder";
+        WRONG_CASE_BORDER;
       emailConfirmCodeVerifyingInputFocusRef.current.focus();
       alert("인증번호를 입력해 주세요");
-    } else if (emailConfirmCodeVerifyingPolicy_className === "patternHidden") {
+    } else if (emailConfirmCodeVerifyingPolicy_className === PATTERN_HIDDEN) {
       emailConfirmCodeVerifyingInputFocusRef.current.className =
-        "wrongCaseBorder";
+        WRONG_CASE_BORDER;
       emailConfirmCodeVerifyingInputFocusRef.current.focus();
       alert("인증번호 확인을 완료해 주세요");
-    } else if (emailConfirmCodeVerifyingPolicy_className === "patternWrong") {
+    } else if (emailConfirmCodeVerifyingPolicy_className === PATTERN_WRONG) {
       emailConfirmCodeVerifyingInputFocusRef.current.className =
-        "wrongCaseBorder";
+        WRONG_CASE_BORDER;
       emailConfirmCodeVerifyingInputFocusRef.current.focus();
     } else if (userInfo.email !== verifiedEmailAddress) {
-      setEmailPolicy_className("patternHidden");
-      emailInputFocusRef.current.className = "wrongCaseBorder";
+      setEmailPolicy_className(PATTERN_HIDDEN);
+      emailInputFocusRef.current.className = WRONG_CASE_BORDER;
       emailInputFocusRef.current.focus();
-      setEmailConfirmCodeVerifyingPolicy_className("patternHidden");
+      setEmailConfirmCodeVerifyingPolicy_className(PATTERN_HIDDEN);
       emailConfirmCodeVerifyingInputFocusRef.current.value = "";
       alert("인증번호 요청을 완료해 주세요");
     } else {
@@ -157,7 +164,7 @@ function RegisterPage() {
         console.log(error.response);
         switch (error.response.status) {
           case 409:
-            studentIdInputFocusRef.current.className = "wrongCaseBorder";
+            studentIdInputFocusRef.current.className = WRONG_CASE_BORDER;
             studentIdInputFocusRef.current.focus();
             Toast.fire({
               icon: "warning",
@@ -172,36 +179,36 @@ function RegisterPage() {
 
   const passwordWatcher = (value) => {
     if (new RegExp(passwordRegex).test(value)) {
-      setPasswordPolicy_className("patternRight");
-      passwordInputFocusRef.current.className = "rightCaseBorder";
+      setPasswordPolicy_className(PATTERN_RIGHT);
+      passwordInputFocusRef.current.className = RIGHT_CASE_BORDER;
     } else {
-      setPasswordPolicy_className("patternWrong");
-      passwordInputFocusRef.current.className = "wrongCaseBorder";
+      setPasswordPolicy_className(PATTERN_WRONG);
+      passwordInputFocusRef.current.className = WRONG_CASE_BORDER;
     }
 
     if (userInfo.studentId === value || value === "")
-      setPasswordPolicy2_className("patternWrong");
-    else setPasswordPolicy2_className("patternRight");
+      setPasswordPolicy2_className(PATTERN_WRONG);
+    else setPasswordPolicy2_className(PATTERN_RIGHT);
   };
 
   const passwordConfirmWatcher = (value) => {
     if (userInfo.password !== value || value === "") {
-      setPasswordConfirmPolicy_className("patternWrong");
-      passwordConfirmInputFocusRef.current.className = "wrongCaseBorder";
+      setPasswordConfirmPolicy_className(PATTERN_WRONG);
+      passwordConfirmInputFocusRef.current.className = WRONG_CASE_BORDER;
     } else {
-      setPasswordConfirmPolicy_className("patternRight");
-      passwordConfirmInputFocusRef.current.className = "rightCaseBorder";
+      setPasswordConfirmPolicy_className(PATTERN_RIGHT);
+      passwordConfirmInputFocusRef.current.className = RIGHT_CASE_BORDER;
     }
   };
 
   const emailConfirmCodeSendingHandler = async () => {
     if (userInfo.email === "") {
-      emailInputFocusRef.current.className = "wrongCaseBorder";
+      emailInputFocusRef.current.className = WRONG_CASE_BORDER;
       emailInputFocusRef.current.focus();
       alert("사용하실 이메일 주소를 입력해 주세요");
       return;
     } else if (!new RegExp(emailRegex).test(userInfo.email)) {
-      emailInputFocusRef.current.className = "wrongCaseBorder";
+      emailInputFocusRef.current.className = WRONG_CASE_BORDER;
       emailInputFocusRef.current.focus();
       alert("올바른 이메일 주소를 입력해 주세요");
       return;
@@ -211,21 +218,21 @@ function RegisterPage() {
       title: "시스템에서 메일을 전송하고 있습니다",
       timer: 5000,
     });
-    setEmailConfirmCodeVerifyingPolicy_className("patternHidden");
+    setEmailConfirmCodeVerifyingPolicy_className(PATTERN_HIDDEN);
     await api
       .post(`/auth/send?userEmail=${userInfo.email}`)
       .then((response) => {
         if (response.data.success) {
-          setEmailPolicy_className("patternRight");
-          emailInputFocusRef.current.className = "rightCaseBorder";
+          setEmailPolicy_className(PATTERN_RIGHT);
+          emailInputFocusRef.current.className = RIGHT_CASE_BORDER;
         }
       })
       .catch((error) => {
         switch (error.response.status) {
           case 409:
             Swal.close();
-            setEmailPolicy_className("patternWrong");
-            emailInputFocusRef.current.className = "wrongCaseBorder";
+            setEmailPolicy_className(PATTERN_WRONG);
+            emailInputFocusRef.current.className = WRONG_CASE_BORDER;
             emailInputFocusRef.current.focus();
             break;
           default:
@@ -236,33 +243,33 @@ function RegisterPage() {
 
   const emailConfirmCodeVerifyingHandler = async () => {
     if (userInfo.email === undefined || userInfo.email === "") {
-      emailInputFocusRef.current.className = "wrongCaseBorder";
+      emailInputFocusRef.current.className = WRONG_CASE_BORDER;
       emailInputFocusRef.current.focus();
       alert("사용하실 이메일을 입력하신 후 인증번호 요청을 완료해 주세요");
       return;
-    } else if (emailPolicy_className === "patternHidden") {
-      emailInputFocusRef.current.className = "wrongCaseBorder";
+    } else if (emailPolicy_className === PATTERN_HIDDEN) {
+      emailInputFocusRef.current.className = WRONG_CASE_BORDER;
       alert("인증번호 요청을 완료해 주세요");
       return;
-    } else if (emailPolicy_className === "patternWrong") {
-      emailInputFocusRef.current.className = "wrongCaseBorder";
+    } else if (emailPolicy_className === PATTERN_WRONG) {
+      emailInputFocusRef.current.className = WRONG_CASE_BORDER;
       emailInputFocusRef.current.focus();
       alert("다른 이메일 주소를 입력하신 후 인증번호 요청을 완료해 주세요");
       return;
     } else if (!new RegExp(emailRegex).test(userInfo.email)) {
-      emailInputFocusRef.current.className = "wrongCaseBorder";
+      emailInputFocusRef.current.className = WRONG_CASE_BORDER;
       emailInputFocusRef.current.focus();
       alert("올바른 이메일 주소를 입력하신 후 인증번호 요청을 완료해 주세요");
       return;
     } else if (emailConfirmCode === undefined || emailConfirmCode === "") {
       emailConfirmCodeVerifyingInputFocusRef.current.className =
-        "wrongCaseBorder";
+        WRONG_CASE_BORDER;
       emailConfirmCodeVerifyingInputFocusRef.current.focus();
       alert("인증번호를 입력해 주세요");
       return;
-    } else if (emailPolicy_className === "patternHidden") {
+    } else if (emailPolicy_className === PATTERN_HIDDEN) {
       emailConfirmCodeVerifyingInputFocusRef.current.className =
-        "wrongCaseBorder";
+        WRONG_CASE_BORDER;
       emailConfirmCodeVerifyingInputFocusRef.current.focus();
       alert("인증번호 요청을 완료해 주세요");
       return;
@@ -273,17 +280,17 @@ function RegisterPage() {
       .then((response) => {
         if (response.data.success) {
           emailConfirmCodeVerifyingInputFocusRef.current.className =
-            "rightCaseBorder";
-          setEmailConfirmCodeVerifyingPolicy_className("patternRight");
+            RIGHT_CASE_BORDER;
+          setEmailConfirmCodeVerifyingPolicy_className(PATTERN_RIGHT);
           setVerifiedEmailAddress(userInfo.email);
         }
       })
       .catch((error) => {
         switch (error.response.status) {
           case 404:
-            setEmailConfirmCodeVerifyingPolicy_className("patternWrong");
+            setEmailConfirmCodeVerifyingPolicy_className(PATTERN_WRONG);
             emailConfirmCodeVerifyingInputFocusRef.current.className =
-              "wrongCaseBorder";
+              WRONG_CASE_BORDER;
             emailConfirmCodeVerifyingInputFocusRef.current.focus();
             break;
           default:
@@ -356,7 +363,7 @@ function RegisterPage() {
               </div>
               <div className={"eachContent " + passwordPolicy_className}>
                 <span>
-                  {passwordPolicy_className === "patternRight" ? (
+                  {passwordPolicy_className === PATTERN_RIGHT ? (
                     <i
                       className="fa-solid fa-check"
                       style={{
@@ -375,7 +382,7 @@ function RegisterPage() {
               </div>
               <div className={"eachContent " + passwordPolicy2_className}>
                 <span>
-                  {passwordPolicy2_className === "patternRight" ? (
+                  {passwordPolicy2_className === PATTERN_RIGHT ? (
                     <i
                       className="fa-solid fa-check"
                       style={{
@@ -405,7 +412,7 @@ function RegisterPage() {
               </div>
               <div className={"eachContent " + passwordConfirmPolicy_className}>
                 <span>
-                  {passwordConfirmPolicy_className === "patternRight" ? (
+                  {passwordConfirmPolicy_className === PATTERN_RIGHT ? (
                     <>
                       <i
                         className="fa-solid fa-check"
@@ -455,7 +462,7 @@ function RegisterPage() {
               </div>
               <div className={"eachContent " + emailPolicy_className}>
                 <span>
-                  {emailPolicy_className === "patternRight" ? (
+                  {emailPolicy_className === PATTERN_RIGHT ? (
                     <>
                       <i
                         className="fa-solid fa-check"
@@ -503,7 +510,7 @@ function RegisterPage() {
               >
                 <span>
                   {emailConfirmCodeVerifyingPolicy_className ===
-                  "patternRight" ? (
+                  PATTERN_RIGHT ? (
                     <>
                       <i
                         className="fa-solid fa-check"
