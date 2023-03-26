@@ -1,148 +1,248 @@
 .RegisterPage {
-  tr {
-    border: none;
-  }
-  .titleFrame {
-    display: flex;
-    justify-content: space-between;
+  font-size: 14px;
 
-    i {
-      color: rgba(0, 0, 0, 0.5);
+  .inputForm {
+    width: 50rem;
+    margin: 0 auto !important;
+
+    .titleFrame {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 3rem;
+
+      .formTitle {
+        color: rgb(56, 56, 56) !important;
+        letter-spacing: -1.5px;
+        font-size: 30px;
+        font-weight: bold;
+        padding-bottom: 0.25rem;
+      }
+
+      .routePath {
+        padding-top: 1rem;
+
+        .link {
+          color: rgb(119, 119, 119);
+          text-decoration: none !important;
+          border: none !important;
+        }
+
+        .link:hover {
+          color: blue;
+        }
+      }
     }
 
-    a {
+    .title {
+      padding-left: 1.75rem;
+      border-right: 1px solid rgb(212, 212, 212);
+      color: rgb(102, 102, 102);
+      background-color: rgb(239, 241, 247) !important;
+    }
+
+    .eachContent {
+      display: flex;
+      padding-left: 1.75rem;
+    }
+
+    label {
+      font-weight: 400;
+      color: rgb(90, 90, 90);
+    }
+
+    .rightCaseBorder,
+    input {
       color: black;
-      text-decoration: none;
+      outline: none;
+      box-shadow: none;
+      border-radius: 0;
+      padding-left: 0.5em;
+      border: 1px solid rgb(204, 204, 204);
+      background-color: white !important;
+      width: 15em !important;
+      height: 2.25em;
+      position: relative;
     }
-    a:hover {
-      color: gray;
-    }
-  }
-  table {
-    margin: 0 auto;
-    width: 80%;
-    border: 2px solid rgba(0, 0, 0, 0.1);
-    margin-bottom: 5%;
 
-    h5 {
-      margin-bottom: 0;
+    input:focus {
+      border: 1px solid rgb(0, 82, 245);
     }
-    thead {
-      border: 2px solid rgba(0, 0, 0, 0.1);
-      background-color: #fafafa;
 
-      td {
-        padding: 1% 2%;
+    .studentInfo {
+      height: 6.5rem;
+      display: grid;
+      grid-template-columns: 17.5% 70%;
+      border-top: 2px solid rgb(150, 150, 150);
+
+      .title {
+        line-height: 6.3rem;
+      }
+
+      .contentSection {
+        margin-top: 1.15rem;
+        .eachContent:nth-child(1) {
+          margin-bottom: 0.75rem;
+          label {
+            display: flex;
+            align-items: center;
+            margin: 0 4.2rem 0 0;
+          }
+        }
+
+        .eachContent:nth-child(2) {
+          margin-bottom: 0.75rem;
+          label {
+            display: flex;
+            align-items: center;
+            margin: 0 1.6rem 0 0;
+          }
+        }
+
+        input[type="text"] {
+          width: 100px;
+          height: 30px;
+        }
       }
     }
 
-    tbody {
-      td {
-        align-items: center;
-        padding: 1% 3%;
-        padding-right: 5%;
+    .password {
+      height: 11.5rem;
+      display: grid;
+      grid-template-columns: 17.5% 70%;
+      border-top: 1px solid rgb(212, 212, 212);
+
+      .title {
+        line-height: 11.3rem;
+      }
+
+      .contentSection {
+        margin-top: 1rem;
+
+        .eachContent:nth-child(1) {
+          margin-bottom: 0.4rem;
+          label {
+            display: flex;
+            align-items: center;
+            margin: 0 2.85rem 0 0;
+          }
+        }
+
+        .eachContent:nth-child(2),
+        .eachContent:nth-child(3),
+        .eachContent:nth-child(5) {
+          padding-left: 7.7rem !important;
+        }
+
+        .eachContent:nth-child(4) {
+          margin: 0.75rem 0 0.4rem;
+          label {
+            display: flex;
+            align-items: center;
+            margin: 0 0.6rem 0 0;
+          }
+        }
       }
     }
-    i {
-      border-right: 1px solid rgba(0, 0, 0, 0.5);
-      width: 20px;
-    }
-  }
-  table thead:last-child {
-    background-color: white;
-  }
-  input[type="text"],
-  input[type="email"],
-  input[type="password"] {
-    width: 100%;
-    padding-left: 18%;
-  }
-  .textCheck {
-    display: flex;
-    justify-content: space-between;
 
-    input[type="button"] {
-      background-color: rgba(0, 0, 0, 0.6);
-      border: none;
+    .email {
+      height: 10rem;
+      display: grid;
+      grid-template-columns: 17.5% 70%;
+      border-top: 1px solid rgb(212, 212, 212);
+      border-bottom: 1px solid rgb(212, 212, 212);
+
+      .title {
+        line-height: 12.5em;
+      }
+
+      .contentSection {
+        margin-top: 1rem;
+
+        .emailConfirmCodeSendingBtn,
+        .emailConfirmCodeVerifyingBtn {
+          position: relative;
+          left: 0.5em;
+          padding: 0;
+          width: 6rem;
+          height: 2.25em;
+          font-weight: 500;
+          letter-spacing: 1px;
+          color: rgb(102, 102, 102) !important;
+          background-color: rgb(247, 247, 247);
+          box-shadow: none;
+          border-radius: 3px;
+          border: 1px solid rgb(189, 191, 197);
+        }
+
+        .eachContent:nth-child(1) {
+          margin-bottom: 0.4rem;
+          label {
+            display: flex;
+            align-items: center;
+            margin: 0 1.95rem 0 0;
+          }
+        }
+
+        .eachContent:nth-child(2) {
+          padding-left: 7.7rem !important;
+        }
+
+        .eachContent:nth-child(3) {
+          margin: 0.75rem 0 0.4rem;
+          label {
+            display: flex;
+            align-items: center;
+            margin: 0 1.25rem 0 0;
+          }
+        }
+
+        .eachContent:nth-child(4) {
+          padding-left: 7.7rem !important;
+        }
+      }
+    }
+
+    .registerBtn {
+      font-size: 16px;
+      box-shadow: none;
+      justify-content: center;
+      font-weight: 600;
+      align-items: center;
+      margin: 2rem 50% 5rem;
+      border-radius: 0 !important;
+      width: 150px;
+      height: 40px;
+      padding: 0;
+      border-bottom: 1px solid rgb(6, 56, 141);
+      background-color: rgb(40, 121, 257);
       color: white;
-      height: 25px;
-      font-size: 0.9em;
-      width: 60px;
-    }
-    input[type="button"]:hover {
-      transition-duration: 0.25s;
-      background-color: rgba(0, 0, 0, 0.8);
+      font-weight: 600;
     }
   }
 
-  .inputText {
-    position: relative;
-    i {
-      text-align: center;
-      width: 15%;
-      position: absolute;
-      height: 100%;
-      line-height: 320%;
-    }
-  }
-  .checkLabel {
-    cursor: pointer;
-  }
-  input[type="checkbox"] {
-    cursor: pointer;
+  .patternRight,
+  .patternWrong,
+  .patternNone {
+    visibility: visible;
   }
 
-  .autoNum {
-    width: 100%;
-    height: 150px;
-    border: 2px solid rgba(0, 0, 0, 0.1);
+  .patternRight {
+    color: #3d8730;
   }
 
-  button {
-    float: right;
-    margin-right: 3%;
-    width: 110px;
-    height: 40px;
-    border: 1px solid rgb(98, 98, 243);
-    background-color: rgb(44, 44, 255);
-    border-radius: 5px;
-    padding: 0;
-
-    h5 {
-      padding: 2%;
-
-      color: white;
-    }
+  .patternWrong {
+    color: #d43a44;
   }
 
-  .emptyHr {
-    td {
-      padding-top: 0;
-      padding-bottom: 0;
-    }
-    p {
-      border: 1px solid rgb(255, 155, 0);
-      background-color: rgb(255, 230, 200);
-      color: rgb(255, 120, 0);
-      padding: 1%;
-      padding-left: 2%;
-      margin-top: 1%;
-      font-size: 0.9em;
-      margin-bottom: 0;
-    }
-  }
-  .informVisible {
-    font-size: 0.85em;
-    color: rgba(0, 0, 0, 0.6);
-  }
-  .errMsg {
-    color: red;
-    white-space: "nowrap";
-    position: absolute;
+  .patternNone {
+    color: rgb(144, 144, 144);
   }
 
-  .siteInfo {
-    display: none;
-    height: 40px;
+  .patternHidden {
+    visibility: hidden;
+  }
+
+  .wrongCaseBorder {
+    border: 1px solid #d43a44 !important;
   }
 }
