@@ -23,7 +23,7 @@ function RegisterPage() {
     email: "",
   });
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [emailConfirmCode, setEmailConfirmCode] = useState("");
+  const [verificationCode, setVerificationCode] = useState("");
 
   const [passwordPolicy_className, setPasswordPolicy_className] =
     useState(PATTERN_NONE);
@@ -118,7 +118,7 @@ function RegisterPage() {
       emailInputFocusRef.current.focus();
       alert("인증번호 요청을 완료해 주세요");
       return;
-    } else if (emailConfirmCode === undefined || emailConfirmCode === "") {
+    } else if (verificationCode === undefined || verificationCode === "") {
       emailConfirmCodeVerifyingInputFocusRef.current.className =
         WRONG_CASE_BORDER;
       emailConfirmCodeVerifyingInputFocusRef.current.focus();
@@ -261,7 +261,7 @@ function RegisterPage() {
       emailInputFocusRef.current.focus();
       alert("올바른 이메일 주소를 입력하신 후 인증번호 요청을 완료해 주세요");
       return;
-    } else if (emailConfirmCode === undefined || emailConfirmCode === "") {
+    } else if (verificationCode === undefined || verificationCode === "") {
       emailConfirmCodeVerifyingInputFocusRef.current.className =
         WRONG_CASE_BORDER;
       emailConfirmCodeVerifyingInputFocusRef.current.focus();
@@ -276,7 +276,7 @@ function RegisterPage() {
     }
 
     await api
-      .post(`/auth/verify?code=${emailConfirmCode}`)
+      .post(`/auth/verify`, { verificationCode })
       .then((response) => {
         if (response.data.success) {
           emailConfirmCodeVerifyingInputFocusRef.current.className =
@@ -490,7 +490,7 @@ function RegisterPage() {
                   type="text"
                   ref={emailConfirmCodeVerifyingInputFocusRef}
                   onChange={(e) => {
-                    setEmailConfirmCode(e.target.value);
+                    setVerificationCode(e.target.value);
                   }}
                 />
                 <button
