@@ -24,7 +24,7 @@ function RegisterPage() {
   const TIMER_STATE_OVER = "timerStateOver";
 
   // 이메일 인증번호 유효 시간: 60(초[s]=) * 5 = 5(분[m])
-  const emailValidationTimeValue = 15;
+  const emailValidationTimeValue = 60 * 5;
 
   const [userInfo, setUserInfo] = useState({
     studentId: "",
