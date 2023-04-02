@@ -9,12 +9,22 @@ function RegisterPage() {
   const navigate = useNavigate();
   const agree = location.state;
 
+  const passwordRegex = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&]).{8,20}.$";
+  const studentIdRegex = "^[0-9]{6,}$";
+  const emailRegex = "[a-zA-Z0-9._-]+@[a-z]+.+[a-z]+";
+
   const PATTERN_NONE = "patternNone";
   const PATTERN_HIDDEN = "patternHidden";
   const PATTERN_WRONG = "patternWrong";
   const PATTERN_RIGHT = "patternRight";
   const WRONG_CASE_BORDER = "wrongCaseBorder";
   const RIGHT_CASE_BORDER = "rightCaseBorder";
+  const TIMER_STATE_ON = "timerStateOn";
+  const TIMER_STATE_OFF = "timerStateOff";
+  const TIMER_STATE_OVER = "timerStateOver";
+
+  // 이메일 인증번호 유효 시간: 60(초[s]=) * 5 = 5(분[m])
+  const emailValidationTimeValue = 15;
 
   const [userInfo, setUserInfo] = useState({
     studentId: "",
@@ -39,6 +49,16 @@ function RegisterPage() {
   ] = useState(PATTERN_HIDDEN);
 
   const [verifiedEmailAddress, setVerifiedEmailAddress] = useState("");
+  const [emailValidationTimerState, setEmailValidationTimerState] =
+    useState(TIMER_STATE_OFF);
+  const [emailValidationTimeMinutes, setEmailValidationTimeMinutes] =
+    useState("");
+  const [emailValidationTimeSeconds, setEmailValidationTimeSeconds] =
+    useState("");
+
+  const [emailValidationTime, setEmailValidationTime] = useState(
+    emailValidationTimeValue - 3
+  );
 
   const nameInputFocusRef = useRef(null);
   const studentIdInputFocusRef = useRef(null);
@@ -46,10 +66,6 @@ function RegisterPage() {
   const passwordConfirmInputFocusRef = useRef(null);
   const emailInputFocusRef = useRef(null);
   const emailConfirmCodeVerifyingInputFocusRef = useRef(null);
-
-  const passwordRegex = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&]).{8,20}.$";
-  const studentIdRegex = "^[0-9]{6,}$";
-  const emailRegex = "[a-zA-Z0-9._-]+@[a-z]+.+[a-z]+";
 
   useEffect(() => {
     if (agree === null) {
@@ -161,7 +177,6 @@ function RegisterPage() {
         }
       })
       .catch((error) => {
-        console.log(error.response);
         switch (error.response.status) {
           case 409:
             studentIdInputFocusRef.current.className = WRONG_CASE_BORDER;
@@ -201,6 +216,53 @@ function RegisterPage() {
     }
   };
 
+  function useInterval(callback, delay) {
+    const savedCallback = useRef();
+    useEffect(() => {
+      savedCallback.current = callback;
+    }, [callback]);
+
+    useEffect(() => {
+      function tick() {
+        savedCallback.current();
+      }
+      if (delay !== null) {
+        let id = setInterval(tick, delay);
+        return () => clearInterval(id);
+      }
+    }, [delay]);
+  }
+
+  useInterval(() => {
+    if (emailValidationTime === emailValidationTimeValue)
+      setEmailValidationTimerState(TIMER_STATE_ON);
+    setEmailValidationTimeMinutes(String(Math.floor(emailValidationTime / 60)));
+    setEmailValidationTimeSeconds(
+      String(emailValidationTime % 60).padStart(2, "0")
+    );
+    setEmailValidationTime((prev) => prev - 1);
+
+    if (emailValidationTime < 0) {
+      setEmailValidationTime(0);
+      if (emailValidationTimerState === TIMER_STATE_ON) {
+        setEmailValidationTimerState(TIMER_STATE_OVER);
+        setEmailPolicy_className(PATTERN_HIDDEN);
+        setEmailConfirmCodeVerifyingPolicy_className(PATTERN_HIDDEN);
+        emailConfirmCodeVerifyingInputFocusRef.current.value = "";
+        Toast.fire({
+          icon: "warning",
+          title:
+            "유효시간이 만료되었습니다.\n인증번호 요청을 다시 완료해 주세요",
+          timer: 3000,
+        });
+      }
+    }
+  }, 1000);
+
+  const emailValidationTimer = () => {
+    setEmailValidationTime(emailValidationTimeValue);
+  };
+
   const emailConfirmCodeSendingHandler = async () => {
     if (userInfo.email === "") {
       emailInputFocusRef.current.className = WRONG_CASE_BORDER;
@@ -213,12 +275,18 @@ function RegisterPage() {
       alert("올바른 이메일 주소를 입력해 주세요");
       return;
     }
+
+    emailValidationTimer();
+
+    setEmailPolicy_className(PATTERN_HIDDEN);
+    setEmailConfirmCodeVerifyingPolicy_className(PATTERN_HIDDEN);
+    emailConfirmCodeVerifyingInputFocusRef.current.value = "";
+
     Toast.fire({
       icon: "info",
       title: "시스템에서 메일을 전송하고 있습니다",
       timer: 5000,
     });
-    setEmailConfirmCodeVerifyingPolicy_className(PATTERN_HIDDEN);
     await api
       .post(`/auth/send?userEmail=${userInfo.email}`)
       .then((response) => {
@@ -229,6 +297,17 @@ function RegisterPage() {
       })
       .catch((error) => {
         switch (error.response.status) {
+          case 400:
+            Toast.fire({
+              icon: "warning",
+              title:
+                "올바른 이메일 주소를 입력해 주세요\n\nNAVER, Google\n계정으로 인증",
+              timer: 3000,
+            });
+            emailInputFocusRef.current.className = WRONG_CASE_BORDER;
+            emailInputFocusRef.current.focus();
+            setEmailValidationTime(emailValidationTimeValue - 3);
+            break;
           case 409:
             Swal.close();
             setEmailPolicy_className(PATTERN_WRONG);
@@ -279,6 +358,7 @@ function RegisterPage() {
       .post(`/auth/verify`, { verificationCode })
       .then((response) => {
         if (response.data.success) {
+          setEmailValidationTimerState(TIMER_STATE_OFF);
           emailConfirmCodeVerifyingInputFocusRef.current.className =
             RIGHT_CASE_BORDER;
           setEmailConfirmCodeVerifyingPolicy_className(PATTERN_RIGHT);
@@ -294,7 +374,7 @@ function RegisterPage() {
             emailConfirmCodeVerifyingInputFocusRef.current.focus();
             break;
           default:
-            console.log("에러: ", error);
+            alert("예기치 못 한 에러가 발생하였습니다.\n" + error);
         }
       });
   };
@@ -459,6 +539,15 @@ function RegisterPage() {
                 >
                   인증번호 요청
                 </button>
+                {emailValidationTimerState === TIMER_STATE_ON ? (
+                  <span className="emailValidationTime">
+                    {emailValidationTimeMinutes}:{emailValidationTimeSeconds}
+                  </span>
+                ) : emailValidationTimerState === TIMER_STATE_OVER ? (
+                  <span className="emailValidationTimeOver">
+                    유효시간이 만료되었습니다
+                  </span>
+                ) : null}
               </div>
               <div className={"eachContent " + emailPolicy_className}>
                 <span>
