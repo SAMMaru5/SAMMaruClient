@@ -11,6 +11,10 @@ function Navigation() {
   const [userInfo, setUserInfo] = useState({});
   const [loading, setloading] = useState(false);
 
+  const routingButtonHandler = (componentName) => {
+    navigate(`/${componentName}`);
+  };
+
   useEffect(() => {
     async function getUserInfo() {
       try {
@@ -63,12 +67,20 @@ function Navigation() {
           </div>
         ) : (
           <div style={{ marginLeft: "auto" }}>
-            <Link to="agree" className="signUp" style={{ transition: "0.2s" }}>
+            <button
+              className="signUp"
+              style={{ transition: "0.2s" }}
+              onClick={() => routingButtonHandler("agree")}
+            >
               회원가입
-            </Link>
-            <Link to="login" className="signIn" style={{ transition: "0.2s" }}>
+            </button>
+            <button
+              className="signIn"
+              style={{ transition: "0.2s" }}
+              onClick={() => routingButtonHandler("login")}
+            >
               로그인
-            </Link>
+            </button>
           </div>
         )}
       </div>
