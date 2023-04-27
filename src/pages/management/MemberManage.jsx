@@ -1,28 +1,33 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import "./MemberManage.scss";
-import Swal from "sweetalert2";
-import api from "../../utils/api";
-import { checkExpiredAccesstoken } from "../../hooks/useAuth";
+import { useEffect } from 'react';
+import { useState } from 'react';
+import './MemberManage.scss';
+import Swal from 'sweetalert2';
+import api from '../../utils/api';
+import { checkExpiredAccesstoken } from '../../hooks/useAuth';
 
 function MemberManage() {
   const [members, setMembers] = useState([]);
+  const [tempMembers, setTempMembers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchName, setSearchName] = useState("");
+  const [searchName, setSearchName] = useState('');
+
+  // 역할(Role) 정렬 기준 순서 정의(ADMIN → MEMBER → TEMP)
+  const order = ['ROLE_ADMIN', 'ROLE_MEMBER', 'ROLE_TEMP'];
+
+  const STUDENT_NUMBER = 'STUDENT_NUMBER';
+  const REGISTERED_DATE = 'REGISTERED_DATE';
+  const NAME = 'NAME';
+  const ROLE = 'ROLE';
 
   const searchAllUsers = () => {
-    setMembers([]);
-    api.get("/api/users/info").then((response) => {
+    api.get('/api/users/info').then((response) => {
       if (response.data.success) {
-        response.data.response.map((eachMemberInfo, idx) => {
-          setMembers((prevMembers) => [
-            ...prevMembers,
-            {
-              ...eachMemberInfo,
-              userInfoModifyMode: false,
-            },
-          ]);
-        });
+        const membersArray = response.data.response.map((eachMemberInfo) => ({
+          ...eachMemberInfo,
+          userInfoModifyMode: false,
+        }));
+        setTempMembers([...membersArray]);
+        setMembers([...membersArray.sort((a, b) => a.studentId - b.studentId)]);
         setLoading(true);
       }
     });
@@ -40,39 +45,39 @@ function MemberManage() {
 
         setMembers(newMeber);
         const authorityKinds =
-          document.getElementsByClassName("authorityKinds");
+          document.getElementsByClassName('authorityKinds');
         authorityKinds[index].value = authority;
 
-        let authorityStr = "미지정으";
-        if (authority === "ROLE_ADMIN") {
-          authorityStr = "관리자";
-        } else if (authority === "ROLE_MEMBER") {
-          authorityStr = "회원으";
+        let authorityStr = '미지정으';
+        if (authority === 'ROLE_ADMIN') {
+          authorityStr = '관리자';
+        } else if (authority === 'ROLE_MEMBER') {
+          authorityStr = '회원으';
         }
 
         Swal.fire({
-          icon: "info",
+          icon: 'info',
           title: `${name} 사용자의 권한을 ${authorityStr}로 바꾸시겠습니까? `,
           showDenyButton: true,
-          confirmButtonText: "네",
+          confirmButtonText: '네',
           denyButtonText: `아니요`,
         }).then((result) => {
           if (result.isConfirmed) {
             api
-              .patch("/api/users/" + id + "/role", { role: authority })
+              .patch('/api/users/' + id + '/role', { role: authority })
               .then((response) => {
                 if (response.data.success) {
                   Swal.fire({
-                    icon: "success",
-                    title: "권한을 변경하였습니다.",
+                    icon: 'success',
+                    title: '권한을 변경하였습니다.',
                   });
                 } else {
                   Swal.fire({
-                    icon: "error",
-                    title: "권한 변경에 실패하셨습니다.",
+                    icon: 'error',
+                    title: '권한 변경에 실패하셨습니다.',
                   }).then((response) => {
                     if (response.isConfirmed) {
-                      window.location.replace("/");
+                      window.location.replace('/');
                     }
                   });
                 }
@@ -87,16 +92,16 @@ function MemberManage() {
     e.preventDefault();
     checkExpiredAccesstoken().then((response) => {
       if (response) {
-        if (searchName === "") {
+        if (searchName === '') {
           searchAllUsers();
         } else {
-          api.get("/api/users/detail?username=" + searchName).then((result) => {
+          api.get('/api/users/detail?username=' + searchName).then((result) => {
             if (result.data.success) {
               setMembers(result.data.response);
             } else {
               Swal.fire({
-                icon: "info",
-                title: searchName + "회원은 <br/>존재하지 않습니다!",
+                icon: 'info',
+                title: searchName + '회원은 <br/>존재하지 않습니다!',
               });
             }
           });
@@ -113,33 +118,33 @@ function MemberManage() {
   const userRemoveHandler = (username, id) => {
     checkExpiredAccesstoken().then((response) => {
       Swal.fire({
-        icon: "info",
+        icon: 'info',
         title: `${username} 사용자를 회원\n목록에서 제거하시겠습니까?`,
         showDenyButton: true,
-        confirmButtonText: "네",
+        confirmButtonText: '네',
         denyButtonText: `아니요`,
       }).then(async (response) => {
         if (response.isConfirmed) {
           try {
-            await api.delete("/api/users/" + id).then((result) => {
+            await api.delete('/api/users/' + id).then((result) => {
               searchAllUsers();
               Swal.fire({
-                icon: "success",
+                icon: 'success',
                 title: `${username} 사용자를\n 정상적으로 제거하였습니다.`,
               });
             });
           } catch (error) {
             if (error.response.status === 406) {
               Swal.fire({
-                icon: "error",
+                icon: 'error',
                 title: `관리자 권한을 지닌\n사용자는 제거할 수 없습니다.`,
               });
             } else {
               Swal.fire({
-                icon: "error",
-                title: "예기치 못 한 에러가 발생하였습니다.",
+                icon: 'error',
+                title: '예기치 못 한 에러가 발생하였습니다.',
               });
-              window.location.href = "/login";
+              window.location.href = '/login';
             }
           }
         } else {
@@ -157,28 +162,28 @@ function MemberManage() {
     generation
   ) => {
     if (
-      username === "" ||
-      studentId === "" ||
-      email === "" ||
+      username === '' ||
+      studentId === '' ||
+      email === '' ||
       generation === null
     ) {
       Swal.fire({
-        title: "모든 정보를 입력해 주세요",
-        icon: "warning",
-        confirmButtonColor: "#a7a7a7",
-        confirmButtonText: "닫기",
+        title: '모든 정보를 입력해 주세요',
+        icon: 'warning',
+        confirmButtonColor: '#a7a7a7',
+        confirmButtonText: '닫기',
       });
       return;
     }
 
     checkExpiredAccesstoken().then((response) => {
       Swal.fire({
-        icon: "info",
+        icon: 'info',
         title: `${username} 사용자의 회원정보를\n변경하시겠습니까?`,
         showDenyButton: true,
-        confirmButtonColor: "#4880ee",
-        denyButtonColor: "#a7a7a7",
-        confirmButtonText: "네",
+        confirmButtonColor: '#4880ee',
+        denyButtonColor: '#a7a7a7',
+        confirmButtonText: '네',
         denyButtonText: `아니요`,
       }).then(async (response) => {
         if (response.isConfirmed) {
@@ -194,15 +199,15 @@ function MemberManage() {
               .then((result) => {
                 searchAllUsers();
                 Swal.fire({
-                  confirmButtonColor: "#4880ee",
-                  icon: "success",
+                  confirmButtonColor: '#4880ee',
+                  icon: 'success',
                   title: `정상적으로 변경되었습니다.`,
                 });
               });
           } catch (error) {
             Swal.fire({
-              icon: "error",
-              title: "예기치 못 한 에러가 발생하였습니다.",
+              icon: 'error',
+              title: '예기치 못 한 에러가 발생하였습니다.',
             });
           }
         } else {
@@ -212,22 +217,57 @@ function MemberManage() {
     });
   };
 
+  const changeMemberInfoSortingCriteria = (criteria) => {
+    switch (criteria) {
+      case STUDENT_NUMBER:
+        setMembers([...members.sort((a, b) => a.studentId - b.studentId)]);
+        break;
+      case REGISTERED_DATE:
+        setMembers([...tempMembers]);
+        break;
+      case NAME:
+        setMembers([
+          ...members.sort((a, b) => {
+            const aName = a.username.toUpperCase();
+            const bName = b.username.toUpperCase();
+            if (aName < bName) return -1;
+            if (aName > bName) return 1;
+            return 0;
+          }),
+        ]);
+        break;
+      case ROLE:
+        setMembers([
+          ...members.sort((a, b) => {
+            const aIndex = order.indexOf(a.role);
+            const bIndex = order.indexOf(b.role);
+            if (aIndex < bIndex) return -1;
+            if (aIndex > bIndex) return 1;
+            return 0;
+          }),
+        ]);
+        break;
+      default:
+        return;
+    }
+  };
+
   return (
-    <div id="MemberManage">
-      <form className="d-flex align-items-center">
+    <div id='MemberManage'>
+      <form className='d-flex align-items-center'>
         <input
-          className="w-25"
-          type={"text"}
+          className='w-25'
+          type={'text'}
           value={searchName}
           onChange={(res) => {
             setSearchName(res.target.value);
           }}
-          placeholder="이름을 입력해주세요."
+          placeholder='이름을 입력해주세요.'
         ></input>
         <button
-          style={{ height: "50px", width: "100px" }}
-          className="p-0 mt-3 info-color"
-          type="submit"
+          style={{ height: '50px', width: '100px' }}
+          className='p-0 mt-3 info-color'
+          type='submit'
           onClick={(e) => {
             searchMember(e);
           }}
@@ -235,14 +275,39 @@ function MemberManage() {
           검색
         </button>
       </form>
+      <div className='sortSection'>
+        <span className='sortingCriteriaTitle'>정렬 기준</span>
+        <select
+          name='srchTp'
+          onChange={(e) => changeMemberInfoSortingCriteria(e.target.value)}
+          style={{
+            width: '5.2rem',
+            color: 'black',
+            textAlignLast: 'left',
+          }}
+        >
+          <option value={STUDENT_NUMBER} style={{ textAlign: 'center' }}>
+            학번순
+          </option>
+          <option value={REGISTERED_DATE} style={{ textAlign: 'center' }}>
+            회원가입순
+          </option>
+          <option value={NAME} style={{ textAlign: 'center' }}>
+            이름순
+          </option>
+          <option value={ROLE} style={{ textAlign: 'center' }}>
+            권한순
+          </option>
+        </select>
+      </div>
       {loading ? (
         <table>
           <thead>
             <tr>
-              <th style={{ width: "8rem" }}>이름</th>
-              <th style={{ width: "9rem" }}>학번</th>
-              <th style={{ width: "20rem" }}>이메일</th>
-              <th style={{ width: "5rem" }}>기수</th>
+              <th style={{ width: '8rem' }}>이름</th>
+              <th style={{ width: '9rem' }}>학번</th>
+              <th style={{ width: '20rem' }}>이메일</th>
+              <th style={{ width: '5rem' }}>기수</th>
               <th>회원권한</th>
               <th>정보변경</th>
               <th>회원제거</th>
@@ -257,8 +322,8 @@ function MemberManage() {
                     <>
                       <td>
                         <input
-                          className="usernameInput"
-                          type="text"
+                          className='usernameInput'
+                          type='text'
                           value={member.username}
                           onChange={(e) => {
                             const updatedItems = members.map(
@@ -278,8 +343,8 @@ function MemberManage() {
                       </td>
                       <td>
                         <input
-                          className="studentIdInput"
-                          type="text"
+                          className='studentIdInput'
+                          type='text'
                           value={member.studentId}
                           onChange={(e) => {
                             const updatedItems = members.map(
@@ -299,8 +364,8 @@ function MemberManage() {
                       </td>
                       <td>
                         <input
-                          className="emailInput"
-                          type="text"
+                          className='emailInput'
+                          type='text'
                           value={member.email}
                           onChange={(e) => {
                             const updatedItems = members.map(
@@ -320,8 +385,8 @@ function MemberManage() {
                       </td>
                       <td>
                         <input
-                          type="number"
-                          value={"" + member.generation}
+                          type='number'
+                          value={'' + member.generation}
                           onChange={(e) => {
                             if (e.target.value < 0) e.target.value = 0;
                             const updatedItems = members.map(
@@ -338,16 +403,16 @@ function MemberManage() {
                             setMembers(updatedItems);
                           }}
                           style={{
-                            height: "1.5rem",
-                            fontSize: "15px",
-                            color: "black",
-                            borderRadius: "2.5px",
+                            height: '1.5rem',
+                            fontSize: '15px',
+                            color: 'black',
+                            borderRadius: '2.5px',
                           }}
                         />
                       </td>
                       <td>
                         <select
-                          className="authorityKinds text-center"
+                          className='authorityKinds text-center'
                           value={member.role}
                           disabled={true}
                           onChange={(res) => {
@@ -359,14 +424,14 @@ function MemberManage() {
                             );
                           }}
                         >
-                          <option value="ROLE_TEMP">미지정</option>
-                          <option value="ROLE_MEMBER">회원</option>
-                          <option value="ROLE_ADMIN">관리자</option>
+                          <option value='ROLE_TEMP'>미지정</option>
+                          <option value='ROLE_MEMBER'>회원</option>
+                          <option value='ROLE_ADMIN'>관리자</option>
                         </select>
                       </td>
                       <td>
                         <button
-                          className="saveModifedUserInfo"
+                          className='saveModifedUserInfo'
                           onClick={(e) => {
                             modifyUserInfoHandler(
                               member.userId,
@@ -380,7 +445,7 @@ function MemberManage() {
                           저장
                         </button>
                         <button
-                          className="modifyUserInfoCancleButton"
+                          className='modifyUserInfoCancleButton'
                           onClick={(response) => {
                             const updatedItems = members.map(
                               (prevMembersInfo) => {
@@ -402,7 +467,7 @@ function MemberManage() {
                       </td>
                       <td>
                         <button
-                          className="text-bg-danger"
+                          className='text-bg-danger'
                           onClick={(response) => {
                             userRemoveHandler(member.username, member.userId);
                           }}
@@ -413,15 +478,15 @@ function MemberManage() {
                     </>
                   ) : (
                     <>
-                      <td className="usernameInput">{member.username}</td>
-                      <td className="studentIdInput">{member.studentId}</td>
+                      <td className='usernameInput'>{member.username}</td>
+                      <td className='studentIdInput'>{member.studentId}</td>
                       <td>{member.email}</td>
-                      <td className="emailInput">
-                        {member.generation ? member.generation : "정보없음"}
+                      <td className='emailInput'>
+                        {member.generation ? member.generation : '정보없음'}
                       </td>
                       <td>
                         <select
-                          className="authorityKinds text-center"
+                          className='authorityKinds text-center'
                           value={member.role}
                           onChange={(res) => {
                             changeAuthority(
@@ -432,14 +497,14 @@ function MemberManage() {
                             );
                           }}
                         >
-                          <option value="ROLE_TEMP">미지정</option>
-                          <option value="ROLE_MEMBER">회원</option>
-                          <option value="ROLE_ADMIN">관리자</option>
+                          <option value='ROLE_TEMP'>미지정</option>
+                          <option value='ROLE_MEMBER'>회원</option>
+                          <option value='ROLE_ADMIN'>관리자</option>
                         </select>
                       </td>
                       <td>
                         <button
-                          className="modifyUserInfoButton"
+                          className='modifyUserInfoButton'
                           onClick={(response) => {
                             const updatedItems = members.map(
                               (prevMembersInfo) => {
@@ -461,7 +526,7 @@ function MemberManage() {
                       </td>
                       <td>
                         <button
-                          className="text-bg-danger"
+                          className='text-bg-danger'
                           onClick={(response) => {
                             userRemoveHandler(member.username, member.userId);
                           }}
@@ -495,9 +560,9 @@ function MemberManage() {
               <td>test</td>
               <td>
                 <select>
-                  <option value="ROLE_TEMP">미지정</option>
-                  <option value="ROLE_MEMBER">회원</option>
-                  <option value="ROLE_ADMIN">관리자</option>
+                  <option value='ROLE_TEMP'>미지정</option>
+                  <option value='ROLE_MEMBER'>회원</option>
+                  <option value='ROLE_ADMIN'>관리자</option>
                 </select>
               </td>
             </tr>
