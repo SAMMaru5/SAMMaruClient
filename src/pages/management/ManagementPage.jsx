@@ -47,9 +47,9 @@ function ManagementPage() {
               {/* <Nav.Item>
                 <Nav.Link eventKey='first'>&nbsp;메인페이지 관리</Nav.Link>
               </Nav.Item> */}
-              {/* <Nav.Item>
+              <Nav.Item>
                 <Nav.Link eventKey='third'>&nbsp;&nbsp;게시판 관리</Nav.Link>
-              </Nav.Item> */}
+              </Nav.Item>
               <Nav.Item>
                 <Nav.Link eventKey='fourth'>&nbsp;&nbsp;회원 관리</Nav.Link>
               </Nav.Item>
@@ -74,9 +74,9 @@ function ManagementPage() {
                 <h1>회원 관리</h1>
                 <MemberManage />
               </Tab.Pane>
-              {/* <Tab.Pane eventKey="fifth">
+              <Tab.Pane eventKey='fifth'>
                 <h1>기타 관리</h1>
-              </Tab.Pane> */}
+              </Tab.Pane>
             </Tab.Content>
           </Col>
         </Row>

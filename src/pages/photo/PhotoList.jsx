@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Row, Col, Pagination } from "react-bootstrap";
-import "./PhotoList.scss";
-import { useLocation, useNavigate } from "react-router-dom";
-import { getArticleList, getBoardList } from "../../hooks/boardServices";
-import { myRole } from "../../hooks/useAuth";
+import React, { useState, useEffect } from 'react';
+import { Row, Col, Pagination } from 'react-bootstrap';
+import './PhotoList.scss';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { getArticleList, getBoardList } from '../../hooks/boardServices';
+import { myRole } from '../../hooks/useAuth';
 
 const PhotoList = (props) => {
   const navigate = useNavigate();
@@ -15,19 +15,14 @@ const PhotoList = (props) => {
   const [pageList, setPageList] = useState(1);
 
   useEffect(() => {
-    // 비회원의 권한 확인
-    myRole().then((response) => {
-      if (response !== undefined) {
-        getBoardList().then((response) => {
-          if (response.data.success) {
-            response.data.response.forEach((res) => {
-              if (res.name === "사진첩") {
-                setBoardid(res.id);
-                getArticleList(res.id, pageNum, 10).then((res) => {
-                  setPhotoList(res.data.response);
-                  setloading(true);
-                });
-              }
+    getBoardList().then((response) => {
+      if (response.data.success) {
+        response.data.response.forEach((res) => {
+          if (res.name === '사진첩') {
+            setBoardid(res.id);
+            getArticleList(res.id, pageNum, 10).then((res) => {
+              setPhotoList(res.data.response);
+              setloading(true);
             });
           }
         });
@@ -44,7 +39,7 @@ const PhotoList = (props) => {
   }, [location]);
 
   const onClickDetail = (list) => {
-    navigate("./photoDetail", {
+    navigate('./photoDetail', {
       state: {
         boardId,
         articleId: list.id,
@@ -78,14 +73,14 @@ const PhotoList = (props) => {
    * */
   const onChangingPage = (command) => {
     switch (command) {
-      case "first":
+      case 'first':
         setPageNum(1);
         break;
-      case "prev":
+      case 'prev':
         if (photoList.first) return;
         setPageNum((prev) => prev - 1);
         break;
-      case "next":
+      case 'next':
         if (photoList.last) return;
         setPageNum((prev) => prev + 1);
         break;
@@ -95,7 +90,7 @@ const PhotoList = (props) => {
   };
 
   return (
-    <div className="photoMain" style={{ display: "flex" }}>
+    <div className='photoMain' style={{ display: 'flex' }}>
       {loading ? (
         <>
           <Row>
@@ -104,29 +99,29 @@ const PhotoList = (props) => {
               return (
                 <Col key={i}>
                   <div
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: 'pointer' }}
                     onClick={() => {
                       onClickDetail(list);
                     }}
-                    className="eachPost shadow"
+                    className='eachPost shadow'
                   >
-                    <span className="hoverViewCnt">
+                    <span className='hoverViewCnt'>
                       Views <span>{list.viewCnt}</span>
                     </span>
                     <img
-                      alt="사진첩 사진"
+                      alt='사진첩 사진'
                       src={
                         process.env.REACT_APP_URL +
-                        "/no-permit/api/boards/" +
+                        '/no-permit/api/boards/' +
                         boardId +
-                        "/articles/" +
+                        '/articles/' +
                         list.id +
-                        "/files/" +
+                        '/files/' +
                         list.files[0].filePath
                       }
                       style={{
-                        width: "100%",
-                        height: "100%",
+                        width: '100%',
+                        height: '100%',
                       }}
                     ></img>
                     <br />
@@ -143,13 +138,13 @@ const PhotoList = (props) => {
           </Row>
         </>
       ) : null}
-      <div className="pageNum">
+      <div className='pageNum'>
         <Pagination>
-          <Pagination.First onClick={() => onChangingPage("first")} />
-          <Pagination.Prev onClick={() => onChangingPage("prev")} />
+          <Pagination.First onClick={() => onChangingPage('first')} />
+          <Pagination.Prev onClick={() => onChangingPage('prev')} />
           {addingPaginationItem()}
-          <Pagination.Next onClick={() => onChangingPage("next")} />
-          <Pagination.Last onClick={() => onChangingPage("last")} />
+          <Pagination.Next onClick={() => onChangingPage('next')} />
+          <Pagination.Last onClick={() => onChangingPage('last')} />
         </Pagination>
       </div>
     </div>

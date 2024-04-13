@@ -22,19 +22,14 @@ function FreeBoardPage(props) {
   const [keyword, setKeyword] = useState('');
 
   useEffect(() => {
-    // 비회원의 권한 확인
-    myRole().then((response) => {
-      if (response !== undefined) {
-        getBoardList().then((response) => {
-          if (response.data.success) {
-            response.data.response.forEach((res) => {
-              if (res.name === '자유게시판') {
-                setBoardId(res.id);
-                getArticleList(res.id, pageNum, 10).then((res) => {
-                  setBoardList(res.data.response);
-                  setLoading(true);
-                });
-              }
+    getBoardList().then((response) => {
+      if (response.data.success) {
+        response.data.response.forEach((res) => {
+          if (res.name === '자유게시판') {
+            setBoardId(res.id);
+            getArticleList(res.id, pageNum, 10).then((res) => {
+              setBoardList(res.data.response);
+              setLoading(true);
             });
           }
         });
