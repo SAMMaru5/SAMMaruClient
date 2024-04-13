@@ -36,7 +36,7 @@
     }
     b,
     select,
-    input[type="text"] {
+    input[type='text'] {
       height: 38px;
       line-height: 38px;
       margin-right: 0.5%;
@@ -46,12 +46,12 @@
       margin-top: 2px;
     }
 
-    input[type="text"] {
+    input[type='text'] {
       width: 60%;
       background-color: #fff;
       height: 36px;
     }
-    input[type="submit"] {
+    input[type='submit'] {
       width: 10%;
       padding: 8px;
       background-color: #464545;
@@ -105,7 +105,7 @@
         cursor: pointer !important;
         text-align: left;
         padding-left: 5rem;
-        width: 40rem;
+        width: 37.5rem;
 
         .files {
           position: relative;
@@ -131,18 +131,18 @@
       }
 
       .author {
-        padding-left: 2.6rem;
-        width: 10.3rem;
+        margin-left: 1.25rem;
+        width: 7.5rem;
       }
 
       .date {
-        padding-left: 4.8rem;
-        width: 10.5rem;
+        width: 7.25rem;
+        margin-left: 1.25rem;
       }
 
       .view {
-        padding-left: 1.5rem;
-        width: 6rem;
+        margin-left: 1rem;
+        width: 3rem;
       }
     }
 
