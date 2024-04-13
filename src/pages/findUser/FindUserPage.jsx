@@ -1,29 +1,29 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./FindUserPage.scss";
-import Swal from "sweetalert2";
-import api from "../../utils/api";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './FindUserPage.scss';
+import Swal from 'sweetalert2';
+import api from '../../utils/api';
 
 function FindUserPage() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
   const onFindUser = async (e) => {
     e.preventDefault();
-    const findCheck = document.getElementById("findCheck");
-    findCheck.setAttribute("disabled", true);
-    findCheck.innerText = "확인 중...";
+    const findCheck = document.getElementById('findCheck');
+    findCheck.setAttribute('disabled', true);
+    findCheck.innerText = '확인 중...';
     try {
       await api
-        .post("/auth/tempPassword?userEmail=" + email)
+        .post('/auth/tempPassword?userEmail=' + email)
         .then((response) => {
           if (response.data.success) {
             Swal.fire({
-              icon: "success",
-              title: "해당 이메일로 임시 비밀번호를 전송했습니다.",
+              icon: 'success',
+              title: '해당 이메일로 임시 비밀번호를 전송했습니다.',
             }).then((result) => {
               if (result.isConfirmed) {
-                navigate("/");
+                navigate('/');
               }
             });
           }
@@ -32,16 +32,16 @@ function FindUserPage() {
       switch (error.response.status) {
         case 400: {
           Swal.fire({
-            icon: "error",
+            icon: 'error',
             title:
               error.response.data.apiError.message.substring(
                 0,
-                error.response.data.apiError.message.indexOf("!")
-              ) + ".",
+                error.response.data.apiError.message.indexOf('!')
+              ) + '.',
           }).then((result) => {
             if (result) {
-              findCheck.removeAttribute("disabled");
-              findCheck.innerText = "확인";
+              findCheck.removeAttribute('disabled');
+              findCheck.innerText = '확인';
             }
           });
           break;
@@ -49,12 +49,12 @@ function FindUserPage() {
 
         case 404: {
           Swal.fire({
-            icon: "error",
-            title: "입력하신 이메일의 회원을\n찾을 수 없습니다.",
+            icon: 'error',
+            title: '입력하신 이메일의 회원을\n찾을 수 없습니다.',
           }).then((result) => {
             if (result) {
-              findCheck.removeAttribute("disabled");
-              findCheck.innerText = "확인";
+              findCheck.removeAttribute('disabled');
+              findCheck.innerText = '확인';
             }
           });
           break;
@@ -62,11 +62,11 @@ function FindUserPage() {
 
         default: {
           Swal.fire({
-            icon: "error",
-            title: "예기치 못 한 에러가 발생하였습니다.",
+            icon: 'error',
+            title: '예기치 못 한 에러가 발생하였습니다.',
           }).then((result) => {
-            findCheck.removeAttribute("disabled");
-            findCheck.innerText = "확인";
+            findCheck.removeAttribute('disabled');
+            findCheck.innerText = '확인';
           });
         }
       }
@@ -74,31 +74,39 @@ function FindUserPage() {
   };
 
   return (
-    <div className="FindUserPage">
-      <h1>회원정보 찾기</h1>
+    <div className='FindUserPage'>
+      <h1
+        style={{
+          fontSize: '22.5px',
+          fontWeight: 'normal',
+          marginTop: '2.5rem',
+        }}
+      >
+        회원정보 찾기
+      </h1>
       <br />
       <form
-        className="findForm"
+        className='findForm'
         onSubmit={(e) => {
           onFindUser(e);
         }}
       >
-        <figure className="loginLogo">
-          <img src="img/login_logo.png" alt="로그인 로고 이미지" />
+        <figure className='loginLogo'>
+          <img src='img/login_logo.png' alt='로그인 로고 이미지' width={100} />
         </figure>
         <input
-          type={"email"}
+          type={'email'}
           value={email}
-          autoComplete="off"
-          placeholder="이메일"
+          autoComplete='off'
+          placeholder='이메일'
           required
           onChange={(e) => {
             setEmail(e.target.value);
           }}
         ></input>
 
-        <div className="findConfirm">
-          <button id="findCheck" type="submit">
+        <div className='findConfirm'>
+          <button id='findCheck' type='submit'>
             확인
           </button>
         </div>
