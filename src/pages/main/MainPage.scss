@@ -1,3 +1,56 @@
-.MainPage{
+.MainPage {
+  #introPage {
+    .container {
+      width: 80%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+    }
 
+    span {
+      font-weight: bolder;
+    }
+
+    .text {
+      padding: 0 1em;
+    }
+
+    .oneline-intro {
+      font-size: 1.6em;
+      margin-bottom: 2.5em;
+    }
+
+    .grid {
+      margin: 3em 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      text-align: left;
+      gap: 1em;
+    }
+
+    .item {
+      border: 1px solid #bbbbbb;
+      padding: 2em 2em;
+      box-shadow: 5px 5px 5px 2px #bbbbbb;
+    }
+
+    .item img {
+      width: 4.5em;
+      height: 4.5em;
+    }
+
+    .title {
+      display: flex;
+      align-items: center;
+      padding-bottom: 1.5em;
+    }
+
+    .type {
+      font-size: 1.3em;
+      padding-left: 1em;
+      line-height: 1.2em;
+      font-weight: bolder;
+      color: #3a34c6;
+    }
+  }
 }

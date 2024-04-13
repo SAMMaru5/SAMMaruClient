@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Pagination } from "react-bootstrap";
-import { useLocation, useNavigate } from "react-router-dom";
-import project from "../../imgs/banner/project.jpg";
-import { myRole } from "../../hooks/useAuth";
+import React, { useState, useEffect } from 'react';
+import { Pagination } from 'react-bootstrap';
+import { useLocation, useNavigate } from 'react-router-dom';
+import project from '../../imgs/banner/project.jpg';
+import { myRole } from '../../hooks/useAuth';
 import {
   getArticleList,
   getBoardList,
   searchArticles,
-} from "../../hooks/boardServices";
+} from '../../hooks/boardServices';
 
 function ProjectPage(props) {
   const navigate = useNavigate();
@@ -18,8 +18,8 @@ function ProjectPage(props) {
   const [pageNum, setPageNum] = useState(props.pageNum);
   const [pageList, setPageList] = useState(1);
   const [keywordSelectOption, setKeywordSelectOption] =
-    useState("ARTICLE_TITLE");
-  const [keyword, setKeyword] = useState("");
+    useState('ARTICLE_TITLE');
+  const [keyword, setKeyword] = useState('');
 
   useEffect(() => {
     // 비회원의 권한 확인
@@ -28,7 +28,7 @@ function ProjectPage(props) {
         getBoardList().then((response) => {
           if (response.data.success) {
             response.data.response.forEach((res) => {
-              if (res.name === "소규모프로젝트") {
+              if (res.name === '소규모프로젝트') {
                 setBoardId(res.id);
                 getArticleList(res.id, pageNum, 10).then((res) => {
                   setBoardList(res.data.response);
@@ -51,11 +51,11 @@ function ProjectPage(props) {
   }, [location]);
 
   const projectUpload = () => {
-    navigate("./projectUpdate");
+    navigate('./projectUpdate');
   };
 
   const onClickDetail = (list) => {
-    navigate("/projectDetail", {
+    navigate('/projectDetail', {
       state: {
         boardId,
         articleId: list.id,
@@ -89,14 +89,14 @@ function ProjectPage(props) {
    * */
   const onChangingPage = (command) => {
     switch (command) {
-      case "first":
+      case 'first':
         setPageNum(1);
         break;
-      case "prev":
+      case 'prev':
         if (boardList.first) return;
         setPageNum((prev) => prev - 1);
         break;
-      case "next":
+      case 'next':
         if (boardList.last) return;
         setPageNum((prev) => prev + 1);
         break;
@@ -106,86 +106,80 @@ function ProjectPage(props) {
   };
 
   return (
-    <div className="bulletin">
-      <div className="container">
+    <div className='bulletin'>
+      <div className='container'>
         <img
           src={project}
-          alt="소규모프로젝트 배너"
+          alt='소규모프로젝트 배너'
           // height값을 auto로 변경하여 브라우저의 크기가 변경되어도 이미지 비율 유지
-          style={{ width: "100%", height: "auto" }}
+          style={{ width: '100%', height: 'auto', marginTop: '2.5rem' }}
         ></img>
-        <div className="location">
-          <img className="home" src="home.png" alt="home"></img>
-          <span>{" /  "}</span>
-          <span>{"   자료실"}</span>
-          <span>{" /  "}</span>
-          <span> 소규모 프로젝트 </span>
-        </div>
+
         <div
-          className="search"
-          style={{ border: "1px solid gray", borderRadius: "5px" }}
+          className='search'
+          style={{ border: '1px solid gray', borderRadius: '5px' }}
         >
-          <div className="inp_sch">
-            <form style={{ display: "flex" }}>
+          <div className='inp_sch'>
+            <form style={{ display: 'flex' }}>
               <b
                 style={{
-                  padding: "0 0.5rem 0 6rem",
-                  marginTop: "0px",
-                  color: "black",
+                  padding: '0 0.5rem 0 6rem',
+                  marginTop: '0px',
+                  color: 'black',
                 }}
               >
-                {" "}
-                검색구분{" "}
+                {' '}
+                검색구분{' '}
               </b>
               <select
-                name="srchTp"
+                name='srchTp'
                 onChange={(e) => setKeywordSelectOption(e.target.value)}
                 style={{
-                  width: "5.2rem",
-                  color: "black",
-                  textAlignLast: "left",
+                  width: '5.2rem',
+                  color: 'black',
+                  textAlignLast: 'left',
                 }}
               >
-                <option value="ARTICLE_TITLE" style={{ textAlign: "center" }}>
+                <option value='ARTICLE_TITLE' style={{ textAlign: 'center' }}>
                   제목
                 </option>
-                <option value="ARTICLE_CONTENT" style={{ textAlign: "center" }}>
+                <option value='ARTICLE_CONTENT' style={{ textAlign: 'center' }}>
                   내용
                 </option>
                 <option
-                  value="ARTICLE_TITLE_AND_CONTENT"
-                  style={{ textAlign: "center" }}
+                  value='ARTICLE_TITLE_AND_CONTENT'
+                  style={{ textAlign: 'center' }}
                 >
                   제목+내용
                 </option>
-                <option value="WRITER_NAME" style={{ textAlign: "center" }}>
+                <option value='WRITER_NAME' style={{ textAlign: 'center' }}>
                   작성자
                 </option>
                 <option
-                  value="WRITER_STUDENT_ID"
-                  style={{ textAlign: "center" }}
+                  value='WRITER_STUDENT_ID'
+                  style={{ textAlign: 'center' }}
                 >
                   학번
                 </option>
               </select>
               <input
-                type="text"
+                type='text'
                 value={keyword}
-                style={{ paddingLeft: "0.4rem", border: "1px solid black" }}
+                style={{ paddingLeft: '0.4rem', border: '1px solid black' }}
                 onChange={(res) => {
                   setKeyword(res.target.value);
                 }}
               ></input>
               <button
-                className="p-0 elegant-color text-white"
+                className='p-0 elegant-color text-white'
                 style={{
-                  width: "4rem",
-                  height: "37px",
-                  boxShadow: "none",
-                  borderRadius: "3px",
-                  fontWeight: "500",
+                  width: '4rem',
+                  height: '37px',
+                  boxShadow: 'none',
+                  borderRadius: '3px',
+                  fontWeight: '500',
                 }}
-                type="submit"
+                type='submit'
                 onClick={(e) => {
                   e.preventDefault();
                   searchArticles(
@@ -206,74 +200,74 @@ function ProjectPage(props) {
 
         <div
           style={{
-            display: "flex",
-            justifyContent: "right",
-            margin: "10px 0px 20px 0px",
+            display: 'flex',
+            justifyContent: 'right',
+            margin: '10px 0px 20px 0px',
           }}
         >
           <button
-            className="w3-bar-item w3-button"
+            className='w3-bar-item w3-button'
             style={{
-              background: "#6a81ed",
-              width: "130px",
-              padding: "10px 0px 10px 0px",
+              background: '#6a81ed',
+              width: '130px',
+              padding: '10px 0px 10px 0px',
             }}
             onClick={projectUpload}
           >
             작성하기
           </button>
         </div>
-        <div className="contents" style={{ paddingBottom: "2rem" }}>
-          <div className="contentsHeader">
-            <div className="num">번호</div>
-            <div className="articleTitle">제목</div>
-            <div className="author">작성자</div>
-            <div className="date">작성일</div>
-            <div className="view">조회수</div>
+        <div className='contents' style={{ paddingBottom: '2rem' }}>
+          <div className='contentsHeader'>
+            <div className='num'>번호</div>
+            <div className='articleTitle'>제목</div>
+            <div className='author'>작성자</div>
+            <div className='date'>작성일</div>
+            <div className='view'>조회수</div>
           </div>
           {loading ? (
-            <>
+            <div style={{ overflowX: 'scroll' }}>
               {boardList.content.map((list, idx) => {
                 const createDt = list.createDt.slice(0, 10);
                 return (
-                  <div key={idx} className="eachContents">
+                  <div key={idx} className='eachContents'>
                     <div
-                      className="content"
+                      className='content'
                       onClick={() => {
                         onClickDetail(list);
                       }}
                     >
-                      <div className="num">{idx + 1}</div>
-                      <div className="articleTitle">
+                      <div className='num'>{idx + 1}</div>
+                      <div className='articleTitle'>
                         {list.title}
                         {list.files.length > 0 ? (
-                          <div className="files">
-                            <img src="img/file_icon.gif" alt="fileIcon" />
+                          <div className='files'>
+                            <img src='img/file_icon.gif' alt='fileIcon' />
                             <small>[{list.files.length}]</small>
                           </div>
                         ) : null}
                       </div>
-                      <div className="author">{list.author}</div>
-                      <div className="date" style={{ textAlign: "center" }}>
+                      <div className='author'>{list.author}</div>
+                      <div className='date' style={{ textAlign: 'center' }}>
                         {createDt}
                       </div>
-                      <div className="view">{list.viewCnt}</div>
+                      <div className='view'>{list.viewCnt}</div>
                     </div>
                   </div>
                 );
               })}
-            </>
+            </div>
           ) : null}
         </div>
       </div>
 
-      <div className="pageNum">
+      <div className='pageNum'>
         <Pagination>
-          <Pagination.First onClick={() => onChangingPage("first")} />
-          <Pagination.Prev onClick={() => onChangingPage("prev")} />
+          <Pagination.First onClick={() => onChangingPage('first')} />
+          <Pagination.Prev onClick={() => onChangingPage('prev')} />
           {addingPaginationItem()}
-          <Pagination.Next onClick={() => onChangingPage("next")} />
-          <Pagination.Last onClick={() => onChangingPage("last")} />
+          <Pagination.Next onClick={() => onChangingPage('next')} />
+          <Pagination.Last onClick={() => onChangingPage('last')} />
         </Pagination>
       </div>
     </div>
