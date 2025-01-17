@@ -5,46 +5,13 @@ function Footer() {
     <section
       id='footer'
       style={{
-        padding: '0 0 1rem',
+        padding: '1rem 7rem 2rem',
         fontSize: '14.5px',
         borderTop: '1.75px solid #eee',
       }}
     >
       <div className='container'>
         <section className='row' style={{ margin: '0' }}>
-          <div
-            className='col-1'
-            style={{ paddingTop: '2rem', marginLeft: '4rem', width: '7.8rem' }}
-          >
-            <strong className='font-weight-bold'>
-              <a href='/clubintro' className='text-decoration-none border-0'>
-                <div className='navTitle'>
-                  <span className='pointCircle'>•</span>
-                  샘마루
-                </div>
-              </a>
-            </strong>
-            <ul className='pl-0' style={{ fontWeight: '500' }}>
-              <li
-                className='list-inline'
-                style={{ marginTop: '0.7rem', paddingBottom: '0.15rem' }}
-              >
-                <a href='/clubintro' className='text-decoration-none border-0'>
-                  <span>동아리 소개</span>
-                </a>
-              </li>
-              <li className='list-inline' style={{ paddingBottom: '0.15rem' }}>
-                <a href='/awards' className='text-decoration-none border-0'>
-                  <span>수상 경력</span>
-                </a>
-              </li>
-              <li className='list-inline'>
-                <a href='/member/1' className='text-decoration-none border-0'>
-                  <span>회원</span>
-                </a>
-              </li>
-            </ul>
-          </div>
           <div
             className='col-1'
             style={{ paddingTop: '2rem', marginLeft: '3rem', width: '7.8rem' }}
@@ -60,7 +27,7 @@ function Footer() {
           </div>
           <div
             className='col-1'
-            style={{ paddingTop: '2rem', marginLeft: '3rem', width: '7.8rem' }}
+            style={{ paddingTop: '2rem', width: '7.8rem' }}
           >
             <strong className='font-weight-bold'>
               <a href='/seminar' className='text-decoration-none border-0'>
@@ -93,7 +60,7 @@ function Footer() {
           </div>
           <div
             className='col-1'
-            style={{ paddingTop: '2rem', marginLeft: '3rem', width: '7.8rem' }}
+            style={{ paddingTop: '2rem', width: '7.8rem' }}
           >
             <strong className='font-weight-bold'>
               <a href='/freeBoard' className='text-decoration-none border-0'>
@@ -106,7 +73,7 @@ function Footer() {
           </div>
           <div
             className='col-1'
-            style={{ paddingTop: '2rem', marginLeft: '3rem', width: '7.8rem' }}
+            style={{ paddingTop: '2rem', width: '7.8rem' }}
           >
             <strong className='font-weight-bold'>
               <a href='/photo' className='text-decoration-none border-0'>
@@ -119,7 +86,7 @@ function Footer() {
           </div>
           <div
             className='col-1'
-            style={{ paddingTop: '2rem', marginLeft: '3rem', width: '7.8rem' }}
+            style={{ paddingTop: '2rem', width: '7.8rem' }}
           >
             <strong className='font-weight-bold'>
               <a
