@@ -22,13 +22,13 @@
           font-size: 1px;
           color: lightgrey;
           padding-left: 6px;
-          content: "|";
+          content: '|';
           padding-right: 6px;
         }
       }
       // 유저명이 최 우측 요소이기 때문에 경계선을 배치하면 안 되기 때문에 content를 비움
       .userName::after {
-        content: "";
+        content: '';
       }
       a:hover {
         text-decoration: none;
