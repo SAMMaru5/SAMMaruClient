@@ -81,7 +81,7 @@ function Navigation() {
           onClick={() => navigate('/')}
         />
         <ul className='mt-3'>
-          <li>
+          {/* <li>
             <a href='/clubIntro' className='icon fa-chart-bar'>
               <span>샘마루</span>
             </a>
@@ -92,12 +92,12 @@ function Navigation() {
                 </a>
               </li>
 
-              {/* <li>
+              <li>
                 <a href='/awards' style={{ color: '#878787' }}>
                   수상 경력
                 </a>
-              </li> */}
-              {/* <li>
+              </li>
+              <li>
                 <a href={'/member/1'} style={{ color: '#878787' }}>
                   회원
                 </a>
@@ -153,9 +153,9 @@ function Navigation() {
                     </a>
                   </li>
                 </ul>
-              </li> */}
+              </li>
             </ul>
-          </li>
+          </li> */}
           <li>
             <a className='icon solid fa-home' href='/notice'>
               <span>공지사항</span>
